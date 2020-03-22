@@ -4,12 +4,12 @@ import java.util.Optional;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.EntityBaseTransformer;
-import org.nanotek.IdBase;
+import org.nanotek.ImmutableBase;
 import org.nanotek.PredicateBase;
 import org.nanotek.opencsv.base.WrappedBaseBean;
 
 public class WrappedBaseBeanTransformer
-<K extends IdBase<K,ID> , ID extends BaseEntity<?,?>> 
+<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,?>> 
 extends WrappedBaseBean<ID> 
 implements EntityBaseTransformer<K, ID> {
 
