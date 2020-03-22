@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import org.nanotek.BaseException;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 

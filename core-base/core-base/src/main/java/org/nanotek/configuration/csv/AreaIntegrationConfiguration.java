@@ -16,7 +16,7 @@ import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.SequenceLongBase;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 import org.nanotek.processor.csv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.AreaBeginDateRepository;
 import org.nanotek.repository.jpa.AreaCommentRepository;

@@ -1,7 +1,7 @@
 package org.nanotek.base.maps;
 
 import org.nanotek.IdBase;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.MapColumnStrategy;
 
 

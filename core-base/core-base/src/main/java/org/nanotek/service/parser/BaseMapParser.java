@@ -3,7 +3,7 @@ package org.nanotek.service.parser;
 import java.io.Serializable;
 
 import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 
 public class BaseMapParser<K extends BaseMapColumnStrategy<?,?>, I extends Serializable> extends BaseParser{
 	

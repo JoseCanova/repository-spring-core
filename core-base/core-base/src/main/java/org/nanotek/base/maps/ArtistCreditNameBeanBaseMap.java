@@ -1,7 +1,7 @@
 package org.nanotek.base.maps;
 
 import org.nanotek.beans.csv.ArtistCreditNameBean;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

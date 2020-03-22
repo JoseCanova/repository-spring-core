@@ -17,7 +17,10 @@ import org.nanotek.service.parser.BaseMapParser;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
-public class CsvBaseProcessor<I extends BaseMapColumnStrategy<?, ?>, P extends BaseMapParser<I,?>, R extends Result<?,?>> 
+public class CsvBaseProcessor
+<I extends BaseMapColumnStrategy<?, ?>, 
+P extends BaseMapParser<I,?>, 
+R extends Result<?,?>> 
 implements ProcessorBase<I,P,R>{
 
 	private P parser; 

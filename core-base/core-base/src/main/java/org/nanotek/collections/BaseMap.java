@@ -1,4 +1,4 @@
-package org.nanotek.opencsv;
+package org.nanotek.collections;
 
 import java.util.HashMap;
 

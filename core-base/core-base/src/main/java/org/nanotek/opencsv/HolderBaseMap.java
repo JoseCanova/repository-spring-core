@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.nanotek.BaseException;
 import org.nanotek.Id;
 import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 
 public abstract class HolderBaseMap<K extends BaseBean<?,?>> 

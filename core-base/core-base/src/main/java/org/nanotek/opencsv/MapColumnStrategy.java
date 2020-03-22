@@ -1,6 +1,7 @@
 package org.nanotek.opencsv;
 
 import org.nanotek.IdBase;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;

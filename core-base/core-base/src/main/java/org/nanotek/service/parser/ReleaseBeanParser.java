@@ -2,7 +2,7 @@ package org.nanotek.service.parser;
 
 import org.nanotek.base.maps.BaseMapColumnStrategy;
 import org.nanotek.base.maps.ReleaseBeanBaseMap;
-import org.nanotek.opencsv.BaseMap;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
