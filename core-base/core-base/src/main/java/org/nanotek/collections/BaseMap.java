@@ -10,7 +10,7 @@ import org.nanotek.Base;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class BaseMap<T extends Base<T> , ID extends Comparable<ID> , S extends Comparable<T>> 
+public class BaseMap<T extends Base<T> , ID extends Comparable<ID>> 
 	extends TreeBidiMap<T,ID>{
 
 	protected T immutable;

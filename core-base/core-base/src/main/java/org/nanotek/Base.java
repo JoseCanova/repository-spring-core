@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import javax.persistence.IdClass;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.gson.Gson;
