@@ -1,0 +1,5 @@
+package org.nanotek.entities;
+
+public interface BaseArtistCreditCountEntity<K> {
+
+}

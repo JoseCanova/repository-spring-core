@@ -1,0 +1,24 @@
+DECLARE
+    quantity integer := 0;
+	acn_row RECORD;
+	acn_cursor CURSOR FOR SELECT * FROM artist_credit_name;
+BEGIN
+    RAISE NOTICE 'starting procedure '; 
+    quantity := 0;
+	open acn_cursor;
+	LOOP
+	FETCH  acn_cursor INTO acn_row;
+	EXIT WHEN NOT FOUND;
+		BEGIN
+			if not exists (select 1 from artist_credit_name_rel rel where rel.artist_name_id =  acn_row.artistid and rel.artist_credit_id =  acn_row.artist_credit_id) then
+					quantity := quantity + 1;
+					insert into artist_credit_name_rel
+					(artist_name_id , artist_credit_id)
+					values(acn_row.artistid , acn_row.artist_credit_id);
+			end if;
+		END;
+	END LOOP;
+	close acn_cursor;
+
+    RETURN quantity;
+END;

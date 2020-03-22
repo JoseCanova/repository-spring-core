@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="spring-core-music-brainz" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->
+		<class>org.nanotek.beans.entity.EntityLongBase</class>
+		<class>org.nanotek.beans.entity.TypeNamedEntity</class>
+		<class>org.nanotek.beans.entity.BaseType</class>
+		<class>org.nanotek.beans.entity.BaseTypeDescription</class>
+		<class>org.nanotek.beans.entity.ArtistComment</class>
+		<class>org.nanotek.beans.entity.AreaType</class>
+		<class>org.nanotek.beans.entity.Area</class>
+		<class>org.nanotek.beans.entity.AreaBeginDate</class>
+		<class>org.nanotek.beans.entity.AreaComment</class>
+		<class>org.nanotek.beans.entity.AreaEndDate</class>
+		<class>org.nanotek.beans.entity.ArtistBeginDate</class>
+		<class>org.nanotek.beans.entity.ArtistEndDate</class>
+		<class>org.nanotek.beans.entity.ArtistCredit</class>
+		<class>org.nanotek.beans.entity.ArtistCreditCount</class>
+		<class>org.nanotek.beans.entity.ArtistCreditRefCount</class>
+		<class>org.nanotek.beans.entity.ArtistCreditName</class>
+		<class>org.nanotek.beans.entity.Artist</class>
+		<class>org.nanotek.beans.entity.ArtistBeginDate</class>
+		<class>org.nanotek.beans.entity.ArtistEndDate</class>
+		<class>org.nanotek.beans.entity.ArtistGender</class>
+		<class>org.nanotek.beans.entity.ArtistComment</class>
+		<class>org.nanotek.beans.entity.ArtistAlias</class>
+		<class>org.nanotek.beans.entity.ArtistAliasType</class>
+		<class>org.nanotek.beans.entity.ArtistAliasLocale</class>
+		<class>org.nanotek.beans.entity.ArtistAliasBeginDate</class>
+		<class>org.nanotek.beans.entity.ArtistAliasEndDate</class>
+		<class>org.nanotek.beans.entity.ArtistGroupType</class>
+		<class>org.nanotek.beans.entity.ArtistType</class>
+		<class>org.nanotek.beans.entity.BarCodeBase</class>
+		<class>org.nanotek.beans.entity.BaseType</class>
+		<class>org.nanotek.beans.entity.CommentBase</class>
+		<class>org.nanotek.beans.entity.CountBase</class>
+		<class>org.nanotek.beans.entity.DescriptionBase</class>
+		<class>org.nanotek.beans.entity.InstrumentComment</class>
+		<class>org.nanotek.beans.entity.InstrumentDescription</class>
+		<class>org.nanotek.beans.entity.DatableBase</class>
+		<class>org.nanotek.beans.entity.DescriptionBase</class>
+		<class>org.nanotek.beans.entity.Gender</class>
+		<class>org.nanotek.beans.entity.Isrc</class>
+		<class>org.nanotek.beans.entity.InstrumentType</class>
+		<class>org.nanotek.beans.entity.Instrument</class>
+		<class>org.nanotek.beans.entity.InstrumentDescription</class>
+		<class>org.nanotek.beans.entity.Label</class>
+		<class>org.nanotek.beans.entity.Language</class>
+		<class>org.nanotek.beans.entity.LengthyBase</class>
+		<class>org.nanotek.beans.entity.LocaleBase</class>
+		<class>org.nanotek.beans.entity.LongIdNameEntity</class>
+		<class>org.nanotek.beans.entity.LongIdGidNameEntity</class>
+		<class>org.nanotek.beans.entity.LongIdSorNameEntity</class>
+		<class>org.nanotek.beans.entity.LongCountBase</class>
+		<class>org.nanotek.beans.entity.LongLengthyBase</class>
+		<class>org.nanotek.beans.entity.LongNumberBase</class>
+		<class>org.nanotek.beans.entity.LongPositionBase</class>
+		<class>org.nanotek.beans.entity.Medium</class>
+		<class>org.nanotek.beans.entity.MediumCount</class>
+		<class>org.nanotek.beans.entity.MediumPosition</class>
+		<class>org.nanotek.beans.entity.MediumFormat</class>
+		<class>org.nanotek.beans.entity.NumberBase</class>
+		<class>org.nanotek.beans.entity.PositionBase</class>
+		<class>org.nanotek.beans.entity.Recording</class>
+		<class>org.nanotek.beans.entity.RecordingLength</class>
+		<class>org.nanotek.beans.entity.RecordingAlias</class>
+		<class>org.nanotek.beans.entity.RecordingAliasType</class>
+		<class>org.nanotek.beans.entity.RecordingAliasBeginDate</class>
+		<class>org.nanotek.beans.entity.RecordingAliasEndDate</class>
+		<class>org.nanotek.beans.entity.RecordingAliasLocale</class>
+		<class>org.nanotek.beans.entity.Release</class>
+		<class>org.nanotek.beans.entity.ReleaseBarCode</class>
+		<class>org.nanotek.beans.entity.ReleaseComment</class>
+		<class>org.nanotek.beans.entity.ReleaseAlias</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasLocale</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasBeginDate</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasEndDate</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasType</class>
+		<class>org.nanotek.beans.entity.ReleaseGroup</class>
+		<class>org.nanotek.beans.entity.ReleaseStatus</class>
+		<class>org.nanotek.beans.entity.ReleasePackaging</class>
+		<class>org.nanotek.beans.entity.ReleaseGroupPrimaryType</class>
+		<class>org.nanotek.beans.entity.SequenceLongBase</class>
+		<class>org.nanotek.beans.entity.SortNameBase</class>
+		<class>org.nanotek.beans.entity.ArtistAliasSortName</class>
+		<class>org.nanotek.beans.entity.ArtistSortName</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasSortName</class>
+		<class>org.nanotek.beans.entity.Track</class>
+		<class>org.nanotek.beans.entity.TrackLength</class>
+		<class>org.nanotek.beans.entity.TrackNumber</class>
+		<class>org.nanotek.beans.entity.TrackPosition</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+			<property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
+			<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+      		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create.sql"/>
+      		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop.sql"/>
+			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
+			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->
+			<!-- <property name="javax.persistence.jdbc.url"
+				value="jdbc:postgresql://127.0.0.1:5432/music-brainz" />
+			<property name="javax.persistence.jdbc.user" value="postgres" />
+			<property name="javax.persistence.jdbc.password" value="Postgres123@" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> -->
+<!-- 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
+ -->
+ 		</properties>
+	</persistence-unit>
+</persistence>

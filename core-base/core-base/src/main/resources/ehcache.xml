@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+ <diskStore path="/opt/ehcache"/>
+ <defaultCache
+     maxEntriesLocalHeap="10000"
+     eternal="false"
+     timeToIdleSeconds="120"
+     timeToLiveSeconds="120"
+     maxEntriesLocalDisk="10000000"
+     diskExpiryThreadIntervalSeconds="120"
+     memoryStoreEvictionPolicy="LRU">
+     <persistence strategy="localTempSwap"/>
+  </defaultCache>
+  <cache
+	name="org.nanotek.beans.entity.DatableBase"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache>
+  <cache
+	name="org.nanotek.beans.entity.LongIdNameEntity"
+	maxEntriesLocalHeap="150000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+ </cache>
+    <cache
+	name="org.nanotek.beans.entity.CommentBase"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache> 
+        <cache
+	name="org.nanotek.beans.entity.DescriptionBase"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache>  
+ <cache
+	name="org.nanotek.beans.entity.Language"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache>
+  <cache
+	name="org.nanotek.beans.entity.MediumFormat"
+	maxEntriesLocalHeap="100"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+   </cache>
+  <cache
+	name="credits"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache>   
+</ehcache>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="spring-core-tune-music-brainz"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->
+		
+		<class>org.nanotek.beans.musicbrainz.TuneArtist</class>
+		<class>org.nanotek.beans.musicbrainz.TuneCredit</class>
+		<class>org.nanotek.beans.musicbrainz.TuneRecord</class>
+		<class>org.nanotek.beans.musicbrainz.TuneRelease</class>
+		<class>org.nanotek.beans.musicbrainz.TuneTrack</class>
+		
+		
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:postgresql://127.0.0.1:5432/tunebrainz" />
+			<property name="javax.persistence.jdbc.user" value="postgres" />
+			<property name="javax.persistence.jdbc.password" value="postgres123" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
+		
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+<!--             <property name="javax.persistence.schema-generation.create-database-schemas" value="true" />
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target" value="src/test/resources/META-INF/tunes_create_integracao_schema.sql" />
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata" />
+            <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/test/resources/META-INF/tunes_drop_integracao_schema.sql" /> -->
+            <property name="javax.persistence.database-product-name" value="PostgreSQL" />
+		</properties>
+
+	</persistence-unit>
+</persistence>
