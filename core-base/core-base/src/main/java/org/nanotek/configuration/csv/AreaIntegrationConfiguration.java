@@ -16,7 +16,7 @@ import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.SequenceLongBase;
-import org.nanotek.collections.BaseMap;
+import org.nanotek.collections.OldBaseMap;
 import org.nanotek.processor.csv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.AreaBeginDateRepository;
 import org.nanotek.repository.jpa.AreaCommentRepository;
@@ -132,7 +132,7 @@ public class AreaIntegrationConfiguration<K extends SequenceLongBaseRepository<K
 	@Bean
 	@ConfigurationProperties(prefix = "area")
 	@Qualifier(value="areaMapStrategy")
-	<K extends BaseMap<?,ID> , ID extends IdBase<ID,?>>BaseMapColumnStrategy<K,ID> areaMapStrategy(){ 
+	<K extends OldBaseMap<?,ID> , ID extends IdBase<ID,?>>BaseMapColumnStrategy<K,ID> areaMapStrategy(){ 
 		return   Base.newInstance(BaseMapColumnStrategy.class.asSubclass(BaseMapColumnStrategy.class)).get();
 	}
 

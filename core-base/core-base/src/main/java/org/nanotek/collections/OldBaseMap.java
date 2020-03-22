@@ -11,15 +11,15 @@ import org.nanotek.beans.csv.BaseBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class IdBaseMap<T extends BaseBean<?,?>> 
+public class OldBaseMap<T extends BaseBean<?,?>> 
 	extends HashMap<String,Integer> {
 
 	protected T immutable;
 	
-	public IdBaseMap() {
+	public OldBaseMap() {
 	}
 	
-	public IdBaseMap(T immutable) {
+	public OldBaseMap(T immutable) {
 		super();
 		this.immutable = immutable;
 	}

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import org.nanotek.BaseException;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.collections.BaseMap;
+import org.nanotek.collections.OldBaseMap;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,7 +77,7 @@ public class BaseParser extends CSVParser implements InitializingBean , Closeabl
 		return baseMapColumnStrategy;
 	}
 
-	public BaseMap<?,?> getBaseMap(){
+	public OldBaseMap<?,?> getBaseMap(){
 		return baseMapColumnStrategy.getBaseMap();
 	}
 	

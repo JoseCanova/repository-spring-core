@@ -1,11 +1,11 @@
 package org.nanotek.base.maps;
 
 import org.nanotek.IdBase;
-import org.nanotek.collections.BaseMap;
+import org.nanotek.collections.OldBaseMap;
 import org.nanotek.opencsv.MapColumnStrategy;
 
 
-public class BaseMapColumnStrategy<T extends BaseMap<?,ID> , ID extends IdBase<ID, ?>> 
+public class BaseMapColumnStrategy<T extends OldBaseMap<?,ID> , ID extends IdBase<ID, ?>> 
 extends MapColumnStrategy<T,ID> {
 
 	private static final long serialVersionUID = -7318639218365616230L;

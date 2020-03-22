@@ -1,8 +1,7 @@
 package org.nanotek.collections;
 
-import java.util.HashMap;
-
-import org.nanotek.beans.csv.BaseBean;
+import org.apache.commons.collections4.bidimap.TreeBidiMap;
+import org.nanotek.Base;
 
 /**
  * 
@@ -11,8 +10,8 @@ import org.nanotek.beans.csv.BaseBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class BaseMap<T extends BaseBean<?,?>> 
-	extends HashMap<String,Integer> {
+public class BaseMap<T extends Base<T> , ID extends Comparable<ID> , S extends Comparable<T>> 
+	extends TreeBidiMap<T,ID>{
 
 	protected T immutable;
 	
@@ -23,6 +22,5 @@ public class BaseMap<T extends BaseBean<?,?>>
 		super();
 		this.immutable = immutable;
 	}
- 
-	
+
 }

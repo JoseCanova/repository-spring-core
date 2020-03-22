@@ -2,7 +2,7 @@ package org.nanotek.service.parser;
 
 import org.nanotek.base.maps.ArtistBeanBaseMap;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.collections.BaseMap;
+import org.nanotek.collections.OldBaseMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;

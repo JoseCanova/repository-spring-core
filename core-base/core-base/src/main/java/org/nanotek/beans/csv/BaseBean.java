@@ -25,4 +25,8 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			throw new BaseInstantiationException(e);
 		}
 	}
+	@Override
+	default int compareTo(K to) {
+		return ImmutableBase.super.compareTo(to);
+	}
 }

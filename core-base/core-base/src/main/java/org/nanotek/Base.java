@@ -14,7 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.gson.Gson;
 
-public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K>{
+public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> , Comparable<K>{
 
 	static String hash = "35454B055CC325EA1AF2126E27707052";
 
@@ -108,6 +108,11 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K>{
 
 	static <K extends Base<?>> Optional<K> NULL_VALUE(Class<K> clazz) {
 		return Optional.empty();
+	}
+	
+	@Override
+	default int compareTo(K to) {
+		return withUUID().compareTo(to.withUUID());
 	}
 
 }
