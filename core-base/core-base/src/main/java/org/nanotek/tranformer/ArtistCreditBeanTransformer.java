@@ -1,4 +1,4 @@
-package org.nanotek.service.tranformer;
+package org.nanotek.tranformer;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
