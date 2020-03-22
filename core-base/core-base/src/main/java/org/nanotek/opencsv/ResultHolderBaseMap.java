@@ -10,6 +10,7 @@ import org.nanotek.WrappedEntityBase;
 import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.beans.entity.Area;
+import org.nanotek.collections.HolderBaseMap;
 
 import com.sun.xml.bind.v2.model.core.ID;
 

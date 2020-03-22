@@ -1,4 +1,4 @@
-package org.nanotek.opencsv;
+package org.nanotek.collections;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.nanotek.BaseException;
 import org.nanotek.Id;
 import org.nanotek.beans.csv.BaseBean;
-import org.nanotek.collections.OldBaseMap;
 import org.springframework.beans.factory.InitializingBean;
 
 public abstract class HolderBaseMap<K extends BaseBean<?,?>> 
