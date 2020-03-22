@@ -2,12 +2,13 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.IdBase;
+import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
 
 public class AreaBean
 <ID extends BaseEntity<?,?>, K extends IdBase<K,ID>> 
 extends CsvBaseBean<ID>
-implements IdBase<K,ID>{
+implements ImmutableBase<K,ID>{
 
 	private static final long serialVersionUID = 1708381486272333902L;
 	

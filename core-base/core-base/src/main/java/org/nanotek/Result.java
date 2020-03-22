@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.opencsv.PredicateBase;
 import org.springframework.validation.annotation.Validated;
 
 @Validated

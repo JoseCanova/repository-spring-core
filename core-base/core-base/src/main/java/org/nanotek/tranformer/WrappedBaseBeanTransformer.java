@@ -1,8 +1,11 @@
 package org.nanotek.tranformer;
 
+import java.util.Optional;
+
 import org.nanotek.BaseEntity;
 import org.nanotek.EntityBaseTransformer;
 import org.nanotek.IdBase;
+import org.nanotek.PredicateBase;
 import org.nanotek.opencsv.base.WrappedBaseBean;
 
 public class WrappedBaseBeanTransformer
@@ -11,6 +14,8 @@ extends WrappedBaseBean<ID>
 implements EntityBaseTransformer<K, ID> {
 
 	private ID id;
+	
+	private PredicateBase<K , ID> predicate;
 	
 	public WrappedBaseBeanTransformer(@TrasformResult ID id) {
 		super(id);
@@ -22,5 +27,11 @@ implements EntityBaseTransformer<K, ID> {
 	public ID transform(K i) {
 		return id;
 	}
+
+	public Optional<ID> evaluate(K immutable) {
+		return predicate.evaluate(immutable);
+	}
+	
+	
 
 }
