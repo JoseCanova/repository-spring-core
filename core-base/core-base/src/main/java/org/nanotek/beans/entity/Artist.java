@@ -1,5 +1,8 @@
 package org.nanotek.beans.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +16,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.collections.MutableArtistCreditList;
 import org.nanotek.entities.BaseArtistEntity;
 import org.nanotek.entities.MutableAreaEntity;
 import org.nanotek.entities.MutableArtistBeginAreaEntity;
@@ -48,7 +50,7 @@ MutableArtistBeginAreaEntity<Area<?>>{
 	public Long artistId;
 	
 	@ManyToMany(mappedBy = "artists",fetch=FetchType.LAZY , targetEntity=org.nanotek.beans.entity.ArtistCredit.class)
-	public MutableArtistCreditList<ArtistCredit<?>> artistCredits;
+	public List<ArtistCredit<?>> artistCredits;
 
 	@NotNull
 	@OneToOne(optional=false)
@@ -114,7 +116,7 @@ MutableArtistBeginAreaEntity<Area<?>>{
 	public Area<?> endArea;
 	
 	public Artist() {
-		artistCredits = new MutableArtistCreditList<ArtistCredit<?>>();
+		artistCredits = new ArrayList<ArtistCredit<?>>();
 	}
 	
 	public Artist(
@@ -123,7 +125,7 @@ MutableArtistBeginAreaEntity<Area<?>>{
 			@NotBlank String gid) {
 		super(gid,name);
 		this.artistId = id;
-		artistCredits = new MutableArtistCreditList<ArtistCredit<?>>();
+		artistCredits = new ArrayList<ArtistCredit<?>>();
 	}
 
 	@Override
@@ -184,6 +186,34 @@ MutableArtistBeginAreaEntity<Area<?>>{
 	@Override
 	public ArtistType<?> getArtistType() {
 		return this.artistType;
+	}
+
+	public List<ArtistCredit<?>> getArtistCredits() {
+		return artistCredits;
+	}
+
+	public void setArtistCredits(List<ArtistCredit<?>> artistCredits) {
+		this.artistCredits = artistCredits;
+	}
+
+	public Area<?> getBeginArea() {
+		return beginArea;
+	}
+
+	public void setBeginArea(Area<?> beginArea) {
+		this.beginArea = beginArea;
+	}
+
+	public Area<?> getEndArea() {
+		return endArea;
+	}
+
+	public void setEndArea(Area<?> endArea) {
+		this.endArea = endArea;
+	}
+
+	public ArtistEndDate<?> getArtistEndDate() {
+		return artistEndDate;
 	}
 
 	@Override
