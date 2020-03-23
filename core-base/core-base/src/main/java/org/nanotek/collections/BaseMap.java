@@ -18,7 +18,7 @@ import org.nanotek.beans.csv.ArtistBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class BaseMap<T  extends AnyBase<T,C> , C extends Comparable<C> , D extends Base<?>>
+public class BaseMap<T  extends AnyBase<T,?> , C extends Base<C> , D extends Base<?>>
 extends  TreeMap<T,C> {
 
 	protected D immutable;
@@ -38,10 +38,11 @@ extends  TreeMap<T,C> {
 		Class<?> clazz = Optional.ofNullable(immutable).orElseThrow(BaseException::new).getClass();
 		System.out.println(clazz.getName());
 		Field[] fields = clazz.getDeclaredFields();
-		Arrays.asList(fields).stream().forEach(f->{
-			put(AnyBase.of(f.getName()).asBase(),(C) AnyBase.of(0L).asBase());
-			System.out.println(f.getName());
-		});
+		
+		int pos = 0;
+		for (Field f : fields) { 
+			put(AnyBase.of(f.getName()).asBase(),AnyBase.of(pos++).asBase());
+		}
 	}
 
 	public static void main(String [] args) { 

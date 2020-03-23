@@ -30,7 +30,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 		return   (A) AnyBase.class.cast(new AnyBase<S, K>(s));
 	}
 	
-	public Optional<K> get() {
+	public Optional<K> getValue() {
 		return Optional.ofNullable(value);
 	}
 	
