@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.nanotek.beans.entity.Artist;
 
+@SuppressWarnings("unchecked")
 public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Base<S> , Wrapper <S> {
 
 	private static final long serialVersionUID = 8744939030325475864L;
@@ -40,12 +41,6 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	
 	public <T extends Base<T>> T asBase() { 
 		return (T) AnyBase.class.cast(this);
-	}
-	
-	public static <S extends Base<?>,K extends Comparable<K>> void main (String[] args) { 
-		Artist a = new Artist();
-//		Long value = a.get();
-		System.out.println(a.withUUID());
 	}
 	
 	@Override

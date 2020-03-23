@@ -25,31 +25,31 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+//import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+//import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+//import org.springframework.orm.jpa.JpaTransactionManager;
+//import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+//import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.transaction.PlatformTransactionManager;
+//import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationInterceptor;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+//import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.google.gson.Gson;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.management.ManagementService;
+//import net.sf.ehcache.CacheManager;
+//import net.sf.ehcache.management.ManagementService;
 
 @Configuration
 @ComponentScan("org.nanotek")
@@ -67,14 +67,14 @@ public class BaseConfiguration {
 		return new PropertyUtils();
 	}
 	
-	@Bean
-	ManagementService ehCacheJmx(
-							@Autowired @Qualifier("ehCacheManager")CacheManager cacheManager , 
-							@Autowired @Qualifier("mBeanServer") MBeanServer mBeanServer ) { 
-		ManagementService service =  new ManagementService(cacheManager , mBeanServer , true , true , true,true);
-		service.init();
-		return service;
-	}
+//	@Bean
+//	ManagementService ehCacheJmx(
+//							@Autowired @Qualifier("ehCacheManager")CacheManager cacheManager , 
+//							@Autowired @Qualifier("mBeanServer") MBeanServer mBeanServer ) { 
+//		ManagementService service =  new ManagementService(cacheManager , mBeanServer , true , true , true,true);
+//		service.init();
+//		return service;
+//	}
 	
 	@Bean
 	@Qualifier(value="mBeanServer")
@@ -82,13 +82,13 @@ public class BaseConfiguration {
 		return new  MBeanServerFactoryBean();
 	}
 	
-	@Bean
-	@Qualifier(value="ehCacheManager")
-	EhCacheManagerFactoryBean ehCacheFactoryBean() { 
-		EhCacheManagerFactoryBean eh =  new EhCacheManagerFactoryBean();
-		eh.setShared(true);
-		return eh;
-	}
+//	@Bean
+//	@Qualifier(value="ehCacheManager")
+//	EhCacheManagerFactoryBean ehCacheFactoryBean() { 
+//		EhCacheManagerFactoryBean eh =  new EhCacheManagerFactoryBean();
+//		eh.setShared(true);
+//		return eh;
+//	}
 		
 	@Bean
 	@Primary
@@ -97,10 +97,10 @@ public class BaseConfiguration {
 		return new HikariConfig();
 	}
 	
-	@Bean
-	public Jackson2ObjectMapperBuilder configureObjectMapper() {
-	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Arrays.array(Hibernate5Module.class));
-	}
+//	@Bean
+//	public Jackson2ObjectMapperBuilder configureObjectMapper() {
+//	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Arrays.array(Hibernate5Module.class));
+//	}
 
 	
 	@Bean
@@ -134,24 +134,24 @@ public class BaseConfiguration {
          return processor;
      }
 	
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
-		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("org.nanotek");
-		factory.setPersistenceUnitName("spring-core-music-brainz");
-		factory.setDataSource(dataSource());
-		return factory;
-	}
+//	@Bean
+//	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//		vendorAdapter.setGenerateDdl(true);
+//		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+//		factory.setJpaVendorAdapter(vendorAdapter);
+//		factory.setPackagesToScan("org.nanotek");
+//		factory.setPersistenceUnitName("spring-core-music-brainz");
+//		factory.setDataSource(dataSource());
+//		return factory;
+//	}
 
-	@Bean
-	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
-		JpaTransactionManager txManager = new JpaTransactionManager();
-		txManager.setEntityManagerFactory(entityManagerFactory); 
-		return txManager; 
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
+//		JpaTransactionManager txManager = new JpaTransactionManager();
+//		txManager.setEntityManagerFactory(entityManagerFactory); 
+//		return txManager; 
+//	}
 
 	@Bean(name = "serviceTaskExecutor")
 	@Qualifier(value = "serviceTaskExecutor")

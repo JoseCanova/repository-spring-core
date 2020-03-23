@@ -11,7 +11,6 @@ import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
-import org.nanotek.base.maps.BaseMapColumnStrategy;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.processor.ProcessorBase;
 

@@ -10,6 +10,15 @@ import org.springframework.beans.factory.InitializingBean;
 
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
+/**
+ * Class that works as a bridge between opecsv and the basebeans. 
+ * 
+ * @author jose
+ *
+ * @param <T> Base Map defines the configuration of properties and posision on the csv file
+ * @param <S> AnyBase for the Map Key 
+ * @param <V> AnyBase for the Value Key
+ */
 //TODO: review implementation of MapColumnStrategy
 public class MapColumnStrategy
 <T extends BaseMap<S,V,?> , S extends AnyBase<S,String>,V extends AnyBase<V,Integer>> 

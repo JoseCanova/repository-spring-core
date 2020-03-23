@@ -42,10 +42,6 @@ implements BaseBean<K,ID>{
 		super(id);
 	}
 	
-//	public AreaBean(ID area) { 
-//		super(area);
-//		this.id =   area;
-//	}
 
 	public String getGid() {
 		return gid;

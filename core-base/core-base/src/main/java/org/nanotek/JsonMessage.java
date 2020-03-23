@@ -2,12 +2,12 @@ package org.nanotek;
 
 import java.io.Serializable;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@Document
+//@Document
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonMessage<K extends IdBase<K,ID>,ID extends Serializable> implements ImmutableBase<K,ID>{
