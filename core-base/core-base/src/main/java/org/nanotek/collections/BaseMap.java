@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseException;
-import org.nanotek.beans.csv.AreaBean;
+import org.nanotek.beans.csv.ArtistBean;
 	
 /**
  * 
@@ -42,14 +42,10 @@ extends  TreeMap<T,C> {
 			put(AnyBase.of(f.getName()).asBase(),(C) AnyBase.of(0L).asBase());
 			System.out.println(f.getName());
 		});
-		Object value = get(AnyBase.of("id").asBase());
-		System.out.println(value);
-		Optional.ofNullable(AnyBase.of("id").asBase()).filter(v ->
-					keySet().contains(v)).orElseThrow(BaseException::new);
 	}
 
 	public static void main(String [] args) { 
-		BaseMap n = new BaseMap(new AreaBean());
+		BaseMap n = new BaseMap(new ArtistBean());
 		Base a = AnyBase.of("id").asBase();
 		Base b = AnyBase.of("id").asBase();
 		System.out.println(a.equals(b));
