@@ -1,12 +1,11 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseEntity;
-import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
 
 public class AreaBean
-<ID extends BaseEntity<?,?>, K extends IdBase<K,ID>> 
+<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements ImmutableBase<K,ID>{
 

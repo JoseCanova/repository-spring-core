@@ -10,7 +10,7 @@ import org.nanotek.beans.entity.Release;
  *
  */
 public class ReleaseBean 
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements BaseBean<K,ID>{
 

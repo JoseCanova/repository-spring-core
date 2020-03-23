@@ -7,7 +7,7 @@ import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Recording;
 
 public class RecordingBean  
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements BaseBean<K,ID>{
 

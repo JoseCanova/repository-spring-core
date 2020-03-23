@@ -4,7 +4,8 @@ import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Medium;
 
-public class MediumBean<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+public class MediumBean
+<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements BaseBean<K,ID>{
 

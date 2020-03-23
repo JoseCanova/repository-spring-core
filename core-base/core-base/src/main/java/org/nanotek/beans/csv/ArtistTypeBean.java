@@ -2,10 +2,9 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.ArtistType;
 
 public class ArtistTypeBean
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements BaseBean<K,ID>{
 

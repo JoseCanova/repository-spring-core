@@ -8,7 +8,7 @@ import org.nanotek.beans.entity.ArtistCredit;
 
 @SuppressWarnings("serial")
 public class ArtistCreditBean
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
 implements BaseBean<K,ID>{
 
