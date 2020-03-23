@@ -7,8 +7,10 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.nanotek.Base;
+import org.nanotek.BaseException;
 import org.nanotek.beans.csv.BaseBean;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -38,9 +40,13 @@ public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements
         header = reader.readNext();
     }
 
-    public PropertyDescriptor findDescriptor(int col) throws IntrospectionException {
-        String columnName = getColumnName(col);
-        return (null != columnName && columnName.trim().length() > 0) ? findDescriptor(columnName) : null;
+    public PropertyDescriptor findDescriptor(int col) {
+    	try { 
+    			String columnName = getColumnName(col);
+    			return  null != columnName && columnName.trim().length() > 0 ? findDescriptor(columnName) : null;
+    	}catch (Exception ex) { 
+    		throw new BaseException (ex);
+    	}
     }
 
     protected String getColumnName(int col) {
@@ -48,8 +54,13 @@ public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements
     }
 
     public PropertyDescriptor findDescriptor(String name) throws IntrospectionException {
-        if (null == descriptorMap) descriptorMap = loadDescriptorMap(getType()); //lazy load descriptors
-        return descriptorMap.get(name.toUpperCase().trim());
+    	try { 
+    			if (null == descriptorMap) descriptorMap = loadDescriptorMap(getType()); //lazy load descriptors
+    			return descriptorMap.get(name.toUpperCase().trim());
+    	}catch (Exception ex) { 
+    		throw new BaseException (ex);
+    	}
+        
     }
 
     public boolean matches(String name, PropertyDescriptor desc) {

@@ -2,8 +2,6 @@ package org.nanotek;
 
 import java.util.Optional;
 
-import org.nanotek.beans.entity.Artist;
-
 @SuppressWarnings("unchecked")
 public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Base<S> , Wrapper <S> {
 
