@@ -1,10 +1,10 @@
 package org.nanotek.service;
 
+import org.nanotek.opencsv.CsvBaseConfig;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CsvProcessorService extends TextParser{
-	
+public class CsvProcessorService extends CsvBaseConfig{
 	public CsvProcessorService() {} 
 	
 	public CsvProcessorService(String fileLocation , String fieldDelimiter, String tupleDelimiter) { 

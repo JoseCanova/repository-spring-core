@@ -1,4 +1,4 @@
-package org.nanotek.service.parser;
+package org.nanotek.opencsv;
 
 import java.io.Closeable;
 import java.io.File;
@@ -8,20 +8,22 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nanotek.BaseException;
-import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.collections.OldBaseMap;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-public class BaseParser extends CSVParser implements InitializingBean , Closeable{
+public class BaseParser extends CSVParser 
+implements InitializingBean , Closeable{
 
 	protected CSVReader csvReader;
 	
+	protected CsvBaseConfig config;
+	
 	@Autowired
-	protected BaseMapColumnStrategy<?,?> baseMapColumnStrategy;
+	protected MapColumnStrategy<?,?,?> baseMapColumnStrategy;
 	
 	public BaseParser() {}
 	
@@ -45,10 +47,18 @@ public class BaseParser extends CSVParser implements InitializingBean , Closeabl
 
 	private void openFileReader() throws Exception{
 		StringBuffer fileLocationStr = new StringBuffer();
-		fileLocationStr.append(getBaseMapColumnStrategy().getFileLocation())
-		.append(System.getProperty("file.separator")).append(getBaseMapColumnStrategy().getFileName().toString());
+		fileLocationStr.append(getConfig().getFileLocation())
+		.append(System.getProperty("file.separator")).append(getConfig().getFileName().toString());
 		FileReader fileReader = new FileReader(new File(fileLocationStr.toString()));
 		csvReader = new CSVReader(fileReader , '\t');		
+	}
+
+	public CsvBaseConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(CsvBaseConfig config) {
+		this.config = config;
 	}
 
 	public List<String[]> readAll() throws IOException {
@@ -73,14 +83,11 @@ public class BaseParser extends CSVParser implements InitializingBean , Closeabl
 		openFileReader();
 	}
 	
-	public BaseMapColumnStrategy<?,?> getBaseMapColumnStrategy(){
+	public MapColumnStrategy<?,?,?> getBaseMapColumnStrategy(){
 		return baseMapColumnStrategy;
 	}
 
-	public OldBaseMap<?,?> getBaseMap(){
+	public BaseMap<?,?,?> getBaseMap(){
 		return baseMapColumnStrategy.getBaseMap();
 	}
-	
-	
-
 }

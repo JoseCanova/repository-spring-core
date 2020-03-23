@@ -11,7 +11,8 @@ import org.springframework.beans.factory.InitializingBean;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 //TODO: review implementation of MapColumnStrategy
-public class MapColumnStrategy<T extends BaseMap<S,V,?> , S extends AnyBase<S,String>,V extends AnyBase<V,Integer>> 
+public class MapColumnStrategy
+<T extends BaseMap<S,V,?> , S extends AnyBase<S,String>,V extends AnyBase<V,Integer>> 
 extends  ColumnPositionMappingStrategy<T> 
 implements InitializingBean {
 

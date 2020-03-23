@@ -6,13 +6,14 @@ import org.nanotek.beans.entity.ArtistSortName;
 import org.nanotek.repository.jpa.ArtistSortNameRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArtistSortNameJpaService<K extends ArtistSortName<K>> extends BasePersistenceService<K> implements InitializingBean{
+public class ArtistSortNameJpaService<K extends ArtistSortName<K> , C extends ArtistSortNameRepository<K>> extends BrainzPersistenceService<K,C>implements InitializingBean{
 
 	
-	@Autowired ArtistSortNameRepository<K> artistSortNameRepository;
+	@Autowired @Qualifier("ArtistSortNameRepository") C artistSortNameRepository;
 	
 	public ArtistSortNameJpaService() {
 		super();

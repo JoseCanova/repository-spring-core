@@ -7,6 +7,7 @@ import org.nanotek.beans.entity.ArtistCreditName;
 import org.nanotek.repository.jpa.ArtistCreditNameRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,8 @@ public class ArtistCreditNameJpaService
 extends BasePersistenceService<K,C>
 implements InitializingBean{
 
-	@Autowired  ArtistCreditNameRepository<K> abaseRepository;
+	
+	@Autowired  @Qualifier("ArtistCreditNameRepository") C abaseRepository;
 	
 	public ArtistCreditNameJpaService() {
 		super();

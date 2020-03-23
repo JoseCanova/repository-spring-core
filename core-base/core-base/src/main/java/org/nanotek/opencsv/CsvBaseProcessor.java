@@ -12,14 +12,14 @@ import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
+import org.nanotek.collections.BaseMap;
 import org.nanotek.processor.ProcessorBase;
-import org.nanotek.service.parser.BaseMapParser;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 public class CsvBaseProcessor
-<I extends BaseMapColumnStrategy<?, ?>, 
-P extends BaseMapParser<I,?>, 
+<I extends MapColumnStrategy<?, ?,?>, 
+P extends BaseMap<?,?,?>, 
 R extends Result<?,?>> 
 implements ProcessorBase<I,P,R>{
 
