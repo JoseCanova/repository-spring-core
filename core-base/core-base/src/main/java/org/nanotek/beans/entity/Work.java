@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.nanotek.Base;
+import org.nanotek.ImmutableBase;
 
 @Entity
 @Table(name="work")
-public class Work implements Base {
+public class Work<K extends Work<K>> implements Base<K> {
 	
 	private Long id; 
 	private String gid; 

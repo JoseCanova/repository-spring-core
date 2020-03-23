@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.nanotek.beans.entity.Artist;
 
-public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Base<S> {
+public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Base<S> , Wrapper <S> {
 
 	private static final long serialVersionUID = 8744939030325475864L;
 

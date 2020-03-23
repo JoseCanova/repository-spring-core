@@ -13,11 +13,12 @@ import org.nanotek.beans.csv.AreaBean;
 /**
  * 
  * @author josecanovamauger.
+ * this bean is designed to read the description of the csv file in the application.
  *
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class BaseMap<T  extends AnyBase<T,C> , C extends Comparable<C> , D extends Base<T>>
+public class BaseMap<T  extends AnyBase<T,C> , C extends Comparable<C> , D extends Base<?>>
 extends  TreeMap<T,C> {
 
 	protected D immutable;
