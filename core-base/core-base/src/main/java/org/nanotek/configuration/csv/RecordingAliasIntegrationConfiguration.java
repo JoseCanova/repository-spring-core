@@ -9,7 +9,7 @@ import org.nanotek.beans.csv.RecordingAliasBean;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.RecordingAlias;
 import org.nanotek.beans.entity.RecordingAliasType;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.RecordingAliasTypeRepository;
 import org.nanotek.service.CsvMessageHandler;
 import org.nanotek.service.jpa.RecordingAliasJpaService;

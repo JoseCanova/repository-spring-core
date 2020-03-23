@@ -8,7 +8,7 @@ import org.nanotek.base.maps.BaseMapColumnStrategy;
 import org.nanotek.beans.csv.AreaTypeBean;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.BaseTypeDescription;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.AreaTypeRepository;
 import org.nanotek.repository.jpa.BaseTypeDescriptionRepository;
 import org.nanotek.service.CsvMessageHandler;

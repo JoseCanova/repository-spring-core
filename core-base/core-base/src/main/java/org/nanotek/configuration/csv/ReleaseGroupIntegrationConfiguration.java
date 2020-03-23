@@ -9,7 +9,7 @@ import org.nanotek.beans.csv.ReleaseGroupBean;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.beans.entity.ReleaseGroupPrimaryType;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.ReleaseGroupPrimaryTypeRepository;
 import org.nanotek.service.CsvMessageHandler;
 import org.nanotek.service.jpa.ArtistCreditJpaService;

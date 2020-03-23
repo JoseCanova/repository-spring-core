@@ -8,7 +8,7 @@ import org.nanotek.base.maps.BaseMapColumnStrategy;
 import org.nanotek.beans.csv.ArtistAliasTypeBean;
 import org.nanotek.beans.entity.ArtistAliasType;
 import org.nanotek.beans.entity.BaseTypeDescription;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.ArtistAliasTypeRepository;
 import org.nanotek.repository.jpa.BaseTypeDescriptionRepository;
 import org.nanotek.service.CsvMessageHandler;

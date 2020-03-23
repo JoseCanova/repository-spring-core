@@ -10,7 +10,7 @@ import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.Language;
 import org.nanotek.beans.entity.Medium;
 import org.nanotek.beans.entity.MediumFormat;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.LanguageRepository;
 import org.nanotek.repository.jpa.MediumFormatRepository;
 import org.nanotek.service.CsvMessageHandler;

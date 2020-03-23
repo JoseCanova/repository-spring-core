@@ -12,7 +12,7 @@ import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.beans.entity.ArtistComment;
 import org.nanotek.beans.entity.ArtistEndDate;
 import org.nanotek.beans.entity.ArtistSortName;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.AreaRepository;
 import org.nanotek.repository.jpa.ArtistBeginDateRepository;
 import org.nanotek.repository.jpa.ArtistEndDateRespository;

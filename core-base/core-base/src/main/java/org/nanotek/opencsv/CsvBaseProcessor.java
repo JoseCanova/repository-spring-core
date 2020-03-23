@@ -1,4 +1,4 @@
-package org.nanotek.processor.csv;
+package org.nanotek.opencsv;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;

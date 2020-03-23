@@ -14,7 +14,7 @@ import org.nanotek.beans.entity.ArtistAliasEndDate;
 import org.nanotek.beans.entity.ArtistAliasLocale;
 import org.nanotek.beans.entity.ArtistAliasSortName;
 import org.nanotek.beans.entity.ArtistAliasType;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.AreaRepository;
 import org.nanotek.repository.jpa.ArtistAliasBeginDateRepository;
 import org.nanotek.repository.jpa.ArtistAliasEndDateRepository;

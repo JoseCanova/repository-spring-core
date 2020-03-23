@@ -4,7 +4,7 @@ import org.nanotek.JsonMessage;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
 import org.nanotek.beans.csv.LanguageBean;
 import org.nanotek.beans.entity.Language;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.service.CsvMessageHandler;
 import org.nanotek.service.jpa.LanguageJpaService;
 import org.nanotek.service.parser.BaseMapParser;

@@ -12,7 +12,7 @@ import org.nanotek.beans.entity.Instrument;
 import org.nanotek.beans.entity.InstrumentComment;
 import org.nanotek.beans.entity.InstrumentDescription;
 import org.nanotek.beans.entity.InstrumentType;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.service.jpa.InstrumentJpaService;
 import org.nanotek.service.jpa.InstrumentTypeJpaService;
 import org.nanotek.service.parser.BaseMapParser;

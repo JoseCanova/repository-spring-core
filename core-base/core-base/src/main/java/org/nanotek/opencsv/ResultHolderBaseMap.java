@@ -7,6 +7,7 @@ import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
 import org.nanotek.WrappedEntityBase;
 import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.beans.csv.CsvBaseBean;
 import org.nanotek.collections.BaseMap;
 
 /**
@@ -17,8 +18,8 @@ import org.nanotek.collections.BaseMap;
  * @param <ID>
  * @param <I>
  */
-public class ResultHolderBaseMap<K extends WrappedEntityBase<I>, B extends AnyBase<?,?> , I extends BaseBean<?,?>> 
-extends BaseMap<B , I> implements ColumnMapHolder<I> {
+public class ResultHolderBaseMap<T  extends AnyBase<T,C> , C extends AnyBase<T,I> ,  I extends CsvBaseBean<?>> 
+extends BaseMap<T , C, I> implements ColumnMapHolder<I> {
 
 	private static final long serialVersionUID = -1565015302783229070L;
 

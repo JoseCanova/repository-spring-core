@@ -13,7 +13,7 @@ import org.nanotek.beans.entity.ReleaseAliasEndDate;
 import org.nanotek.beans.entity.ReleaseAliasLocale;
 import org.nanotek.beans.entity.ReleaseAliasSortName;
 import org.nanotek.beans.entity.ReleaseAliasType;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.ReleaseAliasBeginDateRepository;
 import org.nanotek.repository.jpa.ReleaseAliasEndDateRepository;
 import org.nanotek.repository.jpa.ReleaseAliasLocaleRepository;

@@ -14,7 +14,7 @@ import org.nanotek.beans.entity.ReleaseComment;
 import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.beans.entity.ReleasePackaging;
 import org.nanotek.beans.entity.ReleaseStatus;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.repository.jpa.LanguageRepository;
 import org.nanotek.repository.jpa.ReleaseBarCodeRepository;
 import org.nanotek.repository.jpa.ReleaseCommentRepository;

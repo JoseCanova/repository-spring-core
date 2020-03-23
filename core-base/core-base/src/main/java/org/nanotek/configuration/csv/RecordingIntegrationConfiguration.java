@@ -11,7 +11,7 @@ import org.nanotek.beans.csv.RecordingBean;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.RecordingLength;
-import org.nanotek.processor.csv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.service.CsvMessageHandler;
 import org.nanotek.service.jpa.ArtistCreditJpaService;
 import org.nanotek.service.jpa.RecordingJpaService;
