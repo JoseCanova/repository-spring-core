@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Recording;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class RecordingBean  
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

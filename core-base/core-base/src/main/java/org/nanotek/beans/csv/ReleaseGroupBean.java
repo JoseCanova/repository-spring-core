@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.ReleaseGroup;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class ReleaseGroupBean 
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

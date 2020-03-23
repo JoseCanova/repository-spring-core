@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.ArtistAliasType;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class ArtistAliasTypeBean
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

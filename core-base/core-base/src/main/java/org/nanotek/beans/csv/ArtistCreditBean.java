@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.ArtistCredit;
+import org.nanotek.opencsv.CsvBaseBean;
 
 @SuppressWarnings("serial")
 public class ArtistCreditBean

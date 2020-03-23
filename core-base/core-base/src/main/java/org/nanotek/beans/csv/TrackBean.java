@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Track;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class TrackBean 
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

@@ -13,7 +13,8 @@ public class MapStrategyIdBase <K extends WrappedBaseClass<J>, J extends BaseBea
 	Optional<K> optionalWrappedBaseClass;
 	
 	public static void main(String[] args) {
-		new MapStrategyIdBase().createWrappedBaseClass(AreaBean.class);
+		Optional<?> strategy = new MapStrategyIdBase().createWrappedBaseClass(AreaBean.class);
+		
 	}
 	
 

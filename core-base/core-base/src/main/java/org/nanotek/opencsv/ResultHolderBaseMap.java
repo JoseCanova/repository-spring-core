@@ -7,7 +7,6 @@ import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
 import org.nanotek.WrappedEntityBase;
 import org.nanotek.beans.csv.BaseBean;
-import org.nanotek.beans.csv.CsvBaseBean;
 import org.nanotek.collections.BaseMap;
 
 /**

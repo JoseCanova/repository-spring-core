@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class ArtistBean
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

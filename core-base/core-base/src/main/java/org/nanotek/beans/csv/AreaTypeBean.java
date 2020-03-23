@@ -2,7 +2,8 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.AreaType; 
+import org.nanotek.beans.entity.AreaType;
+import org.nanotek.opencsv.CsvBaseBean; 
 
 public class AreaTypeBean
 <ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 

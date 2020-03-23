@@ -1,4 +1,4 @@
-package org.nanotek.beans.csv;
+package org.nanotek.opencsv;
 
 import org.nanotek.Id;
 import org.nanotek.IdBase;

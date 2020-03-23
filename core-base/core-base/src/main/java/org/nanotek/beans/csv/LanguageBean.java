@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Language;
+import org.nanotek.opencsv.CsvBaseBean;
 
 public class LanguageBean
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 

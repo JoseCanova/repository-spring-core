@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Release;
+import org.nanotek.opencsv.CsvBaseBean;
 
 /**
  * 
