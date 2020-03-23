@@ -2,6 +2,7 @@ package org.nanotek.opencsv;
 
 import org.nanotek.Id;
 import org.nanotek.IdBase;
+import org.nanotek.beans.csv.TrackBean;
 import org.nanotek.opencsv.base.WrappedBaseBean;
 
 public class CsvBaseBean<K extends IdBase<?,?>> 

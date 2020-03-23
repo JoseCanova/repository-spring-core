@@ -6,7 +6,7 @@ import org.assertj.core.util.Arrays;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.opencsv.WrappedBaseClass;
 
-public interface WrappedEntityBase<K extends IdBase<?,?>> extends Wrapper <K>{
+public interface WrappedEntityBase<K extends IdBase<?,?>> extends Wrapper <K> {
 	
 	static <K extends WrappedBaseClass<I> , I extends IdBase<?,?> , J extends I> Optional<K> newBeanInstance(I instance) throws BaseInstantiationException { 
 		try {
