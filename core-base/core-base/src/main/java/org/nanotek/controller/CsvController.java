@@ -13,7 +13,7 @@ public abstract class CsvController<P extends CsvBaseProcessor<?,?,R> , R extend
 	P processor;
 		
 	@RequestMapping("/map_config")
-    public MapColumnStrategy<? , ?> getBaseMapColumnStrategy() {
+    public MapColumnStrategy<? , ? , ?> getBaseMapColumnStrategy() {
         return processor.getBaseParser().getBaseMapColumnStrategy();
     }
 

@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.nanotek.base.maps.BaseMapColumnStrategy;
-
 import au.com.bytecode.opencsv.CSVReader;
 
 public class CsvToBean<T> {

@@ -50,7 +50,7 @@ implements ProcessorBase<I,P,R>{
     }
     
     private Optional<R> computeNext()  {
-    	BaseMapColumnStrategy <? , ? > m = parser.getBaseMapColumnStrategy();
+    	MapColumnStrategy <? , ? , ? > m = parser.getBaseMapColumnStrategy();
     	Base<?> base = Base.newInstance(m.getType()).get();
 			getBaseParser().readNext().ifPresent(array ->{
 			m.getBaseMap().entrySet().forEach((e)->{
@@ -60,7 +60,7 @@ implements ProcessorBase<I,P,R>{
 		return ImmutableBase.newInstance(Result.class , Arrays.asList(base).toArray() , base.getClass());
 	}
 
-	private void computePropertyValue(Entry<String, Integer> e, String[] instanceArray, Base<?> base , BaseMapColumnStrategy <? , ? > m)  {
+	private void computePropertyValue(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
 		try { 
 			Optional.ofNullable(m.findDescriptor(e.getValue())).ifPresent(d ->{
 			String value = instanceArray[e.getValue()];
