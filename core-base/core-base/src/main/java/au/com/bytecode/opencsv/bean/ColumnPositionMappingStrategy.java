@@ -2,6 +2,8 @@ package au.com.bytecode.opencsv.bean;
 
 import java.io.IOException;
 
+import org.nanotek.beans.csv.BaseBean;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
@@ -19,7 +21,7 @@ import au.com.bytecode.opencsv.CSVReader;
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-public class ColumnPositionMappingStrategy<T> extends HeaderColumnNameMappingStrategy<T> {
+public class ColumnPositionMappingStrategy<T extends BaseBean<?,?>> extends HeaderColumnNameMappingStrategy<T> {
     private String[] columnMapping = new String[] {};
     public void captureHeader(CSVReader reader) throws IOException {
         //do nothing, first line is not header

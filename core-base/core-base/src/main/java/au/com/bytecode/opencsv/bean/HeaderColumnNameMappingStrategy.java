@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nanotek.Base;
+import org.nanotek.beans.csv.BaseBean;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
@@ -26,7 +29,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * limitations under the License.
  */
 
-public class HeaderColumnNameMappingStrategy<T> implements MappingStrategy<T> {
+public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements MappingStrategy<T> , Base<T>{
     protected String[] header;
     protected Map<String, PropertyDescriptor> descriptorMap = null;
     protected Class<T> type;

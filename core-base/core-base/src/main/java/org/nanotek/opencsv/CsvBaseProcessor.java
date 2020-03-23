@@ -26,6 +26,8 @@ implements ProcessorBase<I,P,R>{
 	
 	private CsvToBean<?> csvToBean;
 	
+	private I mapColumnStrategy;
+	
 	public CsvBaseProcessor(P parser, CsvToBean<?> csvToBean) {
 		super();
 		this.parser = parser;
@@ -49,7 +51,7 @@ implements ProcessorBase<I,P,R>{
     }
     
     private Optional<R> computeNext()  {
-    	MapColumnStrategy <? , ? , ? > m = parser.getBaseMapColumnStrategy();
+    	MapColumnStrategy <? , ? , ? > m = getMapColumnStrategy();
     	Base<?> base = Base.newInstance(m.getType()).get();
 			getBaseParser().readNext().ifPresent(array ->{
 			m.getBaseMap().entrySet().forEach((e)->{
@@ -57,6 +59,10 @@ implements ProcessorBase<I,P,R>{
 					);
 			});
 		return ImmutableBase.newInstance(Result.class , Arrays.asList(base).toArray() , base.getClass());
+	}
+
+	private MapColumnStrategy<?, ?, ?> getMapColumnStrategy() {
+		return mapColumnStrategy;
 	}
 
 	private void computePropertyValue(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {

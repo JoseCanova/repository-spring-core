@@ -2,6 +2,8 @@ package au.com.bytecode.opencsv.bean;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nanotek.beans.csv.BaseBean;
+
 /**
  Copyright 2007,2010 Kyle Miller.
 
@@ -18,7 +20,7 @@ import java.util.Map;
  limitations under the License.
  */
 
-public class HeaderColumnNameTranslateMappingStrategy<T> extends HeaderColumnNameMappingStrategy<T> {
+public class HeaderColumnNameTranslateMappingStrategy<T extends BaseBean<?,?>> extends HeaderColumnNameMappingStrategy<T> {
     private Map<String, String> columnMapping = new HashMap<String, String>();
     protected String getColumnName(int col) {
         return col < header.length ? columnMapping.get(header[col].toUpperCase()) : null;

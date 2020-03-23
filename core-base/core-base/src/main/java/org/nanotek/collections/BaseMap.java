@@ -1,7 +1,6 @@
 package org.nanotek.collections;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -18,8 +17,8 @@ import org.nanotek.beans.csv.ArtistBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class BaseMap<T  extends AnyBase<T,?> , C extends Base<C> , D extends Base<?>>
-extends  TreeMap<T,C> {
+public class BaseMap<K  extends AnyBase<K,?> , V   extends Base<V>, D extends Base<?>>
+extends  TreeMap<K,V> {
 
 	protected D immutable;
 	
