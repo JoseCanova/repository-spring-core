@@ -2,11 +2,13 @@ package org.nanotek;
 
 import java.util.Optional;
 
+import org.nanotek.beans.entity.Artist;
+
 public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Base<S> {
 
 	private static final long serialVersionUID = 8744939030325475864L;
 
-	Optional <K> value;
+	K value;
 	
 	Class<? extends K> sClass = null;
 	
@@ -17,7 +19,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 		sc.ifPresentOrElse( v-> {
 			try {
 				sClass =  (Class<? extends K>) Class.forName(s.getClass().getName()).asSubclass(s.getClass());
-				this.value = Optional.of(sClass.asSubclass(sClass).cast(s));
+				this.value = sClass.asSubclass(sClass).cast(s);
 			} catch (ClassNotFoundException e) {
 					throw new BaseException(e);
 			}
@@ -28,8 +30,8 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 		return   (A) AnyBase.class.cast(new AnyBase<S, K>(s));
 	}
 	
-	public K get() {
-		return value.get();
+	public Optional<K> get() {
+		return Optional.ofNullable(value);
 	}
 	
 	public Class<?> getKClass() {
@@ -41,7 +43,8 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	}
 	
 	public static <S extends Base<?>,K extends Comparable<K>> void main (String[] args) { 
-		AnyBase<?,Long> a = AnyBase.of(0L);
-		Long value = a.get();
+		Artist a = new Artist();
+//		Long value = a.get();
+		System.out.println(a.withUUID());
 	}
 }

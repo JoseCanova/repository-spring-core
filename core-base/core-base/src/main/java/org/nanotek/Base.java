@@ -51,6 +51,7 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> 
 			uuid = UUID.nameUUIDFromBytes(bao.toByteArray());
 			oos.close();
 		}catch (Exception ex) { 
+			ex.printStackTrace();
 		}
 		return Optional.ofNullable(uuid).orElseThrow(BaseException::new);
 	}
