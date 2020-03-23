@@ -22,7 +22,7 @@ extends  TreeMap<T,C> {
 
 	protected D immutable;
 	
-	public <K extends Comparable, V extends Comparable> BaseMap() {
+	public BaseMap() {
 		super();	
 		immutable = null;
 	}
