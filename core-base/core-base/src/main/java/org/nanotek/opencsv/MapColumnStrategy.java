@@ -11,11 +11,16 @@ import org.springframework.beans.factory.InitializingBean;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 //TODO: review implementation of MapColumnStrategy
-public class MapColumnStrategy<T extends BaseMap<S,V,?> , S extends AnyBase<S,String>,V extends AnyBase<V,Integer>> 
+public class MapColumnStrategy
+<T extends BaseMap<S,V,?> , S extends AnyBase<S,String>,V extends AnyBase<V,Integer>> 
 extends  ColumnPositionMappingStrategy<T> 
 implements InitializingBean {
 
 	protected T baseMap; 
+	
+	public String fileLocation; 
+	
+	public String fileName;
 	
 	public MapColumnStrategy() {
 		super();
@@ -31,6 +36,22 @@ implements InitializingBean {
 
 	public void setBaseMap(T baseMap) {
 		this.baseMap = baseMap;
+	}
+	
+	public String getFileLocation() {
+		return fileLocation;
+	}
+
+	public void setFileLocation(String fileLocation) {
+		this.fileLocation = fileLocation;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 	public void afterPropertiesSet() {

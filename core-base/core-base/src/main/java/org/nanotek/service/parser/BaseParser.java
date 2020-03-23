@@ -9,7 +9,8 @@ import java.util.Optional;
 
 import org.nanotek.BaseException;
 import org.nanotek.base.maps.BaseMapColumnStrategy;
-import org.nanotek.collections.OldBaseMap;
+import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.MapColumnStrategy;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +22,7 @@ public class BaseParser extends CSVParser implements InitializingBean , Closeabl
 	protected CSVReader csvReader;
 	
 	@Autowired
-	protected BaseMapColumnStrategy<?,?> baseMapColumnStrategy;
+	protected MapColumnStrategy<?,?,?> baseMapColumnStrategy;
 	
 	public BaseParser() {}
 	
@@ -73,11 +74,11 @@ public class BaseParser extends CSVParser implements InitializingBean , Closeabl
 		openFileReader();
 	}
 	
-	public BaseMapColumnStrategy<?,?> getBaseMapColumnStrategy(){
+	public MapColumnStrategy<?,?,?> getBaseMapColumnStrategy(){
 		return baseMapColumnStrategy;
 	}
 
-	public OldBaseMap<?,?> getBaseMap(){
+	public BaseMap<?,?,?> getBaseMap(){
 		return baseMapColumnStrategy.getBaseMap();
 	}
 	

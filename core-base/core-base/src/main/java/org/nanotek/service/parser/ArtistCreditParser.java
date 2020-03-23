@@ -19,7 +19,7 @@ public class ArtistCreditParser extends BaseParser{
 	
 	
 	@Override
-	public OldBaseMap<?,?> getBaseMap() {
+	public BaseMap<?,?,?> getBaseMap() {
 		return artistCreditBaseMap.getBaseMap();
 	}
 

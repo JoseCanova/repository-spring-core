@@ -1,7 +1,7 @@
 package org.nanotek.service.parser;
 
 import org.nanotek.base.maps.ArtistCreditNameBeanBaseMap;
-import org.nanotek.collections.OldBaseMap;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class ArtistCreditNameBeanParser extends BaseParser{
 	
 	
 	@Override
-	public OldBaseMap<?,?> getBaseMap() {
+	public BaseMap<?,?,?> getBaseMap() {
 		return artistCreditNameBeanBaseMap.getBaseMap();
 	}
 
