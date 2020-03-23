@@ -7,7 +7,7 @@ import org.nanotek.beans.entity.Area;
 public class AreaBean
 <K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
-implements ImmutableBase<K,ID>{
+implements BaseBean<K,ID>{
 
 	private static final long serialVersionUID = 1708381486272333902L;
 	
