@@ -1,12 +1,10 @@
 package org.nanotek;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.assertj.core.util.Arrays;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.opencsv.WrappedBaseClass;
-import org.nanotek.stream.KongStream;
 
 public interface WrappedEntityBase<K extends IdBase<?,?>> extends Wrapper <K>{
 	

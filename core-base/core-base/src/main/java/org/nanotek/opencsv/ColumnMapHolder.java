@@ -2,8 +2,8 @@ package org.nanotek.opencsv;
 
 import java.util.Optional;
 
-import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.Base;
 
-public interface ColumnMapHolder<K extends BaseBean<?,?>>{
+public interface ColumnMapHolder<K extends Base<?>>{
      Optional<K> verifyConfiguration();
 }

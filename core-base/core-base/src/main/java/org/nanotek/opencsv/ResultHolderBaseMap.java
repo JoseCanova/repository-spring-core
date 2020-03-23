@@ -1,18 +1,13 @@
 package org.nanotek.opencsv;
 
-import java.io.Serializable;
 import java.util.Optional;
 import java.util.Set;
 
-import org.nanotek.Base;
+import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
 import org.nanotek.WrappedEntityBase;
-import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.csv.BaseBean;
-import org.nanotek.beans.entity.Area;
-import org.nanotek.collections.HolderBaseMap;
-
-import com.sun.xml.bind.v2.model.core.ID;
+import org.nanotek.collections.BaseMap;
 
 /**
  * this bean will god to spring. it holds the reference of the configuration of the beans 
@@ -22,33 +17,24 @@ import com.sun.xml.bind.v2.model.core.ID;
  * @param <ID>
  * @param <I>
  */
-public class ResultHolderBaseMap<I extends BaseBean<?,?>, K extends WrappedEntityBase<I>> 
-extends HolderBaseMap<I> implements ColumnMapHolder<I> {
+public class ResultHolderBaseMap<K extends WrappedEntityBase<I>, B extends AnyBase<?,?> , I extends BaseBean<?,?>> 
+extends BaseMap<B , I> implements ColumnMapHolder<I> {
 
 	private static final long serialVersionUID = -1565015302783229070L;
 
 	private String[] columnMapping;
 
-	private Class<I> clazz;
+	private Class<K> clazz;
 	
-	private Class<K> wrapperClass;
-	
-
-	public ResultHolderBaseMap(I immutable) {
+	public ResultHolderBaseMap(K immutable) {
 		super(immutable);
 	}
 	
-	public ResultHolderBaseMap(I immutable,Class<I> clazz) {
+	public ResultHolderBaseMap(K immutable,Class<K> clazz) {
 		super(immutable);
 		this.clazz = clazz;
 	}
 
-	public ResultHolderBaseMap(Class<I> clazz,Optional<I> wrappedBasedClass) {
-		super(wrappedBasedClass.get());
-		this.clazz = clazz;
-		this.wrapperClass = wrapperClass;
-	}
-	
 	public ResultHolderBaseMap() {
 		super(null);
 	}
@@ -61,13 +47,13 @@ extends HolderBaseMap<I> implements ColumnMapHolder<I> {
 	
 	@Override
 	public Optional<I> verifyConfiguration() {
-		Optional<Set<String>> x = size() == 0 ? Optional.empty():Optional.of(keySet());
+		Optional<Set<B>> x = size() == 0 ? Optional.empty():Optional.of(keySet());
 		x.ifPresent(s -> {
 			columnMapping  = new String[size()];
 			s.stream().forEach(k ->{
-				Integer position = get(k);
-				assert (position !=null && position <= columnMapping.length);
-				columnMapping[get(k)] = k;
+				B position = get(AnyBase.of(k).asBase());
+				assert (position !=null);
+				columnMapping[position.get()] = k;
 			});
 		});
 		return BaseBean.newBaseBeanInstance(Optional.ofNullable(clazz).orElseThrow(BaseException::new));
