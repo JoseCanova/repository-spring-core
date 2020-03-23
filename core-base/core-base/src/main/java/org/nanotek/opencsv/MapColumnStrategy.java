@@ -20,28 +20,28 @@ import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
  * @param <S> AnyBase for the Map Key 
  * @param <V> AnyBase for the Value Key
  */
-//TODO: review implementation of MapColumnStrategy
+@SuppressWarnings("unchecked")
 public class MapColumnStrategy
 <T extends BaseMap<?,V,?>, V extends AnyBase<V,Integer> ,  D extends BaseBean<?,?>> 
 extends  ColumnPositionMappingStrategy<D> 
 implements InitializingBean {
 
-	protected T baseMap; 
+	protected BaseMap<?,V,D> baseMap; 
 	
 	public MapColumnStrategy() {
 		super();
 	}
 
-	public MapColumnStrategy(T baseMap) {
-		this.baseMap = baseMap;
+	public <M extends BaseMap<K,I,?>, K extends AnyBase<K,String> ,  I extends AnyBase<I,Integer> ,  B extends BaseBean<?,?>> MapColumnStrategy(M baseMap) {
+		this.baseMap = BaseMap.class.cast(baseMap);
 	}
 	
-	public T getBaseMap() {
-		return baseMap;
+	public  <M extends AnyBase<M,String>  , I extends AnyBase<I,Integer> , B extends D> BaseMap<M,I,B> getBaseMap() {
+		return BaseMap.class.cast(baseMap);
 	}
 
 	public void setBaseMap(T baseMap) {
-		this.baseMap = baseMap;
+		this.baseMap = BaseMap.class.cast(baseMap);
 	}
 	
 	public void afterPropertiesSet() {

@@ -7,28 +7,27 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
-import org.nanotek.collections.BaseMap;
 import org.nanotek.processor.ProcessorBase;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 public class CsvBaseProcessor
 <I extends MapColumnStrategy<?, ?,?>, 
-P extends BaseMap<?,?,?>, 
 R extends Result<?,?>> 
-implements ProcessorBase<I,P,R>{
+implements ProcessorBase<R>{
 
-	private P parser; 
+	private BaseParser parser; 
 	
 	private CsvToBean<?> csvToBean;
 	
 	private I mapColumnStrategy;
 	
-	public CsvBaseProcessor(P parser, CsvToBean<?> csvToBean) {
+	public CsvBaseProcessor(BaseParser parser, CsvToBean<?> csvToBean) {
 		super();
 		this.parser = parser;
 		this.csvToBean = csvToBean;
@@ -38,7 +37,7 @@ implements ProcessorBase<I,P,R>{
 		return csvToBean;
 	}
 
-	public P getBaseParser() {
+	public BaseParser getBaseParser() {
 		return parser;
 	}
 	
@@ -61,11 +60,15 @@ implements ProcessorBase<I,P,R>{
 		return ImmutableBase.newInstance(Result.class , Arrays.asList(base).toArray() , base.getClass());
 	}
 
+
+	private void computePropertyValue(Entry<?, ?> e, String[] array, Base<?> base, MapColumnStrategy<?, ?, ?> m) {
+	}
+
 	private MapColumnStrategy<?, ?, ?> getMapColumnStrategy() {
 		return mapColumnStrategy;
 	}
 
-	private void computePropertyValue(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
+	private void computeProperty1Value(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
 		try { 
 			Optional.ofNullable(m.findDescriptor(e.getValue())).ifPresent(d ->{
 			String value = instanceArray[e.getValue()];

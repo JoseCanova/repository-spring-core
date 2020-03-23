@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-public interface ProcessorBase<T1, T2 , R> {
+public interface ProcessorBase<R> {
 	@NotNull R next();
 	List<R> load (@NotNull Long count);
 }
