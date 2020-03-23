@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseArtistCreditNameJoinPhraseEntity<K>{
+import java.io.Serializable;
+
+public interface BaseArtistCreditNameJoinPhraseEntity<K extends Serializable>{
 
 }

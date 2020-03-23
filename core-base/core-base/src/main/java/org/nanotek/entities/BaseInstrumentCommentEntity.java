@@ -1,8 +1,7 @@
 package org.nanotek.entities;
 
-import org.nanotek.BaseEntity;
-import org.nanotek.beans.entity.InstrumentComment;
+import java.io.Serializable;
 
-public interface BaseInstrumentCommentEntity<K>{
+public interface BaseInstrumentCommentEntity<K extends Serializable>{
 
 }

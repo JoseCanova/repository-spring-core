@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseMutableGidEntity<K>{
+import java.io.Serializable;
+
+public interface BaseMutableGidEntity<K extends Serializable>{
 	
 }

@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseRecordingAliasTypeEntity<K>{
+import java.io.Serializable;
+
+public interface BaseRecordingAliasTypeEntity<K extends Serializable>{
 
 }

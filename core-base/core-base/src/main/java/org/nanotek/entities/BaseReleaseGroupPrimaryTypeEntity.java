@@ -1,4 +1,6 @@
 package org.nanotek.entities;
 
-public interface BaseReleaseGroupPrimaryTypeEntity<K>{
+import java.io.Serializable;
+
+public interface BaseReleaseGroupPrimaryTypeEntity<K extends Serializable>{
 }

@@ -1,4 +1,6 @@
 package org.nanotek.entities;
 
-public interface BaseLongIdNameEntity<K>{
+import java.io.Serializable;
+
+public interface BaseLongIdNameEntity<K extends Serializable>{
 }

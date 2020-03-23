@@ -37,7 +37,7 @@ extends TreeBidiMap<T,C> {
 		
 		Arrays.asList(fields).stream().forEach(f->{
 			AnyBase.of(0L);
-			put(AnyBase.of(f.getName()).asBase(),(C) AnyBase.of(0L));
+			put(AnyBase.of(f.getName()).asBase(),(C) AnyBase.of(0L).asBase());
 		});
 		Optional.ofNullable(keySet().contains("immutable")).orElseThrow(BaseException::new);
 	}
