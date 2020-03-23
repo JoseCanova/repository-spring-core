@@ -6,14 +6,15 @@ import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.repository.jpa.ArtistTypeRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 //TODO: implements the transactional.
 @Service
-public class ArtistTypeService<K extends ArtistType<K>> extends BasePersistenceService<K>  implements InitializingBean{
+public class ArtistTypeService<K extends ArtistType<K> , C extends ArtistTypeRepository<K>> extends BasePersistenceService<K,C>  implements InitializingBean{
 
-	@Autowired ArtistTypeRepository<K> abaseRepository;
+	@Autowired @Qualifier("ArtistTypeRepository") C  abaseRepository;
 	
 	public ArtistTypeService() { 
 		super();

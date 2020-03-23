@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.beans.entity.Release;
 import org.nanotek.repository.jpa.ReleaseRepository;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,20 +15,18 @@ import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
-public class ReleaseJpaService<O extends Release<O>> extends BrainzPersistenceService<O> implements InitializingBean{
+public class ReleaseJpaService<O extends Release<O>,C extends ReleaseRepository<O>> extends BrainzPersistenceService<O,C>{
 
 	@Autowired  
 	@Qualifier("ReleaseRepository") 
-	ReleaseRepository<O> rep;
+	C rep;
 	
-	public ReleaseJpaService() {
-		super();
+	public ReleaseJpaService(	@Autowired  
+			@Qualifier("ReleaseRepository") 
+			C rep) {
+		super(rep);
 	}
 	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		baseRepository =  rep;
-	}
 
 	@Transactional
 	public Optional<O> findByReleaseId(@Validated @Valid @NotNull Long releaseId){ 

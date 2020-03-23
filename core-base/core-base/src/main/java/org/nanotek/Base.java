@@ -110,8 +110,8 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> 
 	}
 	
 	@Override
-	default int compareTo(K to) {
+	default int compareTo(Base to) {
 		return withUUID().compareTo(to.withUUID());
 	}
-
+	
 }

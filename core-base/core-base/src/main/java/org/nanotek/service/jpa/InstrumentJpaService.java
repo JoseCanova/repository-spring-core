@@ -19,10 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Service
-public class InstrumentJpaService<K extends Instrument<K>, C extends InstrumentComment<C> , D extends InstrumentDescription<D,?>> 
-extends BasePersistenceService<K> implements InitializingBean{
+public class InstrumentJpaService<K extends Instrument<K>, C extends InstrumentComment<C> , D extends InstrumentDescription<D,?>, IR extends InstrumentRepository<K>> 
+extends BasePersistenceService<K,IR> implements InitializingBean{
 
-	@Autowired InstrumentRepository<K> abaseRepository;
+	@Autowired IR abaseRepository;
 	
 	@Autowired
 	InstrumentCommentRepository<C> commentRepository;
