@@ -61,7 +61,7 @@ implements ProcessorBase<R>{
 				computePropertyValue(v.getValue(),array,base);}
 					);
 			});
-		return ImmutableBase.newInstance(Result.class , Arrays.asList(base).toArray() , base.getClass());
+		return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
 	}
 
 	private void computePropertyValue (
