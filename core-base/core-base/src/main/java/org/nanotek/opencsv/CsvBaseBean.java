@@ -13,7 +13,7 @@ implements Id<K> {
 
 	private K id;
 
-	private Class<?> baseClass;
+	protected Class<?> baseClass;
 	
 	public CsvBaseBean() {
 		super(null);
