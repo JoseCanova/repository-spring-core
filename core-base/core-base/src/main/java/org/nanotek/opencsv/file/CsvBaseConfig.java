@@ -1,4 +1,4 @@
-package org.nanotek.opencsv;
+package org.nanotek.opencsv.file;
 
 
 public abstract class CsvBaseConfig {
