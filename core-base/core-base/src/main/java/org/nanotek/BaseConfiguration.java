@@ -2,13 +2,9 @@ package org.nanotek;
 
 import java.util.concurrent.Executor;
 
-import javax.management.MBeanServer;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.assertj.core.util.Arrays;
 import org.nanotek.beans.csv.ArtistAliasBean;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.csv.ArtistCreditBean;
@@ -18,6 +14,7 @@ import org.nanotek.beans.csv.ReleaseBean;
 import org.nanotek.beans.csv.ReleaseGroupBean;
 import org.nanotek.beans.csv.TrackBean;
 import org.nanotek.beans.entity.ArtistCreditName;
+import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -30,7 +27,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 //import org.springframework.orm.jpa.JpaTransactionManager;
@@ -44,8 +40,6 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 
 //import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.google.gson.Gson;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 //import net.sf.ehcache.CacheManager;
@@ -228,8 +222,8 @@ public class BaseConfiguration {
 	@Qualifier(value = "TrackBeanCsvToBean")
 	public CsvToBean<TrackBean> trackBeanCsvToBean() {
 		return new CsvToBean<>();
-	}
-
+	}	
+	
 	@Bean
 	public Gson gson() {
 		return new Gson();
