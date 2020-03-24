@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.opencsv.CsvResult;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -95,4 +96,22 @@ public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements
     public void setType(Class<T> type) {
         this.type = type;
     }
+
+	public int compareTo(HeaderColumnNameMappingStrategy to) {
+		return withUUID().compareTo(to.withUUID());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+			boolean b = Optional.ofNullable(obj).isPresent();
+			if (b) {
+				Base theBase = CsvResult.class.cast(obj);
+				return this.compareTo(theBase) == 0;}
+			return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return md5Digest().hashCode();
+	}
 }

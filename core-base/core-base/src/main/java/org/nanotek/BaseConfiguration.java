@@ -89,13 +89,13 @@ public class BaseConfiguration {
 //		eh.setShared(true);
 //		return eh;
 //	}
-		
-	@Bean
-	@Primary
-	@ConfigurationProperties(prefix = "spring.datasource")
-	public HikariConfig hikariConfig() {
-		return new HikariConfig();
-	}
+//		
+//	@Bean
+//	@Primary
+//	@ConfigurationProperties(prefix = "spring.datasource")
+//	public HikariConfig hikariConfig() {
+//		return new HikariConfig();
+//	}
 	
 //	@Bean
 //	public Jackson2ObjectMapperBuilder configureObjectMapper() {
@@ -103,10 +103,10 @@ public class BaseConfiguration {
 //	}
 
 	
-	@Bean
-	public DataSource dataSource() {
-		return new HikariDataSource(hikariConfig());
-	}
+//	@Bean
+//	public DataSource dataSource() {
+//		return new HikariDataSource(hikariConfig());
+//	}
 
 	@Bean
 	public LocalValidatorFactoryBean validatorFactoryBean() { 

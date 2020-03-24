@@ -34,4 +34,5 @@ public class WorkName implements LongIdNameEntityBase<String>{
 		this.name = name;
 	}
 
+	
 }

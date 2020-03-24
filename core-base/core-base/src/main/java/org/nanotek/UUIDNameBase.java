@@ -1,5 +1,9 @@
 package org.nanotek;
 
+import java.util.Optional;
+
+import org.nanotek.opencsv.CsvResult;
+
 public class UUIDNameBase implements UUIDBaseBase {
 
 	private static final long serialVersionUID = 2692875536991084184L;
@@ -30,5 +34,24 @@ public class UUIDNameBase implements UUIDBaseBase {
 	public UUIDBaseBase getId() {
 		return this;
 	}
+	
+	public int compareTo(UUIDBaseBase to) {
+		return withUUID().compareTo(to.withUUID());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+			boolean b = Optional.ofNullable(obj).isPresent();
+			if (b) {
+				Base theBase = CsvResult.class.cast(obj);
+				return this.compareTo(theBase) == 0;}
+			return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return md5Digest().hashCode();
+	}
+	
 	
 }

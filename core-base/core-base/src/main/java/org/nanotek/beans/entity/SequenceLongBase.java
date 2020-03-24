@@ -1,6 +1,7 @@
 package org.nanotek.beans.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.Base;
 import org.nanotek.entities.BaseSequenceLongBaseEntity;
+import org.nanotek.opencsv.CsvResult;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -45,4 +48,22 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 		this.id = id;
 	}
 	
+	@Override
+	public int compareTo(K to) {
+		return withUUID().compareTo(to.withUUID());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+			boolean b = Optional.ofNullable(obj).isPresent();
+			if (b) {
+				Base theBase = CsvResult.class.cast(obj);
+				return this.compareTo(theBase) == 0;}
+			return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return md5Digest().hashCode();
+	}
 }

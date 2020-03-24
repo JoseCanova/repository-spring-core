@@ -1,9 +1,13 @@
 package org.nanotek.beans.csv;
 
+import java.util.Optional;
+
+import org.nanotek.Base;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.ArtistAlias;
 import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.opencsv.CsvResult;
 
 public class ArtistAliasBean
 <ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
@@ -208,4 +212,23 @@ implements BaseBean<K,ID>{
 		this.artistAliasId = artistAliasId;
 	}
 
+	@Override
+	public int compareTo(K to) {
+		return withUUID().compareTo(to.withUUID());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+			boolean b = Optional.ofNullable(obj).isPresent();
+			if (b) {
+				Base theBase = this.getClass().cast(obj);
+				return this.compareTo(theBase) == 0;}
+			return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return md5Digest().hashCode();
+	}
+	
 }
