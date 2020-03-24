@@ -7,19 +7,10 @@ public abstract class CsvBaseConfig {
 	
 	protected String fileName;
 	
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 	protected String fieldDelimiter; 
 	
 	protected String tupleDelimiter;
 
-	
 	public CsvBaseConfig() {
 		super();
 	}
@@ -53,4 +44,13 @@ public abstract class CsvBaseConfig {
 	public void setTupleDelimiter(String tupleDelimiter) {
 		this.tupleDelimiter = tupleDelimiter;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 }

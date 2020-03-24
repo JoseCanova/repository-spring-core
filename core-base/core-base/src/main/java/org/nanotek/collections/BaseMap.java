@@ -8,6 +8,8 @@ import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.ArtistBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Component;
 //@Component(value = "BaseMap")S
 public class BaseMap<K  extends AnyBase<K,?> , V   extends Base<V>, D extends Base<?>>
 extends  TreeMap<K,V> implements InitializingBean {
+	
+	private static Logger log = LoggerFactory.getLogger(BaseMap.class.getName());
 
 	protected D immutable;
 	
@@ -36,6 +40,7 @@ extends  TreeMap<K,V> implements InitializingBean {
 		super();
 		immutable = k;
 	}
+
 	
 	public D getImmutable() {
 		return immutable;
@@ -45,10 +50,11 @@ extends  TreeMap<K,V> implements InitializingBean {
 		this.immutable = immutable;
 	}
 
+	//TODO:implement a log line here.
 	public void afterPropertiesSet() {
-		System.out.println("VERIFYING CONFIGURATION MAP");
+		log.debug("VERIFYING CONFIGURATION MAP");
 		keySet().forEach(k ->{
-			System.out.println(get(k).withUUID());
+			log.debug(get(k).withUUID().toString());
 		});
 	}
 

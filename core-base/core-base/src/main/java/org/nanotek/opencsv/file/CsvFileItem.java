@@ -1,36 +1,40 @@
 package org.nanotek.opencsv.file;
 
-import java.util.Optional;
-
 import org.nanotek.AnyBase;
+import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-public class CsvFileItem 
-<S  extends AnyBase<S,String> , P   extends AnyBase<P,Integer>> 
-implements InitializingBean{
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties(value = "config")
+public abstract class CsvFileItem 
+<S  extends AnyBase<S,String> , P   extends AnyBase<P,Integer> , M extends BaseBean<?,?>> 
+extends CsvBaseConfig implements InitializingBean{
 
-
-	public  BaseMap<S,P,?>  baseMap;
+	private static Logger log = LoggerFactory.getLogger(CsvFileItem.class.getName());
+ 
+    public  Class<M> immutable; 
 
 	public CsvFileItem(){}
 	
 	public void afterPropertiesSet() {
-		System.out.println("VERIFYING CONFIGURATION MAP");
-		Optional.ofNullable(baseMap).ifPresent(m -> m.keySet().forEach(key ->{
-			System.out.println(key.getValue().get() + " " +  baseMap.get(key).getValue().get());
-		}));
-
+		log.debug("VERIFYING IMMUTABLE CONFIGURATION");
+		log.debug(immutable.toGenericString());
 	}
 	
-	public BaseMap<S, P, ?> getBaseMap() {
-		return baseMap;
+	public Class<M> getImmutable() {
+		return immutable;
 	}
 
-	public void setBaseMap(BaseMap<S, P, ?> baseMap) {
-		this.baseMap = baseMap;
+	public void setImmutable(Class<M> immutable) {
+		this.immutable = immutable;
 	}
+
+	public  abstract  <T extends BaseMap<?, ?, ?>> T  getBaseMap();
 }

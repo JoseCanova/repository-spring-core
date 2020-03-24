@@ -1,10 +1,11 @@
 server:
   port: 8080
 
-
 config:
+  fileLocation: /opt/mbdump
+  fileName: area
   immutable: org.nanotek.beans.csv.AreaBean
-  base-map:
+  baseMap:
     artistId: 0
     gid: 1
     name: 2
