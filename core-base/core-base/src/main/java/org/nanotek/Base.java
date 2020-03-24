@@ -17,7 +17,11 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> 
 	static String hash = "35454B055CC325EA1AF2126E27707052";
 
 	default String md5Digest()  { 
-		return DigestUtils.md5Hex(withUUID().toString());
+		try { 
+			return DigestUtils.md5Hex(new String(toByteArray()));
+		}catch(Exception ex) {
+			throw new BaseException(ex);
+		}
 	}
 
 	default String toJson () 
@@ -56,15 +60,13 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> 
 		return Optional.ofNullable(uuid).orElseThrow(BaseException::new);
 	}
 
-	default Base<?> newInstance() throws BaseInstantiationException { 
-		try {
-			return this.getClass().getDeclaredConstructor(Void.class).newInstance();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			throw new BaseInstantiationException(e);
-		}
+	default byte[] toByteArray() throws Exception{ 
+		ByteArrayOutputStream bao = new ByteArrayOutputStream();
+		ObjectOutputStream oos =  new ObjectOutputStream(bao);
+		oos.writeObject(this);
+		oos.flush();
+		return bao.toByteArray();
 	}
-
 	
 	static <KID extends Base<?> , ID extends Base<?>> Optional<KID> newInstance(Class<KID> clazz , Class<ID> idClazz, ID instance) throws BaseInstantiationException { 
 		try {

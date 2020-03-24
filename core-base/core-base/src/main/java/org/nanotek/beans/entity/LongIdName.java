@@ -4,18 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.Base;
 import org.nanotek.entities.BaseLongIdNameEntity;
 import org.nanotek.entities.MutableNameEntity;
 
 @MappedSuperclass
-public class LongIdName<K extends LongIdName<K>> 
+public class LongIdName<K extends LongIdName<K>>
 extends BrainzBaseEntity<K> 
 implements BaseLongIdNameEntity<K>,
 MutableNameEntity<String>{
 
-
-	private static final long serialVersionUID = -5795977292694140863L;
+	
+	private static final long serialVersionUID = -3608999890615322950L;
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
@@ -37,8 +36,6 @@ MutableNameEntity<String>{
 
 	@Override
 	public void setName(String k) {
-		this.name = name;
+		this.name = k;
 	}
-
-	
 }

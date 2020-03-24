@@ -1,7 +1,8 @@
 package org.nanotek.collections;
 
-import java.io.Serializable;
 import java.util.List;
 
-public interface BaseList<T> extends List<T>,Serializable{
+import org.nanotek.Base;
+
+public interface BaseList<T extends Base<?>> extends List<T>,Base<T>{
 }

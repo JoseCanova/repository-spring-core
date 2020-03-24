@@ -49,7 +49,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	public boolean equals(Object obj) {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
-				Base theBase = AnyBase.class.cast(obj);
+				AnyBase theBase = AnyBase.class.cast(obj);
 				return this.compareTo(theBase) == 0;}
 			return false;
 	}

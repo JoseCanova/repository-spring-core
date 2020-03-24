@@ -34,7 +34,8 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq")
 	protected ID id;
 
-	public SequenceLongBase() {}
+	public SequenceLongBase() {
+	}
 	
 	public SequenceLongBase(ID id) {
 		this.id = id;
@@ -57,7 +58,7 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 	public boolean equals(Object obj) {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
-				Base theBase = CsvResult.class.cast(obj);
+				Base theBase = this.getClass().cast(obj);
 				return this.compareTo(theBase) == 0;}
 			return false;
 	}
