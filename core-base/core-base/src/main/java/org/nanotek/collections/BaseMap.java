@@ -48,7 +48,7 @@ extends  TreeMap<K,V> implements InitializingBean {
 	public void afterPropertiesSet() {
 		System.out.println("VERIFYING CONFIGURATION MAP");
 		keySet().forEach(k ->{
-			System.out.println(get(k).toJson());
+			System.out.println(get(k).withUUID());
 		});
 	}
 

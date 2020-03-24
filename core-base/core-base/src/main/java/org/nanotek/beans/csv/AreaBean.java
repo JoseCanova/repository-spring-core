@@ -16,12 +16,6 @@ implements BaseBean<K,ID>{
 
 	private static final long serialVersionUID = 1708381486272333902L;
 	
-	private ID id;
-
-	public ID getId() { 
-		return id;
-	}
-	
 	public Long areaId; 
 	public String gid; 
 	public String name; 

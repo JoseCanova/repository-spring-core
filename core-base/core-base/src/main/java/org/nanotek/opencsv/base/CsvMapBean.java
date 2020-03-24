@@ -7,7 +7,13 @@ import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties(value = "config")
 public class CsvMapBean 
 <K extends AnyBase<K,D>, D extends BaseBean<D,ID> , ID extends BaseEntity<?,?>>
 extends BaseMap<K,D,ID> implements InitializingBean  {

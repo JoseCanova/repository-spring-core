@@ -9,9 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
-@EnableConfigurationProperties
-@ConfigurationProperties(value = "config")
 public class CsvFileItem 
 <S  extends AnyBase<S,String> , P   extends AnyBase<P,Integer>> 
 implements InitializingBean{
