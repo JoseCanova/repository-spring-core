@@ -3,14 +3,10 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.Base;
-
 @Entity
 @Table(name="work_alias")
-public class WorkAlias<K extends Work<K>> implements Base<K> {
+public class WorkAlias<K extends WorkAlias<K>> extends BrainzBaseEntity<K> {
 
-	private Long id; 
-	
 	private Long work; 
 	
 	private Long name; 

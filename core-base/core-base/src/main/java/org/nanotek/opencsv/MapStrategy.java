@@ -12,11 +12,11 @@ J extends BaseBean<?,?>>
 {
 
 
-	default Optional <?>  createWrappedBaseClass(Class<J> clazz){ 
-		Optional<J> jon = BaseBean.newBaseBeanInstance(clazz);
-		J instance = jon.get();
-		Optional <?> k = WrappedEntityBase.newBaseBeanInstance(jon.getClass().asSubclass(IdBase.class),instance);
-		return k;
-	}
+//	default Optional <?>  createWrappedBaseClass(Class<J> clazz){ 
+//		Optional<J> jon = BaseBean.newBaseBeanInstance(clazz);
+//		J instance = jon.get();
+//		Optional <?> k = WrappedEntityBase.newBaseBeanInstance(jon.getClass().asSubclass(clazz),instance);
+//		return k;
+//	}
 	
 }

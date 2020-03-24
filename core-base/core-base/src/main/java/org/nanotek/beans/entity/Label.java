@@ -2,18 +2,13 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.nanotek.entities.immutables.LongIdEntityBase;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label")
-public class Label implements LongIdEntityBase {
+public class Label<K extends Label<K>> extends BrainzBaseEntity<K>{
 	
-	@Id
-	private Long id; 
 	@Column
 	private Long labelId;
 	@Column
@@ -44,14 +39,6 @@ public class Label implements LongIdEntityBase {
 	private String ipiCode;
 	
 	public Label() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getGid() {

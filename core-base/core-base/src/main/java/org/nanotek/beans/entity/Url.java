@@ -7,9 +7,8 @@ import org.nanotek.Base;
 
 @Entity
 @Table(name="url")
-public class Url<K extends Url<K>> implements Base<K> {
+public class Url<K extends Url<K>> extends BrainzBaseEntity<K> {
 
-	private Long id; 
 	private String gid; 
 	private String url; 
 	private String description; 
@@ -18,13 +17,6 @@ public class Url<K extends Url<K>> implements Base<K> {
 	public Url() {
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getGid() {
 		return gid;

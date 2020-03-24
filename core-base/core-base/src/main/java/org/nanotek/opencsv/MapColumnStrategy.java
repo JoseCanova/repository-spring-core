@@ -60,6 +60,7 @@ implements InitializingBean {
 	public static void main(String[] args) { 
 		MapColumnStrategy s = new MapColumnStrategy(new BaseMap(new ArtistBean()));
 		s.afterPropertiesSet();
+		
 	}
 	
 }

@@ -8,22 +8,11 @@ import org.nanotek.IdBase;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="track_count")
-public class TrackCount implements IdBase<TrackCount,String> {
+public class TrackCount<K extends TrackCount<K>> extends BrainzBaseEntity<K> {
 
-	private String id; 
 	private String trackCount; 
 	private String lastUpdate; 
 	
-	@Override
-	public String getId() {
-		return id;
-	}
-	
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	
 	public String getTrackCount() {
 		return trackCount;

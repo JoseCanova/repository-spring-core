@@ -1,16 +1,12 @@
 package org.nanotek.beans.entity;
 
-import java.util.function.Consumer;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.nanotek.entities.immutables.LongIdNameEntityBase;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="work_name")
-public class WorkName implements LongIdNameEntityBase<String>{
+public class WorkName<K extends WorkName<K>> extends BrainzBaseEntity<K>{
 	
 	private Long id; 
 	private String name; 

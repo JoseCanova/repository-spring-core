@@ -8,22 +8,14 @@ import org.nanotek.ImmutableBase;
 
 @Entity
 @Table(name="work")
-public class Work<K extends Work<K>> implements Base<K> {
+public class Work<K extends Work<K>> extends  BrainzBaseEntity<K> {
 	
-	private Long id; 
 	private String gid; 
 	private String type; 
 	private Long name; 
 	private Long iswc; 
 	
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getGid() {
 		return gid;

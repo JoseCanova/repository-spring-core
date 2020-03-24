@@ -3,21 +3,14 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.LongBase;
-
+//TODO create a List entity
 @SuppressWarnings("serial")
 @Entity
 @Table(name="track_list")
-public class TrackList implements LongBase<TrackList> {
+public class TrackList<K extends TrackList<K>> extends  BrainzBaseEntity<K> {
 
-	private Long id; 
 	private Long count; 
 	
-	@Override
-	public Long getId() {
-		return id;
-	}
-
 	public Long getCount() {
 		return count;
 	}

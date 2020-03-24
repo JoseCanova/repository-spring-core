@@ -8,19 +8,10 @@ import org.nanotek.LongBase;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="release_name")
-public class ReleaseName implements LongBase<ReleaseName> {
+public class ReleaseName<K extends ReleaseName<K>> extends BrainzBaseEntity<K> {
 
-	private Long id; 
 	private String name; 
 	private String refCount;
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;

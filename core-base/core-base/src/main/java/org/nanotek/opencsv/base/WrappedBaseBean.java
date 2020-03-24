@@ -14,9 +14,5 @@ public class WrappedBaseBean<ID extends IdBase<?,?>> extends WrappedBaseClass<ID
 		super(idBase);
 	}
 	
-	public static void main(String[] args) { 
-		Area area =  IdBase.prepareBeanInstance(Area.class);
-		BaseBean instance = BaseBean.newBaseBeanInstance(AreaBean.class.asSubclass(IdBase.class) , new Object[] {area} , IdBase.class ).get();	
-	}
 
 }

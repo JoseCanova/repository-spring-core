@@ -3,25 +3,13 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.Base;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name="work_type")
-public class WorkType<K extends WorkType<K>> implements Base<K>{
+public class WorkType<K extends WorkType<K>> extends BrainzBaseEntity<K>{
 
-	private String id; 
 	
 	private String name;
-	
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;

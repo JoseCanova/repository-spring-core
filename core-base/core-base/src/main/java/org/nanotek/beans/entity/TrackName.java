@@ -8,21 +8,12 @@ import org.nanotek.entities.immutables.LongIdNameEntityBase;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="track_name")
-public class TrackName implements LongIdNameEntityBase<String>{
+public class TrackName<K extends TrackName<K>> extends BrainzBaseEntity<K>{
 
-	private Long id;
 	
 	private String name;
 	
 	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -30,7 +21,5 @@ public class TrackName implements LongIdNameEntityBase<String>{
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	 
 	
 }

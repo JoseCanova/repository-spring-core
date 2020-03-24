@@ -3,26 +3,15 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.Base;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label_alias")
-public class LabelAlias implements Base<LabelAlias> {
+public class LabelAlias<K extends LabelAlias<K>> extends  BrainzBaseEntity<K> {
 	
-	private Long id; 
 	private Long label; 
 	private Long name; 
 	private String locale;
 	private Long aliasId;
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public Long getLabel() {
 		return label;
