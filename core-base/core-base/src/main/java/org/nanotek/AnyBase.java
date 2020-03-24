@@ -13,7 +13,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	
 	
 
-	private <A extends AnyBase<S,K>> AnyBase(K s) {
+	public <A extends AnyBase<S,K>> AnyBase(K s) {
 		Optional<?> sc = Optional.ofNullable(s);
 		sc.ifPresentOrElse( v-> {
 			try {
@@ -31,6 +31,10 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	
 	public Optional<K> getValue() {
 		return Optional.ofNullable(value);
+	}
+	
+	public void setValue(K k) {
+		this.value = k;
 	}
 	
 	public Class<?> getKClass() {

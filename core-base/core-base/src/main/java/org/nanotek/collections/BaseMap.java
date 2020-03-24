@@ -8,6 +8,10 @@ import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.ArtistBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 	
 /**
  * 
@@ -17,12 +21,13 @@ import org.nanotek.beans.csv.ArtistBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
+//@Component(value = "BaseMap")S
 public class BaseMap<K  extends AnyBase<K,?> , V   extends Base<V>, D extends Base<?>>
-extends  TreeMap<K,V> {
+extends  TreeMap<K,V> implements InitializingBean {
 
 	protected D immutable;
 	
-	public BaseMap() {
+	public <S  extends AnyBase<S,String> , P   extends AnyBase<P,Integer>>  BaseMap() {
 		super();	
 		immutable = null;
 	}
@@ -32,16 +37,19 @@ extends  TreeMap<K,V> {
 		immutable = k;
 	}
 	
-	
+	public D getImmutable() {
+		return immutable;
+	}
+
+	public void setImmutable(D immutable) {
+		this.immutable = immutable;
+	}
+
 	public void afterPropertiesSet() {
-		Class<?> clazz = Optional.ofNullable(immutable).orElseThrow(BaseException::new).getClass();
-		System.out.println(clazz.getName());
-		Field[] fields = clazz.getDeclaredFields();
-		
-		int pos = 0;
-		for (Field f : fields) { 
-			put(AnyBase.of(f.getName()).asBase(),AnyBase.of(pos++).asBase());
-		}
+		System.out.println("VERIFYING CONFIGURATION MAP");
+		keySet().forEach(k ->{
+			System.out.println(get(k).toJson());
+		});
 	}
 
 	public static void main(String [] args) { 
@@ -55,4 +63,8 @@ extends  TreeMap<K,V> {
 		n.afterPropertiesSet();
 	}
 
+//	public V put(String value, Integer position) {
+//		return super.put(AnyBase.of(value).asBase(), AnyBase.of(position).asBase());
+//	}
+	
 }

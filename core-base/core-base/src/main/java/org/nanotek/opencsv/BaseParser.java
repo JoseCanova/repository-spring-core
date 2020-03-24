@@ -11,6 +11,7 @@ import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.file.CsvBaseConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
