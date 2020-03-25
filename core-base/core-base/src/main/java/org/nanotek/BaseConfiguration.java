@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.beans.beancontext.BeanContextSupport;
+import java.lang.annotation.Annotation;
 import java.util.concurrent.Executor;
 
 import javax.validation.Validator;
@@ -11,6 +12,7 @@ import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,9 +22,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 //import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.ResolvableType;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 //import org.springframework.orm.jpa.JpaTransactionManager;
@@ -44,14 +49,16 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableCaching
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-public class BaseConfiguration {
+public class BaseConfiguration implements ApplicationContextAware{
 
-	@Autowired
-	ApplicationContext applicationContext;
+	private static final long serialVersionUID = 8957346440608640854L;
+	
+	
+	private ApplicationContext applicationContext;
 	
 	@Bean
 	@Qualifier(value = "ApachePropertyUtils")
-	PropertyUtils createApachePropertyUtils() {
+	PropertyUtils getPropertyUtils() {
 		return new PropertyUtils();
 	}
 	
@@ -66,7 +73,7 @@ public class BaseConfiguration {
 	
 	@Bean
 	@Qualifier(value="mBeanServer")
-	MBeanServerFactoryBean mBeanServer() { 
+	MBeanServerFactoryBean getMBeanServerFactoryBean() { 
 		return new  MBeanServerFactoryBean();
 	}
 	
@@ -97,19 +104,13 @@ public class BaseConfiguration {
 //	}
 
 	@Bean
-	public LocalValidatorFactoryBean validatorFactoryBean() { 
+	public LocalValidatorFactoryBean getLocalValidatorFactoryBean() { 
 		return new LocalValidatorFactoryBean();
 	}
-	
-	@Bean 
-	public Validator validator()
-	{ 
-		return validatorFactoryBean().getValidator();
-	}
-	
+		
 	@Bean(name = "MethodValidationInterceptor")
 	@Qualifier(value="MethodValidationInterceptor")
-	MethodValidationInterceptor methodValidationInterceptor(@Autowired Validator validator) { 
+	MethodValidationInterceptor getMethodValidationInterceptor(@Autowired Validator validator) { 
 		return new MethodValidationInterceptor(validator);
 	}
 	
@@ -164,10 +165,17 @@ public class BaseConfiguration {
 		return executor;
 	}
 
-	@Bean
-	public Registry<?> getRegistry(){
-		Registry<?> r = new Registry<>(new BeanContextSupport());
-		return r;
+	@Bean(name="BeanContextSupport")
+	@Qualifier(value="BeanContextSupport")
+	public BeanContextSupport getBeanContextSupport() {
+		return new BeanContextSupport();
+	}
+	
+	@Bean(name="Registry")
+	@Qualifier(value="Registry")
+	@Primary
+	public Registry<?> getRegistry(@Autowired BeanContextSupport beanContextSupport){
+		return  new Registry<>(beanContextSupport).registar();
 	}
 	
 	
@@ -220,4 +228,54 @@ public class BaseConfiguration {
 		return new Gson();
 	}
 
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
+
+	public String getId() {
+		return applicationContext.getId();
+	}
+
+	public String[] getBeanNamesForType(ResolvableType type) {
+		return applicationContext.getBeanNamesForType(type);
+	}
+
+	public String[] getBeanNamesForType(ResolvableType type, boolean includeNonSingletons, boolean allowEagerInit) {
+		return applicationContext.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
+	}
+
+	public Object getBean(String name) throws BeansException {
+		return applicationContext.getBean(name);
+	}
+
+	public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+		return applicationContext.getBean(name, requiredType);
+	}
+
+	public String[] getBeanNamesForType(Class<?> type) {
+		return applicationContext.getBeanNamesForType(type);
+	}
+
+	public Object getBean(String name, Object... args) throws BeansException {
+		return applicationContext.getBean(name, args);
+	}
+
+	public <T> T getBean(Class<T> requiredType) throws BeansException {
+		return applicationContext.getBean(requiredType);
+	}
+
+	public String[] getBeanNamesForType(Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
+		return applicationContext.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
+	}
+
+	public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
+		return applicationContext.getBean(requiredType, args);
+	}
+
+	public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
+		return applicationContext.getBeanNamesForAnnotation(annotationType);
+	}
+	
 }

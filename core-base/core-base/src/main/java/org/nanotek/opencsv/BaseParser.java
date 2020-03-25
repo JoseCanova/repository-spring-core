@@ -48,7 +48,7 @@ extends CSVParser implements InitializingBean
 		return reader;
 	}
 
-	public  <T extends ValueBase<?>, S extends T> List<ValueBase<?>>  readNext() {
+	public  <T extends ValueBase<?>, S extends T> List<?>  readNext() {
 		try { 	
 			return Optional.ofNullable(
 					reader.readLine())
@@ -58,13 +58,13 @@ extends CSVParser implements InitializingBean
 		}
 	}
 
-	private <T extends ValueBase<T> , S extends T> List<ValueBase<?>> mountList(String line) {
+	private List<? super ValueBase<?>> mountList(String line) {
 		int pos = 0;
-		ArrayList<ValueBase<?>> al = new ArrayList<>();
+		ArrayList<? super ValueBase<?>> al = new ArrayList<>();
 		try { 
 		String[] sArry = csvParser.parseLine(line);
 		for (pos = 0 ; pos < sArry.length ; pos++) {
-			ValueBase<T> base = new ValueBase<>(pos,sArry[pos]);
+			ValueBase<?> base =    ValueBase.of(pos,sArry[pos]);
 			al.add(base);
 		} 
 		}catch(Exception ex) { 

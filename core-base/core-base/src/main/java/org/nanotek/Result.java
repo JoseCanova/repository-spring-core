@@ -27,6 +27,14 @@ public abstract class Result<K extends IdBase<K,ID> , ID extends IdBase<?,?>> im
 		this.immutable = immutable;
 		this.id = id;
 	}
+	
+	public K getImmutable() {
+		return immutable;
+	}
+
+	public void setImmutable(K immutable) {
+		this.immutable = immutable;
+	}
 
 	@Override
 	public abstract Optional<ID> on(PredicateBase<K, ID> predicate);

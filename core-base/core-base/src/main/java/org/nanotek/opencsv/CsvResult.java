@@ -56,4 +56,5 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	@Override
 	public int hashCode() {
 		return md5Digest().hashCode();
-	}}
+	}
+}

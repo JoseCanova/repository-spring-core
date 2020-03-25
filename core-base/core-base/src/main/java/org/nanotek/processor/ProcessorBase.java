@@ -5,6 +5,6 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 public interface ProcessorBase<R> {
-	@NotNull R next();
+	@NotNull R getNext();
 	List<R> load (@NotNull Long count);
 }

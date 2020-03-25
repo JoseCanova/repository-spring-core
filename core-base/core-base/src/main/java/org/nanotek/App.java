@@ -1,5 +1,10 @@
 package org.nanotek;
 
+import java.beans.EventHandler;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Optional;
+
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.CsvBaseProcessor;
@@ -59,9 +64,15 @@ ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		CsvBaseProcessor <T,S,P,M,R> processor = (CsvBaseProcessor<T, S, P, M, R>) context.getBean("CsvBaseProcessor");
-		CsvResult<K, ID> result =  CsvResult.class.cast(processor.next());
-		System.out.println(result.withUUID());	
+		
+		CsvBaseProcessor <T,S,P,M,CsvResult<?,?>> processor = (CsvBaseProcessor<T, S, P, M, CsvResult<?,?>>) context.getBean("CsvBaseProcessor");
+		
+		CsvResult<?,?> result ; 
+		do {
+			result =  processor.getNext();
+			Optional.ofNullable(result).ifPresent(r -> log.debug(r.withUUID().toString()));
+		}while(Optional.ofNullable(result).isPresent());
+		
 	}
 
 	@Override
@@ -69,6 +80,5 @@ ApplicationRunner{
 		this.context = applicationContext;
 	}
 
-
-
+	
 }

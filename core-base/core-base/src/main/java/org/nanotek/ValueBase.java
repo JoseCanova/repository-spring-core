@@ -64,4 +64,8 @@ implements Base<SB> , Id<Integer> , MutableValueEntity <String> {
 		return md5Digest().hashCode();
 	}
 
+	public static ValueBase<?> of(Integer id, String value){ 
+		return ValueBase.class.asSubclass(ValueBase.class).cast(new ValueBase<>(id,value));
+	}
+	
 }
