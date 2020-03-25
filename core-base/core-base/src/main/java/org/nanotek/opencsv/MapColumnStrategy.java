@@ -1,5 +1,9 @@
 package org.nanotek.opencsv;
 
+import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.assertj.core.util.Arrays;
@@ -26,6 +30,8 @@ public class MapColumnStrategy
 <D extends BaseBean<?,?>> 
 extends  ColumnPositionMappingStrategy<D> {
 
+	HashMap<Class<?>, PropertyEditor> editorMap = new HashMap<Class<?>, PropertyEditor>();
+	
 	public MapColumnStrategy() {
 		super();
 	}
@@ -36,7 +42,7 @@ extends  ColumnPositionMappingStrategy<D> {
 	}
 
 	//TODO: check a result strategy..
-	public <T extends BaseMap<S,V,?> , S extends  AnyBase<S,Integer>, V extends AnyBase<V,Integer>> 
+	public <T extends BaseMap<S,V,?> , S extends  AnyBase<S,String>, V extends AnyBase<V,Integer>> 
 	void configureMapStrategy(T baseMap) {
 		baseMap.afterPropertiesSet();
 		assert (baseMap !=null && baseMap.size() >=1);
@@ -48,11 +54,26 @@ extends  ColumnPositionMappingStrategy<D> {
 		this.setColumnMapping(csvColumns);
 		Arrays.asList(csvColumns).stream().forEach(c -> System.out.println(c));
 	}
+	
+	 public PropertyEditor getPropertyEditorValue(Class<?> cls) {
+	        if (editorMap == null) {
+	            editorMap = new HashMap<Class<?>, PropertyEditor>();
+	        }
 
-	
-//	public static void main(String[] args) { 
-//		MapColumnStrategy s = new MapColumnStrategy(new BaseMap(new ArtistBean()));
-//		s.afterPropertiesSet();
-//	}
-	
+	        PropertyEditor editor = editorMap.get(cls);
+
+	        if (editor == null) {
+	            editor = PropertyEditorManager.findEditor(cls);
+	            addEditorToMap(cls, editor);
+	        }
+
+	        return editor;
+	    }
+
+	    private void addEditorToMap(Class<?> cls, PropertyEditor editor) {
+	        if (editor != null) {
+	            editorMap.put(cls, editor);
+	        }
+	    }
+
 }

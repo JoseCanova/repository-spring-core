@@ -20,14 +20,13 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
-import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import au.com.bytecode.opencsv.CSVReader;
+import org.nanotek.BaseException;
+import org.nanotek.StringPositionBase;
 
 public class CsvToBean<T> {
 	
@@ -36,36 +35,23 @@ public class CsvToBean<T> {
     public CsvToBean() {
     }
 
-    public List<T> parse(MappingStrategy<T> mapper, Reader reader) {
-        return parse(mapper, new CSVReader(reader));
-    }
 
-    public List<T> parse(MappingStrategy<T> mapper, CSVReader csv) {
-        try {
-            mapper.captureHeader(csv);
-            String[] line;
-            List<T> list = new ArrayList<T>();
-            while (null != (line = csv.readNext())) {
-                T obj = processLine(mapper, line);
-                list.add(obj); // TODO: (Kyle) null check object
-            }
-            return list;
-        } catch (Exception e) {
-            throw new RuntimeException("Error parsing CSV!", e);
-        }
-    }
-
-    public T processLine(MappingStrategy<T> mapper, String[] line) 
+    public T processLine(MappingStrategy<T> mapper, List<StringPositionBase<?>> result) 
     		throws IllegalAccessException, InvocationTargetException, InstantiationException, IntrospectionException {
         T bean = mapper.createBean();
-        for (int col = 0; col < line.length; col++) {
-            PropertyDescriptor prop = mapper.findDescriptor(col);
+        
+        result.stream().forEach(sb -> {
+        	try { 
+        	PropertyDescriptor prop = mapper.findDescriptor(sb.getPosition());
             if (null != prop) {
-                String value = checkForTrim(line[col], prop);
+                String value = checkForTrim(sb.getId(), prop);
                 Object obj = convertValue(value, prop);
                 prop.getWriteMethod().invoke(bean, obj);
             }
-        }
+        	}catch (Exception ex) { 
+        		throw new BaseException(ex);
+        	}
+        });
         return bean;
     }
 

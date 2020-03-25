@@ -20,6 +20,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.bean.CsvToBean;
 import au.com.bytecode.opencsv.bean.MappingStrategy;
 
 @Component
@@ -34,49 +35,34 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 	
 	T baseMap;
 	
-	public String[] getColumnMapping() {
-		return mapColumnStrategy.getColumnMapping();
-	}
-
-	public PropertyDescriptor findDescriptor(int col) {
-		return mapColumnStrategy.findDescriptor(col);
-	}
-
-	public PropertyDescriptor findDescriptor(String name) throws IntrospectionException {
-		return mapColumnStrategy.findDescriptor(name);
-	}
-
-	public boolean matches(String name, PropertyDescriptor desc) {
-		return mapColumnStrategy.matches(name, desc);
-	}
-
-	public Map<String, PropertyDescriptor> loadDescriptorMap(Class<M> cls) throws IntrospectionException {
-		return mapColumnStrategy.loadDescriptorMap(cls);
-	}
-
-	public PropertyDescriptor[] loadDescriptors(Class<M> cls) throws IntrospectionException {
-		return mapColumnStrategy.loadDescriptors(cls);
-	}
-
-	public Class<M> getType() {
-		return mapColumnStrategy.getType();
-	}
-
 	MapColumnStrategy<M> mapColumnStrategy;
+
+	private CSVReader csvReader;	
 	
-	CSVReader csvReader;
-	
+	private CsvToBean<?> csvToBean;
+
 	public CsvFileItemConcreteStrategy() {
 		super();
 	}
-	
+
 	@Override
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 		mapColumnStrategy = new MapColumnStrategy<M>(immutable);
 		prepareFileReader();
 		mapColumnStrategy.configureMapStrategy(BaseMap.class.cast(baseMap));
+		csvToBean = new CsvToBean<>();
 	}
+
+
+	public MapColumnStrategy<M> getMapColumnStrategy() {
+		return mapColumnStrategy;
+	}
+
+	public void setMapColumnStrategy(MapColumnStrategy<M> mapColumnStrategy) {
+		this.mapColumnStrategy = mapColumnStrategy;
+	}
+
 
 	@Override
 	public void captureHeader(CSVReader reader) throws IOException {
@@ -114,10 +100,33 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 		csvReader.close();
 	}
 
-	@Override
-	public M createBean() throws InstantiationException, IllegalAccessException {
-//		return getType().;
-		return null;
+	public String[] getColumnMapping() {
+		return mapColumnStrategy.getColumnMapping();
 	}
 
+	public PropertyDescriptor findDescriptor(int col) {
+		return mapColumnStrategy.findDescriptor(col);
+	}
+
+	public PropertyDescriptor findDescriptor(String name) throws IntrospectionException {
+		return mapColumnStrategy.findDescriptor(name);
+	}
+
+	public boolean matches(String name, PropertyDescriptor desc) {
+		return mapColumnStrategy.matches(name, desc);
+	}
+
+	public Map<String, PropertyDescriptor> loadDescriptorMap(Class<M> cls) throws IntrospectionException {
+		return mapColumnStrategy.loadDescriptorMap(cls);
+	}
+
+	public PropertyDescriptor[] loadDescriptors(Class<M> cls) throws IntrospectionException {
+		return mapColumnStrategy.loadDescriptors(cls);
+	}
+
+	@Override
+	public M createBean() throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

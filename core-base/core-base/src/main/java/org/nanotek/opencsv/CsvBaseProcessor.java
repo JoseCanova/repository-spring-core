@@ -1,14 +1,11 @@
 package org.nanotek.opencsv;
 
-import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.nanotek.AnyBase;
-import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
@@ -30,13 +27,14 @@ implements ProcessorBase<R>{
 
 	private BaseParser<T,S,P,M> parser; 
 	
-//	private CsvToBean<?> csvToBean;
+	private CsvToBean<M> csvToBean;
 	
 	private CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy;
 	
 	public CsvBaseProcessor(BaseParser<T,S,P,M> parser) {
 		super();
 		this.parser = parser;
+		csvToBean = new CsvToBean<>();
 //		this.csvToBean = csvToBean;
 	}
 
@@ -56,47 +54,15 @@ implements ProcessorBase<R>{
     	return computeNext().orElseThrow(BaseException::new);
     }
     
-    
-    //TODO: review the unchecked warning.
     @SuppressWarnings("unchecked")
 	private Optional<R> computeNext()  {
-    	BaseBean<?,?> base = Base.newInstance(mapColumnStrategy.getType()).get();
+    	try { 
 			List<StringPositionBase<?>> next = getBaseParser().readNext();
-			next.forEach(sb -> {
-				PropertyDescriptor desc  = mapColumnStrategy.findDescriptor(sb.getPosition());
-				String value = sb.getId();
-				Object obj = convertPropertyValue(value,desc);
-				invokeWriteMethod(desc , base,obj);
-			});
-		return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
-	}
-
-//	private void computeProperty1Value(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
-//		try { 
-//			Optional.ofNullable(m.findDescriptor(e.getValue())).ifPresent(d ->{
-//			String value = instanceArray[e.getValue()];
-//			Object obj = convertPropertyValue(value,d);
-//			invokeWriteMethod(d , base,obj);
-//		});
-//		} catch (Exception e1) {
-//			throw new BaseException(e1);
-//		}
-//	}
-
-	private void invokeWriteMethod(PropertyDescriptor d, Base<?> base, Object obj) {
-		try {
-			d.getWriteMethod().invoke(base, obj);
-		} catch (Exception e1) {
-			throw new BaseException(e1);
-		}
-	}
-
-	private Object convertPropertyValue(String value, PropertyDescriptor d) {
-		try {
-				return csvToBean.convertValue(value, d);
-		} catch (Exception e1) {
-			throw new BaseException(e1);
-		}
+			BaseBean<?,?> base = csvToBean.processLine(MapColumnStrategy.class.cast(mapColumnStrategy.getMapColumnStrategy()), next);
+			return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
+    	}catch (Exception ex) { 
+    		throw new BaseException(ex);
+    	}
 	}
 
 	public List<R> load(Long count) {
@@ -110,5 +76,6 @@ implements ProcessorBase<R>{
     	}
     	return list;
     }	
+	
 	
 }
