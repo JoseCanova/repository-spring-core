@@ -1,8 +1,5 @@
 package org.nanotek;
 
-import java.beans.EventHandler;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Optional;
 
 import org.nanotek.beans.csv.BaseBean;
