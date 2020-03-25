@@ -4,8 +4,13 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistIdEntity;
 
-public interface MutableArtistIdEntity<K extends Serializable> extends ArtistIdEntity<K>{
+public interface MutableArtistIdEntity<K extends Serializable> extends ArtistIdEntity<K> 
+{
 
 	void setArtistId(K k);
+	
+	default MutableArtistIdEntity<K> getMutableArtistIdEntity() { 
+		return MutableArtistIdEntity.class.cast(this);
+	}
 	
 }

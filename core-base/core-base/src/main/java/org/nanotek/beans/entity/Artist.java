@@ -21,6 +21,7 @@ import org.nanotek.entities.MutableAreaEntity;
 import org.nanotek.entities.MutableArtistBeginAreaEntity;
 import org.nanotek.entities.MutableArtistBeginDateEntity;
 import org.nanotek.entities.MutableArtistCommentEntity;
+import org.nanotek.entities.MutableArtistEndAreaEntity;
 import org.nanotek.entities.MutableArtistEndDateEntity;
 import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.MutableArtistSortNameEntity;
@@ -40,9 +41,10 @@ MutableArtistCommentEntity<ArtistComment<?>>,
 MutableArtistBeginDateEntity<ArtistBeginDate<?>>,
 MutableArtistEndDateEntity<ArtistEndDate<?>>,
 MutableArtistTypeEntity<ArtistType<?>>,
-MutableGenderEntity<Gender>,
+MutableGenderEntity<Gender<?>>,
 MutableAreaEntity<Area<?>>,
-MutableArtistBeginAreaEntity<Area<?>>{
+MutableArtistBeginAreaEntity<Area<?>>,
+MutableArtistEndAreaEntity<Area<?>>{
 	
 	private static final long serialVersionUID = -932806802235346847L;
 

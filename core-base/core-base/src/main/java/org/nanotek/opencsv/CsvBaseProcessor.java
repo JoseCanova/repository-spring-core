@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
+import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
 import org.nanotek.ValueBase;
@@ -79,7 +80,7 @@ implements ProcessorBase<R>{
     	try { 
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
-			return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
+			return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
     	}catch (Exception ex) { 
     		throw new BaseException(ex);
     	}

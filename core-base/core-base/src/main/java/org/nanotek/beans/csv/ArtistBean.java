@@ -8,13 +8,44 @@ import org.nanotek.Base;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.entities.MutableAreaEntity;
+import org.nanotek.entities.MutableArtistBeginAreaEntity;
+import org.nanotek.entities.MutableArtistEndAreaEntity;
+import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.entities.MutableBeginDateDayEntity;
+import org.nanotek.entities.MutableBeginDateMonthEntity;
+import org.nanotek.entities.MutableBeginDateYearEntity;
+import org.nanotek.entities.MutableCommentEntity;
+import org.nanotek.entities.MutableEndDateDayEntity;
+import org.nanotek.entities.MutableEndDateMonthEntity;
+import org.nanotek.entities.MutableEndDateYearEntity;
+import org.nanotek.entities.MutableGenderEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.entities.MutableTypeEntity;
 import org.nanotek.opencsv.CsvBaseBean;
-import org.nanotek.opencsv.CsvResult;
 
 public class ArtistBean
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
 extends CsvBaseBean<ID>
-implements BaseBean<K,ID>{
+implements BaseBean<K,ID>,
+MutableArtistIdEntity<Long>,
+MutableGidEntity<String>,
+MutableNameEntity<String>,
+MutableBeginDateYearEntity<Integer>,
+MutableBeginDateMonthEntity<Integer>,
+MutableBeginDateDayEntity<Integer>,
+MutableEndDateYearEntity<Integer>,
+MutableEndDateMonthEntity<Integer>,
+MutableEndDateDayEntity<Integer>,
+MutableTypeEntity<Long>,
+MutableAreaEntity<Long>,
+MutableGenderEntity<Long>,
+MutableCommentEntity<String>,
+MutableArtistBeginAreaEntity<Long>,
+MutableArtistEndAreaEntity<Long>
+
+{
 
 
 	private static final long serialVersionUID = 2864330060600897052L;
@@ -53,13 +84,18 @@ implements BaseBean<K,ID>{
 
 	public ArtistBean() {
 		super(Artist.class);
+		register();
 	}
 
 	public ArtistBean(Class<ID> id) {
 		super(id);
+		register();
 	}
 
-	
+	private void register() {
+		registerMutable(AreaBean.class);
+	}
+
 	public String getGid() {
 		return gid;
 	}
@@ -201,5 +237,20 @@ implements BaseBean<K,ID>{
 	public int hashCode() {
 		return md5Digest().hashCode();
 	}
-
+	
+	@Override
+	public String toString() { 
+		return withUUID().toString();
+	}
+	
+	public static void main(String args[]) {
+		ArtistBean artistBean = new ArtistBean();
+		MutableArtistIdEntity<ArtistBean<?,?>> m = artistBean.getMutableArtistIdEntity();
+		if(artistBean.instanceOf(MutableArtistIdEntity.class))
+			{
+				System.out.println("instance of MutableArtistIdEntity");
+			}
+		System.out.println(m.toString());
+	}
+	
 }

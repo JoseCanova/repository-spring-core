@@ -1,5 +1,6 @@
 package org.nanotek;
 
+import java.beans.beancontext.BeanContextSupport;
 import java.util.concurrent.Executor;
 
 import javax.validation.Validator;
@@ -163,6 +164,13 @@ public class BaseConfiguration {
 		return executor;
 	}
 
+	@Bean
+	public Registry<?> getRegistry(){
+		Registry<?> r = new Registry<>(new BeanContextSupport());
+		return r;
+	}
+	
+	
 	@Bean
 	@ConfigurationProperties(value = "config")
 	@Qualifier(value="CsvFileItemConcreteStrategy")

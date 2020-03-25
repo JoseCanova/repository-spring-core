@@ -1,5 +1,7 @@
 package org.nanotek.opencsv;
 
+import java.beans.PropertyChangeSupport;
+
 import org.nanotek.Id;
 import org.nanotek.IdBase;
 import org.nanotek.beans.csv.TrackBean;
@@ -15,16 +17,23 @@ implements Id<K> {
 
 	protected Class<?> baseClass;
 	
+	private PropertyChangeSupport pcs = null;
+	
 	public CsvBaseBean() {
 		super(null);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public CsvBaseBean(Class<?> idBase) {
-		super(IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class)));
+		super(CsvBaseBean.prepareBeanInstance(idBase.asSubclass(IdBase.class)));
 		baseClass = idBase;
+		addPropertySupport(this);
 	}
 	
+	private void addPropertySupport(CsvBaseBean<K> csvBaseBean) {
+		pcs = new PropertyChangeSupport(this);
+	}
+
 	@SuppressWarnings("unchecked")
 	private static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
 		return IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class));

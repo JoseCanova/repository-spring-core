@@ -5,8 +5,9 @@ import java.util.Optional;
 import org.nanotek.BaseInstantiationException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
+import org.nanotek.MutatorSupport;
 
-public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID>{
+public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>{
 	
 	static <K extends BaseBean<?,?>> Optional<K> newBaseBeanInstance(Class<K> clazz) throws BaseInstantiationException { 
 		try {

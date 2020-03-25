@@ -37,6 +37,11 @@ public class Registry<K extends Base<?>> implements Base<K> {
 	public Registry(BeanContextSupport beanContextSupport2) {
 		this.beanContextSupport = beanContextSupport2;
 	}
+
+	public boolean registar() {
+		ThreadLocal.withInitial(this);
+		return true;
+	}
 	
 	public BeanContextSupport getBeanContextSupport() {
 		return beanContextSupport;

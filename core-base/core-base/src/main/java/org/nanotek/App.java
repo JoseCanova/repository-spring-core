@@ -36,7 +36,11 @@ P   extends AnyBase<P,Integer> ,
 M extends BaseBean<?,?>, 
 R extends Result<?,?>,
 K extends BaseBean<K,ID>,
-ID extends BaseEntity<?,?>>  extends SpringApplication implements ApplicationContextAware ,  SpringApplicationRunListener , ApplicationRunner{
+ID extends BaseEntity<?,?>>  extends 
+SpringApplication 
+implements ApplicationContextAware ,  
+SpringApplicationRunListener , 
+ApplicationRunner{
 
 	private ApplicationContext context;
 	
