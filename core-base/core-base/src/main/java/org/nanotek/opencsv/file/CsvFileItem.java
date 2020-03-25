@@ -10,9 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
-@EnableConfigurationProperties
-@ConfigurationProperties(value = "config")
+
 public abstract class CsvFileItem 
 <S  extends AnyBase<S,String> , P   extends AnyBase<P,Integer> , M extends BaseBean<?,?>> 
 extends CsvBaseConfig implements InitializingBean{
@@ -36,5 +34,5 @@ extends CsvBaseConfig implements InitializingBean{
 		this.immutable = immutable;
 	}
 
-	public  abstract  <T extends BaseMap<?, ?, ?>> T  getBaseMap();
+	public  abstract  <T extends BaseMap<S, P, M>> T  getBaseMap();
 }

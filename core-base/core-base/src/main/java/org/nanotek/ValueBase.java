@@ -6,41 +6,42 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.MutablePositionEntity;
+import org.nanotek.entities.MutableValueEntity;
 
-public class StringPositionBase
-<SB extends StringPositionBase<SB> > 
-implements Base<SB> , Id<String> , MutablePositionEntity <Integer> {
+public class ValueBase
+<SB extends ValueBase<SB> > 
+implements Base<SB> , Id<Integer> , MutableValueEntity <String> {
 
 	
 	private static final long serialVersionUID = 6269258926854497193L;
 
-	@NotBlank String id;
+	@NotNull Integer id;
 	
-	@NotNull Integer  position; 
+	 @NotBlank  String  value; 
 	
-	public StringPositionBase() {
+	public ValueBase() {
 	}
 
-	public StringPositionBase(String id, Integer  position) {
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public ValueBase(Integer id, String  value) {
 		super();
 		this.id = id;
-		this.position = position;
-	}
-
-
-	@Override
-	public Integer getPosition() {
-		return position;
-	}
-
-	@Override
-	public void setPosition(Integer  k) {
-		this.position = k;
-	}
-
-	@Override
-	public String getId() {
-		return id;
+		this.value = value;
 	}
 
 	@Override
@@ -53,7 +54,7 @@ implements Base<SB> , Id<String> , MutablePositionEntity <Integer> {
 	public boolean equals(Object obj) {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
-				StringPositionBase theBase = StringPositionBase.class.cast(obj);
+				ValueBase theBase = ValueBase.class.cast(obj);
 				return this.compareTo(theBase) == 0;}
 			return false;
 	}

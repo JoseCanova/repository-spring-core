@@ -5,16 +5,11 @@ import java.util.concurrent.Executor;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.nanotek.beans.csv.ArtistAliasBean;
-import org.nanotek.beans.csv.ArtistBean;
-import org.nanotek.beans.csv.ArtistCreditBean;
-import org.nanotek.beans.csv.ArtistCreditNameBean;
-import org.nanotek.beans.csv.RecordingBean;
-import org.nanotek.beans.csv.ReleaseBean;
-import org.nanotek.beans.csv.ReleaseGroupBean;
-import org.nanotek.beans.csv.TrackBean;
-import org.nanotek.beans.entity.ArtistCreditName;
+import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.BaseParser;
+import org.nanotek.opencsv.CsvBaseProcessor;
+import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -42,8 +37,6 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import com.google.gson.Gson;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
-//import net.sf.ehcache.CacheManager;
-//import net.sf.ehcache.management.ManagementService;
 
 @Configuration
 @ComponentScan("org.nanotek")
@@ -171,58 +164,48 @@ public class BaseConfiguration {
 	}
 
 	@Bean
-	@Qualifier(value = "ArtistBeanCsvToBean")
-	public CsvToBean<ArtistBean> csvToBean() {
-		return new CsvToBean<>();
+	@ConfigurationProperties(value = "config")
+	@Qualifier(value="CsvFileItemConcreteStrategy")
+	<T extends BaseMap<S,P,M> , 
+	S  extends AnyBase<S,String> , 
+	P   extends AnyBase<P,Integer> , 
+	M extends BaseBean<?,?>>
+	CsvFileItemConcreteStrategy<T,S,P,M> getCsvFileItemConfigMappingStrategy() { 
+		return new CsvFileItemConcreteStrategy<T,S,P,M>();
 	}
-
-	@Bean
-	@Qualifier(value = "ArtistAliasCsvToBean")
-	public CsvToBean<ArtistAliasBean> csvAliasToBean() {
-		return new CsvToBean<>();
+	
+	@Bean(name="BaseParser")
+	@Qualifier(value="BaseParser")
+	public
+	<T extends BaseMap<S,P,M> , 
+	S  extends AnyBase<S,String> , 
+	P   extends AnyBase<P,Integer> , 
+	M extends BaseBean<?,?>>
+	 BaseParser<T,S,P,M> getBaseParser(@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) { 
+		return new BaseParser<T,S,P,M>(strategy);
 	}
-
-	@Bean
-	@Qualifier(value = "ArtistCreditCsvToBean")
-	public CsvToBean<ArtistCreditBean> csvArtistCreditToBean() {
-		return new CsvToBean<>();
+	
+	@Bean(name = "CsvToBean")
+	@Qualifier(value="CsvToBean")
+	public <M extends BaseBean<?,?>> CsvToBean<M> getCsvToBean(){
+		return new CsvToBean<M>();
 	}
-
-	@Bean
-	@Qualifier(value = "ArtistCreditNameCsvToBean")
-	public CsvToBean<ArtistCreditName> csvArtistCreditName() {
-		return new CsvToBean<>();
+	
+	@Bean(name = "CsvBaseProcessor")
+	@Qualifier(value="CsvBaseProcessor")
+	public
+	<T extends BaseMap<S,P,M> , 
+	S  extends AnyBase<S,String> , 
+	P   extends AnyBase<P,Integer> , 
+	M extends BaseBean<?,?>, 
+	R extends Result<?,?>> 
+	CsvBaseProcessor <T,S,P,M,R> getCsvBaseProcessor(
+			@Autowired @Qualifier("BaseParser") BaseParser<T,S,P,M> parser , 
+			@Autowired @Qualifier("CsvToBean")CsvToBean<M> csvToBean,
+			@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) {
+		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
 	}
-
-	@Bean
-	@Qualifier(value = "ArtistCreditNameBeanCsvToBean")
-	public CsvToBean<ArtistCreditNameBean> csvArtistCreditNameBean() {
-		return new CsvToBean<>();
-	}
-
-	@Bean
-	@Qualifier(value = "ReleaseBeanCsvToBean")
-	public CsvToBean<ReleaseBean> releaseBeanCsvToBean() {
-		return new CsvToBean<>();
-	}
-
-	@Bean
-	@Qualifier(value = "ReleaseGroupCsvToBean")
-	public CsvToBean<ReleaseGroupBean> releaseGroupBeanCsvToBean() {
-		return new CsvToBean<>();
-	}
-
-	@Bean
-	@Qualifier(value = "RercordingBeanCsvToBean")
-	public CsvToBean<RecordingBean> recordingBeanCsvToBean() {
-		return new CsvToBean<>();
-	}
-
-	@Bean
-	@Qualifier(value = "TrackBeanCsvToBean")
-	public CsvToBean<TrackBean> trackBeanCsvToBean() {
-		return new CsvToBean<>();
-	}	
+	
 	
 	@Bean
 	public Gson gson() {

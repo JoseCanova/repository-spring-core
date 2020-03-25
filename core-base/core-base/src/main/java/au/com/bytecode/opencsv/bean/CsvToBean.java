@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.nanotek.BaseException;
-import org.nanotek.StringPositionBase;
+import org.nanotek.ValueBase;
 
 public class CsvToBean<T> {
 	
@@ -36,19 +36,20 @@ public class CsvToBean<T> {
     }
 
 
-    public T processLine(MappingStrategy<T> mapper, List<StringPositionBase<?>> result) 
+    public T processLine(MappingStrategy<T> mapper, List<ValueBase<?>> result) 
     		throws IllegalAccessException, InvocationTargetException, InstantiationException, IntrospectionException {
         T bean = mapper.createBean();
-        
         result.stream().forEach(sb -> {
         	try { 
-        	PropertyDescriptor prop = mapper.findDescriptor(sb.getPosition());
-            if (null != prop) {
-                String value = checkForTrim(sb.getId(), prop);
-                Object obj = convertValue(value, prop);
-                prop.getWriteMethod().invoke(bean, obj);
-            }
-        	}catch (Exception ex) { 
+        	PropertyDescriptor prop = mapper.findDescriptor(sb.getId());
+            String value = null;
+            Object obj = null;
+	            if (null != prop) {
+	                value = checkForTrim(sb.getValue(), prop);
+	                obj = convertValue(value, prop);
+	                prop.getWriteMethod().invoke(bean, obj);
+	            }
+        	}catch (Exception ex) {
         		throw new BaseException(ex);
         	}
         });

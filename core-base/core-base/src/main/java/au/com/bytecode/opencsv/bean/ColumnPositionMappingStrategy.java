@@ -22,7 +22,7 @@ import au.com.bytecode.opencsv.CSVReader;
  limitations under the License.
  */
 public class ColumnPositionMappingStrategy<T extends BaseBean<?,?>> extends HeaderColumnNameMappingStrategy<T> {
-    private String[] columnMapping = new String[] {};
+    protected String[] columnMapping = new String[] {};
     public void captureHeader(CSVReader reader) throws IOException {
         //do nothing, first line is not header
     }

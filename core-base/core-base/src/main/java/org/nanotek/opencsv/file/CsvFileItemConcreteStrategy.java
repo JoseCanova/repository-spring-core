@@ -2,14 +2,17 @@ package org.nanotek.opencsv.file;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.nanotek.AnyBase;
+import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
@@ -17,30 +20,28 @@ import org.nanotek.opencsv.MapColumnStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 
+import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.CsvToBean;
 import au.com.bytecode.opencsv.bean.MappingStrategy;
 
-@Component
+//@Component
 public class CsvFileItemConcreteStrategy 
 <T extends BaseMap<S,P,M> , 
 S  extends AnyBase<S,String> , 
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>>
-extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>, InitializingBean , Closeable {
+extends CsvFileItemConfigMappingStrategy<T,S,P,M> 
+implements MappingStrategy<M>, InitializingBean , Closeable {
 
 	private static Logger log = LoggerFactory.getLogger(CsvFileItemConfigMappingStrategy.class.getName());
-	
+
 	T baseMap;
-	
+
 	MapColumnStrategy<M> mapColumnStrategy;
 
-	private CSVReader csvReader;	
+	private BufferedReader reader;	
 	
-	private CsvToBean<?> csvToBean;
-
 	public CsvFileItemConcreteStrategy() {
 		super();
 	}
@@ -51,7 +52,6 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 		mapColumnStrategy = new MapColumnStrategy<M>(immutable);
 		prepareFileReader();
 		mapColumnStrategy.configureMapStrategy(BaseMap.class.cast(baseMap));
-		csvToBean = new CsvToBean<>();
 	}
 
 
@@ -69,7 +69,7 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 	}
 
 	@Override
-	public BaseMap<S, P, ?> getBaseMap() {
+	public BaseMap<S, P, M> getBaseMap() {
 		return baseMap;
 	}
 
@@ -77,27 +77,32 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 		this.baseMap = baseMap;
 	}
 
-	public void reopen() throws Exception { 
-		csvReader.close();
-		prepareFileReader();
+	public BufferedReader reopen() { 
+		try { 
+			reader.close();
+			return prepareFileReader();
+		}catch (Exception ex) { 
+			throw new BaseException(ex);
+		}
 	}
 
-	private void prepareFileReader(){
+	//TODO adjust in configuration the delimiter.
+	private BufferedReader prepareFileReader(){
 		try {
-				StringBuffer fileLocationStr = new StringBuffer();
-				fileLocationStr.append(getFileLocation())
-				.append(System.getProperty("file.separator")).append(getFileName().toString());
-				FileReader fileReader = new FileReader(new File(fileLocationStr.toString()));
-				csvReader = new CSVReader(fileReader , '\t');		
-		} catch (FileNotFoundException e) {
+			StringBuffer fileLocationStr = new StringBuffer();
+			fileLocationStr.append(getFileLocation())
+			.append(System.getProperty("file.separator")).append(getFileName().toString());
+			reader =  new BufferedReader(new FileReader(new File(fileLocationStr.toString()),Charset.forName("UTF-8")));
+		} catch (Exception e) {
 			throw new BaseException("CSV File not found" , e);
 
 		}
+		return reader;
 	}
-	
+
 	@Override
 	public void close() throws IOException {
-		csvReader.close();
+		reader.close();
 	}
 
 	public String[] getColumnMapping() {
@@ -126,7 +131,11 @@ extends CsvFileItemConfigMappingStrategy<T,S,P,M> implements MappingStrategy<M>,
 
 	@Override
 	public M createBean() throws InstantiationException, IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		return  immutable.cast(Base.newInstance(immutable));
+	}
+
+	@Override
+	public BufferedReader getCSVReader() {
+		return reopen();
 	}
 }

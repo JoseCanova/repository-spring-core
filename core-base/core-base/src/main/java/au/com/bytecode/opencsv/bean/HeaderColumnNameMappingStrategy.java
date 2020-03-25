@@ -7,12 +7,10 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.beans.csv.BaseBean;
-import org.nanotek.opencsv.CsvResult;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -86,7 +84,7 @@ public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements
     }
 
     public T createBean() throws InstantiationException, IllegalAccessException {
-        return type.newInstance();
+        return Base.newInstance(type).get();
     }
 
     public Class<T> getType() {

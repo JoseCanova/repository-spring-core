@@ -3,8 +3,8 @@ server:
 
 config:
   fileLocation: /opt/mbdump
-  fileName: area
-  immutable: org.nanotek.beans.csv.AreaBean
+  fileName: artist
+  immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
     gid: 1

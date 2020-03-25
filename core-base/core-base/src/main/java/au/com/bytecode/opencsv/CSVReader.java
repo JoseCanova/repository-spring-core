@@ -256,18 +256,8 @@ public class CSVReader implements Closeable {
      * @throws IOException
      *             if bad things happen during the read
      */
-    private String getNextLine() throws IOException {
-    	if (!this.linesSkiped) {
-            for (int i = 0; i < skipLines; i++) {
-                br.readLine();
-            }
-            this.linesSkiped = true;
-        }
-        String nextLine = br.readLine();
-        if (nextLine == null) {
-            hasNext = false;
-        }
-        return hasNext ? nextLine : null;
+    public String getNextLine() throws IOException {
+        return hasNext ? br.readLine() : null;
     }
 
     /**

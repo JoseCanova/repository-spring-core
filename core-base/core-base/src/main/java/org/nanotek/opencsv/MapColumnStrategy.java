@@ -55,6 +55,10 @@ extends  ColumnPositionMappingStrategy<D> {
 		Arrays.asList(csvColumns).stream().forEach(c -> System.out.println(c));
 	}
 	
+	 public String getColumnName(int col) {
+	        return (null != columnMapping && col < columnMapping.length) ? columnMapping[col] : null ;
+	 }
+	
 	 public PropertyEditor getPropertyEditorValue(Class<?> cls) {
 	        if (editorMap == null) {
 	            editorMap = new HashMap<Class<?>, PropertyEditor>();

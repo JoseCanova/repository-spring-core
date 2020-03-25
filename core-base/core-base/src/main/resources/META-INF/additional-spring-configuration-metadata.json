@@ -1,0 +1,6 @@
+{
+      "name": "logging.level",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "description": "Log levels severity mapping. For instance, `logging.level.org.springframework=DEBUG`.",
+      "sourceType": "org.springframework.boot.context.logging.LoggingApplicationListener"
+}

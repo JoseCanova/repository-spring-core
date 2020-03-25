@@ -9,7 +9,7 @@ import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
-import org.nanotek.StringPositionBase;
+import org.nanotek.ValueBase;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
@@ -27,7 +27,10 @@ implements ProcessorBase<R>{
 
 	private BaseParser<T,S,P,M> parser; 
 	
+	
+	
 	private CsvToBean<M> csvToBean;
+	
 	
 	private CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy;
 	
@@ -42,6 +45,23 @@ implements ProcessorBase<R>{
 //		return csvToBean;
 //	}
 
+	public CsvBaseProcessor(BaseParser<T, S, P, M> parser2, CsvToBean<M> csvToBean2) {
+		super();
+		this.parser = parser2;
+		csvToBean = csvToBean2;
+	}
+
+	
+	public CsvBaseProcessor(BaseParser<T, S, P, M> parser2, 
+							CsvToBean<M> csvToBean2,
+							CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy2) {
+		super();
+		this.parser = parser2;
+		csvToBean = csvToBean2;
+		this.mapColumnStrategy = mapColumnStrategy2;
+	}
+
+	
 	public BaseParser getBaseParser() {
 		return parser;
 	}
@@ -57,8 +77,8 @@ implements ProcessorBase<R>{
     @SuppressWarnings("unchecked")
 	private Optional<R> computeNext()  {
     	try { 
-			List<StringPositionBase<?>> next = getBaseParser().readNext();
-			BaseBean<?,?> base = csvToBean.processLine(MapColumnStrategy.class.cast(mapColumnStrategy.getMapColumnStrategy()), next);
+			List<ValueBase<?>> next = getBaseParser().readNext();
+			BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 			return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
     	}catch (Exception ex) { 
     		throw new BaseException(ex);

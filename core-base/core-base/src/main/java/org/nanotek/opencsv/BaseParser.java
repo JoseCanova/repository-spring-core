@@ -1,74 +1,75 @@
 package org.nanotek.opencsv;
 
-import java.io.IOException;
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.nanotek.AnyBase;
 import org.nanotek.BaseException;
-import org.nanotek.StringPositionBase;
+import org.nanotek.ValueBase;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConfigMappingStrategy;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 @SuppressWarnings("unchecked")
-public class BaseParser<M extends BaseMap<K,I,B>, K extends AnyBase<K,String> ,  I extends AnyBase<I,Integer> ,  B extends BaseBean<?,?>> 
-extends CSVParser 
+public class BaseParser<M extends BaseMap<K,I,B>, 
+K extends AnyBase<K,String> ,  
+I extends AnyBase<I,Integer> 
+,  B extends BaseBean<?,?>> 
+extends CSVParser implements InitializingBean
 {
 
-	protected CSVReader csvReader;
+	protected BufferedReader reader;
 	
+	protected CSVParser csvParser;
+
 	@Autowired
 	protected  CsvFileItemConfigMappingStrategy<M,K,I,B> mapColumnStrategy;
-	
-	public BaseParser() {}
-	
-	public BaseParser(CSVReader csvReader) { 
-		this.csvReader = csvReader;
-	}
-	
-	public <M extends BaseMap<K,I,B>, K extends AnyBase<K,String> ,  I extends AnyBase<I,Integer> ,  B extends BaseBean<?,?>> 
-		BaseParser(CSVReader csvReader , CsvFileItemConfigMappingStrategy<M,K,I,B> mapColumnStrategy) { 
-		this.csvReader = csvReader;
+
+	public BaseParser() {this.csvParser = new CSVParser('\t');}
+
+	public   BaseParser(CsvFileItemConfigMappingStrategy<?,?,?,?> mapColumnStrategy) { 
 		this.mapColumnStrategy = CsvFileItemConfigMappingStrategy.class.cast(mapColumnStrategy);
+		reader = mapColumnStrategy.getCSVReader();
+		this.csvParser = new CSVParser('\t');
+	}
+	
+	public void afterPropertiesSet() { 
+		this.reader = mapColumnStrategy.getCSVReader();
 	}
 
-	public CSVReader getCsvReader() {
-		return csvReader;
+	public BufferedReader getCsvReader() {
+		return reader;
 	}
 
-	public void setCsvReader(CSVReader csvReader) {
-		this.csvReader = csvReader;
-	}
-
-	public List<String[]> readAll() throws IOException {
-		return csvReader.readAll();
-	}
-
-	public  <T extends StringPositionBase<?>, S extends T> List<StringPositionBase<?>>  readNext() {
+	public  <T extends ValueBase<?>, S extends T> List<ValueBase<?>>  readNext() {
 		try { 	
-				return Optional.ofNullable(
-						csvReader.readNext())
-				.filter(v -> v!=null)
-				.map(s -> mountList(s)).orElse(new ArrayList<>());
+			return Optional.ofNullable(
+					reader.readLine())
+					.map(s -> mountList(s)).orElse(new ArrayList<>());
 		}catch (Exception ex) { 
 			throw new BaseException(ex);
 		}
 	}
 
-	private <T extends StringPositionBase<?> , S extends T> List<StringPositionBase<?>> mountList(String[] sArry) {
+	private <T extends ValueBase<T> , S extends T> List<ValueBase<?>> mountList(String line) {
 		int pos = 0;
-		ArrayList<StringPositionBase<?>> al = new ArrayList<>();
-		for (String s : sArry) {
-			StringPositionBase<?> base = new StringPositionBase<>(s, pos);
+		ArrayList<ValueBase<?>> al = new ArrayList<>();
+		try { 
+		String[] sArry = csvParser.parseLine(line);
+		for (pos = 0 ; pos < sArry.length ; pos++) {
+			ValueBase<T> base = new ValueBase<>(pos,sArry[pos]);
 			al.add(base);
-			++pos;
 		} 
+		}catch(Exception ex) { 
+			throw new BaseException(ex);
+		}
 		return al;
 	}
 
