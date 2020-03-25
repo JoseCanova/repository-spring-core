@@ -9,6 +9,7 @@ import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 
+import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 /**
@@ -22,29 +23,21 @@ import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
  */
 @SuppressWarnings("unchecked")
 public class MapColumnStrategy
-<T extends BaseMap<?,V,?>, V extends AnyBase<V,Integer> ,  D extends BaseBean<?,?>> 
-extends  ColumnPositionMappingStrategy<D> 
-implements InitializingBean {
+<D extends BaseBean<?,?>> 
+extends  ColumnPositionMappingStrategy<D> {
 
-	protected BaseMap<?,V,D> baseMap; 
-	
 	public MapColumnStrategy() {
 		super();
 	}
 
-	public <M extends BaseMap<K,I,?>, K extends AnyBase<K,String> ,  I extends AnyBase<I,Integer> ,  B extends BaseBean<?,?>> MapColumnStrategy(M baseMap) {
-		this.baseMap = BaseMap.class.cast(baseMap);
-	}
-	
-	public  <M extends AnyBase<M,String>  , I extends AnyBase<I,Integer> , B extends D> BaseMap<M,I,B> getBaseMap() {
-		return BaseMap.class.cast(baseMap);
+	public <B extends BaseBean<?,?>> 
+	MapColumnStrategy(Class<D> type) {
+		setType(type);
 	}
 
-	public void setBaseMap(T baseMap) {
-		this.baseMap = BaseMap.class.cast(baseMap);
-	}
-	
-	public void afterPropertiesSet() {
+	//TODO: check a result strategy..
+	public <T extends BaseMap<S,V,?> , S extends  AnyBase<S,Integer>, V extends AnyBase<V,Integer>> 
+	void configureMapStrategy(T baseMap) {
 		baseMap.afterPropertiesSet();
 		assert (baseMap !=null && baseMap.size() >=1);
 		String [] csvColumns = new String[baseMap.size()];
@@ -57,10 +50,9 @@ implements InitializingBean {
 	}
 
 	
-	public static void main(String[] args) { 
-		MapColumnStrategy s = new MapColumnStrategy(new BaseMap(new ArtistBean()));
-		s.afterPropertiesSet();
-		
-	}
+//	public static void main(String[] args) { 
+//		MapColumnStrategy s = new MapColumnStrategy(new BaseMap(new ArtistBean()));
+//		s.afterPropertiesSet();
+//	}
 	
 }

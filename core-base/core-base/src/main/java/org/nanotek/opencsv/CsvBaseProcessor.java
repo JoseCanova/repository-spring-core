@@ -12,90 +12,76 @@ import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Result;
+import org.nanotek.StringPositionBase;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.processor.ProcessorBase;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 public class CsvBaseProcessor
-<I extends MapColumnStrategy<?, ?,?>, 
+<T extends BaseMap<S,P,M> , 
+S  extends AnyBase<S,String> , 
+P   extends AnyBase<P,Integer> , 
+M extends BaseBean<?,?>, 
 R extends Result<?,?>> 
 implements ProcessorBase<R>{
 
-	private BaseParser parser; 
+	private BaseParser<T,S,P,M> parser; 
 	
-	private CsvToBean<?> csvToBean;
+//	private CsvToBean<?> csvToBean;
 	
-	private I mapColumnStrategy;
+	private CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy;
 	
-	public CsvBaseProcessor(BaseParser parser, CsvToBean<?> csvToBean) {
+	public CsvBaseProcessor(BaseParser<T,S,P,M> parser) {
 		super();
 		this.parser = parser;
-		this.csvToBean = csvToBean;
+//		this.csvToBean = csvToBean;
 	}
 
-	CsvToBean<?> getCsvToBean(){ 
-		return csvToBean;
-	}
+//	CsvToBean<?> getCsvToBean(){ <T,S,P,M>
+//		return csvToBean;
+//	}
 
 	public BaseParser getBaseParser() {
 		return parser;
 	}
 	
     public void reopenFile() throws Exception {
-         getBaseParser().reopen();
+    	mapColumnStrategy.reopen();
     }
 
     public R next(){
     	return computeNext().orElseThrow(BaseException::new);
     }
     
-    private Optional<R> computeNext()  {
-    	getMapColumnStrategy();
-    	BaseBean<?,?> base = Base.newInstance(getMapColumnStrategy().getType()).get();
-			getBaseParser().readNext().ifPresent(array ->{
-				getMapColumnStrategy().getBaseMap().entrySet().forEach((e)->{
-				AnyBase<?,String> k = e.getKey();
-				AnyBase<?,Integer> v = e.getValue();
-				computePropertyValue(v.getValue(),array,base);}
-					);
+    
+    //TODO: review the unchecked warning.
+    @SuppressWarnings("unchecked")
+	private Optional<R> computeNext()  {
+    	BaseBean<?,?> base = Base.newInstance(mapColumnStrategy.getType()).get();
+			List<StringPositionBase<?>> next = getBaseParser().readNext();
+			next.forEach(sb -> {
+				PropertyDescriptor desc  = mapColumnStrategy.findDescriptor(sb.getPosition());
+				String value = sb.getId();
+				Object obj = convertPropertyValue(value,desc);
+				invokeWriteMethod(desc , base,obj);
 			});
 		return ImmutableBase.newInstance(CsvResult.class , Arrays.asList(base).toArray() , base.getClass());
 	}
 
-	private void computePropertyValue (
-			Optional<Integer> position, 
-			String[] instanceArray,
-			BaseBean<?, ?> base) {
-		
-		position.filter(p -> p !=null).ifPresent(pos -> {
-			String value = instanceArray[pos];
-			PropertyDescriptor desc  = getMapColumnStrategy().findDescriptor(pos);
-			Optional.ofNullable(desc).ifPresent(d -> {
-			Object obj = convertPropertyValue(value,d);
-			invokeWriteMethod(d , base,obj);
-			});
-		});
-		
-	}
-
-	@SuppressWarnings("unchecked")
-	private <M extends BaseMap<K,I,B>, K extends AnyBase<K,String> ,  I extends AnyBase<I,Integer> ,  B extends BaseBean<?,?>> MapColumnStrategy<M, I, B> getMapColumnStrategy() {
-		return MapColumnStrategy.class.asSubclass(MapColumnStrategy.class).cast(mapColumnStrategy);
-	}
-
-	private void computeProperty1Value(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
-		try { 
-			Optional.ofNullable(m.findDescriptor(e.getValue())).ifPresent(d ->{
-			String value = instanceArray[e.getValue()];
-			Object obj = convertPropertyValue(value,d);
-			invokeWriteMethod(d , base,obj);
-		});
-		} catch (Exception e1) {
-			throw new BaseException(e1);
-		}
-	}
+//	private void computeProperty1Value(Entry<String, Integer> e, String[] instanceArray, Base<?> base , MapColumnStrategy <? , ? , ?> m)  {
+//		try { 
+//			Optional.ofNullable(m.findDescriptor(e.getValue())).ifPresent(d ->{
+//			String value = instanceArray[e.getValue()];
+//			Object obj = convertPropertyValue(value,d);
+//			invokeWriteMethod(d , base,obj);
+//		});
+//		} catch (Exception e1) {
+//			throw new BaseException(e1);
+//		}
+//	}
 
 	private void invokeWriteMethod(PropertyDescriptor d, Base<?> base, Object obj) {
 		try {
