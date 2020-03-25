@@ -52,7 +52,7 @@ extends CSVParser implements InitializingBean
 		try { 	
 			return Optional.ofNullable(
 					reader.readLine())
-					.map(s -> mountList(s)).orElse(new ArrayList<>());
+					.map(s -> mountList(s)).orElse(null);
 		}catch (Exception ex) { 
 			throw new BaseException(ex);
 		}

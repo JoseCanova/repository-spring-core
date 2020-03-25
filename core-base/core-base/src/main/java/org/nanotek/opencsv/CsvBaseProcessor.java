@@ -98,9 +98,11 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
     	Optional<R> result = Optional.empty(); 
     	try { 
 			List<ValueBase<?>> next = getBaseParser().readNext();
-			BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
-			result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
-			registry.firePropertyChange("next", Optional.empty(), result);
+			if (next !=null) {
+				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
+				registry.firePropertyChange("next", Optional.empty(), result);
+			}
     	}catch (Exception ex) {
     		ex.printStackTrace();
     		return Optional.empty();
