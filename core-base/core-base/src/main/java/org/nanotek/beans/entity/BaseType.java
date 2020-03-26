@@ -37,7 +37,7 @@ extends TypeNamedEntity<K> implements
 MutableTypeIdEntity<Long>,
 MutableParentEntity<Long>,
 MutableChildOrderEntity<Long>,
-MutableDescriptionEntity<BaseTypeDescription>{
+MutableDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
 
@@ -56,7 +56,7 @@ MutableDescriptionEntity<BaseTypeDescription>{
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	protected BaseTypeDescription description; 
+	protected BaseTypeDescription<?> description; 
 	
 	public BaseType() {
 	}

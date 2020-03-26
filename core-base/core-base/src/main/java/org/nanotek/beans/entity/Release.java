@@ -28,7 +28,8 @@ import org.nanotek.entities.MutableReleaseGroupEntity;
 uniqueConstraints= {
 @UniqueConstraint(name="uk_release_id",columnNames={"release_id"})
 })
-public class Release<K extends Release<K>> extends LongIdGidName<K> implements 
+public class Release
+<K extends Release<K>> extends BrainzBaseEntity<K> implements 
 BaseReleaseEntity<K>,
 MutableReleaseIdEntity<Long>,
 MutableReleaseBarCodeEntity<ReleaseBarCode<?>>,

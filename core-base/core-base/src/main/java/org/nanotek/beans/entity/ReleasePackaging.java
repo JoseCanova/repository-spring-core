@@ -21,7 +21,8 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 uniqueConstraints= {
 @UniqueConstraint(name="uk_release_pack_id",columnNames={"release_packaging_id"})
 })
-public class ReleasePackaging<K extends ReleasePackaging<K>> extends LongIdGidName<K> 
+public class ReleasePackaging
+<K extends ReleasePackaging<K>> extends BrainzBaseEntity<K> 
 implements BaseReleasePackagingEntity<K>,
 ReleasePackagingBase<Long>,
 MutableReleasePackagingId<Long>,

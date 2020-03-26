@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.Base;
 import org.nanotek.entities.BaseSequenceLongBaseEntity;
-import org.nanotek.opencsv.CsvResult;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

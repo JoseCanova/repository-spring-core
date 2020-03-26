@@ -7,7 +7,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 @MappedSuperclass
-public abstract class TypeNamedEntity<E extends TypeNamedEntity<E>> extends LongIdGidName<E> {
+public abstract class TypeNamedEntity
+<E extends TypeNamedEntity<E>> extends BrainzBaseEntity<E> {
 
 	private static final long serialVersionUID = -5235727515178240574L;
 

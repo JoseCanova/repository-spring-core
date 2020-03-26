@@ -14,7 +14,8 @@ import org.nanotek.entities.BaseTrackEntity;
 
 @Entity
 @Table(name="track")
-public class Track<K extends Track<K>> extends LongIdGidName<K>
+public class Track<K extends Track<K>> 
+extends BrainzBaseEntity<K>
 implements BaseTrackEntity<K>{
 
 	private static final long serialVersionUID = 8642862162010029043L;

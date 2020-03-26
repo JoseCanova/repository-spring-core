@@ -23,7 +23,7 @@ import org.nanotek.entities.MutableReleaseEntity;
 
 @Entity
 @Table(name = "release_alias")
-public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> implements 
+public class ReleaseAlias<K extends ReleaseAlias<K>> extends BrainzBaseEntity<K> implements 
 BaseReleaseAliasEntity<K>,
 MutableReleaseAliasIdEntity<Long>,
 MutableReleaseAliasLocaleEntity<ReleaseAliasLocale<?>>,

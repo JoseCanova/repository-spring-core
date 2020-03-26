@@ -47,7 +47,7 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 					attributeNodes = {@NamedAttributeNode(value="recordingLenght" , subgraph = "recordingLenght")}
 ))
 public class ArtistCredit<K extends ArtistCredit<K>> extends 
-LongIdName<K> implements  
+BrainzBaseEntity<K> implements  
 BaseArtistCreditEntity<K>,
 MutableArtistCreditIdEntity<Long>,	
 MutableArtistCreditCountEntity<ArtistCreditCount<?>>, 

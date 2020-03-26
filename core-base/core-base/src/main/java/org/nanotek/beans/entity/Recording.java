@@ -26,7 +26,8 @@ import org.nanotek.entities.MutableTrackEntitySet;
 uniqueConstraints= {
 @UniqueConstraint(name="uk_recording_id",columnNames={"recording_id"})
 })
-public class Recording<E extends Recording<E>> extends LongIdGidName<E> implements 
+public class Recording
+<E extends Recording<E>> extends BrainzBaseEntity<E> implements 
 MutableRecordingIdEntity<Long> , 
 BaseRecordingEntity<E>,
 MutableArtistCreditEntity<ArtistCredit<?>>,

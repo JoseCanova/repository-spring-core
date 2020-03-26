@@ -24,7 +24,8 @@ import org.nanotek.entities.MutableInstrumentTypeEntity;
 uniqueConstraints= {
 @UniqueConstraint(name="uk_instrument_id",columnNames={"instrument_id"})
 })
-public class Instrument<E extends Instrument<E>> extends LongIdGidName<E>  
+public class Instrument
+<E extends Instrument<E>> extends BrainzBaseEntity<E>  
 implements BaseInstrumentEntity,
 MutableInstrumentIdEntity<Long>,
 MutableInstrumentTypeEntity<InstrumentType<?>>,

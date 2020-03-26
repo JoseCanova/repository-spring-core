@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.Set;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
+@DiscriminatorValue(value = "InstrumentType")
 public class InstrumentType<K extends InstrumentType<K>> extends BaseType<K> {
 
 	

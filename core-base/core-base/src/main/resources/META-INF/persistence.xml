@@ -37,18 +37,17 @@
 		<class>org.nanotek.beans.entity.ArtistType</class>
 		<class>org.nanotek.beans.entity.BarCodeBase</class>
 		<class>org.nanotek.beans.entity.BaseType</class>
+		<class>org.nanotek.beans.entity.BeginDateBase</class>		
 		<class>org.nanotek.beans.entity.CommentBase</class>
 		<class>org.nanotek.beans.entity.CountBase</class>
-		<class>org.nanotek.beans.entity.EndDateBase</class>		
 		<class>org.nanotek.beans.entity.DescriptionBase</class>
+		<class>org.nanotek.beans.entity.EndDateBase</class>		
+		<class>org.nanotek.beans.entity.Gender</class>
+		<class>org.nanotek.beans.entity.Instrument</class>
 		<class>org.nanotek.beans.entity.InstrumentComment</class>
 		<class>org.nanotek.beans.entity.InstrumentDescription</class>
-		<class>org.nanotek.beans.entity.DescriptionBase</class>
-		<class>org.nanotek.beans.entity.Gender</class>
-		<class>org.nanotek.beans.entity.Isrc</class>
 		<class>org.nanotek.beans.entity.InstrumentType</class>
-		<class>org.nanotek.beans.entity.Instrument</class>
-		<class>org.nanotek.beans.entity.InstrumentDescription</class>
+		<class>org.nanotek.beans.entity.Isrc</class>
 		<class>org.nanotek.beans.entity.Label</class>
 		<class>org.nanotek.beans.entity.Language</class>
 		<class>org.nanotek.beans.entity.LengthyBase</class>
@@ -76,20 +75,20 @@
 		<class>org.nanotek.beans.entity.Release</class>
 		<class>org.nanotek.beans.entity.ReleaseBarCode</class>
 		<class>org.nanotek.beans.entity.ReleaseComment</class>
+		<class>org.nanotek.beans.entity.ReleaseGroup</class>
+		<class>org.nanotek.beans.entity.ReleaseStatus</class>
 		<class>org.nanotek.beans.entity.ReleaseAlias</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasLocale</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasBeginDate</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasEndDate</class>
+		<class>org.nanotek.beans.entity.ReleaseAliasSortName</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasType</class>
-		<class>org.nanotek.beans.entity.ReleaseGroup</class>
-		<class>org.nanotek.beans.entity.ReleaseStatus</class>
 		<class>org.nanotek.beans.entity.ReleasePackaging</class>
 		<class>org.nanotek.beans.entity.ReleaseGroupPrimaryType</class>
 		<class>org.nanotek.beans.entity.SequenceLongBase</class>
 		<class>org.nanotek.beans.entity.SortNameBase</class>
 		<class>org.nanotek.beans.entity.ArtistAliasSortName</class>
 		<class>org.nanotek.beans.entity.ArtistSortName</class>
-		<class>org.nanotek.beans.entity.ReleaseAliasSortName</class>
 		<class>org.nanotek.beans.entity.Track</class>
 		<class>org.nanotek.beans.entity.TrackLength</class>
 		<class>org.nanotek.beans.entity.TrackNumber</class>
@@ -100,13 +99,13 @@
 	<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.show_sql" value="false" />
-			<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> 
 			<property name="hibernate.cache.use_second_level_cache" value="false" />
 			<property name="hibernate.cache.use_query_cache" value="false" />
 			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
 			<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
-      		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create.sql"/>
-      		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop.sql"/>
+<!--       		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create_new.sql"/>
+      		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop_new.sql"/> -->
       		<property name="javax.persistence.validation.mode" value="NONE" />
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->

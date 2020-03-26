@@ -23,7 +23,7 @@ import com.sun.xml.bind.v2.model.core.ID;
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditName<K extends ArtistCreditName<K>> 
-extends LongIdName<K> 
+extends BrainzBaseEntity<K> 
 implements  BaseArtistCreditNameEntity<K>,
 MutatbleArtistCreditNameIdEntity<Long>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,

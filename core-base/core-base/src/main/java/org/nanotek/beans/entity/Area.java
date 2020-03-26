@@ -23,7 +23,8 @@ import org.nanotek.entities.MutableTypeEntity;
 uniqueConstraints= {
 		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
 		})
-public class Area<K extends Area<K>> extends LongIdGidName<K> implements 
+public class Area
+<K extends Area<K>> extends BrainzBaseEntity<K> implements 
 															MutableAreaIdEntity<Long>,		
 															MutableTypeEntity<AreaType<?>>,
 															MutableAreaCommentEntity<AreaComment<?>>,
