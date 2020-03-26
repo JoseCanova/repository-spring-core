@@ -9,7 +9,6 @@ import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
@@ -19,8 +18,6 @@ import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 //import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.integration.annotation.IntegrationComponentScan;
@@ -80,17 +77,17 @@ ApplicationRunner{
 //				CsvResult<?,?> result ; 
 				FutureTask <R>r;
 				log.debug("start time " + new Date());
-				do {
+//				do {
 					
 					try {
-							serviceTaskExecutor.execute(csvBaseProcessor);
-							Thread.currentThread().join(1);
+//							serviceTaskExecutor.execute(csvBaseProcessor);
+//							Thread.currentThread().join(1);
 //						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				}while(true);
+//				}while(true);
 			}
 		}.start();
 		log.debug("end time " + new Date());

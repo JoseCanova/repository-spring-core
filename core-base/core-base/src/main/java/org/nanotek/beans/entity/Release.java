@@ -14,7 +14,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.nanotek.entities.BaseReleaseEntity;
+import org.nanotek.entities.MutableArtistCreditEntity;
+import org.nanotek.entities.MutableLanguageEntity;
 import org.nanotek.entities.MutableReleaseIdEntity;
+import org.nanotek.entities.MutableReleasePackagingEntity;
+import org.nanotek.entities.MutableReleaseBarCodeEntity;
+import org.nanotek.entities.MutableReleaseCommentEntity;
+import org.nanotek.entities.MutableReleaseGroupEntity;
 
 
 @Entity
@@ -24,7 +30,13 @@ uniqueConstraints= {
 })
 public class Release<K extends Release<K>> extends LongIdGidName<K> implements 
 BaseReleaseEntity<K>,
-MutableReleaseIdEntity<Long> {
+MutableReleaseIdEntity<Long>,
+MutableReleaseBarCodeEntity<ReleaseBarCode<?>>,
+MutableReleaseCommentEntity<ReleaseComment<?>>,
+MutableReleasePackagingEntity<ReleasePackaging<?>>,
+MutableLanguageEntity<Language<?>>,
+MutableReleaseGroupEntity<ReleaseGroup<?>>,
+MutableArtistCreditEntity<ArtistCredit<?>>{
 
 	private static final long serialVersionUID = 8526436903189806951L;
 		
@@ -36,34 +48,34 @@ MutableReleaseIdEntity<Long> {
 			  name = "release_barcode_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
-	private ReleaseBarCode barCode;
+	private ReleaseBarCode<?> releaseBarCode;
 	
 	@OneToOne(optional = true , orphanRemoval = true)
 	@JoinTable(
 			  name = "release_comment_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
-	private ReleaseComment comment; 
+	private ReleaseComment<?> releaseComment; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="status_id")
-	private ReleaseStatus status; 
+	private ReleaseStatus<?> releaseStatus; 
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="packaging_id")
-	private ReleasePackaging packaging;
+	private ReleasePackaging<?> releasePackaging;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="language_id")
-	private Language language; 
+	private Language<?> language; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="release_group_id" , insertable=true , nullable=false)
-	private ReleaseGroup releaseGroup; 
+	@JoinColumn(name="release_group_id" , referencedColumnName="id", insertable=true , nullable=false)
+	private ReleaseGroup<?> releaseGroup; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
-	private ArtistCredit artistCredit;
+	@JoinColumn(name="artist_credit_id" , referencedColumnName="id",insertable=true , nullable=true)
+	private ArtistCredit<?> artistCredit;
 
 	public Release() { 
 	}
@@ -77,113 +89,23 @@ MutableReleaseIdEntity<Long> {
 			@NotNull Long id, 
 			@NotBlank @NotBlank @Size(min = 1, max = 50) String gid, 
 			@NotBlank  String name, 
-			ReleaseBarCode barCode,
-			ReleaseComment comment, 
-			ReleaseStatus status, 
-			ReleasePackaging packaging, 
-			Language language,
-			ReleaseGroup releaseGroup, 
-			ArtistCredit artistCredit) {
+			ReleaseBarCode<?> barCode,
+			ReleaseComment<?> comment, 
+			ReleaseStatus<?> status, 
+			ReleasePackaging<?> packaging, 
+			Language<?> language,
+			ReleaseGroup<?> releaseGroup, 
+			ArtistCredit<?> artistCredit) {
 		this.releaseId = id;
 		this.gid = gid;
 		this.name = name;
-		this.barCode = barCode;
-		this.comment = comment;
-		this.status = status;
-		this.packaging = packaging;
+		this.releaseBarCode = barCode;
+		this.releaseComment = comment;
+		this.releaseStatus = status;
+		this.releasePackaging = packaging;
 		this.language = language;
 		this.releaseGroup = releaseGroup;
 		this.artistCredit = artistCredit;
-	}
-
-
-	public ReleaseBarCode getBarCode() {
-		return barCode;
-	}
-
-	public void setBarCode(ReleaseBarCode barCode) {
-		this.barCode = barCode;
-	}
-
-	public ReleaseComment getComment() {
-		return comment;
-	}
-
-	public void setComment(ReleaseComment comment) {
-		this.comment = comment;
-	}
-
-	public ReleaseStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(ReleaseStatus status) {
-		this.status = status;
-	}
-
-	public ReleasePackaging getPackaging() {
-		return packaging;
-	}
-
-	public void setPackaging(ReleasePackaging packaging) {
-		this.packaging = packaging;
-	}
-
-	public Language getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(Language language) {
-		this.language = language;
-	}
-
-	public ReleaseGroup getReleaseGroup() {
-		return releaseGroup;
-	}
-
-	public void setReleaseGroup(ReleaseGroup releaseGroup) {
-		this.releaseGroup = releaseGroup;
-	}
-
-	public ArtistCredit getArtistCredit() {
-		return artistCredit;
-	}
-
-	public void setArtistCredit(ArtistCredit artistCredit) {
-		this.artistCredit = artistCredit;
-	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((releaseId == null) ? 0 : releaseId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Release other = (Release) obj;
-		if (releaseId == null) {
-			if (other.releaseId != null)
-				return false;
-		} else if (!releaseId.equals(other.releaseId))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Release [releaseId=" + releaseId + ", barCode=" + barCode + ", comment=" + comment + ", status="
-				+ status + ", packaging=" + packaging + ", language=" + language + ", releaseGroup=" + releaseGroup
-				+ ", artistCredit=" + artistCredit + ", gid=" + gid + ", name=" + name + ", id=" + id + "]";
 	}
 
 	public Long getReleaseId() {
@@ -193,6 +115,63 @@ MutableReleaseIdEntity<Long> {
 	public void setReleaseId(Long releaseId) {
 		this.releaseId = releaseId;
 	}
-	
+
+	public ReleaseBarCode<?> getReleaseBarCode() {
+		return releaseBarCode;
+	}
+
+	public void setReleaseBarCode(ReleaseBarCode<?> releaseBarCode) {
+		this.releaseBarCode = releaseBarCode;
+	}
+
+	public ReleaseComment<?> getReleaseComment() {
+		return releaseComment;
+	}
+
+	public void setReleaseComment(ReleaseComment<?> releaseComment) {
+		this.releaseComment = releaseComment;
+	}
+
+	public ReleaseStatus<?> getReleaseStatus() {
+		return releaseStatus;
+	}
+
+	public void setReleaseStatus(ReleaseStatus<?> releaseStatus) {
+		this.releaseStatus = releaseStatus;
+	}
+
+	public ReleasePackaging<?> getReleasePackaging() {
+		return releasePackaging;
+	}
+
+	public void setReleasePackaging(ReleasePackaging<?> releasePackaging) {
+		this.releasePackaging = releasePackaging;
+	}
+
+	public Language<?> getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language<?> language) {
+		this.language = language;
+	}
+
+	public ReleaseGroup<?> getReleaseGroup() {
+		return releaseGroup;
+	}
+
+	public void setReleaseGroup(ReleaseGroup<?> releaseGroup) {
+		this.releaseGroup = releaseGroup;
+	}
+
+	public ArtistCredit<?> getArtistCredit() {
+		return artistCredit;
+	}
+
+	public void setArtistCredit(ArtistCredit<?> artistCredit) {
+		this.artistCredit = artistCredit;
+	}
+
+
 	
 }

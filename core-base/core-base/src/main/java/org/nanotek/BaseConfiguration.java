@@ -4,6 +4,8 @@ import java.beans.beancontext.BeanContextSupport;
 import java.lang.annotation.Annotation;
 import java.util.concurrent.Executor;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -21,7 +23,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.EnableCaching;
+//import org.springframework.cache.annotation.EnableCaching;
 //import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -30,13 +32,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 //import org.springframework.orm.jpa.JpaTransactionManager;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 //import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.transaction.PlatformTransactionManager;
 //import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationInterceptor;
@@ -44,13 +51,16 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 
 //import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.google.gson.Gson;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 @Configuration
 @ComponentScan("org.nanotek")
-@EnableCaching(proxyTargetClass=true)
+//@EnableCaching(proxyTargetClass=true)
 @EnableAsync(proxyTargetClass=true)
+@EnableJpaRepositories(basePackages = {"org.nanotek.data.repository"})
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{
@@ -88,12 +98,12 @@ public class BaseConfiguration implements ApplicationContextAware{
 //		return eh;
 //	}
 //		
-//	@Bean
-//	@Primary
-//	@ConfigurationProperties(prefix = "spring.datasource")
-//	public HikariConfig hikariConfig() {
-//		return new HikariConfig();
-//	}
+	@Bean
+	@Primary
+	@ConfigurationProperties(prefix = "spring.datasource")
+	public HikariConfig hikariConfig() {
+		return new HikariConfig();
+	}
 	
 //	@Bean
 //	public Jackson2ObjectMapperBuilder configureObjectMapper() {
@@ -101,10 +111,10 @@ public class BaseConfiguration implements ApplicationContextAware{
 //	}
 
 	
-//	@Bean
-//	public DataSource dataSource() {
-//		return new HikariDataSource(hikariConfig());
-//	}
+	@Bean
+	public DataSource dataSource() {
+		return new HikariDataSource(hikariConfig());
+	}
 
 	@Bean
 	public LocalValidatorFactoryBean getLocalValidatorFactoryBean() { 
@@ -126,24 +136,24 @@ public class BaseConfiguration implements ApplicationContextAware{
          return processor;
      }
 	
-//	@Bean
-//	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//		vendorAdapter.setGenerateDdl(true);
-//		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-//		factory.setJpaVendorAdapter(vendorAdapter);
-//		factory.setPackagesToScan("org.nanotek");
-//		factory.setPersistenceUnitName("spring-core-music-brainz");
-//		factory.setDataSource(dataSource());
-//		return factory;
-//	}
-
-//	@Bean
-//	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
-//		JpaTransactionManager txManager = new JpaTransactionManager();
-//		txManager.setEntityManagerFactory(entityManagerFactory); 
-//		return txManager; 
-//	}
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setGenerateDdl(true);
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setJpaVendorAdapter(vendorAdapter);
+		factory.setPackagesToScan("org.nanotek");
+		factory.setPersistenceUnitName("spring-core-music-brainz");
+		factory.setDataSource(dataSource());
+		return factory;
+	}
+//
+	@Bean
+	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
+		JpaTransactionManager txManager = new JpaTransactionManager();
+		txManager.setEntityManagerFactory(entityManagerFactory); 
+		return txManager; 
+	}
 
 	@Bean(name = "serviceTaskExecutor")
 	@Qualifier(value = "serviceTaskExecutor")

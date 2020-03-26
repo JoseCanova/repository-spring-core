@@ -2,12 +2,14 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseReleaseStatusEntity;
+import org.nanotek.entities.MutableReleaseEntity;
 
 @Entity
 @Table(name="release_status",
@@ -16,13 +18,19 @@ uniqueConstraints= {
 })
 public class ReleaseStatus<K extends ReleaseStatus<K>> extends 
 LongIdGidName<K> 
-implements BaseReleaseStatusEntity<K>{
+implements BaseReleaseStatusEntity<K>,
+MutableReleaseStatusIdEntity<Long>,
+MutableReleaseEntity<Release<?>>{
 
 	private static final long serialVersionUID = 4793056857806342212L;
 	
 	@NotNull
 	@Column(name="release_status_id",nullable=false)
-	private Long releaseStatusId;
+	public Long releaseStatusId;
+	
+	@NotNull
+	@OneToOne(mappedBy = "releaseStatus")
+	public Release<?> release;
 	
 	public ReleaseStatus() {
 	}
@@ -34,34 +42,20 @@ implements BaseReleaseStatusEntity<K>{
 		this.releaseStatusId = id;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((releaseStatusId == null) ? 0 : releaseStatusId.hashCode());
-		return result;
+	public Long getReleaseStatusId() {
+		return releaseStatusId;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ReleaseStatus other = (ReleaseStatus) obj;
-		if (releaseStatusId == null) {
-			if (other.releaseStatusId != null)
-				return false;
-		} else if (!releaseStatusId.equals(other.releaseStatusId))
-			return false;
-		return true;
+	public void setReleaseStatusId(Long releaseStatusId) {
+		this.releaseStatusId = releaseStatusId;
 	}
 
-	@Override
-	public String toString() {
-		return "ReleaseStatus [releaseStatusId=" + releaseStatusId + ", gid=" + gid + ", name=" + name + ", id=" + id
-				+ "]";
+	public Release<?> getRelease() {
+		return release;
 	}
+
+	public void setRelease(Release<?> release) {
+		this.release = release;
+	}
+
 }

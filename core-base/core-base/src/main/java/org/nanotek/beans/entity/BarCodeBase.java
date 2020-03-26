@@ -29,7 +29,7 @@ indexes= {
 	)
 public abstract class BarCodeBase<K extends BarCodeBase<K>> 
 extends BrainzBaseEntity<K> 
-implements BaseBarCodeBaseEntity<K>, MutableBarCodeEntity<String>{
+implements BaseBarCodeBaseEntity<K>{
 
 	private static final long serialVersionUID = 3988946185099694426L;
 

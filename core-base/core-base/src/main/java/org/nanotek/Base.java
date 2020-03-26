@@ -10,7 +10,6 @@ import java.util.function.Supplier;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.google.gson.Gson;
 
 public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> , Comparable<K>{
 

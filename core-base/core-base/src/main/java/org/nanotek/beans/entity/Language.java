@@ -10,7 +10,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.nanotek.entities.MutableLanguageEntity;
+import org.nanotek.entities.MutableFrequencyEntity;
+import org.nanotek.entities.MutableIsoCode2BEntity;
+import org.nanotek.entities.MutableIsoCode2TEntity;
+import org.nanotek.entities.MutableIsoCode3Entity;
+import org.nanotek.entities.MutableLanguageIdEntity;
 import org.nanotek.entities.immutables.BaseLanguageEntity;
 
 @SuppressWarnings("rawtypes")
@@ -20,7 +24,11 @@ import org.nanotek.entities.immutables.BaseLanguageEntity;
 		})
 public class Language<K extends Language<K>> extends  BrainzBaseEntity<K>
 implements  BaseLanguageEntity<K>, 
-MutableLanguageEntity<K> {
+MutableLanguageIdEntity<Long>,
+MutableIsoCode2TEntity<String>,
+MutableIsoCode2BEntity<String>,
+MutableFrequencyEntity<Long>,
+MutableIsoCode3Entity<String> {
 
 	private static final long serialVersionUID = 3416483640256915L;
 	

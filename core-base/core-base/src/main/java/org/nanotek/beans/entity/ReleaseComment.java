@@ -16,13 +16,13 @@ import org.nanotek.entities.MutableReleaseEntity;
 public class ReleaseComment<E extends ReleaseComment<E>> extends CommentBase<E> 
 implements BaseReleaseCommentEntity<E>,
 MutableCommentEntity<String> , 
-MutableReleaseEntity<Release> {
+MutableReleaseEntity<Release<?>> {
 
 	private static final long serialVersionUID = 4978743759627354208L;
 	
 	@NotNull
-	@OneToOne(mappedBy = "comment" , optional = false , fetch = FetchType.LAZY)
-	private Release release;
+	@OneToOne(mappedBy = "releaseComment" , optional = false , fetch = FetchType.LAZY)
+	private Release<?> release;
 	
 	public ReleaseComment() {
 	}
@@ -36,11 +36,11 @@ MutableReleaseEntity<Release> {
 		this.release = release;
 	}
 
-	public Release getRelease() {
+	public Release<?> getRelease() {
 		return release;
 	}
 
-	public void setRelease(Release release) {
+	public void setRelease(Release<?> release) {
 		this.release = release;
 	}
 	

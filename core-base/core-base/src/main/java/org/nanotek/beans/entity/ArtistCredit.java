@@ -73,7 +73,7 @@ MutableArtistCreditRefCountEntity<ArtistCreditRefCount> {
 	public ArtistCreditRefCount artistCreditRefCount;
 
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit")
-	public Set<Release> releases; 
+	public Set<Release<?>> releases; 
 
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="artist_credit_name_rel",
@@ -95,34 +95,53 @@ MutableArtistCreditRefCountEntity<ArtistCreditRefCount> {
 		this.recordings = recordings;
 	}
 
-	@Override
 	public Long getArtistCreditId() {
 		return artistCreditId;
 	}
 
-	@Override
+	public void setArtistCreditId(Long artistCreditId) {
+		this.artistCreditId = artistCreditId;
+	}
+
 	public ArtistCreditCount<?> getArtistCreditCount() {
 		return artistCreditCount;
 	}
 
-	@Override
-	public ArtistCreditRefCount getArtistCreditRefCount(ArtistCreditRefCount k) {
+	public void setArtistCreditCount(ArtistCreditCount<?> artistCreditCount) {
+		this.artistCreditCount = artistCreditCount;
+	}
+
+	public ArtistCreditRefCount getArtistCreditRefCount() {
 		return artistCreditRefCount;
 	}
 
-	@Override
-	public void setArtistCreditRefCount(ArtistCreditRefCount k) {
-		this.artistCreditRefCount = k;
+	public void setArtistCreditRefCount(ArtistCreditRefCount artistCreditRefCount) {
+		this.artistCreditRefCount = artistCreditRefCount;
 	}
 
-	@Override
-	public void setArtistCreditCount(ArtistCreditCount<?> k) {
-		this.artistCreditCount = k;
+	public Set<Release<?>> getReleases() {
+		return releases;
 	}
 
-	@Override
-	public void setArtistCreditId(Long k) {
-		this.artistCreditId = k;
+	public void setReleases(Set<Release<?>> releases) {
+		this.releases = releases;
 	}
+
+	public List<Artist<?>> getArtists() {
+		return artists;
+	}
+
+	public void setArtists(List<Artist<?>> artists) {
+		this.artists = artists;
+	}
+
+	public Set<Recording<?>> getRecordings() {
+		return recordings;
+	}
+
+	public void setRecordings(Set<Recording<?>> recordings) {
+		this.recordings = recordings;
+	}
+
 
 }
