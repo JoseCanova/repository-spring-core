@@ -27,6 +27,7 @@ import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditIdEntity;
 import org.nanotek.entities.MutableArtistCreditRefCountEntity;
+import org.nanotek.entities.MutableRecordingSetEntity;
 
 @Entity
 @Table(name="artist_credit", uniqueConstraints= {
@@ -48,7 +49,8 @@ LongIdName<K> implements
 BaseArtistCreditEntity<K>,
 MutableArtistCreditIdEntity<Long>,	
 MutableArtistCreditCountEntity<ArtistCreditCount<?>>, 
-MutableArtistCreditRefCountEntity<ArtistCreditRefCount> {
+MutableArtistCreditRefCountEntity<ArtistCreditRefCount>,
+MutableRecordingSetEntity<Recording<?>>{
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
@@ -95,53 +97,7 @@ MutableArtistCreditRefCountEntity<ArtistCreditRefCount> {
 		this.recordings = recordings;
 	}
 
-	public Long getArtistCreditId() {
-		return artistCreditId;
-	}
-
-	public void setArtistCreditId(Long artistCreditId) {
-		this.artistCreditId = artistCreditId;
-	}
-
-	public ArtistCreditCount<?> getArtistCreditCount() {
-		return artistCreditCount;
-	}
-
-	public void setArtistCreditCount(ArtistCreditCount<?> artistCreditCount) {
-		this.artistCreditCount = artistCreditCount;
-	}
-
-	public ArtistCreditRefCount getArtistCreditRefCount() {
-		return artistCreditRefCount;
-	}
-
-	public void setArtistCreditRefCount(ArtistCreditRefCount artistCreditRefCount) {
-		this.artistCreditRefCount = artistCreditRefCount;
-	}
-
-	public Set<Release<?>> getReleases() {
-		return releases;
-	}
-
-	public void setReleases(Set<Release<?>> releases) {
-		this.releases = releases;
-	}
-
-	public List<Artist<?>> getArtists() {
-		return artists;
-	}
-
-	public void setArtists(List<Artist<?>> artists) {
-		this.artists = artists;
-	}
-
-	public Set<Recording<?>> getRecordings() {
-		return recordings;
-	}
-
-	public void setRecordings(Set<Recording<?>> recordings) {
-		this.recordings = recordings;
-	}
 
 
+	
 }
