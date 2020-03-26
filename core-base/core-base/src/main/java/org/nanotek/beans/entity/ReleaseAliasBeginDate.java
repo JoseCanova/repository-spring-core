@@ -9,13 +9,13 @@ import org.nanotek.entities.BaseReleaseAliasBeginDateEntity;
 @Entity
 @DiscriminatorValue(value = "ReleaseAliasBeginDate")
 public class ReleaseAliasBeginDate<K extends ReleaseAliasBeginDate<K>> 
-extends DatableBase<K,Integer,Integer,Integer> 
+extends BeginDateBase<K> 
 implements BaseReleaseAliasBeginDateEntity<K>{
 
 	private static final long serialVersionUID = -3004596106076682952L;
 	
-	@OneToOne(mappedBy="beginDate")
-	private ReleaseAlias releaseAlias;
+	@OneToOne(mappedBy="releaseAliasBeginDate")
+	private ReleaseAlias<?> releaseAlias;
 	
 	public ReleaseAliasBeginDate() {
 	}
@@ -32,11 +32,11 @@ implements BaseReleaseAliasBeginDateEntity<K>{
 		super(year, month, day);
 	}
 	
-	public ReleaseAlias getReleaseAlias() {
+	public ReleaseAlias<?> getReleaseAlias() {
 		return releaseAlias;
 	}
 
-	public void setReleaseAlias(ReleaseAlias releaseAlias) {
+	public void setReleaseAlias(ReleaseAlias<?> releaseAlias) {
 		this.releaseAlias = releaseAlias;
 	}
 

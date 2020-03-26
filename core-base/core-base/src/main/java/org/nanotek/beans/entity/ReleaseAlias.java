@@ -12,13 +12,28 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseReleaseAliasEntity;
+import org.nanotek.entities.MutableReleaseAliasBeginDateEntity;
+import org.nanotek.entities.MutableReleaseAliasEndDateEntity;
 import org.nanotek.entities.MutableReleaseAliasEntity;
+import org.nanotek.entities.MutableReleaseAliasIdEntity;
+import org.nanotek.entities.MutableReleaseAliasLocaleEntity;
+import org.nanotek.entities.MutableReleaseAliasSortNameEntity;
+import org.nanotek.entities.MutableReleaseAliasTypeEntity;
+import org.nanotek.entities.MutableReleaseEntity;
 
 @Entity
 @Table(name = "release_alias")
-public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> implements BaseReleaseAliasEntity<K>,
-																MutableReleaseAliasEntity
-																{
+public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> implements 
+BaseReleaseAliasEntity<K>,
+MutableReleaseAliasEntity,
+MutableReleaseAliasIdEntity<Long>,
+MutableReleaseAliasLocaleEntity<ReleaseAliasLocale<?>>,
+MutableReleaseAliasSortNameEntity<ReleaseAliasSortName<?>>,
+MutableReleaseEntity<Release<?>>,
+MutableReleaseAliasTypeEntity<ReleaseAliasType<?>>,
+MutableReleaseAliasBeginDateEntity<ReleaseAliasBeginDate<?>>,
+MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>
+{
 
 	private static final long serialVersionUID = -4420910201637029585L;
 	
@@ -30,7 +45,7 @@ public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> imple
 			  name = "release_alias_locale_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "locale_id",referencedColumnName = "id"))
-	public ReleaseAliasLocale releaseAliasLocale;
+	public ReleaseAliasLocale<?> releaseAliasLocale;
 	
 	@NotNull
 	@OneToOne
@@ -38,30 +53,30 @@ public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> imple
 			  name = "release_alias_sortname_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "sortname_id",referencedColumnName = "id"))
-	public ReleaseAliasSortName releaseAliasSortName;
+	public ReleaseAliasSortName<?> releaseAliasSortName;
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY,optional=false)
 	@JoinColumn(name = "release_id")
-	public Release release; 
+	public Release<?> release; 
 	
 	@ManyToOne(fetch = FetchType.LAZY,optional=false)
 	@JoinColumn(name="type_id")
-	public ReleaseAliasType releaseAliasType;
+	public ReleaseAliasType<?> releaseAliasType;
 
     @OneToOne(optional=true)
 	@JoinTable(
 			  name = "release_alias_begin_date_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id"))
-    public ReleaseAliasBeginDate releaseAliasBeginDate;
+    public ReleaseAliasBeginDate<?> releaseAliasBeginDate;
     
     @OneToOne(optional=true)
 	@JoinTable(
 			  name = "release_alias_end_date_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id"))
-    public  ReleaseAliasEndDate releaseAliasEndDate;
+    public  ReleaseAliasEndDate<?> releaseAliasEndDate;
 
 	public ReleaseAlias() {
 	}
@@ -71,7 +86,7 @@ public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> imple
 		this.releaseAliasId = id;
 	}
 	
-	public ReleaseAlias(@NotNull Long id , @NotBlank String name, @NotNull ReleaseAliasSortName sortName) {
+	public ReleaseAlias(@NotNull Long id , @NotBlank String name, @NotNull ReleaseAliasSortName<?> sortName) {
 		super(name);
 		this.releaseAliasId = id;
 		this.releaseAliasSortName = sortName;
@@ -80,12 +95,12 @@ public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> imple
 	public ReleaseAlias(
 			@NotNull Long id, 
 			@NotBlank String name, 
-			ReleaseAliasLocale locale, 
-			@NotNull Release release,
-			ReleaseAliasType type, 
-			@NotNull ReleaseAliasSortName sortName, 
-			ReleaseAliasBeginDate beginDate,
-			ReleaseAliasEndDate endDate) {
+			ReleaseAliasLocale<?> locale, 
+			@NotNull Release<?> release,
+			ReleaseAliasType<?> type, 
+			@NotNull ReleaseAliasSortName<?> sortName, 
+			ReleaseAliasBeginDate<?> beginDate,
+			ReleaseAliasEndDate<?> endDate) {
 		this.releaseAliasId = id;
 		this.name = name;
 		this.releaseAliasLocale = locale;
@@ -102,62 +117,62 @@ public class ReleaseAlias<K extends ReleaseAlias<K>> extends LongIdName<K> imple
 	}
 
 	@Override
-	public ReleaseAliasLocale getReleaseAliasLocale() {
+	public ReleaseAliasLocale<?> getReleaseAliasLocale() {
 		return releaseAliasLocale;
 	}
 
 	@Override
-	public ReleaseAliasSortName getReleaseAliasSortName() {
+	public ReleaseAliasSortName<?> getReleaseAliasSortName() {
 		return releaseAliasSortName;
 	}
 
 	@Override
-	public Release getRelease() {
+	public Release<?> getRelease() {
 		return release;
 	}
 
 	@Override
-	public ReleaseAliasType getReleaseAliasType() {
+	public ReleaseAliasType<?> getReleaseAliasType() {
 		return releaseAliasType;
 	}
 
 	@Override
-	public ReleaseAliasBeginDate getReleaseAliasBeginDateEntity(ReleaseAliasBeginDate k) {
+	public ReleaseAliasBeginDate<?> getReleaseAliasBeginDateEntity(ReleaseAliasBeginDate<?> k) {
 		return releaseAliasBeginDate;
 	}
 
 	@Override
-	public ReleaseAliasEndDate getReleaseAliasEndDate() {
+	public ReleaseAliasEndDate<?> getReleaseAliasEndDate() {
 		return releaseAliasEndDate;
 	}
 
 	@Override
-	public void setReleaseAliasEndDate(ReleaseAliasEndDate k) {
+	public void setReleaseAliasEndDate(ReleaseAliasEndDate<?> k) {
 		this.releaseAliasEndDate = k;
 	}
 
 	@Override
-	public void setReleaseAliasBeginDateEntity(ReleaseAliasBeginDate k) {
+	public void setReleaseAliasBeginDateEntity(ReleaseAliasBeginDate<?> k) {
 		this.releaseAliasBeginDate = k;
 	}
 
 	@Override
-	public void setReleaseAliasType(ReleaseAliasType releaseAliasType) {
+	public void setReleaseAliasType(ReleaseAliasType<?> releaseAliasType) {
 		this.releaseAliasType = releaseAliasType;
 	}
 
 	@Override
-	public void setRelease(Release k) {
+	public void setRelease(Release<?> k) {
 		this.release = k;
 	}
 
 	@Override
-	public void setReleaseAliasSortName(ReleaseAliasSortName releaseAliasSortName) {
+	public void setReleaseAliasSortName(ReleaseAliasSortName<?> releaseAliasSortName) {
 		this.releaseAliasSortName = releaseAliasSortName;
 	}
 
 	@Override
-	public void setReleaseAliasLocale(ReleaseAliasLocale k) {
+	public void setReleaseAliasLocale(ReleaseAliasLocale<?> k) {
 		this.releaseAliasLocale = k;
 	}
 
