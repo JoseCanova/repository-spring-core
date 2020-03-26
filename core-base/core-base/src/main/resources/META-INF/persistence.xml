@@ -6,8 +6,6 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="spring-core-music-brainz" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
-		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->
 		<class>org.nanotek.beans.entity.EntityLongBase</class>
 		<class>org.nanotek.beans.entity.TypeNamedEntity</class>
 		<class>org.nanotek.beans.entity.BaseType</class>
@@ -96,7 +94,9 @@
 		<class>org.nanotek.beans.entity.TrackNumber</class>
 		<class>org.nanotek.beans.entity.TrackPosition</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-		<properties>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<validation-mode>NONE</validation-mode>
+	<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.show_sql" value="false" />
 			<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
@@ -106,6 +106,7 @@
 			<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
       		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create.sql"/>
       		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop.sql"/>
+      		<property name="javax.persistence.validation.mode" value="NONE" />
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->
 			<!-- <property name="javax.persistence.jdbc.url"
@@ -116,5 +117,6 @@
 <!-- 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
  -->
  		</properties>
+		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->
 	</persistence-unit>
 </persistence>
