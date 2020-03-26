@@ -27,7 +27,9 @@ import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditIdEntity;
 import org.nanotek.entities.MutableArtistCreditRefCountEntity;
+import org.nanotek.entities.MutableArtistListEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
+import org.nanotek.entities.MutableReleaseSetEntity;
 
 @Entity
 @Table(name="artist_credit", uniqueConstraints= {
@@ -49,8 +51,11 @@ LongIdName<K> implements
 BaseArtistCreditEntity<K>,
 MutableArtistCreditIdEntity<Long>,	
 MutableArtistCreditCountEntity<ArtistCreditCount<?>>, 
-MutableArtistCreditRefCountEntity<ArtistCreditRefCount>,
-MutableRecordingSetEntity<Recording<?>>{
+MutableArtistCreditRefCountEntity<ArtistCreditRefCount<?>>,
+MutableRecordingSetEntity<Recording<?>>,
+MutableReleaseSetEntity<Release<?>>,
+MutableArtistListEntity<Artist<?>>
+{
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
@@ -72,7 +77,7 @@ MutableRecordingSetEntity<Recording<?>>{
 	@JoinTable(name="artist_ref_count_join",
 		inverseJoinColumns={@JoinColumn(name="artist_refcount_id", referencedColumnName="id") },
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
-	public ArtistCreditRefCount artistCreditRefCount;
+	public ArtistCreditRefCount<?> artistCreditRefCount;
 
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit")
 	public Set<Release<?>> releases; 
@@ -89,11 +94,59 @@ MutableRecordingSetEntity<Recording<?>>{
 	public ArtistCredit() {}
 	
 	public ArtistCredit(@NotNull Long id , @NotBlank String name, @NotNull ArtistCreditCount<?> artistCount,
-			@NotNull ArtistCreditRefCount refCount, Set<Recording<?>> recordings) {
+			@NotNull ArtistCreditRefCount<?> refCount, Set<Recording<?>> recordings) {
 		super(name);
 		this.artistCreditId = id;
 		this.artistCreditCount = artistCount;
 		this.artistCreditRefCount = refCount;
+		this.recordings = recordings;
+	}
+
+	public Long getArtistCreditId() {
+		return artistCreditId;
+	}
+
+	public void setArtistCreditId(Long artistCreditId) {
+		this.artistCreditId = artistCreditId;
+	}
+
+	public ArtistCreditCount<?> getArtistCreditCount() {
+		return artistCreditCount;
+	}
+
+	public void setArtistCreditCount(ArtistCreditCount<?> artistCreditCount) {
+		this.artistCreditCount = artistCreditCount;
+	}
+
+	public ArtistCreditRefCount<?> getArtistCreditRefCount() {
+		return artistCreditRefCount;
+	}
+
+	public void setArtistCreditRefCount(ArtistCreditRefCount<?> artistCreditRefCount) {
+		this.artistCreditRefCount = artistCreditRefCount;
+	}
+
+	public Set<Release<?>> getReleases() {
+		return releases;
+	}
+
+	public void setReleases(Set<Release<?>> releases) {
+		this.releases = releases;
+	}
+
+	public List<Artist<?>> getArtists() {
+		return artists;
+	}
+
+	public void setArtists(List<Artist<?>> artists) {
+		this.artists = artists;
+	}
+
+	public Set<Recording<?>> getRecordings() {
+		return recordings;
+	}
+
+	public void setRecordings(Set<Recording<?>> recordings) {
 		this.recordings = recordings;
 	}
 
