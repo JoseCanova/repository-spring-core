@@ -1,9 +1,12 @@
 package org.nanotek.entities;
 
-public interface MutableEndDateDayEntity<T> {
+import java.io.Serializable;
 
-	public void setEndDateDay(T t);
+import org.nanotek.entities.immutables.EndDateDayEntity;
+
+public interface MutableEndDateDayEntity<T extends Serializable> extends EndDateDayEntity<T> {
+
+	void setEndDateDay(T t);
 	
-	public T getEndDateDay();
 	
 }
