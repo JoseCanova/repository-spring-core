@@ -23,6 +23,8 @@
 		<class>org.nanotek.beans.entity.ArtistCreditCount</class>
 		<class>org.nanotek.beans.entity.ArtistCreditRefCount</class>
 		<class>org.nanotek.beans.entity.ArtistCreditName</class>
+		<class>org.nanotek.beans.entity.ArtistCreditNamePosition</class>
+		<class>org.nanotek.beans.entity.ArtistAliasSortName</class>
 		<class>org.nanotek.beans.entity.Artist</class>
 		<class>org.nanotek.beans.entity.ArtistBeginDate</class>
 		<class>org.nanotek.beans.entity.ArtistEndDate</class>
@@ -104,8 +106,8 @@
 			<property name="hibernate.cache.use_query_cache" value="false" />
 			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
 			<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
-<!--       		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create_new.sql"/>
-      		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop_new.sql"/> -->
+       		<property name="javax.persistence.schema-generation.scripts.create-target" value="./create_new.sql"/>
+      		<property name="javax.persistence.schema-generation.scripts.drop-target" value="./drop_new.sql"/>
       		<property name="javax.persistence.validation.mode" value="NONE" />
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->

@@ -10,11 +10,11 @@ import org.nanotek.entities.BaseArtistAliasSortNameEntity;
 @Entity
 @DiscriminatorValue(value = "ArtistAliasSortName")
 public class ArtistAliasSortName<K extends ArtistAliasSortName<K>> extends SortNameBase<K> 
-implements BaseArtistAliasSortNameEntity<K> {
+implements BaseArtistAliasSortNameEntity {
 
 	private static final long serialVersionUID = -7162854301861535960L;
 
-	@OneToOne(mappedBy="sortName")
+	@OneToOne(mappedBy="artistAliasSortName")
 	public ArtistAlias<?> artistAlias;
 	
 	public ArtistAliasSortName() {

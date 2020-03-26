@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "class_name" ,  columnDefinition = "VARCHAR NOT NULL")
 public abstract class BeginDateBase <K extends BeginDateBase<K>>
-extends BrainzBaseEntity<K>  {
+extends SequenceLongBase<K,Long>  {
 
 
 	private static final long serialVersionUID = -4544159118931690162L;

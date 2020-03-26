@@ -17,7 +17,7 @@ MutableArtistCreditEntity<ArtistCredit<?>>{
 	private static final long serialVersionUID = -4592756381355445004L;
 	
 	@NotNull	
-	@OneToOne(optional = false , mappedBy = "refCount")
+	@OneToOne(optional = false , mappedBy = "artistCreditRefCount")
 	public ArtistCredit<?> artistCredit;
 
 	public ArtistCreditRefCount() {

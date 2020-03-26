@@ -9,7 +9,6 @@ import javax.persistence.Table;
 public class LabelAlias<K extends LabelAlias<K>> extends  BrainzBaseEntity<K> {
 	
 	private Long label; 
-	private Long name; 
 	private String locale;
 	private Long aliasId;
 	
@@ -21,13 +20,6 @@ public class LabelAlias<K extends LabelAlias<K>> extends  BrainzBaseEntity<K> {
 		this.label = label;
 	}
 	
-	public Long getName() {
-		return name;
-	}
-	
-	public void setName(Long name) {
-		this.name = name;
-	}
 	
 	public String getLocale() {
 		return locale;

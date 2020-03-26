@@ -11,8 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="description_base",
 						indexes= {
-								@Index(unique = false , name = "description_table_idx" , columnList ="description"),
-								@Index(unique = false , name = "description_table_id_idx" , columnList ="table_id")
+								@Index(unique = false , name = "description_table_idx" , columnList ="description")
 							})
 @DiscriminatorColumn(
 	    discriminatorType = DiscriminatorType.STRING,

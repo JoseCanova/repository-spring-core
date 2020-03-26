@@ -6,13 +6,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.ManagedEntity;
+import org.nanotek.entities.BaseBrainzEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
 
 @MappedSuperclass
 public class BrainzBaseEntity<K extends BrainzBaseEntity<K>> 
 extends SequenceLongBase<K, Long> 
-implements ManagedEntity<K>,
+implements BaseBrainzEntity<K>,
 MutableNameEntity<String>,
 MutableGidEntity<String>{
 

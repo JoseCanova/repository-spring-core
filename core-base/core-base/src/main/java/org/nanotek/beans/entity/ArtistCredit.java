@@ -44,7 +44,7 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 @NamedEntityGraph( name = "fetch.ArtistCredit.recordings",
 					attributeNodes = {@NamedAttributeNode(value="recordings",subgraph = "recordings")},
 					subgraphs = @NamedSubgraph(name = "recordings", 
-					attributeNodes = {@NamedAttributeNode(value="recordingLenght" , subgraph = "recordingLenght")}
+					attributeNodes = {@NamedAttributeNode(value="recordingLength" , subgraph = "recordingLength")}
 ))
 public class ArtistCredit<K extends ArtistCredit<K>> extends 
 BrainzBaseEntity<K> implements  
@@ -88,7 +88,7 @@ MutableArtistListEntity<Artist<?>>
 	joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public List<Artist<?>> artists;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="recording")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy = "artistCredit")
 	public Set<Recording<?>> recordings; 
 	
 	public ArtistCredit() {}

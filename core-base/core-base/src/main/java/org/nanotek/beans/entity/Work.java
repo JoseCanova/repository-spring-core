@@ -12,7 +12,6 @@ public class Work<K extends Work<K>> extends  BrainzBaseEntity<K> {
 	
 	private String gid; 
 	private String type; 
-	private Long name; 
 	private Long iswc; 
 	
 	
@@ -34,16 +33,6 @@ public class Work<K extends Work<K>> extends  BrainzBaseEntity<K> {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-
-	public Long getName() {
-		return name;
-	}
-
-
-	public void setName(Long name) {
-		this.name = name;
 	}
 
 

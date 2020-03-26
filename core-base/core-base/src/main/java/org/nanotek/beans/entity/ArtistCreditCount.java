@@ -20,7 +20,7 @@ public class ArtistCreditCount<K extends ArtistCreditCount<K>> extends LongCount
 	private static final long serialVersionUID = 2246716928420528795L;
 
 	@NotNull
-	@OneToOne(optional = false , mappedBy = "artistCount")
+	@OneToOne(optional = false , mappedBy = "artistCreditCount")
 	public ArtistCredit<?> artistCredit;
 	
 	public ArtistCreditCount() {

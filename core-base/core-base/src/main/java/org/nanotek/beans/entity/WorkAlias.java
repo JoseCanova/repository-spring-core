@@ -9,7 +9,7 @@ public class WorkAlias<K extends WorkAlias<K>> extends BrainzBaseEntity<K> {
 
 	private Long work; 
 	
-	private Long name; 
+
 	
 	private String locale; 
 	
@@ -28,15 +28,6 @@ public class WorkAlias<K extends WorkAlias<K>> extends BrainzBaseEntity<K> {
 		this.work = work;
 	}
 
-
-	public Long getName() {
-		return name;
-	}
-
-
-	public void setName(Long name) {
-		this.name = name;
-	}
 
 
 	public String getLocale() {

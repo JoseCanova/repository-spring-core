@@ -34,7 +34,6 @@ MutableIsoCode3Entity<String> {
 
 	private static final long serialVersionUID = 3416483640256915L;
 	
-	private Stream<Language> immutable;
 	
 	@NotNull
 	@Column(name="language_id")
@@ -79,7 +78,6 @@ MutableIsoCode3Entity<String> {
 		this.isoCode1 = isoCode1;
 		this.frequency = frequency;
 		this.isoCode3 = isoCode3;
-		immutable = setLanguage(this);
 	}
 
 	@Override
@@ -132,9 +130,5 @@ MutableIsoCode3Entity<String> {
 		return isoCode3;
 	}
 	
-	@Override
-	public Stream<Language> getLanguage() {
-		return immutable;
-	}
 
 }

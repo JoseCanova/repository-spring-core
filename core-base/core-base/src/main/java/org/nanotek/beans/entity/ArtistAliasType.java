@@ -5,22 +5,23 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistAliasEntity;
 
 @Entity
 @DiscriminatorValue(value="ArtistAliasType")
-public class ArtistAliasType<K extends ArtistAliasType<K,A> , A extends ArtistAlias<A>> 
+public class ArtistAliasType<K extends ArtistAliasType<K>> 
 extends  BaseType<K> 
 implements  
 BaseArtistAliasTypeEntity<K>,
-MutableArtistAliasEntity<A>{
+MutableArtistAliasEntity<ArtistAlias<?>>{
 
 	private static final long serialVersionUID = 430998067473248669L;
 	
 	@OneToOne(mappedBy = "artistAliasType" , optional = false)
-	public A artistAlias;
+	public ArtistAlias<?> artistAlias;
 
 	public ArtistAliasType() {
 	}
@@ -33,14 +34,13 @@ MutableArtistAliasEntity<A>{
 		super(name);
 	}
 
-	@Override
-	public A getArtistAlias() {
+	public ArtistAlias<?> getArtistAlias() {
 		return artistAlias;
 	}
 
-	@Override
-	public void setArtistAlias(A k) {
-		this.artistAlias = k;
+	public void setArtistAlias(ArtistAlias<?> artistAlias) {
+		this.artistAlias = artistAlias;
 	}
+
 
 }

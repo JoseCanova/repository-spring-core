@@ -13,8 +13,7 @@ public class Label<K extends Label<K>> extends BrainzBaseEntity<K>{
 	private Long labelId;
 	@Column
 	private String gid; 
-	@Column
-	private Long name; 
+
 	@Column
 	private Long sortName; 
 	@Column
@@ -47,14 +46,6 @@ public class Label<K extends Label<K>> extends BrainzBaseEntity<K>{
 	
 	public void setGid(String gid) {
 		this.gid = gid;
-	}
-	
-	public Long getName() {
-		return name;
-	}
-	
-	public void setName(Long name) {
-		this.name = name;
 	}
 	
 	public Long getSortName() {

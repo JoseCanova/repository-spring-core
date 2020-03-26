@@ -12,7 +12,7 @@ import org.nanotek.entities.MutableArtistCreditNameEntity;
 @DiscriminatorValue(value ="ArtistCreditNamePosition" )
 public class ArtistCreditNamePosition<T extends ArtistCreditNamePosition<T>> 
 extends LongPositionBase<T> 
-implements BaseArtistCreditNamePositionEntity<T>,
+implements BaseArtistCreditNamePositionEntity,
 MutableArtistCreditNameEntity<ArtistCreditName<?>>{
 
 	private static final long serialVersionUID = -482152069144029668L;
