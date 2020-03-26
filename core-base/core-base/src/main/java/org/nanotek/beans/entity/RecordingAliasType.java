@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
@@ -17,13 +19,28 @@ public class RecordingAliasType<K extends RecordingAliasType<K>> extends BaseTyp
 	public RecordingAliasType() {
 	}
 	
-	public RecordingAliasType(@NotBlank @Length(min = 1, max = 50) String gid, @NotNull String name) {
-		super(gid, name);
+
+
+	public RecordingAliasType(@NotNull Long typeId) {
+		super(typeId);
+		// TODO Auto-generated constructor stub
 	}
 
-	public RecordingAliasType(@NotNull String name) {
-		super(name);
+
+
+	public RecordingAliasType(@NotNull UUID gid, @NotBlank String name) {
+		super(gid, name);
+		// TODO Auto-generated constructor stub
 	}
+
+
+
+	public RecordingAliasType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	
 }

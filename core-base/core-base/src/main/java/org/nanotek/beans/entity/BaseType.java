@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -61,17 +63,17 @@ MutableDescriptionEntity<BaseTypeDescription<?>>{
 	public BaseType() {
 	}
 
-	public BaseType(@NotNull Long typeId , @NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
-		super(gid, name);
+	public BaseType(@NotNull Long typeId) {
 		this.typeId = typeId;
 	}
 	
-	public BaseType(@NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
-		super(gid, name);
+	public BaseType(@NotNull UUID gid, @NotBlank String name) {
+		super(name);
 	}
 
-	public BaseType(@NotNull String name) {
-		super(name);
+	public BaseType(@NotNull Long typeId , @NotNull UUID gid, @NotBlank String name) {
+		super(gid, name);
+		this.typeId = typeId;
 	}
 
 	public Long getTypeId() {
@@ -99,11 +101,11 @@ MutableDescriptionEntity<BaseTypeDescription<?>>{
 		this.childOrder = childOrder;
 	}
 
-	public BaseTypeDescription getDescription() {
+	public BaseTypeDescription<?> getDescription() {
 		return description;
 	}
 
-	public void setDescription(BaseTypeDescription description) {
+	public void setDescription(BaseTypeDescription<?> description) {
 		this.description = description;
 	}
 

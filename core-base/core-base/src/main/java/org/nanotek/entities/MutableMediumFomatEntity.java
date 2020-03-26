@@ -1,10 +1,9 @@
 package org.nanotek.entities;
 
-public interface MutableMediumFomatEntity<K> extends 
-MutableNameEntity<String>,
-MutableParentEntity<Long>,
-MutableYearEntity<Integer>,
-MutableGidEntity<String>,
-MutableDescriptionEntity<String> {
+import java.io.Serializable;
 
+import org.nanotek.entities.immutables.MediumFomatEntity;
+
+public interface MutableMediumFomatEntity<K extends Serializable> extends MediumFomatEntity<K>{
+void setMediumFomat(K k);
 }

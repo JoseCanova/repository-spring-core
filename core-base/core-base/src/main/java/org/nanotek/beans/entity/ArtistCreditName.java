@@ -10,15 +10,13 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.MutableArtistEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutablePositionEntity;
 import org.nanotek.entities.MutatbleArtistCreditNameIdEntity;
-
-import com.sun.xml.bind.v2.model.core.ID;
 
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
@@ -29,7 +27,8 @@ MutatbleArtistCreditNameIdEntity<Long>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
 MutablePositionEntity<ArtistCreditNamePosition<?>>,
-MutableArtistCreditNameJoinPhraseEntity<String>{
+MutableArtistCreditNameJoinPhraseEntity<String>,
+MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -5124525598245692335L;
 
@@ -37,6 +36,22 @@ MutableArtistCreditNameJoinPhraseEntity<String>{
 	@Column(name="artist_credit_name_id" , nullable=false)
 	public Long artistCreditNameId;
 
+
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
 	public ArtistCredit<?> artistCredit;
@@ -56,7 +71,7 @@ MutableArtistCreditNameJoinPhraseEntity<String>{
 	public String artistCreditNameJoinPhrase;
 
 	public ArtistCreditName(@NotBlank String name, @NotNull Long artistCreditNameId) {
-		super(name);
+		this.name = name;
 		this.artistCreditNameId = artistCreditNameId;
 	}
 	
@@ -68,14 +83,6 @@ MutableArtistCreditNameJoinPhraseEntity<String>{
 		this.position = position;
 	}
 
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public ArtistCredit<?> getArtistCredit() {
 		return artistCredit;

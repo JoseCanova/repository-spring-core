@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseReleaseAliasEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseAliasBeginDateEntity;
 import org.nanotek.entities.MutableReleaseAliasEndDateEntity;
 import org.nanotek.entities.MutableReleaseAliasEntity;
@@ -31,13 +32,18 @@ MutableReleaseAliasSortNameEntity<ReleaseAliasSortName<?>>,
 MutableReleaseEntity<Release<?>>,
 MutableReleaseAliasTypeEntity<ReleaseAliasType<?>>,
 MutableReleaseAliasBeginDateEntity<ReleaseAliasBeginDate<?>>,
-MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>
+MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>,
+MutableNameEntity<String>
 {
 
 	private static final long serialVersionUID = -4420910201637029585L;
 	
 	@Column(name="relase_alias_id" , nullable=false)
 	public Long releaseAliasId;
+	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
 	
 	@OneToOne(optional=true)
 	@JoinTable(
@@ -81,12 +87,12 @@ MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>
 	}
 	
 	public ReleaseAlias(@NotNull Long id , @NotBlank String name) {
-		super(name);
+		this.name=name;
 		this.releaseAliasId = id;
 	}
 	
 	public ReleaseAlias(@NotNull Long id , @NotBlank String name, @NotNull ReleaseAliasSortName<?> sortName) {
-		super(name);
+		this.name=name;
 		this.releaseAliasId = id;
 		this.releaseAliasSortName = sortName;
 	}
@@ -178,6 +184,22 @@ MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>
 	@Override
 	public void setReleaseAliasId(Long k) {
 			this.releaseAliasId = k;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ReleaseAliasBeginDate<?> getReleaseAliasBeginDate() {
+		return releaseAliasBeginDate;
+	}
+
+	public void setReleaseAliasBeginDate(ReleaseAliasBeginDate<?> releaseAliasBeginDate) {
+		this.releaseAliasBeginDate = releaseAliasBeginDate;
 	}
 
 }

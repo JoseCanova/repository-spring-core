@@ -7,7 +7,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue(value = "BaseTypeDescription")
-public class BaseTypeDescription<K extends BaseTypeDescription<K>> extends DescriptionBase<K>{
+public class BaseTypeDescription<K extends BaseTypeDescription<K>> 
+extends DescriptionBase<K>{
 
 	private static final long serialVersionUID = -5502992535337974047L;
 	

@@ -1,9 +1,12 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -26,12 +29,18 @@ MutableArtistAliasEntity<ArtistAlias<?>>{
 	public ArtistAliasType() {
 	}
 	
-	public ArtistAliasType(@NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
+	public ArtistAliasType(@NotNull Long typeId) {
+		super(typeId);
+	}
+
+	public ArtistAliasType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 	}
 
-	public ArtistAliasType(@NotBlank String name) {
-		super(name);
+
+	public ArtistAliasType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+		// TODO Auto-generated constructor stub
 	}
 
 	public ArtistAlias<?> getArtistAlias() {

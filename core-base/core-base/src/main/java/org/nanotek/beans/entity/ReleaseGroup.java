@@ -1,6 +1,7 @@
 package org.nanotek.beans.entity;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseReleaseGroupEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseGroupIdEntity;
 import org.nanotek.entities.MutableReleaseGroupPrimaryTypeEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
@@ -30,13 +33,22 @@ implements BaseReleaseGroupEntity<E>,
 MutableReleaseGroupIdEntity<Long>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableReleaseGroupPrimaryTypeEntity<ReleaseGroupPrimaryType<?>>,
-MutableReleaseSetEntity<Release<?>>{
+MutableReleaseSetEntity<Release<?>>,
+MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	private static final long serialVersionUID = 7603390865547084527L;
 	
 	@NotNull
 	@Column(name="release_group_id" , nullable=false)
 	public Long releaseGroupId;
+
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
+	protected UUID gid;
+	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY , optional = false )
@@ -53,9 +65,10 @@ MutableReleaseSetEntity<Release<?>>{
 	
 	public ReleaseGroup() {}
 	
-	public ReleaseGroup(@NotNull Long id, @NotBlank String gid, @NotBlank String name, @NotNull ArtistCredit<?> artistCredit,
+	public ReleaseGroup(@NotNull Long id, @NotNull UUID gid, @NotBlank String name, @NotNull ArtistCredit<?> artistCredit,
 			ReleaseGroupPrimaryType<?> type) {
-		super(gid,name);
+		this.gid = gid; 
+		this.name = name;
 		this.artistCredit = artistCredit;
 		this.releaseGroupPrimaryType = type;
 		this.releaseGroupId = id;
@@ -91,6 +104,22 @@ MutableReleaseSetEntity<Release<?>>{
 
 	public void setReleases(Set<Release<?>> releases) {
 		this.releases = releases;
+	}
+
+	public UUID getGid() {
+		return gid;
+	}
+
+	public void setGid(UUID gid) {
+		this.gid = gid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

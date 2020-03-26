@@ -1,11 +1,13 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseAreaTypeEntity;
 import org.nanotek.entities.MutableAreaEntity;
 
@@ -23,12 +25,23 @@ implements  BaseAreaTypeEntity<E>, MutableAreaEntity<Area<?>>{
 	public AreaType() {
 	}
 
-	public AreaType(@NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
+	
+	
+	public AreaType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 	}
 
-	public AreaType(@NotBlank String name) {
-		super(name);
+
+	
+	public AreaType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public AreaType(@NotNull Long typeId) {
+		super(typeId);
 	}
 
 	@Override

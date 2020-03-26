@@ -1,12 +1,14 @@
 package org.nanotek.beans.entity;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -23,13 +25,28 @@ public class InstrumentType<K extends InstrumentType<K>> extends BaseType<K> {
 	public InstrumentType() {
 	}
 
-	public InstrumentType(@NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
-		super(gid, name);
+
+
+	public InstrumentType(@NotNull Long typeId) {
+		super(typeId);
+		// TODO Auto-generated constructor stub
 	}
 
-	public InstrumentType(@NotBlank String name) {
-		super(name);
+
+
+	public InstrumentType(@NotNull UUID gid, @NotBlank String name) {
+		super(gid, name);
+		// TODO Auto-generated constructor stub
 	}
+
+
+
+
+	public InstrumentType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 	public Set<Instrument<?>> getInstruments() {

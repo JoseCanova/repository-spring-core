@@ -10,7 +10,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseSortNameEntity;
 import org.nanotek.entities.MutableSortNameEntity;
 

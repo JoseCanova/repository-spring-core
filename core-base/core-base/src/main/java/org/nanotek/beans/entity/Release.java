@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +17,9 @@ import javax.validation.constraints.Size;
 
 import org.nanotek.entities.BaseReleaseEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
+import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableLanguageEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseIdEntity;
 import org.nanotek.entities.MutableReleasePackagingEntity;
 import org.nanotek.entities.MutableReleaseBarCodeEntity;
@@ -37,13 +41,24 @@ MutableReleaseCommentEntity<ReleaseComment<?>>,
 MutableReleasePackagingEntity<ReleasePackaging<?>>,
 MutableLanguageEntity<Language<?>>,
 MutableReleaseGroupEntity<ReleaseGroup<?>>,
-MutableArtistCreditEntity<ArtistCredit<?>>{
+MutableArtistCreditEntity<ArtistCredit<?>>,
+MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	private static final long serialVersionUID = 8526436903189806951L;
 		
 	@Column(name="release_id" , nullable=false)
 	private Long releaseId;
 
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "VARCHAR(50) NOT NULL")
+	protected UUID gid;
+	
+
+	
 	@OneToOne(optional = true , orphanRemoval = true)
 	@JoinTable(
 			  name = "release_barcode_join", 
@@ -81,14 +96,14 @@ MutableArtistCreditEntity<ArtistCredit<?>>{
 	public Release() { 
 	}
 	
-	public Release(@NotNull Long id, @NotBlank @Size(min = 1, max = 50) String gid, @NotBlank String name) {
-		super(gid, name);
+	public Release(@NotNull Long id, @NotNull UUID gid, @NotBlank String name) {
+		this.gid = gid;
 		this.releaseId = id;
 	}
 
 	public Release(
 			@NotNull Long id, 
-			@NotBlank @NotBlank @Size(min = 1, max = 50) String gid, 
+			@NotBlank @NotNull UUID gid, 
 			@NotBlank  String name, 
 			ReleaseBarCode<?> barCode,
 			ReleaseComment<?> comment, 
@@ -171,6 +186,22 @@ MutableArtistCreditEntity<ArtistCredit<?>>{
 
 	public void setArtistCredit(ArtistCredit<?> artistCredit) {
 		this.artistCredit = artistCredit;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public UUID getGid() {
+		return gid;
+	}
+
+	public void setGid(UUID gid) {
+		this.gid = gid;
 	}
 
 

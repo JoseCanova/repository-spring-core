@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +28,8 @@ import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.MutableArtistSortNameEntity;
 import org.nanotek.entities.MutableArtistTypeEntity;
 import org.nanotek.entities.MutableGenderEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableNameEntity;
 
 @Entity
 @Table(name="artist" , 
@@ -45,12 +48,44 @@ MutableArtistTypeEntity<ArtistType<?>>,
 MutableGenderEntity<Gender<?>>,
 MutableAreaEntity<Area<?>>,
 MutableArtistBeginAreaEntity<Area<?>>,
-MutableArtistEndAreaEntity<Area<?>>{
+MutableArtistEndAreaEntity<Area<?>>,
+MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	private static final long serialVersionUID = -932806802235346847L;
 
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
+	
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
+	protected UUID gid;
+	
+	
+	public void setGid(UUID gid) {
+		this.gid = gid;
+	}
+	
+	
+	public UUID getGid() {
+		return gid;
+	}	
+
+	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
+	
 	
 	@ManyToMany(mappedBy = "artists",fetch=FetchType.LAZY , targetEntity=org.nanotek.beans.entity.ArtistCredit.class)
 	public List<ArtistCredit<?>> artistCredits;
@@ -94,7 +129,7 @@ MutableArtistEndAreaEntity<Area<?>>{
 			  name = "artist_gender_join", 
 			  joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "gender_id",referencedColumnName = "id"))
-	public Gender gender; 
+	public Gender<?> gender; 
 
 	@ManyToOne
 	@JoinTable(
@@ -125,8 +160,9 @@ MutableArtistEndAreaEntity<Area<?>>{
 	public Artist(
 			@NotBlank Long id, 
 			@NotBlank String name, 
-			@NotBlank String gid) {
-		super(gid,name);
+			@NotBlank UUID gid) {
+		this.gid  =  gid;
+		this.name =name;
 		this.artistId = id;
 		artistCredits = new ArrayList<ArtistCredit<?>>();
 	}
@@ -220,12 +256,12 @@ MutableArtistEndAreaEntity<Area<?>>{
 	}
 
 	@Override
-	public void setGender(Gender k) {
+	public void setGender(Gender<?> k) {
 		this.gender = k;
 	}
 
 	@Override
-	public Gender getGender() {
+	public Gender<?> getGender() {
 		return this.gender;
 	}
 

@@ -28,6 +28,7 @@ import org.nanotek.entities.MutableArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditIdEntity;
 import org.nanotek.entities.MutableArtistCreditRefCountEntity;
 import org.nanotek.entities.MutableArtistListEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 
@@ -54,7 +55,8 @@ MutableArtistCreditCountEntity<ArtistCreditCount<?>>,
 MutableArtistCreditRefCountEntity<ArtistCreditRefCount<?>>,
 MutableRecordingSetEntity<Recording<?>>,
 MutableReleaseSetEntity<Release<?>>,
-MutableArtistListEntity<Artist<?>>
+MutableArtistListEntity<Artist<?>>,
+MutableNameEntity<String>
 {
 	
 	private static final long serialVersionUID = -3086006757943654550L;
@@ -63,7 +65,20 @@ MutableArtistListEntity<Artist<?>>
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
 	
 	@NotNull
 	@OneToOne(optional=false)
@@ -95,7 +110,7 @@ MutableArtistListEntity<Artist<?>>
 	
 	public ArtistCredit(@NotNull Long id , @NotBlank String name, @NotNull ArtistCreditCount<?> artistCount,
 			@NotNull ArtistCreditRefCount<?> refCount, Set<Recording<?>> recordings) {
-		super(name);
+		this.name = name;
 		this.artistCreditId = id;
 		this.artistCreditCount = artistCount;
 		this.artistCreditRefCount = refCount;

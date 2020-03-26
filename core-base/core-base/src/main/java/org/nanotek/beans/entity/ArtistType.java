@@ -1,12 +1,14 @@
 package org.nanotek.beans.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -23,13 +25,20 @@ public class ArtistType<K extends ArtistType<K>> extends BaseType<K> {
 		super();
 	}
 	
-	public ArtistType(@NotBlank @Length(min = 1, max = 50) String gid, @NotBlank String name) {
+
+
+	public ArtistType(@NotNull Long typeId) {
+		super(typeId);
+	}
+
+	public ArtistType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 	}
 
-	public ArtistType(@NotBlank String name) {
-		super(name);
+	public ArtistType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
 	}
+
 
 
 }

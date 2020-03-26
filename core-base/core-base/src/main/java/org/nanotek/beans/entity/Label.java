@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label")
-public class Label<K extends Label<K>> extends BrainzBaseEntity<K>{
+public class Label<K extends Label<K>> {
 	
 	@Column
 	private Long labelId;

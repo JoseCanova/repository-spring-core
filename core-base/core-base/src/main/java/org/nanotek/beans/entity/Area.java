@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +18,8 @@ import org.nanotek.entities.MutableAreaBeginDateEntity;
 import org.nanotek.entities.MutableAreaCommentEntity;
 import org.nanotek.entities.MutableAreaEndDateEntity;
 import org.nanotek.entities.MutableAreaIdEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableTypeEntity;
 
 @Entity
@@ -29,7 +33,9 @@ public class Area
 															MutableTypeEntity<AreaType<?>>,
 															MutableAreaCommentEntity<AreaComment<?>>,
 															MutableAreaBeginDateEntity<AreaBeginDate<?>>,
-															MutableAreaEndDateEntity<AreaEndDate<?>>	{
+															MutableAreaEndDateEntity<AreaEndDate<?>>,
+															MutableGidEntity<UUID>,MutableNameEntity<String>
+															{
 
 	private static final long serialVersionUID = -7073321340141567106L;
 	
@@ -37,6 +43,11 @@ public class Area
 	@Column(name="area_id",nullable=false)
 	public Long areaId; 
 	
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
+	protected UUID gid;
+	
+		
 	@NotNull
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
@@ -63,9 +74,29 @@ public class Area
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	private AreaComment<?> areaComment;
 	
+	
+	
+	/**
+	 * 
+	 */
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
+	
 	public Area() {}
 	
-	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  String gid , @NotNull  AreaType<?> type) {
+	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
 		this.name = name;
 		this.gid = gid;
 		this.areaId = id;
@@ -124,6 +155,22 @@ public class Area
 	@Override
 	public void setType(AreaType<?> k) {
 			areaType = k;
+	}
+
+	public UUID getGid() {
+		return gid;
+	}
+
+	public void setGid(UUID gid) {
+		this.gid = gid;
+	}
+
+	public AreaType<?> getAreaType() {
+		return areaType;
+	}
+
+	public void setAreaType(AreaType<?> areaType) {
+		this.areaType = areaType;
 	}
 
 }

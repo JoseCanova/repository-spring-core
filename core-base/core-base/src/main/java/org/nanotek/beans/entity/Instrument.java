@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,10 +16,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.nanotek.entities.BaseInstrumentEntity;
+import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableInstrumentCommentEntity;
 import org.nanotek.entities.MutableInstrumentDescriptionEntity;
 import org.nanotek.entities.MutableInstrumentIdEntity;
 import org.nanotek.entities.MutableInstrumentTypeEntity;
+import org.nanotek.entities.MutableNameEntity;
 
 @Entity
 @Table(name="instrument", 
@@ -30,13 +34,44 @@ implements BaseInstrumentEntity,
 MutableInstrumentIdEntity<Long>,
 MutableInstrumentTypeEntity<InstrumentType<?>>,
 MutableInstrumentCommentEntity<InstrumentComment<?>>,
-MutableInstrumentDescriptionEntity<InstrumentDescription<?>>{
+MutableInstrumentDescriptionEntity<InstrumentDescription<?>>,
+MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	private static final long serialVersionUID = 1720965406197902687L;
 	
 	@Column(name="instrument_id" , nullable=false)
 	private Long instrumentId; 
 
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
+	protected UUID gid;
+	
+	
+	public void setGid(UUID gid) {
+		this.gid = gid;
+	}
+	
+	
+	public UUID getGid() {
+		return gid;
+	}	
+
+	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
+	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY , optional = false )
 	private InstrumentType<?> instrumentType; 
@@ -60,22 +95,26 @@ MutableInstrumentDescriptionEntity<InstrumentDescription<?>>{
 	}
 	
 	public Instrument(  @NotNull Long id,  
-						@NotBlank @Size(min = 1, max = 50) String gid, 
+						@NotBlank UUID gid, 
 						@NotBlank String name,
 						@NotNull InstrumentType<?> type) {
-		super(gid,name);
+		super();
+		this.name = name;
+		this.gid = gid;
 		this.instrumentType = type;
 		this.instrumentId = id;
 	}
 
 	public Instrument(
 						@NotNull Long id, 
-						@NotBlank @Size(min = 1, max = 50) String gid, 
+						@NotBlank UUID gid, 
 						@NotBlank String name,
 						@NotNull InstrumentType<?> type, 
 						InstrumentComment<?> comment, 
 						InstrumentDescription<?> description) {
-		super(gid,name);
+		super();
+		this.name = name;
+		this.gid = gid;
 		this.instrumentType = type;
 		this.instrumentComment = comment;
 		this.instrumentDescription = description;
@@ -112,6 +151,7 @@ MutableInstrumentDescriptionEntity<InstrumentDescription<?>>{
 
 	public void setInstrumentDescription(InstrumentDescription<?> instrumentDescription) {
 		this.instrumentDescription = instrumentDescription;
-	}	
+	}
+
 
 }

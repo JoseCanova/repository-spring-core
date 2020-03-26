@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,20 +9,28 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.nanotek.entities.BaseMediumFormatEntity;
+import org.nanotek.entities.MutableDescriptionEntity;
+import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableMediumFomatEntity;
+import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.entities.MutableParentEntity;
+import org.nanotek.entities.MutableYearEntity;
 
 @Entity
 @Table(name="medium_format")
 public class MediumFormat<K extends MediumFormat<K>> 
 extends BrainzBaseEntity<K> implements 
 																  BaseMediumFormatEntity<K>,
-																  MutableMediumFomatEntity<K>{
+																  MutableNameEntity<String>,
+																  MutableParentEntity<Long>,
+																  MutableYearEntity<Integer>,
+																  MutableGidEntity<UUID>,
+																  MutableDescriptionEntity<String>{
 
 	private static final long serialVersionUID = 8104913204474210789L;
 	
 	@NotBlank
-	@Size(min=1,max=100)
-	@Column(name = "name" , length=100 , insertable=true , nullable=false , updatable=true)
+	@Column(name = "name" , insertable=true , nullable=false , updatable=true , columnDefinition = "VARCHAR NOT NULL")
 	public String name; 
 	
 	@Column(name = "parent")
@@ -34,7 +44,7 @@ extends BrainzBaseEntity<K> implements
 	
 	@NotBlank
 	@Column(name = "gid" , length=50 , insertable=true , nullable=false , updatable=true)
-	private String gid;
+	private UUID gid;
 	
 	@Column(name="description" , length=4000)
 	private String description;
@@ -44,9 +54,9 @@ extends BrainzBaseEntity<K> implements
 	}
 	
 	public MediumFormat(
-			@NotBlank @Size(min = 1, max = 100) String name, 
+			@NotBlank  String name, 
 			Long parent, Integer year, String hasDiscId,
-			@NotBlank String gid, String description) {
+			@NotBlank UUID gid, String description) {
 		this.name = name;
 		this.parent = parent;
 		this.year = year;
@@ -88,11 +98,11 @@ extends BrainzBaseEntity<K> implements
 		this.hasDiscId = hasDiscId;
 	}
 
-	public String getGid() {
+	public UUID getGid() {
 		return gid;
 	}
 
-	public void setGid(String gid) {
+	public void setGid(UUID gid) {
 		this.gid = gid;
 	}
 

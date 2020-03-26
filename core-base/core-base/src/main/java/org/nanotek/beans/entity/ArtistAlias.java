@@ -21,6 +21,7 @@ import org.nanotek.entities.MutableArtistAliasLocaleEntity;
 import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
+import org.nanotek.entities.MutableNameEntity;
 
 import com.sun.xml.bind.v2.model.core.ID;
 
@@ -38,10 +39,26 @@ MutableArtistEntity<Artist<?>> ,
 MutableArtistAliasTypeEntity<ArtistAliasType<?>> , 
 MutableArtistAliasLocaleEntity<ArtistAliasLocale<?>>,
 MutableArtistAliasBeginDateEntity<ArtistAliasBeginDate<?>>,
-MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>{
+MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>,
+MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -6829974720983757034L;
 
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String k) {
+		this.name = k;
+	}
+	
 	@NotNull
 	@Column(name="artist_alias_id"  , nullable = false)
 	public Long aliasId; 
@@ -95,7 +112,7 @@ MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>{
 	public ArtistAlias(	@NotNull Long id, 
 			@NotNull Artist<?> artist, 
 			@NotBlank String name) {
-				super(name);
+				this.name = name;
 				this.aliasId = id;
 				this.artist = artist;
 	}
@@ -104,7 +121,7 @@ MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>{
 						@NotNull Artist<?> artist, 
 						@NotBlank String name,
 						@NotNull ArtistAliasSortName<?> sortName) {
-		super(name);
+		this.name = name;
 		this.aliasId = id;
 		this.artist = artist;
 		this.artistAliasSortName = sortName;
