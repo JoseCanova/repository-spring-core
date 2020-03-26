@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseRecordingAliasTypeEntity;
 
 @Entity
-public class RecordingAliasType<K extends RecordingAliasType<K>> extends BaseType<K> implements BaseRecordingAliasTypeEntity {
+public class RecordingAliasType<K extends RecordingAliasType<K>> extends BaseType<K> implements BaseRecordingAliasTypeEntity<K> {
 
 	private static final long serialVersionUID = -1922272725479730994L;
 	

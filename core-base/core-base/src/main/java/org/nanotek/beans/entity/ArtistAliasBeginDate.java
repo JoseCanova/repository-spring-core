@@ -4,11 +4,14 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.nanotek.entities.BaseArtistAliasBeginDateEntity;
+import org.nanotek.entities.MutableBeginDateEntity;
 
 @Entity
 @DiscriminatorValue("ArtistAliasBeginDate")
-public class ArtistAliasBeginDate<K extends ArtistAliasBeginDate<K>> extends DatableBase<K ,Integer,Integer,Integer> 
-								  implements BaseArtistAliasBeginDateEntity<K>{
+public class ArtistAliasBeginDate<K extends ArtistAliasBeginDate<K>> 
+extends BeginDateBase<K> 
+implements BaseArtistAliasBeginDateEntity<K>,
+MutableBeginDateEntity<Integer>{
 
 	private static final long serialVersionUID = -9175061452241841539L;
 
