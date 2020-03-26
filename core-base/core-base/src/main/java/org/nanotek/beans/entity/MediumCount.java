@@ -16,7 +16,7 @@ implements MutableMediumEntity<Medium<?>>
 	private static final long serialVersionUID = 4332038107455870423L;
 	
 	@NotNull
-	@OneToOne(optional=false, mappedBy="trackCount")
+	@OneToOne(optional=false, mappedBy="mediumCount")
 	private Medium<?> medium;
 
 	public MediumCount() {

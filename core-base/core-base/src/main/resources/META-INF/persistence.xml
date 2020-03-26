@@ -51,12 +51,12 @@
 		<class>org.nanotek.beans.entity.InstrumentType</class>
 		<class>org.nanotek.beans.entity.Isrc</class>
 		<class>org.nanotek.beans.entity.Label</class>
+		<class>org.nanotek.beans.entity.LabelType</class>
+		<class>org.nanotek.beans.entity.LabelBeginDate</class>
+		<class>org.nanotek.beans.entity.LabelEndDate</class>
 		<class>org.nanotek.beans.entity.Language</class>
 		<class>org.nanotek.beans.entity.LengthyBase</class>
 		<class>org.nanotek.beans.entity.LocaleBase</class>
-		<class>org.nanotek.beans.entity.LongIdNameEntity</class>
-		<class>org.nanotek.beans.entity.LongIdGidNameEntity</class>
-		<class>org.nanotek.beans.entity.LongIdSorNameEntity</class>
 		<class>org.nanotek.beans.entity.LongCountBase</class>
 		<class>org.nanotek.beans.entity.LongLengthyBase</class>
 		<class>org.nanotek.beans.entity.LongNumberBase</class>

@@ -1,147 +1,182 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.nanotek.entities.BaseLabelEntity;
+import org.nanotek.entities.MutableAreaEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableLabelBeginDateEntity;
+import org.nanotek.entities.MutableLabelCodeEntity;
+import org.nanotek.entities.MutableLabelEndDateEntity;
+import org.nanotek.entities.MutableLabelTypeEntity;
+import org.nanotek.entities.MutableNameEntity;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label")
-public class Label<K extends Label<K>> {
+public class Label<K extends Label<K>> 
+extends SortNameBase<K>
+implements BaseLabelEntity<K>,
+MutableGidEntity<UUID>,MutableNameEntity<String>,
+MutableLabelBeginDateEntity<LabelBeginDate<?>>,
+MutableLabelEndDateEntity<LabelEndDate<?>>,
+MutableLabelTypeEntity<LabelType<?>>,
+MutableAreaEntity<Area<?>>,
+MutableLabelCodeEntity<Integer>{
 	
 	@Column
 	private Long labelId;
-	@Column
-	private String gid; 
 
-	@Column
-	private Long sortName; 
-	@Column
-	private String type; 
-	@Column
-	private String labelCode; 
-	@Column
-	private String country;
-	@Column
-	private String beginDateYear; 
-	@Column
-	private String beginDateMonth; 
-	@Column
-	private String beginDateDay; 
-	@Column
-	private String endDateYear; 
-	@Column
-	private String endDateMonth; 
-	@Column
-	private String endDateDay; 
-	@Column
-	private String ipiCode;
+	@NotNull
+	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
+	protected UUID gid;
 	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String name;
+
+	@ManyToOne
+	public LabelType<?> labelType;
+	
+	@Column
+	private Integer labelCode; 
+	
+	@OneToOne
+	@JoinColumn(name = "label_begin_date_id",referencedColumnName = "id")
+	public LabelBeginDate<?> labelBeginDate;
+	
+	@OneToOne
+	@JoinColumn(name = "label_end_date_id" , referencedColumnName = "id")
+	public LabelEndDate<?> labelEndDate;
+	
+	@ManyToOne
+	public Area<?> area;
+	
+	
+	
+	public Label(@NotBlank String sortName, Long labelId, @NotNull UUID gid, @NotNull String name,
+			LabelType<?> labelType) {
+		super(sortName);
+		this.labelId = labelId;
+		this.gid = gid;
+		this.name = name;
+		this.labelType = labelType;
+	}
+	
+
+
+	public Label(@NotBlank String sortName) {
+		super(sortName);
+	}
+
 	public Label() {
 	}
-	
-	public String getGid() {
-		return gid;
-	}
-	
-	public void setGid(String gid) {
-		this.gid = gid;
-	}
-	
-	public Long getSortName() {
-		return sortName;
-	}
-	
-	public void setSortName(Long sortName) {
-		this.sortName = sortName;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public String getLabelCode() {
-		return labelCode;
-	}
-	
-	public void setLabelCode(String labelCode) {
-		this.labelCode = labelCode;
-	}
-	
-	public String getCountry() {
-		return country;
-	}
-	
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	
-	public String getBeginDateYear() {
-		return beginDateYear;
-	}
-	
-	public void setBeginDateYear(String beginDateYear) {
-		this.beginDateYear = beginDateYear;
-	}
-	
-	public String getBeginDateMonth() {
-		return beginDateMonth;
-	}
-	
-	public void setBeginDateMonth(String beginDateMonth) {
-		this.beginDateMonth = beginDateMonth;
-	}
-	
-	public String getBeginDateDay() {
-		return beginDateDay;
-	}
-	
-	public void setBeginDateDay(String beginDateDay) {
-		this.beginDateDay = beginDateDay;
-	}
-	
-	public String getIpiCode() {
-		return ipiCode;
-	}
-	
-	public void setIpiCode(String ipiCode) {
-		this.ipiCode = ipiCode;
-	}
 
-	public String getEndDateYear() {
-		return endDateYear;
-	}
 
-	public void setEndDateYear(String endDateYear) {
-		this.endDateYear = endDateYear;
-	}
-
-	public String getEndDateMonth() {
-		return endDateMonth;
-	}
-
-	public void setEndDateMonth(String endDateMonth) {
-		this.endDateMonth = endDateMonth;
-	}
-
-	public String getEndDateDay() {
-		return endDateDay;
-	}
-
-	public void setEndDateDay(String endDateDay) {
-		this.endDateDay = endDateDay;
-	}
 
 	public Long getLabelId() {
 		return labelId;
 	}
 
+
+
 	public void setLabelId(Long labelId) {
 		this.labelId = labelId;
 	}
+
+
+
+	public UUID getGid() {
+		return gid;
+	}
+
+
+
+	public void setGid(UUID gid) {
+		this.gid = gid;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public LabelType<?> getLabelType() {
+		return labelType;
+	}
+
+
+
+	public void setLabelType(LabelType<?> labelType) {
+		this.labelType = labelType;
+	}
+
+
+
+	public Integer getLabelCode() {
+		return labelCode;
+	}
+
+
+
+	public void setLabelCode(Integer labelCode) {
+		this.labelCode = labelCode;
+	}
+
+
+
+	public LabelBeginDate<?> getLabelBeginDate() {
+		return labelBeginDate;
+	}
+
+
+
+	public void setLabelBeginDate(LabelBeginDate<?> labelBeginDate) {
+		this.labelBeginDate = labelBeginDate;
+	}
+
+
+
+	public LabelEndDate<?> getLabelEndDate() {
+		return labelEndDate;
+	}
+
+
+
+	public void setLabelEndDate(LabelEndDate<?> labelEndDate) {
+		this.labelEndDate = labelEndDate;
+	}
+
+
+
+	public Area<?> getArea() {
+		return area;
+	}
+
+
+
+	public void setArea(Area<?> area) {
+		this.area = area;
+	}
+
+
 
 }
