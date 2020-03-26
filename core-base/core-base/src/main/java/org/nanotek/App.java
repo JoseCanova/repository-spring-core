@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.util.Optional;
+import java.util.concurrent.FutureTask;
 
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
@@ -9,6 +10,7 @@ import org.nanotek.opencsv.CsvResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +50,10 @@ ApplicationRunner{
 	
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
+	@Autowired
+	CsvBaseProcessor <T,S,P,M,CsvResult<?,?>> csvBaseProcessor;
+	
+	
 	public App() {
 	}
 
@@ -61,14 +67,23 @@ ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		
-		CsvBaseProcessor <T,S,P,M,CsvResult<?,?>> processor = (CsvBaseProcessor<T, S, P, M, CsvResult<?,?>>) context.getBean("CsvBaseProcessor");
-		
-		CsvResult<?,?> result ; 
-		do {
-			result =  processor.getNext();
-			Optional.ofNullable(result).ifPresent(r -> log.debug(r.withUUID().toString()));
-		}while(Optional.ofNullable(result).isPresent());
+
+		new Thread() {
+			@Override
+			public void run() {
+//				CsvResult<?,?> result ; 
+				FutureTask <CsvResult<?,?>>r;
+				CsvResult<?,?> taskResult = null;
+				do {
+					r =  csvBaseProcessor.computeNext();
+					try {
+						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}while(true);
+			}
+		}.start();
 		
 	}
 

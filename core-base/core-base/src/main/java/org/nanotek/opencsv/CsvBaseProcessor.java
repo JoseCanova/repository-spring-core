@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
@@ -17,8 +19,14 @@ import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.processor.ProcessorBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.util.concurrent.ListenableFutureTask;
+import org.springframework.util.concurrent.SettableListenableFuture;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
@@ -30,6 +38,8 @@ M extends BaseBean<?,?>,
 R extends Result<?,?>> 
 implements ProcessorBase<R> , Base<R> , InitializingBean{
 
+	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
+	
 	/**
 	 * 
 	 */
@@ -90,35 +100,47 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
     }
 
     public R getNext(){
-    	return computeNext().orElse(null);
+    	R result;
+    	ListenableFutureTask<R> ar = computeNext();
+    	while(!ar.isDone()) {}
+    	try {
+			 result = ar.get();
+		} catch (Exception e) {
+			log.debug("problems" , e);
+			throw new BaseException(e);
+		}
+    	return result;
     }
     
+    @Async(value = "threadPoolTaskExecutor")
     @SuppressWarnings("unchecked")
-	private Optional<R> computeNext()  {
-    	Optional<R> result = Optional.empty(); 
+	public ListenableFutureTask<R> computeNext()  {
+    	Optional<R> result = Optional.empty();
+    	ListenableFutureTask<R> t = null;
     	try { 
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
+				log.debug(result.get().withUUID().toString());
+				t = new ListenableFutureTask<>(new ResultCallable(result.get()));
 				registry.firePropertyChange("next", Optional.empty(), result);
 			}
-    	}catch (Exception ex) {
-    		ex.printStackTrace();
-    		return Optional.empty();
+    	}catch (Exception ex) {log.debug("error", ex);
+    		throw new BaseException(ex);
     	}
-    	return result;
+    	return t;
 	}
 
 	public List<R> load(Long count) {
     	List<R> list = new  ArrayList<>();
-    	int i = 0;
-    	while (i < count) {
-    		Optional<R> bean = computeNext();
-    		bean.ifPresent(value -> list.add(value));
-    		i++;
-    		if(bean.isEmpty()) break;
-    	}
+//    	int i = 0;
+//    	while (i < count) {
+//    		Optional<R> bean = computeNext();
+//    		bean.ifPresent(value -> list.add(value));
+//    		i++;
+//    		if(bean.isEmpty()) break;
+//    	}
     	return list;
     }
 
@@ -126,6 +148,20 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 	public int compareTo(R arg0) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	private class ResultCallable implements Callable<R> {
+
+		private R result;
+
+		public ResultCallable(R r){
+			result = r;
+		}
+		
+		@Override
+		public R call() {
+			return result;
+		}
 	}
 
 }

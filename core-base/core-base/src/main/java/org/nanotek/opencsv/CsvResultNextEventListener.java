@@ -23,7 +23,7 @@ public class CsvResultNextEventListener<K extends CsvResult<?,?>> implements Pro
 		@Override
 		public void propertyChange(PropertyChangeEvent arg0) {
 			Optional<CsvResult<?,?>> result = (Optional<CsvResult<?, ?>>) arg0.getNewValue();
-			result.ifPresent(r -> log.debug("Result UUID" + result.get().withUUID().toString()));
+//			result.ifPresent(r -> log.debug("Result UUID" + result.get().withUUID().toString()));
 			csvResultPredicate.test(result);
 		}
 }

@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
+import org.springframework.scheduling.annotation.EnableAsync;
 //import org.springframework.orm.jpa.JpaTransactionManager;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 //import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -46,7 +47,8 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 
 @Configuration
 @ComponentScan("org.nanotek")
-@EnableCaching
+@EnableCaching(proxyTargetClass=true)
+@EnableAsync(proxyTargetClass=true)
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{

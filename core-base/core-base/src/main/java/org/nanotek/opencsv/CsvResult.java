@@ -8,7 +8,7 @@ import org.nanotek.PredicateBase;
 import org.nanotek.Result;
 import org.nanotek.beans.csv.BaseBean;
 
-public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> extends Result<K,ID>{
+public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> extends Result<K,ID> {
 
 	private static final long serialVersionUID = -5768604376039283739L;
 
@@ -57,4 +57,6 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	public int hashCode() {
 		return md5Digest().hashCode();
 	}
+
+
 }
