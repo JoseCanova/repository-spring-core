@@ -16,7 +16,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseRecordingEntity;
+import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableRecordingIdEntity;
+import org.nanotek.entities.MutableRecordingLengthEntity;
+import org.nanotek.entities.MutableTrackEntitySet;
 
 @Entity
 @Table(name="recording" ,
@@ -24,7 +27,11 @@ uniqueConstraints= {
 @UniqueConstraint(name="uk_recording_id",columnNames={"recording_id"})
 })
 public class Recording<E extends Recording<E>> extends LongIdGidName<E> implements 
-MutableRecordingIdEntity<Long> , BaseRecordingEntity<E>{
+MutableRecordingIdEntity<Long> , 
+BaseRecordingEntity<E>,
+MutableArtistCreditEntity<ArtistCredit<?>>,
+MutableTrackEntitySet<Track<?>>,
+MutableRecordingLengthEntity<RecordingLength<?>>{
 
 	private static final long serialVersionUID = 1795844351898160253L;
 
@@ -38,10 +45,10 @@ MutableRecordingIdEntity<Long> , BaseRecordingEntity<E>{
 	public ArtistCredit<?> artistCredit; 
 	
 	@OneToMany(mappedBy="recording" , fetch=FetchType.LAZY)
-	public Set<Track> tracks;
+	public Set<Track<?>> tracks;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	public RecordingLength recordingLenght;
+	public RecordingLength<?> recordingLength;
 	
 	public Recording() {}
 	
@@ -54,28 +61,29 @@ MutableRecordingIdEntity<Long> , BaseRecordingEntity<E>{
 		super(gid, name);
 	}
 
-	public Set<Track> getTracks() {
+	public Set<Track<?>> getTracks() {
 		return tracks;
 	}
 
-	public void setTracks(Set<Track> tracks) {
+	public void setTracks(Set<Track<?>> tracks) {
 		this.tracks = tracks;
 	}
 
-	public ArtistCredit getArtistCredit() {
+	public ArtistCredit<?> getArtistCredit() {
 		return artistCredit;
 	}
 
-	public void setArtistCredit(ArtistCredit artistCredit) {
+	public void setArtistCredit(ArtistCredit<?> artistCredit) {
 		this.artistCredit = artistCredit;
 	}
 
-	public RecordingLength getRecordingLenght() {
-		return recordingLenght;
+
+	public RecordingLength<?> getRecordingLength() {
+		return recordingLength;
 	}
 
-	public void setRecordingLenght(RecordingLength recordingLenght) {
-		this.recordingLenght = recordingLenght;
+	public void setRecordingLength(RecordingLength<?> recordingLength) {
+		this.recordingLength = recordingLength;
 	}
 
 	@Override
