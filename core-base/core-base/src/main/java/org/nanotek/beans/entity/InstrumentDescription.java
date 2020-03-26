@@ -7,12 +7,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("InstrumentDescription")
-public class InstrumentDescription<K extends InstrumentDescription<K,I>,I extends Instrument<I>> extends DescriptionBase<K>{
+public class InstrumentDescription<K extends InstrumentDescription<K>> extends DescriptionBase<K>{
 
 	private static final long serialVersionUID = 8312961172730412162L;
 
-	@OneToOne(mappedBy = "description")
-	private Instrument instrument;
+	@OneToOne(mappedBy = "instrumentDescription")
+	private Instrument<?> instrument;
 
 	public InstrumentDescription() {
 		super();
@@ -22,11 +22,11 @@ public class InstrumentDescription<K extends InstrumentDescription<K,I>,I extend
 		super(description);
 	}
 	
-	public Instrument getInstrument() {
+	public Instrument<?> getInstrument() {
 		return instrument;
 	}
 
-	public void setInstrument(Instrument instrument) {
+	public void setInstrument(Instrument<?> instrument) {
 		this.instrument = instrument;
 	}
 	
