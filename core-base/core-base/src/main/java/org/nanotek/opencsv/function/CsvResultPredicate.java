@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import javax.validation.Constraint;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
@@ -23,8 +22,6 @@ implements Predicate<Optional<K>>{
 
 	private static Logger log = LoggerFactory.getLogger(CsvResultPredicate.class);
 
-	private static final long serialVersionUID = 7682653207031483470L;
-
 	@Autowired
 	private Validator validator;
 
@@ -34,12 +31,13 @@ implements Predicate<Optional<K>>{
 	@Override
 	public boolean test(Optional<K> value) {
 		boolean test = false;
+		log.debug("checking thread");
 		if (value.isPresent()) {
 			IdBase<?,?> i = value.get().getImmutable();
 			Set<ConstraintViolation<IdBase<?,?>>> violations =validator.validate(i, Default.class) ;
 			if (violations.size() > 0) {
 				violations.stream().forEach(v -> log.debug(v.getRootBeanClass().getName()  + v.getPropertyPath() + "  " + v.getMessage() ));
-				log.debug("CSV RESULT" + value.get().withUUID().toString());
+				log.debug("CSV RESULT INVALID" + value.get().withUUID().toString());
 			}else { 
 				test = true; 
 			}

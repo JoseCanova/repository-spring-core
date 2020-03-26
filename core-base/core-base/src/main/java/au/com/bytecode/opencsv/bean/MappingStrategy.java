@@ -33,7 +33,7 @@ public interface MappingStrategy<T> {
      */
     public abstract PropertyDescriptor findDescriptor(int col) throws IntrospectionException;
 
-    public abstract T createBean() throws InstantiationException, IllegalAccessException;
+    public abstract T createBean();
 
     /**
      * Implementation of this method can grab the header line before parsing begins to use to map columns

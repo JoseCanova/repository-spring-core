@@ -83,7 +83,7 @@ public class HeaderColumnNameMappingStrategy<T extends BaseBean<?,?>> implements
         return beanInfo.getPropertyDescriptors();
     }
 
-    public T createBean() throws InstantiationException, IllegalAccessException {
+    public T createBean() {
         return Base.newInstance(type).get();
     }
 

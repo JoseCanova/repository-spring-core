@@ -1,6 +1,6 @@
 package org.nanotek;
 
-public class BaseException extends RuntimeException {
+public class BaseException extends RuntimeException  {
 
 	private static final long serialVersionUID = -3632076639762410854L;
 

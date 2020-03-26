@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
@@ -13,20 +12,19 @@ import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Registry;
-import org.nanotek.Result;
 import org.nanotek.ValueBase;
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
+import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.nanotek.processor.ProcessorBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFutureTask;
-import org.springframework.util.concurrent.SettableListenableFuture;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
@@ -35,10 +33,15 @@ public class CsvBaseProcessor
 S  extends AnyBase<S,String> , 
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>, 
-R extends Result<?,?>> 
-implements ProcessorBase<R> , Base<R> , InitializingBean{
+R extends CsvResult<?,?>> 
+implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 
 	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
+	
+	@Autowired
+	@Qualifier("CsvProcessorCallBack")
+	public CsvProcessorCallBack<R> csvProcessorCallBack;
+
 	
 	/**
 	 * 
@@ -99,40 +102,38 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
     	mapColumnStrategy.reopen();
     }
 
+    @Async
+    public void run() { 
+    	ListenableFutureTask<R> t = null;
+		t = new ListenableFutureTask<R>(new ResultCallable(computeNext()));
+		t.addCallback(csvProcessorCallBack);
+    } 
+    
     public R getNext(){
-    	R result;
-    	ListenableFutureTask<R> ar = computeNext();
-    	while(!ar.isDone()) {}
-    	try {
-			 result = ar.get();
-		} catch (Exception e) {
-			log.debug("problems" , e);
-			throw new BaseException(e);
-		}
+    	R result = null;
+//    	ListenableFutureTask<R> ar = computeNext();
+//    	while(!ar.isDone()) {}
+//    	try {
+//			 result = ar.get();
+//		} catch (Exception e) {
+//			log.debug("problems" , e);
+//			throw new BaseException(e);
+//		}
     	return result;
     }
     
-    @Async(value = "threadPoolTaskExecutor")
-    @SuppressWarnings("unchecked")
-	public ListenableFutureTask<R> computeNext()  {
+	public  R computeNext()  {
     	Optional<R> result = Optional.empty();
-    	ListenableFutureTask<R> t = null;
-    	try { 
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
 //				log.debug(result.get().withUUID().toString());
-				t = new ListenableFutureTask<>(new ResultCallable(result.get()));
 				registry.firePropertyChange("next", Optional.empty(), result);
-				t.run();
 			}else { 
-				System.exit(0); //throws a base exception..
+				throw new BaseException("Finished");
 			}
-    	}catch (Exception ex) {log.debug("error", ex);
-    		throw new BaseException(ex);
-    	}
-    	return t;
+    	return result.get();
 	}
 
 	public List<R> load(Long count) {

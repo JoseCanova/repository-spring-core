@@ -12,10 +12,21 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 
 	private static final long serialVersionUID = -5768604376039283739L;
 
+	private Boolean valid = false;
+	
 	public CsvResult() {
 		super();
 	}
 
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
+
+	public Boolean getValid() {
+		return valid;
+	}
+	
+	
 	public CsvResult(K immutable, ID id) {
 		super(immutable, id);
 	}

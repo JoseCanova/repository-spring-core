@@ -130,7 +130,7 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 	}
 
 	@Override
-	public M createBean() throws InstantiationException, IllegalAccessException {
+	public M createBean() {
 		return  immutable.cast(Base.newInstance(immutable));
 	}
 

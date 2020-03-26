@@ -11,7 +11,9 @@ import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;
+import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
+import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,7 +55,6 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{
 
-	private static final long serialVersionUID = 8957346440608640854L;
 	
 	
 	private ApplicationContext applicationContext;
@@ -216,12 +217,19 @@ public class BaseConfiguration implements ApplicationContextAware{
 	S  extends AnyBase<S,String> , 
 	P   extends AnyBase<P,Integer> , 
 	M extends BaseBean<?,?>, 
-	R extends Result<?,?>> 
+	R extends CsvResult<?,?>> 
 	CsvBaseProcessor <T,S,P,M,R> getCsvBaseProcessor(
 			@Autowired @Qualifier("BaseParser") BaseParser<T,S,P,M> parser , 
 			@Autowired @Qualifier("CsvToBean")CsvToBean<M> csvToBean,
 			@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) {
 		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
+	}
+	
+	
+	@Bean(name = "CsvProcessorCallBack")
+	@Qualifier(value = "CsvProcessorCallBack")
+	public <R extends CsvResult<?, ?>> CsvProcessorCallBack<R> getCsvProcessorCallBack() {
+		return new CsvProcessorCallBack<R>();
 	}
 	
 	

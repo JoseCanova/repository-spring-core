@@ -39,7 +39,7 @@ public class App 	<T extends BaseMap<S,P,M> ,
 S  extends AnyBase<S,String> , 
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>, 
-R extends Result<?,?>,
+R extends CsvResult<?,?>,
 K extends BaseBean<K,ID>,
 ID extends BaseEntity<?,?>>  extends 
 SpringApplication 
@@ -52,7 +52,7 @@ ApplicationRunner{
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Autowired
-	CsvBaseProcessor <T,S,P,M,CsvResult<?,?>> csvBaseProcessor;
+	CsvBaseProcessor <T,S,P,M,R> csvBaseProcessor;
 	
 	
 	public App() {
@@ -73,12 +73,13 @@ ApplicationRunner{
 			@Override
 			public void run() {
 //				CsvResult<?,?> result ; 
-				FutureTask <CsvResult<?,?>>r;
-				CsvResult<?,?> taskResult = null;
+				FutureTask <R>r;
 				log.debug("start time " + new Date());
 				do {
-					r =  csvBaseProcessor.computeNext();
+					
 					try {
+							new Thread(csvBaseProcessor).start();
+							Thread.sleep(10);
 //						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 					} catch (Exception e) {
