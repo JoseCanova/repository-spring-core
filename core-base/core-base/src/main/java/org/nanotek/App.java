@@ -79,12 +79,12 @@ ApplicationRunner{
 				do {
 					r =  csvBaseProcessor.computeNext();
 					try {
-						   r.get(1000, TimeUnit.MILLISECONDS);
+//						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				}while(taskResult !=null);
+				}while(true);
 			}
 		}.start();
 		log.debug("end time " + new Date());

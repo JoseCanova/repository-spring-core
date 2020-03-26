@@ -122,11 +122,12 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
-				log.debug(result.get().withUUID().toString());
+//				log.debug(result.get().withUUID().toString());
 				t = new ListenableFutureTask<>(new ResultCallable(result.get()));
+				registry.firePropertyChange("next", Optional.empty(), result);
 				t.run();
 			}else { 
-//				System.exit(0); throws a base exception..
+				System.exit(0); //throws a base exception..
 			}
     	}catch (Exception ex) {log.debug("error", ex);
     		throw new BaseException(ex);
@@ -156,7 +157,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 		private R result;
 
 		public ResultCallable(R r){
-			registry.firePropertyChange("next", Optional.empty(), result);
+			Optional.ofNullable(r).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 			result = r;
 		}
 		
