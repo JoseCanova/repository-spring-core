@@ -10,6 +10,7 @@
 		<class>org.nanotek.beans.entity.TypeNamedEntity</class>
 		<class>org.nanotek.beans.entity.BaseType</class>
 		<class>org.nanotek.beans.entity.BaseTypeDescription</class>
+		<class>org.nanotek.beans.entity.BaseDateBase</class>
 		<class>org.nanotek.beans.entity.ArtistComment</class>
 		<class>org.nanotek.beans.entity.AreaType</class>
 		<class>org.nanotek.beans.entity.Area</class>
@@ -38,10 +39,10 @@
 		<class>org.nanotek.beans.entity.BaseType</class>
 		<class>org.nanotek.beans.entity.CommentBase</class>
 		<class>org.nanotek.beans.entity.CountBase</class>
+		<class>org.nanotek.beans.entity.EndDateBase</class>		
 		<class>org.nanotek.beans.entity.DescriptionBase</class>
 		<class>org.nanotek.beans.entity.InstrumentComment</class>
 		<class>org.nanotek.beans.entity.InstrumentDescription</class>
-		<class>org.nanotek.beans.entity.DatableBase</class>
 		<class>org.nanotek.beans.entity.DescriptionBase</class>
 		<class>org.nanotek.beans.entity.Gender</class>
 		<class>org.nanotek.beans.entity.Isrc</class>
