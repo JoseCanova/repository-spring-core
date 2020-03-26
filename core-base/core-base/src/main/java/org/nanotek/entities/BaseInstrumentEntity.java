@@ -1,4 +1,4 @@
 package org.nanotek.entities;
 
-public interface BaseInstrumentEntity<T> {
+public interface BaseInstrumentEntity {
 }

@@ -18,7 +18,7 @@ public class InstrumentComment<K extends InstrumentComment<K>> extends CommentBa
 																					MutableCommentEntity<String>{
 	
 	@NotNull
-	@OneToOne(optional=false ,  mappedBy = "comment")
+	@OneToOne(optional=false ,  mappedBy = "instrumentComment")
 	private Instrument<?> instrument;
 
 	private static final long serialVersionUID = -4917697368647426796L;

@@ -10,10 +10,10 @@ import org.nanotek.entities.BaseMutableGidEntity;
 import org.nanotek.entities.MutableGidEntity;
 
 @MappedSuperclass
-public abstract class LongIdGidName<K extends LongIdName<K>> 
+public abstract class LongIdGidName<K extends LongIdGidName<K>> 
 extends LongIdName<K> 
 implements  
-BaseMutableGidEntity<K>
+BaseMutableGidEntity
 , MutableGidEntity<String>{
 
 	

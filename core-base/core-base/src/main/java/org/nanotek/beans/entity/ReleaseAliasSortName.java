@@ -15,7 +15,7 @@ public class ReleaseAliasSortName<K extends ReleaseAliasSortName<K>> extends Sor
 	private static final long serialVersionUID = -7823743704784694617L;
 	
 	@OneToOne(mappedBy = "sortName")
-	private ReleaseAlias releaseAlias;
+	private ReleaseAlias<?> releaseAlias;
 	
 	public ReleaseAliasSortName(@NotBlank String sortName) {
 		super(sortName);
@@ -24,11 +24,11 @@ public class ReleaseAliasSortName<K extends ReleaseAliasSortName<K>> extends Sor
 	public ReleaseAliasSortName() {
 	}
 
-	public ReleaseAlias getReleaseAlias() {
+	public ReleaseAlias<?> getReleaseAlias() {
 		return releaseAlias;
 	}
 
-	public void setReleaseAlias(ReleaseAlias releaseAlias) {
+	public void setReleaseAlias(ReleaseAlias<?> releaseAlias) {
 		this.releaseAlias = releaseAlias;
 	}
 

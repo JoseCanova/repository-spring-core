@@ -6,15 +6,17 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import org.nanotek.entities.BaseReleaseAliasLocaleEntity;
+import org.nanotek.entities.MutableReleaseAliasEntity;
 
 @Entity
 @DiscriminatorValue("ReleaseAliasLocale")
 public class ReleaseAliasLocale<K extends ReleaseAliasLocale<K>> extends LocaleBase<K> implements 
-BaseReleaseAliasLocaleEntity<K>{
+BaseReleaseAliasLocaleEntity<K>,
+MutableReleaseAliasEntity<ReleaseAlias<?>>{
 
 	private static final long serialVersionUID = -5609249998157622354L;
 	
-	@OneToOne(mappedBy = "locale")
+	@OneToOne(mappedBy = "releaseAliasLocale")
 	private ReleaseAlias<?> releaseAlias;
 
 	public ReleaseAliasLocale() {
@@ -31,10 +33,6 @@ BaseReleaseAliasLocaleEntity<K>{
 	public void setReleaseAlias(ReleaseAlias<?> releaseAlias) {
 		this.releaseAlias = releaseAlias;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
+
 	
 }

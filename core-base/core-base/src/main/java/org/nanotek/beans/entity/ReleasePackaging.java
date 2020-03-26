@@ -1,8 +1,10 @@
 package org.nanotek.beans.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.ReleasePackagingBase;
 import org.nanotek.entities.BaseReleasePackagingEntity;
 import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.entities.MutableReleasePackagingId;
+import org.nanotek.entities.MutableReleaseSetEntity;
 
 @Entity
 @Table(name="release_packaging",
@@ -20,7 +24,8 @@ uniqueConstraints= {
 public class ReleasePackaging<K extends ReleasePackaging<K>> extends LongIdGidName<K> 
 implements BaseReleasePackagingEntity<K>,
 ReleasePackagingBase<Long>,
-MutableReleaseEntity<Release<?>>{
+MutableReleasePackagingId<Long>,
+MutableReleaseSetEntity<Release<?>>{
 
 	private static final long serialVersionUID = 5351338443793025420L;
 
@@ -28,8 +33,8 @@ MutableReleaseEntity<Release<?>>{
 	@Column(name="release_packaging_id" , nullable=false)
 	public Long releasePackagingId;
 	
-	@OneToOne(mappedBy = "releasePackaging")
-	public Release<?> release;
+	@OneToMany(mappedBy = "releasePackaging")
+	public Set<Release<?>> releases;
 	
 	
 	public ReleasePackaging() {}
@@ -47,12 +52,12 @@ MutableReleaseEntity<Release<?>>{
 		this.releasePackagingId = releasePackagingId;
 	}
 
-	public Release<?> getRelease() {
-		return release;
+	public Set<Release<?>> getReleases() {
+		return releases;
 	}
 
-	public void setRelease(Release<?> release) {
-		this.release = release;
+	public void setReleases(Set<Release<?>> releases) {
+		this.releases = releases;
 	}
 
 

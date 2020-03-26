@@ -88,7 +88,7 @@ MutableArtistListEntity<Artist<?>>
 	joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public List<Artist<?>> artists;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="recording")
 	public Set<Recording<?>> recordings; 
 	
 	public ArtistCredit() {}

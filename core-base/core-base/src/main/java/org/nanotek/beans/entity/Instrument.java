@@ -25,7 +25,7 @@ uniqueConstraints= {
 @UniqueConstraint(name="uk_instrument_id",columnNames={"instrument_id"})
 })
 public class Instrument<E extends Instrument<E>> extends LongIdGidName<E>  
-implements BaseInstrumentEntity<E>,
+implements BaseInstrumentEntity,
 MutableInstrumentIdEntity<Long>,
 MutableInstrumentTypeEntity<InstrumentType<?>>,
 MutableInstrumentCommentEntity<InstrumentComment<?>>,
