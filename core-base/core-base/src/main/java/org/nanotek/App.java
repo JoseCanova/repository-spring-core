@@ -2,7 +2,6 @@ package org.nanotek;
 
 import java.util.Date;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +27,7 @@ import org.springframework.context.ApplicationContextAware;
 //import org.springframework.integration.config.EnableIntegration;
 //import org.springframework.integration.config.EnableIntegrationManagement;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
 //@EnableIntegration
@@ -43,11 +44,15 @@ R extends CsvResult<?,?>,
 K extends BaseBean<K,ID>,
 ID extends BaseEntity<?,?>>  extends 
 SpringApplication 
-implements ApplicationContextAware ,  
+implements 
 SpringApplicationRunListener , 
 ApplicationRunner{
 
-	private ApplicationContext context;
+	
+	@Autowired
+	@Qualifier(value = "serviceTaskExecutor")
+    private ThreadPoolTaskExecutor serviceTaskExecutor;
+
 	
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -78,8 +83,8 @@ ApplicationRunner{
 				do {
 					
 					try {
-							new Thread(csvBaseProcessor).start();
-							Thread.sleep(10);
+							serviceTaskExecutor.execute(csvBaseProcessor);
+							Thread.currentThread().join(1);
 //						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 					} catch (Exception e) {
@@ -89,11 +94,6 @@ ApplicationRunner{
 			}
 		}.start();
 		log.debug("end time " + new Date());
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
 	}
 
 	

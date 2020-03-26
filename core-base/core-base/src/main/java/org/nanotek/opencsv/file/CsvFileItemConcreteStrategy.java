@@ -5,9 +5,11 @@ import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -92,7 +94,9 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 			StringBuffer fileLocationStr = new StringBuffer();
 			fileLocationStr.append(getFileLocation())
 			.append(System.getProperty("file.separator")).append(getFileName().toString());
-			reader =  new BufferedReader(new FileReader(new File(fileLocationStr.toString()),Charset.forName("UTF-8")));
+			FileInputStream fin = new FileInputStream(new File(fileLocationStr.toString()));
+			InputStreamReader ir = new InputStreamReader(fin,Charset.forName("UTF-8"));
+			reader =  new BufferedReader(ir, 1638400);
 		} catch (Exception e) {
 			throw new BaseException("CSV File not found" , e);
 

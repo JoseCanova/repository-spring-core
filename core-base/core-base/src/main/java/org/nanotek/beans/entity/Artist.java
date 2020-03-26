@@ -238,4 +238,9 @@ MutableArtistEndAreaEntity<Area<?>>{
 		return this.area;
 	}
 
+	@Override
+	public String toString() {
+		return withUUID().toString();
+	}
+	
 }

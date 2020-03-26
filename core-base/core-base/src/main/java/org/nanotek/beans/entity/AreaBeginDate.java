@@ -3,11 +3,14 @@ package org.nanotek.beans.entity;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.nanotek.entities.BaseAreaBeginDateEntity;
+import org.nanotek.entities.AreaBeginDateEntity;
+import org.nanotek.entities.MutableBeginDateEntity;
 
 @Entity
 @DiscriminatorValue("AreaBeginDate")
-public class AreaBeginDate<K extends AreaBeginDate<K>> extends DatableBase<K,Integer,Integer,Integer> implements  BaseAreaBeginDateEntity<K> {
+public class AreaBeginDate<K extends AreaBeginDate<K>> extends BeginDateBase<K> implements  
+AreaBeginDateEntity<K>,
+MutableBeginDateEntity<Integer> {
 
 	private static final long serialVersionUID = 4640549011512215583L;
 

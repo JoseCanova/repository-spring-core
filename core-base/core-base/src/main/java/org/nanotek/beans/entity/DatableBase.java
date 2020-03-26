@@ -11,7 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.entities.MutableDatableBaseEntity;
+import org.nanotek.entities.MutableDateEntity;
 
 @Entity
 @Table(name="composite_dates",
@@ -22,7 +22,7 @@ import org.nanotek.entities.MutableDatableBaseEntity;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "class_name" ,  columnDefinition = "VARCHAR NOT NULL")
 public class DatableBase <K extends DatableBase<K,Y,M,D>, Y extends Serializable , M extends Serializable , D extends Serializable>
-extends BrainzBaseEntity<K>  implements MutableDatableBaseEntity<Y , M , D> {
+extends BrainzBaseEntity<K>  {
 
 
 	private static final long serialVersionUID = -4544159118931690162L;
@@ -55,30 +55,6 @@ extends BrainzBaseEntity<K>  implements MutableDatableBaseEntity<Y , M , D> {
 		super();
 		this.year = year;
 		this.month = month;
-		this.day = day;
-	}
-
-	public Y getYear() {
-		return year;
-	}
-
-	public void setYear(Y year) {
-		this.year = year;
-	}
-
-	public M getMonth() {
-		return month;
-	}
-
-	public void setMonth(M  month) {
-		this.month = month;
-	}
-
-	public D getDay() {
-		return day;
-	}
-
-	public void setDay(D day) {
 		this.day = day;
 	}
 

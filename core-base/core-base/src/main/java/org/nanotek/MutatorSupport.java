@@ -19,12 +19,12 @@ public interface MutatorSupport<T> {
 			BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptors();
 			
-//			Method[] ms = clazz.getDeclaredMethods();
-//	        	for (PropertyDescriptor d : desc) {
-//	        		System.out.println(d.getName());
-//	        		System.out.println(d.getReadMethod());
-//	        		System.out.println(d.getWriteMethod());
-//	        	}
+			Method[] ms = clazz.getDeclaredMethods();
+	        	for (PropertyDescriptor d : desc) {
+	        		System.out.println(d.getName());
+	        		System.out.println(d.getReadMethod());
+	        		System.out.println(d.getWriteMethod());
+	        	}
 			}catch (Exception ex) { 
 				ex.printStackTrace();
 			}

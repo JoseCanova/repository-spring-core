@@ -102,7 +102,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
     	mapColumnStrategy.reopen();
     }
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     public void run() { 
     	ListenableFutureTask<R> t = null;
 		t = new ListenableFutureTask<R>(new ResultCallable(computeNext()));
