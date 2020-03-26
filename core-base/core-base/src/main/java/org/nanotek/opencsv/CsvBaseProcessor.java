@@ -124,7 +124,9 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
 				log.debug(result.get().withUUID().toString());
 				t = new ListenableFutureTask<>(new ResultCallable(result.get()));
-				registry.firePropertyChange("next", Optional.empty(), result);
+				t.run();
+			}else { 
+//				System.exit(0); throws a base exception..
 			}
     	}catch (Exception ex) {log.debug("error", ex);
     		throw new BaseException(ex);
@@ -146,7 +148,6 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 
 	@Override
 	public int compareTo(R arg0) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -155,6 +156,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean{
 		private R result;
 
 		public ResultCallable(R r){
+			registry.firePropertyChange("next", Optional.empty(), result);
 			result = r;
 		}
 		

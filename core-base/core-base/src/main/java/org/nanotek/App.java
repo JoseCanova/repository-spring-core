@@ -1,7 +1,8 @@
 package org.nanotek;
 
-import java.util.Optional;
+import java.util.Date;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
@@ -74,17 +75,19 @@ ApplicationRunner{
 //				CsvResult<?,?> result ; 
 				FutureTask <CsvResult<?,?>>r;
 				CsvResult<?,?> taskResult = null;
+				log.debug("start time " + new Date());
 				do {
 					r =  csvBaseProcessor.computeNext();
 					try {
+						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				}while(true);
+				}while(taskResult !=null);
 			}
 		}.start();
-		
+		log.debug("end time " + new Date());
 	}
 
 	@Override
