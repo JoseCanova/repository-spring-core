@@ -3,7 +3,6 @@ package org.nanotek;
 import java.util.Date;
 import java.util.concurrent.FutureTask;
 
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;

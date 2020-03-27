@@ -3,16 +3,34 @@ package org.nanotek.beans.csv;
 import java.util.Optional;
 
 import org.nanotek.Base;
-import org.nanotek.BaseEntity;
+import org.nanotek.BaseBean;
 import org.nanotek.ImmutableBase;
+import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistAlias;
+import org.nanotek.beans.entity.ArtistAliasBeginDate;
+import org.nanotek.beans.entity.ArtistAliasEndDate;
+import org.nanotek.beans.entity.ArtistAliasLocale;
+import org.nanotek.beans.entity.ArtistAliasSortName;
+import org.nanotek.beans.entity.ArtistAliasType;
+import org.nanotek.entities.BaseArtistAliasBean;
+import org.nanotek.entities.MutableAliasIdEntity;
+import org.nanotek.entities.MutableArtistAliasBeginDateEntity;
+import org.nanotek.entities.MutableArtistAliasEndDateEntity;
+import org.nanotek.entities.MutableArtistAliasLocaleEntity;
+import org.nanotek.entities.MutableArtistAliasSortNameEntity;
+import org.nanotek.entities.MutableArtistAliasTypeEntity;
+import org.nanotek.entities.MutableArtistEntity;
+import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.entities.MutableBeginDayEntity;
+import org.nanotek.entities.MutableBeginMonthEntity;
+import org.nanotek.entities.MutableBeginYearEntity;
+import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.opencsv.CsvBaseBean;
-import org.nanotek.opencsv.CsvResult;
 
 public class ArtistAliasBean
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<ID extends ArtistAlias<?>, K extends ImmutableBase<K,ID>> 
 extends CsvBaseBean<ID>
-implements BaseBean<K,ID>{
+implements BaseArtistAliasBean<K,ID>{
 
 	private static final long serialVersionUID = -2745888243978330408L;
 	
@@ -23,17 +41,17 @@ implements BaseBean<K,ID>{
 		return id;
 	}
 	
-	public Long artistAliasId; 
+	public Long aliasId; 
 	public Long artistId; 
 	public String name; 
-	public String locale; 
+	public Long artistAliasLocale; 
 	public Integer editsPending;
 	public String lastUpdated; 
-	public Long type; 
-	public String sortName;
-	public Integer beginDateYear; 
-	public Integer beginDateMonth;
-	public Integer beginDateDay;
+	public Long artistAliasType; 
+	public String artistAliasSortName;
+	public Integer beginYear; 
+	public Integer beginMonth;
+	public Integer beginDay;
 	public Integer endDateYear; 
 	public Integer endDateMonth;
 	public Integer endDateDay;
@@ -42,11 +60,11 @@ implements BaseBean<K,ID>{
 	
 	
 	public ArtistAliasBean() {
-		super(ArtistAlias.class);
+		super(null);
 	}
 
 	public ArtistAliasBean(Class<ID> id) {
-		super();
+		super(id);
 	}
 
 	public Long getArtistId() {
@@ -69,16 +87,6 @@ implements BaseBean<K,ID>{
 	}
 
 
-	public String getLocale() {
-		return locale;
-	}
-
-
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
-
-
 	public Integer getEditsPending() {
 		return editsPending;
 	}
@@ -96,56 +104,6 @@ implements BaseBean<K,ID>{
 
 	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
-	}
-
-
-	public Long getType() {
-		return type;
-	}
-
-
-	public void setType(Long type) {
-		this.type = type;
-	}
-
-
-	public String getSortName() {
-		return sortName;
-	}
-
-
-	public void setSortName(String sortName) {
-		this.sortName = sortName;
-	}
-
-
-	public Integer getBeginDateYear() {
-		return beginDateYear;
-	}
-
-
-	public void setBeginDateYear(Integer beginDateYear) {
-		this.beginDateYear = beginDateYear;
-	}
-
-
-	public Integer getBeginDateMonth() {
-		return beginDateMonth;
-	}
-
-
-	public void setBeginDateMonth(Integer beginDateMonth) {
-		this.beginDateMonth = beginDateMonth;
-	}
-
-
-	public Integer getBeginDateDay() {
-		return beginDateDay;
-	}
-
-
-	public void setBeginDateDay(Integer beginDateDay) {
-		this.beginDateDay = beginDateDay;
 	}
 
 
@@ -199,19 +157,6 @@ implements BaseBean<K,ID>{
 	}
 
 
-
-
-	public Long getArtistAliasId() {
-		return artistAliasId;
-	}
-
-
-
-
-	public void setArtistAliasId(Long artistAliasId) {
-		this.artistAliasId = artistAliasId;
-	}
-
 	@Override
 	public int compareTo(K to) {
 		return withUUID().compareTo(to.withUUID());
@@ -229,6 +174,62 @@ implements BaseBean<K,ID>{
 	@Override
 	public int hashCode() {
 		return md5Digest().hashCode();
+	}
+
+	public Long getAliasId() {
+		return aliasId;
+	}
+
+	public void setAliasId(Long aliasId) {
+		this.aliasId = aliasId;
+	}
+
+	public String getArtistAliasSortName() {
+		return artistAliasSortName;
+	}
+
+	public void setArtistAliasSortName(String artistAliasSortName) {
+		this.artistAliasSortName = artistAliasSortName;
+	}
+
+	public Long getArtistAliasLocale() {
+		return artistAliasLocale;
+	}
+
+	public void setArtistAliasLocale(Long artistAliasLocale) {
+		this.artistAliasLocale = artistAliasLocale;
+	}
+
+	public Long getArtistAliasType() {
+		return artistAliasType;
+	}
+
+	public void setArtistAliasType(Long artistAliasType) {
+		this.artistAliasType = artistAliasType;
+	}
+
+	public Integer getBeginYear() {
+		return beginYear;
+	}
+
+	public void setBeginYear(Integer beginYear) {
+		this.beginYear = beginYear;
+	}
+
+	public Integer getBeginMonth() {
+		return beginMonth;
+	}
+
+	public void setBeginMonth(Integer beginMonth) {
+		this.beginMonth = beginMonth;
+	}
+
+	public Integer getBeginDay() {
+		return beginDay;
+	}
+
+	public void setBeginDay(Integer beginDay) {
+		this.beginDay = beginDay;
 	}
 	
 }

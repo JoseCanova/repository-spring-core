@@ -3,8 +3,8 @@ package org.nanotek.converters.spring;
 import java.util.Optional;
 
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
-import org.nanotek.beans.csv.BaseBean;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

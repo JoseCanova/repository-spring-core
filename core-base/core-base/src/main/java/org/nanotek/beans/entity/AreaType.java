@@ -35,7 +35,6 @@ implements  BaseAreaTypeEntity<E>, MutableAreaEntity<Area<?>>{
 	
 	public AreaType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
-		// TODO Auto-generated constructor stub
 	}
 
 

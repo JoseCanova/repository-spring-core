@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nanotek.AnyBase;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConfigMappingStrategy;
 import org.springframework.beans.factory.InitializingBean;

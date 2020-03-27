@@ -1,9 +1,9 @@
 package org.nanotek.opencsv.base;
 
 import org.nanotek.AnyBase;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.beans.csv.ArtistBean;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;

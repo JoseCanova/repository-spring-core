@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;

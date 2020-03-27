@@ -7,7 +7,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 
 	private static final long serialVersionUID = 8744939030325475864L;
 
-	K value;
+	K value = null;
 	
 	Class<? extends K> sClass = null;
 	
@@ -22,7 +22,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 			} catch (ClassNotFoundException e) {
 					throw new BaseException(e);
 			}
-		}, BaseException::new);
+		},BaseException::new);
 	}
 	
 	public static <S extends Base<S>,K extends Comparable<K>,A extends AnyBase<S,K>> A of(K s) { 
@@ -49,8 +49,10 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	public boolean equals(Object obj) {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
+				if (obj.getClass().equals(AnyBase.class)) {
 				AnyBase theBase = AnyBase.class.cast(obj);
 				return this.compareTo(theBase) == 0;}
+			}
 			return false;
 	}
 	

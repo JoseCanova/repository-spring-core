@@ -2,7 +2,7 @@ package au.com.bytecode.opencsv.bean;
 
 import java.io.IOException;
 
-import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.BaseBean;
 
 import au.com.bytecode.opencsv.CSVReader;
 

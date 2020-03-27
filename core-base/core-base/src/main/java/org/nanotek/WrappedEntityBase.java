@@ -3,7 +3,6 @@ package org.nanotek;
 import java.util.Optional;
 
 import org.assertj.core.util.Arrays;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.opencsv.WrappedBaseClass;
 
 public interface WrappedEntityBase<K extends IdBase<?,?>> extends Wrapper <K> {

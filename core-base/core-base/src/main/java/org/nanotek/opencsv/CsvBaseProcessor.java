@@ -8,12 +8,12 @@ import java.util.concurrent.Callable;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.Registry;
 import org.nanotek.ValueBase;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;

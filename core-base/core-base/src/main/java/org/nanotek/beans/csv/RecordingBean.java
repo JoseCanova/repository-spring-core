@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Recording;

@@ -2,7 +2,7 @@ package au.com.bytecode.opencsv.bean;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.BaseBean;
 
 /**
  Copyright 2007,2010 Kyle Miller.

@@ -3,38 +3,18 @@ package org.nanotek.beans.csv;
 import java.util.Optional;
 
 import org.nanotek.Base;
-import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.entities.MutableAreaIdEntity;
-import org.nanotek.entities.MutableBeginDayEntity;
-import org.nanotek.entities.MutableBeginMonthEntity;
-import org.nanotek.entities.MutableBeginYearEntity;
-import org.nanotek.entities.MutableCommentEntity;
-import org.nanotek.entities.MutableEndDayEntity;
-import org.nanotek.entities.MutableEndMonthEntity;
-import org.nanotek.entities.MutableEndYearEntity;
-import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutableTypeEntity;
+import org.nanotek.beans.entity.AreaBeginDate;
+import org.nanotek.beans.entity.AreaComment;
+import org.nanotek.beans.entity.AreaEndDate;
+import org.nanotek.beans.entity.AreaType;
 import org.nanotek.opencsv.CsvBaseBean;
-import org.nanotek.opencsv.CsvResult;
 
 public class AreaBean
-<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,?>> 
+<K extends ImmutableBase<K,ID> , ID extends Area<?>> 
 extends CsvBaseBean<ID>
-implements BaseBean<K,ID>,
-MutableAreaIdEntity<Long>,
-MutableGidEntity<String>,
-MutableNameEntity<String>,
-MutableBeginYearEntity<Integer>,
-MutableBeginMonthEntity<Integer>,
-MutableBeginDayEntity<Integer>,
-MutableEndYearEntity<Integer>,
-MutableEndMonthEntity<Integer>,
-MutableEndDayEntity<Integer>,
-MutableCommentEntity<String>,
-MutableTypeEntity<Long>{
+implements BaseAreaBean<K,ID>{
 
 	private static final long serialVersionUID = 1708381486272333902L;
 	
@@ -55,15 +35,12 @@ MutableTypeEntity<Long>{
 
 
 	public AreaBean() {
-		super(Area.class);
+		super(null);
 	}
 
 	public AreaBean(Class<ID>id) {
 		super(id);
 	}
-	
-
-	
 	
 	@Override
 	public int compareTo(K to) {
@@ -89,7 +66,7 @@ MutableTypeEntity<Long>{
 	}
 
 	public void setAreaId(Long areaId) {
-		this.areaId = areaId;
+		set("areaId", areaId);
 	}
 
 	public String getGid() {
@@ -98,6 +75,7 @@ MutableTypeEntity<Long>{
 
 	public void setGid(String gid) {
 		this.gid = gid;
+		set("gid",gid);
 	}
 
 	public String getName() {
@@ -106,6 +84,7 @@ MutableTypeEntity<Long>{
 
 	public void setName(String name) {
 		this.name = name;
+		set("name",name);
 	}
 
 	public Long getType() {
@@ -114,6 +93,9 @@ MutableTypeEntity<Long>{
 
 	public void setType(Long type) {
 		this.type = type;
+		AreaType aType = new AreaType();
+		aType.setTypeId(type);
+		set("areaType" , aType);
 	}
 
 	public Integer getEditsPending() {
@@ -138,6 +120,14 @@ MutableTypeEntity<Long>{
 
 	public void setBeginYear(Integer beginYear) {
 		this.beginYear = beginYear;
+		Optional.ofNullable(getId().getAreaBeginDate()).ifPresentOrElse(d ->
+						{
+							d.setBeginYear(beginYear);
+						}, () -> {
+							AreaBeginDate dt = new AreaBeginDate(beginYear);
+							getId().setAreaBeginDate(dt);
+						}); 
+		
 	}
 
 	public Integer getBeginMonth() {
@@ -146,6 +136,10 @@ MutableTypeEntity<Long>{
 
 	public void setBeginMonth(Integer beginMonth) {
 		this.beginMonth = beginMonth;
+		Optional.ofNullable(getId().getAreaBeginDate()).ifPresent(d ->
+				{
+					d.setBeginMonth(beginMonth);
+				});
 	}
 
 	public Integer getBeginDay() {
@@ -154,6 +148,10 @@ MutableTypeEntity<Long>{
 
 	public void setBeginDay(Integer beginDay) {
 		this.beginDay = beginDay;
+		Optional.ofNullable(getId().getAreaBeginDate()).ifPresent(d ->
+		{
+			d.setBeginDay(beginDay);
+		});
 	}
 
 	public Integer getEndYear() {
@@ -162,6 +160,15 @@ MutableTypeEntity<Long>{
 
 	public void setEndYear(Integer endYear) {
 		this.endYear = endYear;
+		Optional.ofNullable(endYear).ifPresent( e -> {;
+			Optional.ofNullable(getId().getAreaEndDate()).ifPresentOrElse(d ->
+			{
+				d.setEndYear(beginYear);
+			}, () -> {
+				AreaEndDate dt = new AreaEndDate(endYear);
+				getId().setAreaEndDate(dt);
+			}); 
+		});
 	}
 
 	public Integer getEndMonth() {
@@ -170,6 +177,10 @@ MutableTypeEntity<Long>{
 
 	public void setEndMonth(Integer endMonth) {
 		this.endMonth = endMonth;
+		Optional.ofNullable(getId().getAreaEndDate()).ifPresent(d ->
+		{
+			d.setEndMonth(beginMonth);
+		});
 	}
 
 	public Integer getEndDay() {
@@ -178,6 +189,10 @@ MutableTypeEntity<Long>{
 
 	public void setEndDay(Integer endDay) {
 		this.endDay = endDay;
+		Optional.ofNullable(getId().getAreaEndDate()).ifPresent(d ->
+		{
+			d.setEndDay(beginDay);
+		});
 	}
 
 	public String getEnded() {
@@ -194,6 +209,10 @@ MutableTypeEntity<Long>{
 
 	public void setComment(String comment) {
 		this.comment = comment;
+		Optional.ofNullable(getId().getAreaComment()).ifPresentOrElse(c -> c.setComment(comment) ,() ->{
+			AreaComment ac = new AreaComment(comment);
+			getId().setAreaComment(ac);
+		});
 	}
 	
 }

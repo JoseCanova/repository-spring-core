@@ -3,42 +3,40 @@ package org.nanotek.beans.csv;
 import java.util.Optional;
 
 import org.nanotek.Base;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
+import org.nanotek.BaseBean;
+import org.nanotek.BaseException;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.opencsv.CsvBaseBean;
-import org.nanotek.opencsv.CsvResult; 
+import org.nanotek.beans.entity.BaseTypeDescription;
+import org.nanotek.entities.BaseAreaTypeBean;
+import org.nanotek.opencsv.CsvBaseBean; 
 
 public class AreaTypeBean
-<ID extends BaseEntity<?,?>, K extends ImmutableBase<K,ID>> 
+<K extends BaseBean<K,AreaType<?>>,ID extends AreaType<?>> 
 extends CsvBaseBean<ID>
-implements BaseBean<K,ID>{
+implements BaseAreaTypeBean<K> {
 
 	private static final long serialVersionUID = -6271568961378072618L;
-	
-	private ID id; 
-	
-	@Override
-	public ID getId() {
-		return id;
-	}
-	
 
-
-	public Long areaTypeId; 
+	public Long typeId; 
 	public String name; 
 	public Long parent; 
 	public Long childOrder; 
 	public String description; 
 	public String gid;
-	
+
+
 	public AreaTypeBean() {
-		super(AreaType.class);
+		super(prepareClass());
 	}
 
-	public AreaTypeBean(ID id) {
-		super();
-		this.id = id;
+	private  static <A extends AreaType<?> , B extends A> Class<A> prepareClass() {
+		try {
+			return (Class<A>) Class.forName(AreaType.class.getName()).asSubclass(AreaType.class);
+		}catch(Exception ex) {throw new BaseException();}
+	}
+
+	public Long getTypeId() {
+		return typeId;
 	}
 
 
@@ -50,6 +48,7 @@ implements BaseBean<K,ID>{
 
 	public void setName(String name) {
 		this.name = name;
+		getId().setName(name);
 	}
 
 
@@ -60,6 +59,7 @@ implements BaseBean<K,ID>{
 
 	public void setParent(Long parent) {
 		this.parent = parent;
+		getId().setParent(parent);
 	}
 
 
@@ -70,6 +70,7 @@ implements BaseBean<K,ID>{
 
 	public void setChildOrder(Long childOrder) {
 		this.childOrder = childOrder;
+		getId().setChildOrder(childOrder);
 	}
 
 
@@ -80,6 +81,10 @@ implements BaseBean<K,ID>{
 
 	public void setDescription(String description) {
 		this.description = description;
+		Optional.ofNullable(description).ifPresent(d ->{
+			BaseTypeDescription td = new BaseTypeDescription();
+			td.setDescription(description);
+		});
 	}
 
 
@@ -92,32 +97,29 @@ implements BaseBean<K,ID>{
 	}
 
 
-	public Long getAreaTypeId() {
-		return areaTypeId;
-	}
-
-
-	public void setAreaTypeId(Long areaTypeId) {
-		this.areaTypeId = areaTypeId;
-	}
-
 	@Override
 	public int compareTo(K to) {
 		return withUUID().compareTo(to.withUUID());
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = AreaTypeBean.class.cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
+		boolean b = Optional.ofNullable(obj).isPresent();
+		if (b) {
+			Base theBase = AreaTypeBean.class.cast(obj);
+			return this.compareTo(theBase) == 0;}
+		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return md5Digest().hashCode();
+	}
+
+	public static void main(String[] args) {
+		AreaTypeBean a = new AreaTypeBean();
+		a.setTypeId(1000L);
+		System.out.println();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package org.nanotek.repository.jpa.projections;
+package org.nanotek.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,7 +1,7 @@
 package org.nanotek.opencsv.file;
 
 import org.nanotek.AnyBase;
-import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

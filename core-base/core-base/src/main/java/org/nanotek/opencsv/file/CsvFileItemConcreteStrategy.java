@@ -15,8 +15,8 @@ import java.util.Map;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.MapColumnStrategy;
 import org.slf4j.Logger;

@@ -1,10 +1,9 @@
 package org.nanotek.opencsv;
 
-import org.nanotek.IdBase;
-import org.nanotek.WrappedEntityBase;
-import org.springframework.beans.BeanWrapperImpl;
+import org.apache.commons.beanutils.WrapDynaBean;
+import org.nanotek.Base;
 
-public class WrappedBaseClass <ID extends IdBase<?,?>> extends BeanWrapperImpl implements WrappedEntityBase<ID>{
+public class WrappedBaseClass <ID extends Base<?>> extends WrapDynaBean{
 
 	private static final long serialVersionUID = 1676627942338335870L;
 

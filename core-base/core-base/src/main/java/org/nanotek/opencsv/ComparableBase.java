@@ -1,7 +1,7 @@
 package org.nanotek.opencsv;
 
 import org.nanotek.AnyBase;
-import org.nanotek.beans.csv.BaseBean;
+import org.nanotek.BaseBean;
 
 public abstract class ComparableBase <K extends AnyBase<K,ID>, ID extends BaseBean<ID,?> >
 extends CsvBaseBean<ID>{

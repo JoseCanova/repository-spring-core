@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseAreaTypeEntity<T  extends BaseAreaTypeEntity<T>>{
+import java.io.Serializable;
+
+public interface BaseAreaTypeEntity<T  extends Serializable>{
 
 }

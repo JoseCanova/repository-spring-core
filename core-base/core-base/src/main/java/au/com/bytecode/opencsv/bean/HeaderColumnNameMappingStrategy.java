@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
-import org.nanotek.beans.csv.BaseBean;
 
 import au.com.bytecode.opencsv.CSVReader;
 

@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import org.assertj.core.util.Arrays;
 import org.nanotek.AnyBase;
+import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistBean;
-import org.nanotek.beans.csv.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
 

@@ -3,10 +3,10 @@ package org.nanotek.opencsv;
 import java.util.Optional;
 
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.PredicateBase;
 import org.nanotek.Result;
-import org.nanotek.beans.csv.BaseBean;
 
 public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> extends Result<K,ID> {
 
