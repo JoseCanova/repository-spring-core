@@ -36,7 +36,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		List<Class<?>> intf =  ClassUtils.getAllInterfaces(BaseAreaTypeBean.class);
+		List<Class<?>> intf =  ClassUtils.getAllInterfaces(this.getClass());
 		for (Class<?> i : intf) {
 			Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(i);
 			pd.ifPresent(p -> {

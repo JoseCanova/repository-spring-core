@@ -5,7 +5,6 @@ import java.beans.Beans;
 import java.beans.Introspector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Type;
 import java.util.Optional;
 
 
