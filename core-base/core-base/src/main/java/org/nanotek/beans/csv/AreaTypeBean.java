@@ -2,13 +2,20 @@ package org.nanotek.beans.csv;
 
 import java.util.Optional;
 
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.BaseTypeDescription;
 import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.opencsv.CsvBaseBean; 
+
+//public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
+//extends Base<K>,
+//BaseBean<K,AreaType<?>>
+//<K extends BaseBean<K,AreaType<?>>,ID extends AreaType<?>> 
+//extends CsvBaseBean<ID>
+//implements BaseAreaTypeBean<K>
+
 
 public class AreaTypeBean
 <K extends BaseBean<K,AreaType<?>>,ID extends AreaType<?>> 
@@ -35,10 +42,6 @@ implements BaseAreaTypeBean<K> {
 		}catch(Exception ex) {throw new BaseException();}
 	}
 
-	public Long getTypeId() {
-		return typeId;
-	}
-
 
 
 	public String getName() {
@@ -46,10 +49,6 @@ implements BaseAreaTypeBean<K> {
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
-		getId().setName(name);
-	}
 
 
 	public Long getParent() {
@@ -57,20 +56,10 @@ implements BaseAreaTypeBean<K> {
 	}
 
 
-	public void setParent(Long parent) {
-		this.parent = parent;
-		getId().setParent(parent);
-	}
 
 
 	public Long getChildOrder() {
 		return childOrder;
-	}
-
-
-	public void setChildOrder(Long childOrder) {
-		this.childOrder = childOrder;
-		getId().setChildOrder(childOrder);
 	}
 
 
@@ -96,30 +85,5 @@ implements BaseAreaTypeBean<K> {
 		this.gid = gid;
 	}
 
-
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		boolean b = Optional.ofNullable(obj).isPresent();
-		if (b) {
-			Base theBase = AreaTypeBean.class.cast(obj);
-			return this.compareTo(theBase) == 0;}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
-
-	public static void main(String[] args) {
-		AreaTypeBean a = new AreaTypeBean();
-		a.setTypeId(1000L);
-		System.out.println();
-	}
 	
 }

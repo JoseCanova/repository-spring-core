@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import org.assertj.core.util.introspection.ClassUtils;
-import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.opencsv.CsvBaseBean;
 
 public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>
@@ -26,12 +25,27 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			throw new BaseInstantiationException(e);
 		}
 	}
+	
 	static <K extends BaseBean<?,?>, S extends K> Optional<S> newBaseBeanInstance(Class<S> clazz , Object[] args , Class<?>... classArgs  ) throws BaseInstantiationException { 
 		try {
 			return Optional.of(clazz.getDeclaredConstructor(classArgs).newInstance(args));
 		} catch (Exception e) {
 			throw new BaseInstantiationException(e);
 		}
+	}
+	
+	default <V>  Optional<V> write(Class<?> clazz , V v){ 
+		Optional.ofNullable(v).ifPresent(vl ->
+					MutatorSupport
+					.getPropertyDescriptor(clazz)
+					.ifPresent(m -> getCsvBaseBean().set(m.getName(),vl)));
+		return Optional.ofNullable(v);
+	}
+	
+	default <V>  Optional<?> read(Class<V> clazz){ 
+		return MutatorSupport
+					.getPropertyDescriptor(clazz).filter(pd-> pd!=null).
+						map(p -> getCsvBaseBean().get(p.getName()));
 	}
 	
 	@PostConstruct
@@ -41,6 +55,9 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(i);
 			pd.ifPresent(p -> {
 				if(p.getWriteMethod() !=null) { 
+					registryMethod(i , p.getName());
+				}
+				if(p.getReadMethod() !=null) {
 					registryMethod(i , p.getName());
 				}
 			});

@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import java.util.Optional;
 
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
@@ -11,8 +12,9 @@ import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.opencsv.CsvBaseBean;
 
+
 public class AreaBean
-<K extends ImmutableBase<K,ID> , ID extends Area<?>> 
+<K extends BaseBean<K,Area<?>> , ID extends Area<?>> 
 extends CsvBaseBean<ID>
 implements BaseAreaBean<K,ID>{
 

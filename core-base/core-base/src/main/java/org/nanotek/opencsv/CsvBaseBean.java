@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.nanotek.Base;
 import org.nanotek.IdBase;
-import org.nanotek.beans.csv.AreaBean;
+import org.nanotek.beans.csv.AreaTypeBean;
 
 public class CsvBaseBean<ID extends Base<?>> 
 extends WrappedBaseClass<ID>{
@@ -47,10 +47,9 @@ extends WrappedBaseClass<ID>{
 		
 	
 	public static void main(String[] args) { 
-		AreaBean opt =   new AreaBean();
-		opt.setAreaId(1000L);
-		opt.setType(1000L);
-		System.out.println("");
+		AreaTypeBean opt =   new AreaTypeBean();
+		opt.setTypeId(null);
+		System.out.println(opt.getTypeId());
 	}
 
 	public Optional<PropertyChangeSupport> getPropertyChangeSupport() {
