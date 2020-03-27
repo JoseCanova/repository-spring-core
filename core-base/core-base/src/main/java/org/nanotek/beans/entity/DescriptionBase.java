@@ -8,6 +8,8 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.entities.MutableDescriptionBaseEntity;
+
 @Entity
 @Table(name="description_base",
 						indexes= {
@@ -19,7 +21,7 @@ import javax.validation.constraints.NotNull;
 	    columnDefinition = "VARCHAR NOT NULL"
 	)
 public abstract class DescriptionBase<K extends DescriptionBase<K>> 
-extends BrainzBaseEntity<K>  {
+extends BrainzBaseEntity<K> implements MutableDescriptionBaseEntity<String> {
 
 	private static final long serialVersionUID = -4976009864905272762L;
 

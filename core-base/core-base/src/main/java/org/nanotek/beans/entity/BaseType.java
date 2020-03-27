@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.MutableChildOrderEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableParentEntity;

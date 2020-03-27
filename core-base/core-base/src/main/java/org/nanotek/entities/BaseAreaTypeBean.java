@@ -6,7 +6,8 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.ChildOrderEntity;
 import org.nanotek.entities.immutables.DescriptionEntity;
 
-public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
+public interface BaseAreaTypeBean
+<K extends BaseBean<K,AreaType<?>>> 
 extends Base<K>,
 BaseBean<K,AreaType<?>>,
 MutableTypeIdEntity<Long>,

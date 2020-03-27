@@ -6,9 +6,8 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.entities.BaseArtistBean;
 import org.nanotek.entities.MutableAreaEntity;
 import org.nanotek.entities.MutableArtistBeginAreaEntity;
 import org.nanotek.entities.MutableArtistEndAreaEntity;
@@ -26,26 +25,22 @@ import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableTypeEntity;
 import org.nanotek.opencsv.CsvBaseBean;
 
-public class ArtistBean
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends CsvBaseBean<ID>
-implements BaseBean<K,ID>,
-MutableArtistIdEntity<Long>,
-MutableGidEntity<String>,
-MutableNameEntity<String>,
-MutableBeginDateYearEntity<Integer>,
-MutableBeginDateMonthEntity<Integer>,
-MutableBeginDateDayEntity<Integer>,
-MutableEndDateYearEntity<Integer>,
-MutableEndDateMonthEntity<Integer>,
-MutableEndDateDayEntity<Integer>,
-MutableTypeEntity<Long>,
-MutableAreaEntity<Long>,
-MutableGenderEntity<Long>,
-MutableCommentEntity<String>,
-MutableArtistBeginAreaEntity<Long>,
-MutableArtistEndAreaEntity<Long>
+import com.sun.xml.bind.v2.model.core.ID;
 
+
+/*
+ * public class AreaBean
+<K extends BaseBean<K,Area<?>>> 
+extends CsvBaseBean<Area<?>>
+implements BaseAreaBean<K>
+ * 
+ */
+
+
+public class ArtistBean
+<K extends BaseBean<K,Artist<?>>> 
+extends CsvBaseBean<Artist<?>>
+implements BaseArtistBean<K>
 {
 
 

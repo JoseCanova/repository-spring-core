@@ -48,16 +48,5 @@ implements BaseAreaBean<K>{
 		return 0;
 	}
 
-	@Override
-	public void setGid(String k) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getGid() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
