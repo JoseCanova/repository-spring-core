@@ -1,11 +1,7 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
 import org.nanotek.BaseBean;
-import org.nanotek.BaseException;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.beans.entity.BaseTypeDescription;
 import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.opencsv.CsvBaseBean; 
 
@@ -33,48 +29,15 @@ implements BaseAreaTypeBean<K> {
 
 
 	public AreaTypeBean() {
-		super(prepareClass());
+		super((Class<? extends ID>) AreaType.class.asSubclass(AreaType.class));
 	}
 
-	private  static <A extends AreaType<?> , B extends A> Class<A> prepareClass() {
-		try {
-			return (Class<A>) Class.forName(AreaType.class.getName()).asSubclass(AreaType.class);
-		}catch(Exception ex) {throw new BaseException();}
+	
+
+	public AreaTypeBean(Class<? extends ID> class1) {
+		super(class1);
 	}
 
-
-
-	public String getName() {
-		return name;
-	}
-
-
-
-
-	public Long getParent() {
-		return parent;
-	}
-
-
-
-
-	public Long getChildOrder() {
-		return childOrder;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-		Optional.ofNullable(description).ifPresent(d ->{
-			BaseTypeDescription td = new BaseTypeDescription();
-			td.setDescription(description);
-		});
-	}
 
 
 	public String getGid() {
@@ -85,5 +48,9 @@ implements BaseAreaTypeBean<K> {
 		this.gid = gid;
 	}
 
+	public static void main(String[] args) {
+		AreaTypeBean<?,? super AreaType<?>> a = new AreaTypeBean<>(AreaType.class);
+	}
+	
 	
 }

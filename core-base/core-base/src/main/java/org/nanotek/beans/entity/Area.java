@@ -94,36 +94,41 @@ public class Area
 		this.name = k;
 	}
 	
-	public Area() {}
+	public Area() {
+		areaBeginDate = new AreaBeginDate<>();
+		areaEndDate = new AreaEndDate<>();
+		areaType = new AreaType();
+		areaComment = new AreaComment();
+	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
 		this.name = name;
 		this.gid = gid;
 		this.areaId = id;
 		this.areaType = type;
+		areaBeginDate = new AreaBeginDate<>();
+		areaEndDate = new AreaEndDate<>();
+		areaType = new AreaType();
+		areaComment = new AreaComment();
 	}
 
 	@Override
 	public Long getAreaId() {
-		// TODO Auto-generated method stub
 		return areaId;
 	}
 
 	@Override
 	public AreaComment<?> getAreaComment() {
-		// TODO Auto-generated method stub
 		return areaComment;
 	}
 
 	@Override
 	public AreaBeginDate<?> getAreaBeginDate() {
-		// TODO Auto-generated method stub
 		return areaBeginDate;
 	}
 
 	@Override
 	public AreaEndDate<?> getAreaEndDate() {
-		// TODO Auto-generated method stub
 		return areaEndDate;
 	}
 

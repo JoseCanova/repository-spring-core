@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import org.assertj.core.util.introspection.ClassUtils;
+import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.opencsv.CsvBaseBean;
 
 public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>
@@ -17,6 +18,13 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	void registryMethod(Class<?> clazz, String atributeName);
 
 	CsvBaseBean<?> getCsvBaseBean();
+	
+	static <K extends ImmutableBase> Class<? extends K> 
+	prepareBaseBeanClass(Class<K> clazz) {
+		try {
+			return (Class<? extends K>) Class.forName(clazz.getName()).asSubclass(ImmutableBase.class);
+		}catch(Exception ex) {throw new BaseException();}
+	}
 	
 	static <K extends BaseBean<?,?>> Optional<K> newBaseBeanInstance(Class<K> clazz) throws BaseInstantiationException { 
 		try {

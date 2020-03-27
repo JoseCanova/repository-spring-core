@@ -1,11 +1,13 @@
 package org.nanotek.entities;
 
+import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.IdBase;
-import org.nanotek.ImmutableBase;
+import org.nanotek.beans.entity.ArtistAlias;
 
-public interface BaseArtistAliasBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> 
-extends BaseBean<K,ID>,
+
+public interface BaseArtistAliasBean<K extends BaseBean<K,ArtistAlias<?>>>
+extends BaseBean<K,ArtistAlias<?>>,
+Base<K>,
 MutableAliasIdEntity<Long>,
 MutableArtistAliasSortNameEntity<String>,
 MutableArtistIdEntity<Long> , 

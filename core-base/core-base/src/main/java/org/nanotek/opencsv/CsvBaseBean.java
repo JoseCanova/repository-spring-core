@@ -16,7 +16,7 @@ extends WrappedBaseClass<ID>{
 
 	private ID id;
 
-	protected Class<ID> baseClass;
+	protected Class<? extends ID> baseClass;
 	
 	protected PropertyChangeSupport propertyChangeSupport = null;
 	
@@ -29,7 +29,7 @@ extends WrappedBaseClass<ID>{
 		interfaceMap = new HashMap<>();
 	}
 	
-	public CsvBaseBean(Class<ID> class1) {
+	public CsvBaseBean(Class<? extends ID> class1) {
 		super(CsvBaseBean.prepareBeanInstance(class1.asSubclass(IdBase.class)));
 		baseClass = class1;
 		id =  class1.cast(getInstance());

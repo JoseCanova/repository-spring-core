@@ -27,10 +27,16 @@ import org.nanotek.entities.MutableBeginYearEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.opencsv.CsvBaseBean;
 
+//public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
+//extends Base<K>,
+//BaseBean<K,AreaType<?>>
+//<K extends BaseBean<K,AreaType<?>>,ID extends AreaType<?>> 
+//extends CsvBaseBean<ID>
+//implements BaseAreaTypeBean<K>
 public class ArtistAliasBean
-<ID extends ArtistAlias<?>, K extends ImmutableBase<K,ID>> 
+<ID extends ArtistAlias<?>, K extends BaseBean<K,ArtistAlias<?>>> 
 extends CsvBaseBean<ID>
-implements BaseArtistAliasBean<K,ID>{
+implements BaseArtistAliasBean<K>{
 
 	private static final long serialVersionUID = -2745888243978330408L;
 	
