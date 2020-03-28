@@ -2,6 +2,7 @@ package org.nanotek;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	}
 	
 	
-	boolean registryMethod(Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
+	boolean registryMethod(Object id, Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
 	CsvBaseBean<?> getCsvBaseBean();
 	
 	static <K extends ImmutableBase> Class<? extends K> 
@@ -64,39 +65,36 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		List<Class<?>> intf =  ClassUtils.getAllInterfaces(getId().getClass());
-		processInterfaces(intf);
+		Object id = this.getId();
+		List<Class<?>> intf =  getAllInterfaces(id.getClass());
+		processInterfaces(id,intf);
 	}
 	
 	
-	default void processInterfaces(List<Class<?>> allInterfaces) {
+	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
+		return ClassUtils.getAllInterfaces(class1);
+	}
+
+	
+	default void processInterfaces(Object id , List<Class<?>> allInterfaces) {
 		List<Class<?>> remaining = allInterfaces.stream()
-					.filter(interf -> registredInterface(interf) == true).collect(Collectors.toList());
+					.filter(interf -> registredInterface(id , interf) == true).collect(Collectors.toList());
 		System.out.println("LIST OF REMAINING CLASSES " + remaining.size());
 	}
 	
-	default boolean registredInterface(Class<?> interf) {
+	default boolean registredInterface(Object id , Class<?> interf) {
 		Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(interf);
 	return	pd.map(p-> {
 			boolean result = false;
 			if(p.getWriteMethod() !=null) { 
-				result = registryMethod(interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
+				result = registryMethod(id , interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
 			}
 			if(p.getReadMethod() !=null) {
-				result = registryMethod(interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
+				result = registryMethod(id , interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 			}
 			return result;
 		}).filter(r -> r==true).orElse(false);
-		
-//		pd.ifPresent(p -> {
-//			boolean result = false;
-//			if(p.getWriteMethod() !=null) { 
-//				result = registryMethod(interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
-//			}
-//			if(p.getReadMethod() !=null) {
-//				result = registryMethod(interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
-//			}
-//		});
+
 	}
 
 }

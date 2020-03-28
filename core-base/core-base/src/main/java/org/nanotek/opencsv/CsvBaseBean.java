@@ -1,7 +1,6 @@
 package org.nanotek.opencsv;
 
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -65,17 +64,17 @@ public class CsvBaseBean<ID extends Base<?>>
 
 	
 	
-	public boolean registryMethod(Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
+	public boolean registryMethod(Object id, Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
 		if(interfaceMap.get(clazz) !=null) return true;
 		Long numFound = Arrays.asList(baseClass.getFields()).stream().map(f ->{
-			return visitField(f,clazz,atributeName,method,mtype);
+			return visitField(id , f,clazz,atributeName,method,mtype);
 		}).filter(b -> b== true).count();
 		return numFound>0?true:false;
 	}
 
 	
 
-	private boolean visitField(Field f, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
+	private boolean visitField(Object id, Field f, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
 		boolean found=false;
 		System.out.println(f.getName().equals(atributeName) + "  " + clazz.getName());
 		if(f.getName().equals(atributeName)){
@@ -85,7 +84,7 @@ public class CsvBaseBean<ID extends Base<?>>
 			MethodHandle mh;
 			try {
 				mh = lookup.findVirtual(clazz, method.getName(), mt);
-				mh.bindTo(this.getId());
+				mh.bindTo(id);
 				interfaceMap.put(clazz, mh);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -165,5 +164,4 @@ public class CsvBaseBean<ID extends Base<?>>
 	public ID getId() {
 		return id;
 	}
-
 }
