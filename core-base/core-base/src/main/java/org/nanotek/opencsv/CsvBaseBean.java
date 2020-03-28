@@ -63,45 +63,56 @@ public class CsvBaseBean<ID extends Base<?>>
 		return interfaceMap.get(clazz);
 	}
 
-	public void registryMethod(Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
-		Arrays.asList(baseClass.getFields()).forEach(f ->{
-			boolean found=false;
-			System.out.println(f.getName().equals(atributeName) + "  " + clazz.getName());
-			if(f.getName().equals(atributeName)){
-				found = true;
-				Class<?>[] parameters = method.getParameterTypes();
-				Class<?> returnType  = method.getReturnType();
-				MethodType mt = MethodType.methodType(returnType, mtype.equals(METHOD_TYPE.WRITE)?parameters:new Class[] {});
-				MethodHandle mh;
-				try {
-					mh = lookup.findVirtual(this.getClass(), method.getName(), mt);
-					mh.bindTo(this.getId());
-					interfaceMap.put(clazz, mh);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				System.out.println(clazz.getName() + "  " + atributeName + "  " + method.getName());
-			}
-//			else { 
-//				Object objectRef = findObjectInstance(this,clazz, atributeName, method , mtype);
-//			}
-//			else { 
-//				if(!f.getType().isPrimitive()) { 
-//					for (Field fi : f.getType().getFields()) {
-//						registryMethod(clazz, atributeName, method);
-//					}
-//				}
-//			}
-		});
+	
+	
+	public boolean registryMethod(Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
+		if(interfaceMap.get(clazz) !=null) return true;
+		Long numFound = Arrays.asList(baseClass.getFields()).stream().map(f ->{
+			return visitField(f,clazz,atributeName,method,mtype);
+		}).filter(b -> b== true).count();
+		return numFound>0?true:false;
 	}
 
 	
 
+	private boolean visitField(Field f, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
+		boolean found=false;
+		System.out.println(f.getName().equals(atributeName) + "  " + clazz.getName());
+		if(f.getName().equals(atributeName)){
+			Class<?>[] parameters = method.getParameterTypes();
+			Class<?> returnType  = method.getReturnType();
+			MethodType mt = MethodType.methodType(returnType, mtype.equals(METHOD_TYPE.WRITE)?parameters:new Class[] {});
+			MethodHandle mh;
+			try {
+				mh = lookup.findVirtual(clazz, method.getName(), mt);
+				mh.bindTo(this.getId());
+				interfaceMap.put(clazz, mh);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}			
+			System.out.println(clazz.getName() + "  " + atributeName + "  " + method.getName());
+			found = true;
+		}		
+		return found;
+	}
 
-	private Object findObjectInstance(CsvBaseBean<ID> csvBaseBean, Class<?> clazz, String atributeName, Method method,
-			METHOD_TYPE mtype) {
+
+	private Object findObjectInstance(ID id2, Class<? extends ID> baseClass2, Class<?> clazz, String atributeName,
+			Method method, METHOD_TYPE mtype) {
 		return null;
 	}
+
+//	private Object findObjectInstance(CsvBaseBean<ID> csvBaseBean, Class<?> clazz, String atributeName, Method method,
+//			METHOD_TYPE mtype) {
+//		return null;
+//	}
+
+
+//	private Object findObjectInstance(ID id2, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
@@ -138,10 +149,10 @@ public class CsvBaseBean<ID extends Base<?>>
 		a.registryDynaBean();
 		a.setArtistId(1000L);
 		a.getArtistId();
-//		a.setBeginDateYear(10);
-//		a.setBeginDateMonth(10);
+		a.setBeginDateYear(10);
+		a.setBeginDateMonth(10);
 		System.out.println(a.getArtistId());
-//		System.out.println(a.getBeginDateYear());
+		System.out.println(a.getBeginDateYear());
 		System.out.println("");
 
 	}

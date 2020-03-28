@@ -9,7 +9,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistBeginDate;
-import org.nanotek.beans.entity.BeginDateBase;
+import org.nanotek.entities.immutables.ArtistBeginDateEntity;
 import org.nanotek.entities.immutables.ArtistIdEntity;
 import org.nanotek.entities.immutables.BeginYearEntity;
 import org.nanotek.entities.immutables.EndDayEntity;
@@ -66,14 +66,19 @@ MutableTypeEntity<Long>
 
 	@Override
 	default Integer getBeginDateYear() {
-		return read(BeginYearEntity.class)
-				.filter(y->y!=null)
-				.map(m->Integer.class.cast(m)).orElse(Integer.MIN_VALUE);
+		Optional<ArtistBeginDate<?>> d = read(ArtistBeginDateEntity.class).map(m ->ArtistBeginDate.class.cast(m));
+		
+		return d.map(d1 ->{
+			return d1.getBeginYear();
+		}).orElse(Integer.MIN_VALUE);
+//		return read(BeginYearEntity.class)
+//				.filter(y->y!=null)
+//				.map(m->Integer.class.cast(m)).orElse(Integer.MIN_VALUE);
 	}
 	
 	@Override
 	default void setBeginDateYear(Integer t) {
-		Optional<ArtistBeginDate<?>> d = read(MutableArtistBeginDateEntity.class).map(m ->ArtistBeginDate.class.cast(m));
+		Optional<ArtistBeginDate<?>> d = read(ArtistBeginDateEntity.class).map(m ->ArtistBeginDate.class.cast(m));
 		d.ifPresent(d1->d1.setBeginYear(t));
 	}
 	

@@ -4,6 +4,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -21,7 +22,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	}
 	
 	
-	void registryMethod(Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
+	boolean registryMethod(Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
 	CsvBaseBean<?> getCsvBaseBean();
 	
 	static <K extends ImmutableBase> Class<? extends K> 
@@ -64,17 +65,38 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	@PostConstruct
 	default void registryDynaBean() { 
 		List<Class<?>> intf =  ClassUtils.getAllInterfaces(getId().getClass());
-		for (Class<?> i : intf) {
-			Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(i);
-			pd.ifPresent(p -> {
-				if(p.getWriteMethod() !=null) { 
-					registryMethod(i , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
-				}
-				if(p.getReadMethod() !=null) {
-					registryMethod(i , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
-				}
-			});
-		}
+		processInterfaces(intf);
+	}
+	
+	
+	default void processInterfaces(List<Class<?>> allInterfaces) {
+		List<Class<?>> remaining = allInterfaces.stream()
+					.filter(interf -> registredInterface(interf) == true).collect(Collectors.toList());
+		System.out.println("LIST OF REMAINING CLASSES " + remaining.size());
+	}
+	
+	default boolean registredInterface(Class<?> interf) {
+		Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(interf);
+	return	pd.map(p-> {
+			boolean result = false;
+			if(p.getWriteMethod() !=null) { 
+				result = registryMethod(interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
+			}
+			if(p.getReadMethod() !=null) {
+				result = registryMethod(interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
+			}
+			return result;
+		}).filter(r -> r==true).orElse(false);
+		
+//		pd.ifPresent(p -> {
+//			boolean result = false;
+//			if(p.getWriteMethod() !=null) { 
+//				result = registryMethod(interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
+//			}
+//			if(p.getReadMethod() !=null) {
+//				result = registryMethod(interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
+//			}
+//		});
 	}
 
 }
