@@ -8,9 +8,5 @@ public interface MutableArtistIdEntity<K extends Serializable> extends ArtistIdE
 {
 
 	void setArtistId(K k);
-	
-	default MutableArtistIdEntity<K> getMutableArtistIdEntity() { 
-		return MutableArtistIdEntity.class.cast(this);
-	}
-	
+
 }

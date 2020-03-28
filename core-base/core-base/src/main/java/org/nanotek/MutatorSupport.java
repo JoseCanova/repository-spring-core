@@ -40,7 +40,7 @@ public interface MutatorSupport<T> extends PropertyChangeSupportEntity<T>{
 		try {
 			BeanInfo beanInfo = Introspector.getBeanInfo(type);
 			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptors();
-			if (desc.length > 1) return Optional.empty();
+			if (desc.length != 1) return Optional.empty();
 			return Optional.of(desc[0]);
 		}catch (Exception ex) { 
 			ex.printStackTrace();

@@ -28,8 +28,6 @@ implements BaseAreaBean<K>{
 	public String ended; 
 	public String comment; 
 
-	public AreaBean() {
-	}
 
 	public AreaBean(Class<Area<?>>id) {
 		super(id);
@@ -39,7 +37,8 @@ implements BaseAreaBean<K>{
 	public static void main(String[] args) {
 		AreaBean a = new AreaBean(Area.class);
 		a.setComment("This is a comment");
-		System.out.println(a.getComment());
+		a.setAreaId(1000L);
+		System.out.println(a.getComment() + "  " + a.getAreaId());
 	}
 
 	@Override

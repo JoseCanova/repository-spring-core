@@ -2,8 +2,8 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-public interface MutableArtistBeginAreaEntity<K extends Serializable> {
-	public void setBeginArea(K k);
-	public K getBeginArea();
+import org.nanotek.entities.immutables.ArtistBeginAreaEntity;
 
+public interface MutableArtistBeginAreaEntity<K extends Serializable> extends ArtistBeginAreaEntity<K>{
+	 void setBeginArea(K k);
 }

@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +14,14 @@ import org.nanotek.opencsv.CsvBaseBean;
 public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>
 {
 
-	String getAtributeName(Class<?> clazz);
 	
-	void registryMethod(Class<?> clazz, String atributeName);
-
+	public static enum METHOD_TYPE { 
+		READ,
+		WRITE;
+	}
+	
+	
+	void registryMethod(Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
 	CsvBaseBean<?> getCsvBaseBean();
 	
 	static <K extends ImmutableBase> Class<? extends K> 
@@ -46,31 +51,30 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		Optional.ofNullable(v).ifPresent(vl ->
 					MutatorSupport
 					.getPropertyDescriptor(clazz)
-					.ifPresent(m -> getCsvBaseBean().set(m.getName(),vl)));
+					.ifPresent(m -> getCsvBaseBean().writeA(clazz,vl)));
 		return Optional.ofNullable(v);
 	}
 	
 	default <V>  Optional<?> read(Class<V> clazz){ 
 		return MutatorSupport
 					.getPropertyDescriptor(clazz).filter(pd-> pd!=null).
-						map(p -> getCsvBaseBean().get(p.getName()));
+						map(p -> getCsvBaseBean().readB(clazz).get());
 	}
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		List<Class<?>> intf =  ClassUtils.getAllInterfaces(this.getClass());
+		List<Class<?>> intf =  ClassUtils.getAllInterfaces(getId().getClass());
 		for (Class<?> i : intf) {
 			Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(i);
 			pd.ifPresent(p -> {
 				if(p.getWriteMethod() !=null) { 
-					registryMethod(i , p.getName());
+					registryMethod(i , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
 				}
 				if(p.getReadMethod() !=null) {
-					registryMethod(i , p.getName());
+					registryMethod(i , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 				}
 			});
 		}
 	}
-	
-	
+
 }

@@ -2,9 +2,11 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-public interface MutableBeginDateYearEntity<T extends Serializable>{
+import org.nanotek.entities.immutables.BeginDateYearEntity;
+
+public interface MutableBeginDateYearEntity<T extends Serializable> extends BeginDateYearEntity<T>{
 	
-	public void setBeginDateYear(T t);
-	public T getBeginDateYear();
+	 void setBeginDateYear(T t);
+
 
 }
