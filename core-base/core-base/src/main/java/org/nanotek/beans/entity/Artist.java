@@ -154,11 +154,11 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	public Area<?> endArea;
 	
 	public Artist() {
-		artistSortName = new ArtistSortName<>();
-		artistComment = new ArtistComment<>();
+		artistSortName = new ArtistSortName<>(this);
+		artistComment = new ArtistComment<>(this);
 		artistBeginDate = new ArtistBeginDate<>();
 		artistEndDate = new ArtistEndDate<>();
-		artistType = new ArtistType<>();
+		artistType = new ArtistType<>(this);
 		gender = new Gender<>();
 		area = new Area<>();
 		artistCredits = new ArrayList<ArtistCredit<?>>();

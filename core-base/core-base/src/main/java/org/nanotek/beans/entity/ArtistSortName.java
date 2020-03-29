@@ -18,8 +18,15 @@ implements MutableArtistEntity<Artist<?>> {
 	@OneToOne(mappedBy = "artistSortName")
 	private Artist<?> artist;
 	
+	
+	
 	public ArtistSortName(@NotBlank String sortName) {
 		super(sortName);
+	}
+
+	public ArtistSortName(Artist<?> artist) {
+		super();
+		this.artist = artist;
 	}
 
 	public ArtistSortName() {

@@ -19,6 +19,11 @@ public class ArtistComment<E extends ArtistComment<E>> extends CommentBase<E> im
 
 	public ArtistComment() {}
 	
+	public ArtistComment(Artist<?> artist) {
+		super();
+		this.artist = artist;
+	}
+	
 	public ArtistComment(@NotBlank String comment, Artist<?> artist) {
 		super(comment);
 	}

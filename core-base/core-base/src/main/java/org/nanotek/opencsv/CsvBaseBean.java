@@ -56,6 +56,30 @@ implements BaseBean<K,ID>
 		registryDynaBean();
 		mountInstanceMap();
 	}
+	
+	@Override
+	public void mountInstanceMap() {
+		Class<? extends ID> baseEntity = getBaseClass();
+		Arrays.asList(baseEntity.getFields())
+					.stream()
+					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
+					.forEach(f -> {
+						try { 
+								Class<?> fieldClass = f.getType();
+								BaseEntity<?,?> entity ;
+								try { 
+									entity = (BaseEntity<?, ?>) f.get(id);
+								}catch(Exception ex) {
+									throw new BaseException (ex);
+								}
+								f.set(id, entity);
+								getInstanceMap().put(f.getType(), entity);
+						}catch  (Exception ex) { 
+							throw new BaseException(ex);
+						}
+					});
+	}
+	
 
 	public Optional<PropertyChangeSupport> getPropertyChangeSupport() {
 		return Optional.ofNullable(propertyChangeSupport);
@@ -206,8 +230,8 @@ implements BaseBean<K,ID>
 
 	public static void main(String[] args) { 
 		CsvBaseBean<?,Artist<?>> a = new CsvBaseBean<>(Artist.class);
-				a.write(Artist.class, MutableArtistIdEntity.class, 1000L);
-				a.read(Artist.class, ArtistIdEntity.class);
+				a.write(MutableArtistIdEntity.class, 1000L);
+				a.read(ArtistIdEntity.class);
 //				a.write(Area.class , MutableAreaIdEntity.class, 1000L);
 		//		a.read(MutableArtistIdEntity.class);
 		System.out.println("");
@@ -218,7 +242,7 @@ implements BaseBean<K,ID>
 	}
 
 	public HashMap<Class<?> , BaseEntity<?,?>> getInstanceMap(){
-		return instanceMap;
+		return instanceMap == null ? new HashMap<>(): instanceMap;
 	}
 
 	public ID getId() {

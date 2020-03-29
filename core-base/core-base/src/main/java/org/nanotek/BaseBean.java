@@ -99,18 +99,16 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	default void mountInstanceMap() {
 		Class<? extends ID> baseEntity = getBaseClass();
+		Object theId = getId();
 		Arrays.asList(baseEntity.getFields())
 					.stream()
+					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
 					.forEach(f -> {
 						try { 
-							if (f.get(getId()) == null) { 
 								Class<?> fieldClass = f.getType();
 								BaseEntity<?,?> entity = createBaseEntity(fieldClass);
-								f.set(getId(), baseEntity);
+								f.set(theId, entity);
 								getInstanceMap().put(f.getType(), entity);
-							}else {
-								getInstanceMap().put(f.getType(), BaseEntity.class.cast(f.get(getId())));
-							}
 						}catch  (Exception ex) { 
 							throw new BaseException(ex);
 						}
