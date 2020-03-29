@@ -74,7 +74,7 @@ public class Area
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
-	private AreaComment<?> areaComment;
+	public AreaComment<?> areaComment;
 	
 	
 	
@@ -100,7 +100,7 @@ public class Area
 		areaBeginDate = new AreaBeginDate<>();
 		areaEndDate = new AreaEndDate<>();
 		areaType = new AreaType();
-		areaComment = new AreaComment();
+		areaComment = new AreaComment(this);
 	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {

@@ -12,7 +12,9 @@ import org.nanotek.entities.MutableCommentEntity;
 @Entity
 @DiscriminatorValue(value = "AreaComment")
 public class AreaComment<K extends AreaComment<K>> 
-extends CommentBase<K> implements  BaseAreaCommentEntity<K> , MutableCommentEntity<String>{
+extends CommentBase<K> implements  
+BaseAreaCommentEntity<K> , 
+MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -68821965634755841L;
 	
@@ -29,6 +31,10 @@ extends CommentBase<K> implements  BaseAreaCommentEntity<K> , MutableCommentEnti
 	public AreaComment(@NotBlank String comment,@NotNull Area<?> area) {
 		super(comment);
 		this.area = area;
+	}
+
+	public AreaComment(Area<?> area2) {
+		this.area=area2;
 	}
 
 	public Area<?> getArea() {

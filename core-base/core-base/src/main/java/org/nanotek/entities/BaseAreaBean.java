@@ -24,7 +24,8 @@ import org.nanotek.entities.immutables.EndYearEntity;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> extends 
+public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> 
+extends 
 Base<K>,
 BaseBean<K,Area<?>>,
 MutableAreaIdEntity<Long>,
@@ -65,7 +66,7 @@ MutableGidEntity<UUID>{
 
 	@Override
 	default void setBeginYear(Integer k) {
-		write(MutableBeginYearEntity.class,k);
+		write(AreaBeginDateEntity.class,  MutableBeginYearEntity.class,k);
 	}
 	
 	@Override
@@ -125,7 +126,7 @@ MutableGidEntity<UUID>{
 
 	@Override
 	default void setComment(@NotNull String k) {
-		write(MutableAreaCommentEntity.class,new AreaComment<>(k));
+		write(Area.class , MutableAreaCommentEntity.class,new AreaComment<>(k));
 	}
 	
 	@Override

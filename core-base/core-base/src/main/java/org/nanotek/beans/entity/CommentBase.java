@@ -16,7 +16,7 @@ implements BaseCommentBaseEntity<K>{
 	
 	@NotNull
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
-	protected String comment;
+	public String comment;
 
 	public CommentBase() {
 	}

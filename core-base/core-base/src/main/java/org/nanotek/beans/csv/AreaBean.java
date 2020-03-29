@@ -7,27 +7,12 @@ import org.nanotek.opencsv.CsvBaseBean;
 
 
 public class AreaBean
-<K extends BaseBean<K,Area<?>>> 
-extends CsvBaseBean<Area<?>>
-implements BaseAreaBean<K>{
+<K extends BaseBean<AreaBean<K>,Area<?>>> 
+extends CsvBaseBean<AreaBean<K>,Area<?>>
+implements BaseAreaBean<AreaBean<K>>{
 
 	private static final long serialVersionUID = 1708381486272333902L;
 	
-	public Long areaId; 
-	public String gid; 
-	public String name; 
-	public Long typeId; 
-	public Integer editsPending; 
-	public String lastUpdated; 
-	public Integer beginYear; 
-	public Integer beginMonth; 
-	public Integer beginDay; 
-	public Integer endYear; 
-	public Integer endMonth; 
-	public Integer endDay;
-	public String ended; 
-	public String comment; 
-
 
 	public AreaBean(Class<Area<?>>id) {
 		super(id);
@@ -38,14 +23,7 @@ implements BaseAreaBean<K>{
 		AreaBean a = new AreaBean(Area.class);
 		a.setComment("This is a comment");
 		a.setAreaId(1000L);
+		a.setBeginYear(100);
 		System.out.println(a.getComment() + "  " + a.getAreaId());
 	}
-
-	@Override
-	public int compareTo(K o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 }
