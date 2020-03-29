@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.nanotek.BaseBean;
@@ -20,7 +19,9 @@ import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.immutables.ArtistIdEntity;
 
-public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,Long>> implements BaseBean<K,ID>
+public class CsvBaseBean
+<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,Long>> 
+implements BaseBean<K,ID>
 {
 
 	private static final long serialVersionUID = -1465843449151457466L;
@@ -34,6 +35,8 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?
 	protected PropertyChangeSupport propertyChangeSupport = null;
 
 	private HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> childInterfaceMap;
+	
+	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
 
 	public CsvBaseBean(Class<? extends ID> class1) {
@@ -51,6 +54,7 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?
 	private void configureBaseBean() {
 		childInterfaceMap = new HashMap<>();
 		registryDynaBean();
+		mountInstanceMap();
 	}
 
 	public Optional<PropertyChangeSupport> getPropertyChangeSupport() {
@@ -213,6 +217,9 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?
 		return baseClass;
 	}
 
+	public HashMap<Class<?> , BaseEntity<?,?>> getInstanceMap(){
+		return instanceMap;
+	}
 
 	public ID getId() {
 		return id;

@@ -5,6 +5,8 @@ import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +29,9 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	CsvBaseBean<?,?> getReference();
 	
-	Class<?> getBaseClass ();
+	Class<? extends ID> getBaseClass ();
+	
+	HashMap<Class<?> , BaseEntity<?,?>> getInstanceMap();
 
 	static <K extends ImmutableBase> Class<? extends K> 
 	prepareBaseBeanClass(Class<K> clazz) {
@@ -86,13 +90,38 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		Object id = this.getId();
+		mountInstanceMap();
 		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
 		System.out.println("Original Size"+intf.size());
 		List<Class<?>> remainingInterfaces = processInterfaces(getBaseClass(),intf);
 		processRemainingInterfaces(getId().getClass(),remainingInterfaces);
 	}
+	
+	default void mountInstanceMap() {
+		Class<? extends ID> baseEntity = getBaseClass();
+		Arrays.asList(baseEntity.getFields())
+					.stream()
+					.forEach(f -> {
+						try { 
+							if (f.get(getId()) == null) { 
+								Class<?> fieldClass = f.getType();
+								BaseEntity<?,?> entity = createBaseEntity(fieldClass);
+								f.set(getId(), baseEntity);
+								getInstanceMap().put(f.getType(), entity);
+							}else {
+								getInstanceMap().put(f.getType(), BaseEntity.class.cast(f.get(getId())));
+							}
+						}catch  (Exception ex) { 
+							throw new BaseException(ex);
+						}
+					});
+	}
 
+	@SuppressWarnings("unchecked")
+	default <K extends BaseEntity<?, ?>> BaseEntity<?, ?> createBaseEntity(Class<?> fieldClass) throws ClassNotFoundException{
+		Class<? extends K> classK = (Class<? extends K>) Class.forName(fieldClass.getName()).asSubclass(BaseEntity.class);
+		return Base.newInstance((Class<K>) fieldClass).get();
+	}
 
 	default void processRemainingInterfaces(Class<?> classId, List<Class<?>> remainingInterfaces) {
 		List<Class<?>> filtered =  Optional.ofNullable( remainingInterfaces).orElse(new ArrayList<>()).stream()
