@@ -67,13 +67,9 @@ MutableTypeEntity<Long>
 	@Override
 	default Integer getBeginDateYear() {
 		Optional<ArtistBeginDate<?>> d = read(ArtistBeginDateEntity.class).map(m ->ArtistBeginDate.class.cast(m));
-		
 		return d.map(d1 ->{
 			return d1.getBeginYear();
 		}).orElse(Integer.MIN_VALUE);
-//		return read(BeginYearEntity.class)
-//				.filter(y->y!=null)
-//				.map(m->Integer.class.cast(m)).orElse(Integer.MIN_VALUE);
 	}
 	
 	@Override

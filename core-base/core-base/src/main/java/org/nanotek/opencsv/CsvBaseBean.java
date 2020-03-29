@@ -66,13 +66,12 @@ public class CsvBaseBean<ID extends Base<?>>
 	
 	public boolean registryMethod(Object id, Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
 		if(interfaceMap.get(clazz) !=null) return true;
-		Long numFound = Arrays.asList(baseClass.getFields()).stream().map(f ->{
+		Class<?> idBaseClass = id.getClass();
+		Long numFound = Arrays.asList(idBaseClass.getFields()).stream().map(f ->{
 			return visitField(id , f,clazz,atributeName,method,mtype);
 		}).filter(b -> b== true).count();
 		return numFound>0?true:false;
 	}
-
-	
 
 	private boolean visitField(Object id, Field f, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
 		boolean found=false;
@@ -84,7 +83,7 @@ public class CsvBaseBean<ID extends Base<?>>
 			MethodHandle mh;
 			try {
 				mh = lookup.findVirtual(clazz, method.getName(), mt);
-				mh.bindTo(id);
+//				mh.bindTo(id);
 				interfaceMap.put(clazz, mh);
 			} catch (Exception e) {
 				e.printStackTrace();
