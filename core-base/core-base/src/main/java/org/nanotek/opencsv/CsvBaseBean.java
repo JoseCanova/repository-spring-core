@@ -1,6 +1,5 @@
 package org.nanotek.opencsv;
 
-import java.awt.geom.Area;
 import java.beans.PropertyChangeSupport;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -13,16 +12,15 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.nanotek.BaseBean;
+import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Artist;
-import org.nanotek.entities.MutableAreaEntity;
-import org.nanotek.entities.MutableAreaIdEntity;
-import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.entities.immutables.ArtistIdEntity;
 
-public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> implements BaseBean<K,ID>
+public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,Long>> implements BaseBean<K,ID>
 {
 
 	private static final long serialVersionUID = -1465843449151457466L;
@@ -34,8 +32,6 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 	protected Class<? extends ID> baseClass;
 
 	protected PropertyChangeSupport propertyChangeSupport = null;
-
-	private Map<Class<?> , MethodHandle> interfaceMap;
 
 	private HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> childInterfaceMap;
 
@@ -53,7 +49,6 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 	}
 
 	private void configureBaseBean() {
-		interfaceMap = new HashMap<>();
 		childInterfaceMap = new HashMap<>();
 		registryDynaBean();
 	}
@@ -62,8 +57,8 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 		return Optional.ofNullable(propertyChangeSupport);
 	}
 
-	public MethodHandle getAtributeNameInstance(Class<?> clazz) {
-		return interfaceMap.get(clazz);
+	public MethodHandle getAtributeNameInstance(Class<?> ownerClass,Class<?> interfaceClass) {
+		return childInterfaceMap.get(ownerClass).get(interfaceClass).getMethodHandle();
 	}
 
 
@@ -92,10 +87,10 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 				switch(mtype) {
 				case WRITE:
 					if(f.getName().equals(atributeName)){
-						mh = lookup.findSetter(classId, f.getName(), f.getType());
+						mh = lookup.findSetter(classId.asSubclass(BaseEntity.class), f.getName(), f.getType());
 						childInterfaceMap.put(classId,   verifyAndStore(classId,clazz,mh));
 					}else if(Arrays.asList(classId.getDeclaredClasses()).contains(clazz)){
-						mh = lookup.findVirtual(clazz, method.getName(), mt);
+						mh = lookup.findVirtual(classId.asSubclass(BaseEntity.class), method.getName(), mt);
 						childInterfaceMap.put(classId,   verifyAndStore(classId,clazz,mh));
 					}
 					//new BaseBean.ClassHandle<>(clazz, mh));
@@ -114,7 +109,7 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 				default:
 					mh = lookup.findVirtual(clazz, method.getName(), mt);
 					if (classId.getClass().equals(getId().getClass())) {
-						interfaceMap.put(clazz, mh);
+						childInterfaceMap.put(classId,   verifyAndStore(classId,clazz,mh));
 						mh.bindTo(getId());
 					}else {
 						childInterfaceMap.put(classId, verifyAndStore(classId,clazz,mh));
@@ -144,19 +139,11 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 		return map;
 	}
 	
-	
-	private Object findObjectInstance(ID id2, Class<? extends ID> baseClass2, Class<?> clazz, String atributeName,
-			Method method, METHOD_TYPE mtype) {
-		return null;
-	}
-
-
-
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
-		return Optional.ofNullable(interfaceMap.get(clazz)).map(f -> 
+		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{
 			try {
-				f.invoke(this.getId(),v);
+				f.getMethodHandle().invoke(this.getId(),v);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -176,10 +163,10 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 
 	
 	public Optional<?> readB(Class<?> clazz){
-		return Optional.ofNullable(interfaceMap.get(clazz)).map(f -> 
+		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{
 			try {
-				return f.invoke(this.getId());
+				return f.getMethodHandle().invoke(this.getId());
 			}catch(Throwable ex) {
 				ex.printStackTrace();
 			}
@@ -189,7 +176,15 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 	}
 
 	public Optional<?> readB(Class<?> ownerClass,Class<?> clazz){
-		return null;
+		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
+		{
+			try {
+				return f.get(clazz).getMethodHandle().invoke(this.getId());
+			}catch(Throwable ex) {
+				ex.printStackTrace();
+			}
+			return null;
+		}));
 //		Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
 //		{
 //			try {
@@ -206,9 +201,10 @@ public class CsvBaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>>
 	}
 
 	public static void main(String[] args) { 
-		CsvBaseBean<?,?> a = new CsvBaseBean(Artist.class);
+		CsvBaseBean<?,Artist<?>> a = new CsvBaseBean<>(Artist.class);
 				a.write(Artist.class, MutableArtistIdEntity.class, 1000L);
-				a.write(Area.class , MutableAreaIdEntity.class, 1000L);
+				a.read(Artist.class, ArtistIdEntity.class);
+//				a.write(Area.class , MutableAreaIdEntity.class, 1000L);
 		//		a.read(MutableArtistIdEntity.class);
 		System.out.println("");
 	}
