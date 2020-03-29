@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
+import org.nanotek.Id;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.AreaComment;
@@ -16,13 +17,11 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.AreaCommentEntity;
 import org.nanotek.entities.immutables.AreaEndDateEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
-import org.nanotek.entities.immutables.BeginYearEntity;
 import org.nanotek.entities.immutables.CommentEntity;
 import org.nanotek.entities.immutables.EndDateDayEntity;
 import org.nanotek.entities.immutables.EndMonthEntity;
 import org.nanotek.entities.immutables.EndYearEntity;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> 
 extends 
@@ -40,7 +39,7 @@ MutableCommentEntity<String>,
 MutableTypeIdEntity<Long>,
 MutableTypeEntity<AreaType<?>>,
 MutableAreaCommentEntity<AreaComment<?>>,
-MutableAreaBeginDateEntity<AreaBeginDate<?>>,
+MutableAreaBeginDateEntity<BaseAreaBeginDateBean<?>>,
 MutableAreaEndDateEntity<AreaEndDate<?>>,
 MutableGidEntity<UUID>{
 
@@ -66,32 +65,32 @@ MutableGidEntity<UUID>{
 
 	@Override
 	default void setBeginYear(Integer k) {
-		write(AreaBeginDateEntity.class,  MutableBeginYearEntity.class,k);
+		getAreaBeginDate().setBeginYear(k);
 	}
 	
 	@Override
 	default Integer getBeginYear() {
-		return read(BeginYearEntity.class).filter(v-> v!=null).map(v -> Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return getAreaBeginDate().getBeginYear();
 	}
 
 	@Override
 	default void setBeginMonth(Integer k) {
-		write(MutableBeginMonthEntity.class , k);
+		getAreaBeginDate().setBeginMonth(k);
 	}
 	
 	@Override
 	default Integer getBeginMonth() {
-		return read(BeginMonthEntity.class).filter(v-> v!=null).map(v->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return getAreaBeginDate().getBeginMonth();
 	}
 	
 	@Override
 	default void setBeginDay(Integer k) {
-		write(MutableBeginDayEntity.class,k);
+		read(Area.class,AreaBeginDateEntity.class).map(a -> AreaBeginDate.class.cast(a)).ifPresent(b -> b.setBeginDay(k));
 	}
 	
 	@Override
 	default Integer getBeginDay() {
-		return read(BeginDayEntity.class).map(v ->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return read(Area.class,AreaBeginDateEntity.class).map(a -> AreaBeginDate.class.cast(a)).map(b -> b.getBeginDay()).orElse(Integer.MIN_VALUE);
 	}
 	
 	@Override
@@ -116,12 +115,12 @@ MutableGidEntity<UUID>{
 
 	@Override
 	default void setEndDay(Integer t) {
-		write(MutableEndDayEntity.class,t);
+		write(AreaBeginDate.class, MutableEndDayEntity.class,t);
 	}
 	
 	@Override
 	default Integer getEndDay() {
-		return read(EndDateDayEntity.class).map(v->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return read(AreaBeginDate.class, EndDateDayEntity.class).map(v->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
 	}
 
 	@Override
@@ -136,14 +135,10 @@ MutableGidEntity<UUID>{
 	}
 	
 	@Override
-	default AreaBeginDate<?> getAreaBeginDate() {
-		return read(MutableAreaBeginDateEntity.class).map(m->AreaBeginDate.class.cast(m)).orElse(new AreaBeginDate<>());
-	}
+	BaseAreaBeginDateBean<?> getAreaBeginDate();
 
     @Override
-    default void setAreaBeginDate(AreaBeginDate<?> k) {
-    	write(MutableAreaBeginDateEntity.class,k);
-    }
+    void setAreaBeginDate(BaseAreaBeginDateBean<?> k);
     
     @Override
     default AreaEndDate<?> getAreaEndDate() {

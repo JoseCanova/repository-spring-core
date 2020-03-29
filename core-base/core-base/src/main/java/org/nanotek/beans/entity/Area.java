@@ -22,7 +22,6 @@ import org.nanotek.entities.MutableAreaIdEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableTypeEntity;
-import org.nanotek.entities.immutables.AreaEntity;
 
 @Entity
 @Table(name="area" , 

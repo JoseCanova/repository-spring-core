@@ -8,7 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
@@ -64,7 +66,7 @@ implements BaseBean<K,ID>
 	public void mountInstanceMap() {
 		Class<? extends ID> baseEntity = getBaseClass();
 		getInstanceMap().put(getBaseClass(),getId());
-		Arrays.asList(baseEntity.getFields())
+		getFields(getBaseClass())
 					.stream()
 					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
 					.forEach(f -> {
@@ -83,6 +85,19 @@ implements BaseBean<K,ID>
 					});
 	}
 	
+
+	private List<Field> getFields(Class<? extends ID> baseClass2) {
+		return Arrays.asList(baseClass2.getClasses())
+					.stream()
+					.filter(c ->!c.isInterface())
+					.map(c ->c.getFields())
+					.filter(fa -> fa!=null && fa.length>0)
+					.map(fa -> Arrays.asList(fa))
+					.collect(Collectors.toList())
+					.stream().flatMap(childList -> childList.stream())
+					.collect(Collectors.toList());
+	}
+
 
 	public Optional<PropertyChangeSupport> getPropertyChangeSupport() {
 		return Optional.ofNullable(propertyChangeSupport);
@@ -148,15 +163,18 @@ implements BaseBean<K,ID>
 
 	private <U extends MethodHandle> HashMap<Class<?>, ClassHandle<?>> verifyAndStore(Class<?> classId, Class<?> clazz, MethodHandle mh) {
 		HashMap<Class<?>, BaseBean.ClassHandle<?>> map = childInterfaceMap.get(classId);
-		if (map !=null) { 
-			map.put(clazz, new ClassHandle<>(clazz,mh));
-		}else { 
+		if (map ==null) { 
 			map = new HashMap<Class<?>, BaseBean.ClassHandle<?>>();
-			map.put(clazz, new ClassHandle<>(clazz,mh));
 		}
+		store(map,clazz,new ClassHandle<>(clazz,mh));
 		return map;
 	}
 	
+	private void store(HashMap<Class<?>, ClassHandle<?>> map, Class<?> clazz, ClassHandle classHandle) {
+		map.put(clazz, classHandle);
+	}
+
+
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
 		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{
