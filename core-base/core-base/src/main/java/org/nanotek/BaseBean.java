@@ -97,23 +97,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		processRemainingInterfaces(getId().getClass(),remainingInterfaces);
 	}
 	
-	default void mountInstanceMap() {
-		Class<? extends ID> baseEntity = getBaseClass();
-		Object theId = getId();
-		Arrays.asList(baseEntity.getFields())
-					.stream()
-					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
-					.forEach(f -> {
-						try { 
-								Class<?> fieldClass = f.getType();
-								BaseEntity<?,?> entity = createBaseEntity(fieldClass);
-								f.set(theId, entity);
-								getInstanceMap().put(f.getType(), entity);
-						}catch  (Exception ex) { 
-							throw new BaseException(ex);
-						}
-					});
-	}
+	void mountInstanceMap();
 
 	@SuppressWarnings("unchecked")
 	default <K extends BaseEntity<?, ?>> BaseEntity<?, ?> createBaseEntity(Class<?> fieldClass) throws ClassNotFoundException{

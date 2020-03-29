@@ -15,8 +15,11 @@ import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
+import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.entities.MutableAreaIdEntity;
 import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.entities.immutables.AreaIdEntity;
 import org.nanotek.entities.immutables.ArtistIdEntity;
 
 public class CsvBaseBean
@@ -42,6 +45,7 @@ implements BaseBean<K,ID>
 	public CsvBaseBean(Class<? extends ID> class1) {
 		baseClass = class1;
 		id =  class1.cast(CsvBaseBean.prepareBeanInstance(class1.asSubclass(IdBase.class)));
+		mountInstanceMap();
 		configureBaseBean();
 	}
 
@@ -54,18 +58,17 @@ implements BaseBean<K,ID>
 	private void configureBaseBean() {
 		childInterfaceMap = new HashMap<>();
 		registryDynaBean();
-		mountInstanceMap();
 	}
 	
 	@Override
 	public void mountInstanceMap() {
 		Class<? extends ID> baseEntity = getBaseClass();
+		getInstanceMap().put(getBaseClass(),getId());
 		Arrays.asList(baseEntity.getFields())
 					.stream()
 					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
 					.forEach(f -> {
 						try { 
-								Class<?> fieldClass = f.getType();
 								BaseEntity<?,?> entity ;
 								try { 
 									entity = (BaseEntity<?, ?>) f.get(id);
@@ -92,12 +95,6 @@ implements BaseBean<K,ID>
 
 
 	public boolean registryMethod(Class<?> classId, Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
-		//		if(interfaceMap.get(clazz) !=null) {
-		//			System.out.println("Already existent");
-		////			return true;
-		//		
-		//		}
-		//if (classId == null) return false;
 		Long numFound = Arrays.asList(classId.getFields()).stream().map(f ->{
 			return visitField(classId , f,clazz,atributeName,method,mtype);
 		}).filter(b -> b== true).count();
@@ -106,7 +103,6 @@ implements BaseBean<K,ID>
 
 	private boolean visitField(Class<?> classId, Field f, Class<?> clazz, String atributeName, Method method, METHOD_TYPE mtype) {
 		boolean found=false;
-//		if(f.getName().equals(atributeName)){
 			Class<?>[] parameters = method.getParameterTypes();
 			Class<?> returnType  = method.getReturnType();
 			MethodType mt = MethodType.methodType(returnType, mtype.equals(METHOD_TYPE.WRITE)?parameters:new Class[] {});
@@ -121,8 +117,6 @@ implements BaseBean<K,ID>
 						mh = lookup.findVirtual(classId.asSubclass(BaseEntity.class), method.getName(), mt);
 						childInterfaceMap.put(classId,   verifyAndStore(classId,clazz,mh));
 					}
-					//new BaseBean.ClassHandle<>(clazz, mh));
-					//						mh.bindTo(f.get(getId()));
 					break;
 				case READ:
 					if(f.getName().equals(atributeName)){
@@ -132,7 +126,6 @@ implements BaseBean<K,ID>
 						mh = lookup.findVirtual(clazz, method.getName(), mt);
 						childInterfaceMap.put(classId,   verifyAndStore(classId,clazz,mh));
 					}
-					//						mh.bindTo(f.get(getId()));
 					break;
 				default:
 					mh = lookup.findVirtual(clazz, method.getName(), mt);
@@ -149,9 +142,6 @@ implements BaseBean<K,ID>
 				return false;
 			}			
 			found = true;
-//		}else { 
-//			//			System.out.println("REJECTED " + f.getName().equals(atributeName) + " " + id.getClass().getName() +  "  " + clazz.getName() + " "+ "  " + atributeName + "  " + method.getName());
-//		}
 		return found;
 	}
 
@@ -182,7 +172,7 @@ implements BaseBean<K,ID>
 		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
 		{
 			try {
-				f.get(clazz).getMethodHandle().invoke(this.getId(),v);
+				f.get(clazz).getMethodHandle().invoke(instanceMap.get(ownerClass),v);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -207,22 +197,12 @@ implements BaseBean<K,ID>
 		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
 		{
 			try {
-				return f.get(clazz).getMethodHandle().invoke(this.getId());
+				return f.get(clazz).getMethodHandle().invoke(instanceMap.get(ownerClass));
 			}catch(Throwable ex) {
 				ex.printStackTrace();
 			}
 			return null;
 		}));
-//		Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
-//		{
-//			try {
-//				return f.getMethodHandle().invoke(this.getId());
-//			}catch(Throwable ex) {
-//				ex.printStackTrace();
-//			}
-//			return null;
-//
-//		});
 	}
 	public CsvBaseBean<?,?> getReference(){
 		return this;
@@ -232,9 +212,10 @@ implements BaseBean<K,ID>
 		CsvBaseBean<?,Artist<?>> a = new CsvBaseBean<>(Artist.class);
 				a.write(MutableArtistIdEntity.class, 1000L);
 				a.read(ArtistIdEntity.class);
-//				a.write(Area.class , MutableAreaIdEntity.class, 1000L);
-		//		a.read(MutableArtistIdEntity.class);
-		System.out.println("");
+				a.write(Area.class, MutableAreaIdEntity.class,1000L);
+				a.read(Area.class, AreaIdEntity.class);
+				System.out.println(a.read(ArtistIdEntity.class));
+				System.out.println(a.read(Area.class, AreaIdEntity.class));
 	}
 
 	public Class<? extends ID> getBaseClass() {
@@ -242,7 +223,7 @@ implements BaseBean<K,ID>
 	}
 
 	public HashMap<Class<?> , BaseEntity<?,?>> getInstanceMap(){
-		return instanceMap == null ? new HashMap<>(): instanceMap;
+		return instanceMap == null ? instanceMap = new HashMap<>(): instanceMap;
 	}
 
 	public ID getId() {

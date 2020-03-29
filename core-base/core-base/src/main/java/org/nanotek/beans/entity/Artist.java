@@ -154,6 +154,11 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	public Area<?> endArea;
 	
 	public Artist() {
+		prepare();
+		
+	}
+	
+	private void prepare() { 
 		artistSortName = new ArtistSortName<>(this);
 		artistComment = new ArtistComment<>(this);
 		artistBeginDate = new ArtistBeginDate<>();
