@@ -23,6 +23,7 @@ implements  BaseAreaTypeEntity<E>, MutableAreaEntity<Area<?>>{
 	public Area<?> area;
 	
 	public AreaType() {
+		super();
 	}
 
 	

@@ -25,6 +25,7 @@ MutableArtistAliasEntity<ArtistAlias<?>>{
 	public ArtistAlias<?> artistAlias;
 
 	public ArtistAliasType() {
+		super();
 	}
 	
 	public ArtistAliasType(@NotNull Long typeId) {

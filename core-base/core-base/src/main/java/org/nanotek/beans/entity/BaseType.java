@@ -60,19 +60,27 @@ MutableDescriptionEntity<BaseTypeDescription<?>>{
 	protected BaseTypeDescription<?> description; 
 	
 	public BaseType() {
+		prepare();
+	}
+
+	private void prepare() {
+		description  = new BaseTypeDescription<>();
 	}
 
 	public BaseType(@NotNull Long typeId) {
 		this.typeId = typeId;
+		prepare();
 	}
 	
 	public BaseType(@NotNull UUID gid, @NotBlank String name) {
 		super(name);
+		prepare();
 	}
 
 	public BaseType(@NotNull Long typeId , @NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 		this.typeId = typeId;
+		prepare();
 	}
 
 	public Long getTypeId() {

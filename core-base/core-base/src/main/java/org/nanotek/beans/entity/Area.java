@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.entities.BaseAreaEntity;
 import org.nanotek.entities.MutableAreaBeginDateEntity;
 import org.nanotek.entities.MutableAreaCommentEntity;
 import org.nanotek.entities.MutableAreaEndDateEntity;
@@ -21,6 +22,7 @@ import org.nanotek.entities.MutableAreaIdEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableTypeEntity;
+import org.nanotek.entities.immutables.AreaEntity;
 
 @Entity
 @Table(name="area" , 
@@ -28,7 +30,7 @@ uniqueConstraints= {
 		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
 		})
 public class Area
-<K extends Area<K>> extends BrainzBaseEntity<K> implements 
+<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<Area<?>>,
 															MutableAreaIdEntity<Long>,		
 															MutableTypeEntity<AreaType<?>>,
 															MutableAreaCommentEntity<AreaComment<?>>,
