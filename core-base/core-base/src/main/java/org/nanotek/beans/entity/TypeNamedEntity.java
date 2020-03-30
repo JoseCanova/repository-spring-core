@@ -19,7 +19,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")

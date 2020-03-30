@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableParentEntity;
@@ -38,33 +39,33 @@ extends TypeNamedEntity<K> implements
 MutableTypeIdEntity<Long>,
 MutableParentEntity<Long>,
 MutableChildOrderEntity<Long>,
-MutableDescriptionEntity<BaseTypeDescription<?>>{
+MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
 
 	@NotNull
 	@Column(name="type_id" , nullable = false)
-	protected Long typeId;
+	public Long typeId;
 	
 	@Column(name="parent")
-	protected Long parent; 
+	public Long parent; 
 	
 	@Column(name="childOrder")
-	protected Long childOrder;
+	public Long childOrder;
 
 	@OneToOne(optional=true,orphanRemoval = true)
 	@JoinTable(
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	protected BaseTypeDescription<?> description; 
+	private BaseTypeDescription<?> baseTypeDescription; 
 	
 	public BaseType() {
 		prepare();
 	}
 
 	private void prepare() {
-		description  = new BaseTypeDescription<>();
+		baseTypeDescription  = new BaseTypeDescription<>(this);
 	}
 
 	public BaseType(@NotNull Long typeId) {
@@ -73,7 +74,7 @@ MutableDescriptionEntity<BaseTypeDescription<?>>{
 	}
 	
 	public BaseType(@NotNull UUID gid, @NotBlank String name) {
-		super(name);
+		super(gid , name);
 		prepare();
 	}
 
@@ -108,12 +109,12 @@ MutableDescriptionEntity<BaseTypeDescription<?>>{
 		this.childOrder = childOrder;
 	}
 
-	public BaseTypeDescription<?> getDescription() {
-		return description;
+	public BaseTypeDescription<?> getBaseTypeDescription() {
+		return baseTypeDescription;
 	}
 
-	public void setDescription(BaseTypeDescription<?> description) {
-		this.description = description;
+	public void setBaseTypeDescription(BaseTypeDescription<?> baseTypeDescription) {
+		this.baseTypeDescription = baseTypeDescription;
 	}
 
 }

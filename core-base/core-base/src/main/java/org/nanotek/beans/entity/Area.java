@@ -29,7 +29,7 @@ uniqueConstraints= {
 		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
 		})
 public class Area
-<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<Area<?>>,
+<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
 															MutableAreaIdEntity<Long>,		
 															MutableTypeEntity<AreaType<?>>,
 															MutableAreaCommentEntity<AreaComment<?>>,

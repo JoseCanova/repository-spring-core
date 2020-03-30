@@ -13,15 +13,18 @@ extends DescriptionBase<K>{
 	private static final long serialVersionUID = -5502992535337974047L;
 	
 	@OneToOne(mappedBy = "description")
-	protected BaseType<?> baseType;
+	public BaseType<?> baseType;
 
 	public BaseTypeDescription() {
+	}
+
+	public BaseTypeDescription(BaseType<?> baseType) {
+		super();
+		this.baseType = baseType;
 	}
 
 	public BaseTypeDescription(@NotNull String description) {
 		super(description);
 	}
-	
-	
 
 }

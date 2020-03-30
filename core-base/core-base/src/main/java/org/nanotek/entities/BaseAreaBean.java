@@ -9,18 +9,13 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.Id;
+import org.nanotek.beans.csv.AreaCommentBean;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.AreaComment;
-import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.AreaCommentEntity;
-import org.nanotek.entities.immutables.AreaEndDateEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
 import org.nanotek.entities.immutables.CommentEntity;
-import org.nanotek.entities.immutables.EndDateDayEntity;
-import org.nanotek.entities.immutables.EndMonthEntity;
-import org.nanotek.entities.immutables.EndYearEntity;
 
 
 public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> 
@@ -38,9 +33,9 @@ MutableEndDayEntity<Integer>,
 MutableCommentEntity<String>,
 MutableTypeIdEntity<Long>,
 MutableTypeEntity<AreaType<?>>,
-MutableAreaCommentEntity<AreaComment<?>>,
+MutableAreaCommentEntity<BaseAreaCommentBean<?>>,
 MutableAreaBeginDateEntity<BaseAreaBeginDateBean<?>>,
-MutableAreaEndDateEntity<AreaEndDate<?>>,
+MutableAreaEndDateEntity<BaseAreaEndDateBean<?>>,
 MutableGidEntity<UUID>{
 
 	@Override
@@ -85,42 +80,42 @@ MutableGidEntity<UUID>{
 	
 	@Override
 	default void setBeginDay(Integer k) {
-		read(Area.class,AreaBeginDateEntity.class).map(a -> AreaBeginDate.class.cast(a)).ifPresent(b -> b.setBeginDay(k));
+		getAreaBeginDate().setBeginDay(k);
 	}
 	
 	@Override
 	default Integer getBeginDay() {
-		return read(Area.class,AreaBeginDateEntity.class).map(a -> AreaBeginDate.class.cast(a)).map(b -> b.getBeginDay()).orElse(Integer.MIN_VALUE);
+		return getAreaBeginDate().getBeginDay();
 	}
 	
 	@Override
 	default void setEndYear(Integer t) {
-		write(EndYearEntity.class,t);
+		getAreaEndDate().setEndYear(t);
 	}
 	
 	@Override
 	default Integer getEndYear() {
-		return read(EndYearEntity.class).map(v->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return getAreaEndDate().getEndYear();
 	}
 	
 	@Override
 	default void setEndMonth(Integer t) {
-		write(MutableEndMonthEntity.class,t);
+		getAreaEndDate().setEndMonth(t);
 	}
 
 	@Override
 	default Integer getEndMonth() {
-		return read(EndMonthEntity.class).map(v ->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return getAreaEndDate().getEndMonth();
 	}
 
 	@Override
 	default void setEndDay(Integer t) {
-		write(AreaBeginDate.class, MutableEndDayEntity.class,t);
+		getAreaEndDate().setEndYear(t);
 	}
 	
 	@Override
 	default Integer getEndDay() {
-		return read(AreaBeginDate.class, EndDateDayEntity.class).map(v->Integer.class.cast(v)).orElse(Integer.MIN_VALUE);
+		return getAreaEndDate().getEndDay();
 	}
 
 	@Override
@@ -129,9 +124,8 @@ MutableGidEntity<UUID>{
 	}
 	
 	@Override
-	default String getComment() {
-		Optional<CommentEntity<String>> ce = read(AreaCommentEntity.class).map(v -> AreaComment.class.cast(v)).map(m->CommentEntity.class.cast(m));
-		return ce.get().getComment();
+	default String getComment() { 
+		return getAreaComment().getComment();
 	}
 	
 	@Override
@@ -141,14 +135,10 @@ MutableGidEntity<UUID>{
     void setAreaBeginDate(BaseAreaBeginDateBean<?> k);
     
     @Override
-    default AreaEndDate<?> getAreaEndDate() {
-    	return read(AreaEndDateEntity.class).map(d-> AreaEndDate.class.cast(d)).orElse(new AreaEndDate<>());
-    }
+    BaseAreaEndDateBean<?> getAreaEndDate();
     
     @Override
-    default void setAreaEndDate(AreaEndDate<?> k) {
-    	write(MutableAreaEndDateEntity.class,k);
-    }
+    void setAreaEndDate(BaseAreaEndDateBean<?> k);
     
     //TODO, implement method.
     @Override
@@ -166,7 +156,7 @@ MutableGidEntity<UUID>{
     }
     
     @Override
-    default void setAreaComment(AreaComment<?> k) {
+    default void setAreaComment(BaseAreaCommentBean<?> k) {
     	write(MutableAreaCommentEntity.class,k);
     }
     
@@ -181,9 +171,7 @@ MutableGidEntity<UUID>{
     }
     
     @Override
-    default AreaComment<?> getAreaComment() {
-    	return read(MutableAreaCommentEntity.class).map(m -> AreaComment.class.cast(m)).orElse(new AreaComment<>());
-    }
+    public BaseAreaCommentBean<?> getAreaComment();
     
     @Override
     default UUID getGid() {
@@ -194,5 +182,7 @@ MutableGidEntity<UUID>{
     default Area<?> getId() {
     	return read(Id.class).map(m->Area.class.cast(m)).orElseThrow(BaseException::new);
     }
+    
+    
     
 }

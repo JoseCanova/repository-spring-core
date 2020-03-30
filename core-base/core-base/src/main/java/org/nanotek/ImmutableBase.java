@@ -41,6 +41,7 @@ public interface ImmutableBase <K extends IdBase<K,ID>,ID extends Serializable> 
 			uuid = UUID.nameUUIDFromBytes(bao.toByteArray());
 			oos.close();
 		}catch (Exception ex) { 
+			ex.printStackTrace();
 		}
 		return Optional.ofNullable(uuid).orElseThrow(BaseException::new);
 	}

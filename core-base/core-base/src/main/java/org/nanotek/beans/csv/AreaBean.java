@@ -3,8 +3,12 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
+import org.nanotek.beans.entity.AreaComment;
+import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseAreaBeginDateBean;
+import org.nanotek.entities.BaseAreaCommentBean;
+import org.nanotek.entities.BaseAreaEndDateBean;
 import org.nanotek.opencsv.CsvBaseBean;
 
 
@@ -16,6 +20,10 @@ implements BaseAreaBean<AreaBean<K>>{
 	private static final long serialVersionUID = 1708381486272333902L;
 	
 	private BaseAreaBeginDateBean<?> areaBeginDate;
+	
+	private BaseAreaEndDateBean<?> areaEndDate;
+	
+	private BaseAreaCommentBean<?> areaComment;
 
 	public AreaBean(Class<Area<?>>id) {
 		super(id);
@@ -25,6 +33,8 @@ implements BaseAreaBean<AreaBean<K>>{
 
 	private void postConstruct() {
 		areaBeginDate = new  AreaBeginDateBean(AreaBeginDate.class); 
+		areaEndDate = new AreaEndDateBean(AreaEndDate.class);
+		areaComment = new AreaCommentBean(AreaComment.class);
 	}
 
 
@@ -36,6 +46,26 @@ implements BaseAreaBean<AreaBean<K>>{
 	public void setAreaBeginDate(BaseAreaBeginDateBean<?> areaBeginDate) {
 		this.areaBeginDate = areaBeginDate;
 	}
+	
+
+	public BaseAreaEndDateBean<?> getAreaEndDate() {
+		return areaEndDate;
+	}
+
+
+	public void setAreaEndDate(BaseAreaEndDateBean<?> areaEndDate) {
+		this.areaEndDate = areaEndDate;
+	}
+	
+
+	public BaseAreaCommentBean<?> getAreaComment() {
+		return areaComment;
+	}
+
+	public void setAreaComment(BaseAreaCommentBean<?> areaComment) {
+		this.areaComment = areaComment;
+	}
+
 	
 	public static void main(String[] args) {
 		AreaBean a = new AreaBean(Area.class);

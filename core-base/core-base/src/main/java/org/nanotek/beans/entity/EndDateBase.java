@@ -25,13 +25,13 @@ extends BrainzBaseEntity<K>  {
 
 	@NotNull
 	@Column(name="end_year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
-	protected Integer endYear;
+	public Integer endYear;
 	
 	@Column(name="end_month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
-	protected Integer endMonth;
+	public Integer endMonth;
 	
 	@Column(name="end_day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
-	protected Integer endDay;
+	public Integer endDay;
 
 	public EndDateBase() {
 	}

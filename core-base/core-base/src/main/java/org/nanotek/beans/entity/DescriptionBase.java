@@ -27,7 +27,7 @@ extends BrainzBaseEntity<K> implements MutableDescriptionBaseEntity<String> {
 
 	@NotNull
 	@Column(name="description", columnDefinition = "VARCHAR NOT NULL" , nullable=false)
-	private String description;
+	public String description;
 	
 	public DescriptionBase() {
 	}
