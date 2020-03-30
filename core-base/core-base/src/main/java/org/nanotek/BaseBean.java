@@ -78,14 +78,14 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	default <V>  Optional<?> read(Class<V> clazz){ 
 		return MutatorSupport
 				.getPropertyDescriptor(clazz).filter(pd-> pd!=null).
-				map(p -> getReference().readB(clazz).get());
+				map(p -> getReference().readB(clazz).orElse(null));
 	}
 
 
 	default <V>  Optional<?> read(Class<?> ownerClass, Class<V> clazz){ 
 		return MutatorSupport
 				.getPropertyDescriptor(clazz).filter(pd-> pd!=null).
-				map(p -> getReference().readB(ownerClass,clazz).get());
+				map(p -> getReference().readB(ownerClass,clazz).orElse(null));
 	}
 	
 	@PostConstruct
