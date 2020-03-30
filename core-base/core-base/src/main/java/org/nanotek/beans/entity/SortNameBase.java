@@ -33,7 +33,7 @@ MutableSortNameEntity<String>{
 
 	@NotBlank
 	@Column(name="sort_name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	protected String sortName;
+	public String sortName;
 	
 	public SortNameBase(@NotBlank String sortName) {
 		super();

@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseArtistAliasSortNameEntity {
+import org.nanotek.beans.entity.ArtistAliasSortName;
+
+public interface BaseArtistAliasSortNameEntity<K extends ArtistAliasSortName<K>> {
 
 }

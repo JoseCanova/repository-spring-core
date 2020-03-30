@@ -12,7 +12,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseArtistAliasEntity;
 import org.nanotek.entities.MutableAliasIdEntity;
 import org.nanotek.entities.MutableArtistAliasBeginDateEntity;
@@ -22,8 +21,6 @@ import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
-
-import com.sun.xml.bind.v2.model.core.ID;
 
 @Entity
 @Table(name="artist_alias", 
@@ -77,7 +74,7 @@ MutableNameEntity<String>{
 			  name = "artist_alias_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
-	public Artist<?> artist;
+	private Artist<?> artist;
 
 	@OneToOne(optional = true)
 	@JoinTable(

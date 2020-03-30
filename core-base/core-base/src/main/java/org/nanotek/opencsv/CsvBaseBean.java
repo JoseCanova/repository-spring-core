@@ -206,7 +206,7 @@ implements BaseBean<K,ID>
 			}catch(Throwable ex) {
 				ex.printStackTrace();
 			}
-			return null;
+			return Optional.empty();
 
 		});
 	}
@@ -219,7 +219,7 @@ implements BaseBean<K,ID>
 			}catch(Throwable ex) {
 				ex.printStackTrace();
 			}
-			return null;
+			return Optional.empty();
 		}));
 	}
 	public CsvBaseBean<?,?> getReference(){

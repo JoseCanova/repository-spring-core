@@ -4,6 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseArtistAliasLocaleEntity;
 
@@ -14,14 +15,20 @@ public class ArtistAliasLocale<K extends ArtistAliasLocale<K>> extends LocaleBas
 
 	private static final long serialVersionUID = -6819342630275200151L;
 
+	@NotNull
 	@OneToOne(mappedBy="artistAliasLocale")
-	public ArtistAlias<?> artistAlias;
+	private ArtistAlias<?> artistAlias;
 	
 	public ArtistAliasLocale() {
 	}
 
 	public ArtistAliasLocale(@NotBlank String locale) {
 		super(locale);
+	}
+
+	public ArtistAliasLocale(@NotNull ArtistAlias<?> artistAlias) {
+		super();
+		this.artistAlias = artistAlias;
 	}
 
 	public ArtistAlias<?> getArtistAlias() {

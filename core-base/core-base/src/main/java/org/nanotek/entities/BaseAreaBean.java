@@ -1,6 +1,5 @@
 package org.nanotek.entities;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -8,14 +7,12 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
+import org.nanotek.GidEntity;
 import org.nanotek.Id;
-import org.nanotek.beans.csv.AreaCommentBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.entities.immutables.AreaCommentEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
-import org.nanotek.entities.immutables.CommentEntity;
 
 
 public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> 
@@ -140,14 +137,14 @@ MutableGidEntity<UUID>{
     @Override
     void setAreaEndDate(BaseAreaEndDateBean<?> k);
     
-    //TODO, implement method.
     @Override
     default void setGid(UUID k) {
+    	write(MutableGidEntity.class,k);
     }
 
     @Override
     default Long getTypeId() {
-    	return read(MutableTypeIdEntity.class).map(v -> Long.class.cast(v)).orElse(Long.MIN_VALUE);
+    	return read(TypeIdEntity.class).map(v -> Long.class.cast(v)).orElse(Long.MIN_VALUE);
     }
     
     @Override
@@ -175,14 +172,12 @@ MutableGidEntity<UUID>{
     
     @Override
     default UUID getGid() {
-    	return read(MutableGidEntity.class).map(m->UUID.class.cast(m)).orElse(null);
+    	return read(GidEntity.class).map(m->UUID.class.cast(m)).orElse(null);
     }
     
     @Override
     default Area<?> getId() {
     	return read(Id.class).map(m->Area.class.cast(m)).orElseThrow(BaseException::new);
     }
-    
-    
     
 }
