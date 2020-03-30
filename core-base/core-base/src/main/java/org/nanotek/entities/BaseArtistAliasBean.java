@@ -26,8 +26,8 @@ MutableBeginMonthEntity<Integer>,
 MutableBeginDayEntity<Integer>,
 MutableArtistAliasSortNameEntity<ArtistAliasSortName<?>>,
 MutableArtistEntity<Artist<?>> , 
-MutableArtistAliasTypeEntity<ArtistAliasType<?>> , 
-MutableArtistAliasLocaleEntity<ArtistAliasLocale<?>>,
+MutableArtistAliasTypeEntity<BaseArtistAliasTypeBean<?>> , 
+MutableArtistAliasLocaleEntity<BaseArtistAliasLocaleBean<?>>,
 MutableArtistAliasBeginDateEntity<BaseArtistAliasBeginDateBean<?>>,
 MutableArtistAliasEndDateEntity<BaseArtistAliasEndDateBean<?>>
 {

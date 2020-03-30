@@ -3,11 +3,11 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistAliasBeginDate;
 import org.nanotek.entities.BaseArtistAliasBeginDateBean;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 public class ArtistAliasBeginDateBean
 <K extends BaseBean<K,ArtistAliasBeginDate<?>>> 
-extends CsvBaseBean<K,ArtistAliasBeginDate<?>>
+extends ProxyBase<K,ArtistAliasBeginDate<?>>
 implements BaseArtistAliasBeginDateBean<K>{
 
 	private static final long serialVersionUID = 1825065026844937439L;

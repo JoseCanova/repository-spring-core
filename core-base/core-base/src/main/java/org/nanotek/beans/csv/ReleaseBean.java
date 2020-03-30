@@ -7,8 +7,8 @@ import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Release;
-import org.nanotek.opencsv.CsvBaseBean;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.proxy.ProxyBase;
 
 /**
  * 
@@ -17,7 +17,7 @@ import org.nanotek.opencsv.CsvResult;
  */
 public class ReleaseBean 
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends CsvBaseBean<ID>
+extends ProxyBase<ID>
 implements BaseBean<K,ID>{
 
 

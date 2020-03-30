@@ -9,12 +9,12 @@ import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseAreaBeginDateBean;
 import org.nanotek.entities.BaseAreaCommentBean;
 import org.nanotek.entities.BaseAreaEndDateBean;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 
 public class AreaBean
 <K extends BaseBean<AreaBean<K>,Area<?>>> 
-extends CsvBaseBean<AreaBean<K>,Area<?>>
+extends ProxyBase<AreaBean<K>,Area<?>>
 implements BaseAreaBean<AreaBean<K>>{
 
 	private static final long serialVersionUID = 1708381486272333902L;

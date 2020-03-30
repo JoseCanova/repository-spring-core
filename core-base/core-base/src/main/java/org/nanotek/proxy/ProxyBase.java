@@ -1,4 +1,4 @@
-package org.nanotek.opencsv;
+package org.nanotek.proxy;
 
 import java.beans.PropertyChangeSupport;
 import java.lang.invoke.MethodHandle;
@@ -24,7 +24,7 @@ import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
 import org.nanotek.entities.immutables.ArtistIdEntity;
 
-public class CsvBaseBean
+public class ProxyBase
 <K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,Long>> 
 implements BaseBean<K,ID>
 {
@@ -44,9 +44,9 @@ implements BaseBean<K,ID>
 	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
 
-	public CsvBaseBean(Class<? extends ID> class1) {
+	public ProxyBase(Class<? extends ID> class1) {
 		baseClass = class1;
-		id =  class1.cast(CsvBaseBean.prepareBeanInstance(class1.asSubclass(IdBase.class)));
+		id =  class1.cast(ProxyBase.prepareBeanInstance(class1.asSubclass(IdBase.class)));
 		mountInstanceMap();
 		configureBaseBean();
 	}
@@ -222,12 +222,12 @@ implements BaseBean<K,ID>
 			return Optional.empty();
 		}));
 	}
-	public CsvBaseBean<?,?> getReference(){
+	public ProxyBase<?,?> getReference(){
 		return this;
 	}
 
 	public static void main(String[] args) { 
-		CsvBaseBean<?,Artist<?>> a = new CsvBaseBean<>(Artist.class);
+		ProxyBase<?,Artist<?>> a = new ProxyBase<>(Artist.class);
 				a.write(MutableArtistIdEntity.class, 1000L);
 				a.read(ArtistIdEntity.class);
 				a.write(Area.class, MutableAreaIdEntity.class,1000L);

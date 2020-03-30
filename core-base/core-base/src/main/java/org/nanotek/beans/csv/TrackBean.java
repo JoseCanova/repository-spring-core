@@ -7,12 +7,12 @@ import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Track;
-import org.nanotek.opencsv.CsvBaseBean;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.proxy.ProxyBase;
 
 public class TrackBean 
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends CsvBaseBean<ID>
+extends ProxyBase<ID>
 implements BaseBean<K,ID>{
 
 	private static final long serialVersionUID = 7327347644746001993L;

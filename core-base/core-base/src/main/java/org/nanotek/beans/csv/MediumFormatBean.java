@@ -7,12 +7,12 @@ import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.MediumFormat;
-import org.nanotek.opencsv.CsvBaseBean;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.proxy.ProxyBase;
 
 public class MediumFormatBean 
 <K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends CsvBaseBean<ID>
+extends ProxyBase<ID>
 implements BaseBean<K,ID>{
 
 

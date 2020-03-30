@@ -4,7 +4,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
-import org.nanotek.opencsv.CsvBaseBean; 
+import org.nanotek.proxy.ProxyBase; 
 
 //public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
 //extends Base<K>,
@@ -16,7 +16,7 @@ import org.nanotek.opencsv.CsvBaseBean;
 
 public class AreaTypeBean
 <K extends BaseBean<AreaTypeBean<K>,AreaType<?>>> 
-extends CsvBaseBean<AreaTypeBean<K>,AreaType<?>>
+extends ProxyBase<AreaTypeBean<K>,AreaType<?>>
 implements BaseAreaTypeBean<AreaTypeBean<K>> {
 
 	private static final long serialVersionUID = -6271568961378072618L;

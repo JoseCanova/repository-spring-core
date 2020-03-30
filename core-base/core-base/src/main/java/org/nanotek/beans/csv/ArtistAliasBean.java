@@ -25,7 +25,7 @@ import org.nanotek.entities.MutableBeginDayEntity;
 import org.nanotek.entities.MutableBeginMonthEntity;
 import org.nanotek.entities.MutableBeginYearEntity;
 import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 //public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
 //extends Base<K>,
@@ -35,7 +35,7 @@ import org.nanotek.opencsv.CsvBaseBean;
 //implements BaseAreaTypeBean<K>
 public class ArtistAliasBean
 <ID extends ArtistAlias<?>, K extends BaseBean<K,ArtistAlias<?>>> 
-extends CsvBaseBean<ID>
+extends ProxyBase<ID>
 implements BaseArtistAliasBean<K>{
 
 	private static final long serialVersionUID = -2745888243978330408L;

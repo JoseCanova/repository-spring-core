@@ -117,7 +117,7 @@ MutableGidEntity<UUID>{
 
 	@Override
 	default void setComment(@NotNull String k) {
-		write(Area.class , MutableAreaCommentEntity.class,new AreaComment<>(k));
+		getAreaComment().setComment(k);
 	}
 	
 	@Override

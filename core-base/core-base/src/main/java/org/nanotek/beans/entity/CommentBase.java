@@ -6,11 +6,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseCommentBaseEntity;
+import org.nanotek.entities.MutableCommentEntity;
 
 @MappedSuperclass
 public class CommentBase<K extends CommentBase<K>> 
 extends BrainzBaseEntity<K>  
-implements BaseCommentBaseEntity<K>{
+implements BaseCommentBaseEntity<K>,
+MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	

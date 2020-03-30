@@ -3,11 +3,11 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.entities.BaseAreaEndDateBean;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 public class AreaEndDateBean 
 <K extends BaseBean<AreaEndDateBean<K>,AreaEndDate<?>>> 
-extends CsvBaseBean<AreaEndDateBean<K>,AreaEndDate<?>>
+extends ProxyBase<AreaEndDateBean<K>,AreaEndDate<?>>
 implements BaseAreaEndDateBean<AreaEndDateBean<K>>{
 
 	private static final long serialVersionUID = 8768978804455284125L;

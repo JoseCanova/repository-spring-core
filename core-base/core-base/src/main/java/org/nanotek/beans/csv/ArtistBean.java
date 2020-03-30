@@ -7,7 +7,7 @@ import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.beans.entity.ArtistEndDate;
 import org.nanotek.entities.BaseArtistBean;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 
 /*
@@ -21,7 +21,7 @@ implements BaseAreaBean<K>
 
 public class ArtistBean
 <K extends BaseBean<K,Artist<?>>> 
-extends CsvBaseBean<Artist<?>>
+extends ProxyBase<Artist<?>>
 implements BaseArtistBean<K>
 {
 

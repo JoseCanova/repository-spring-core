@@ -10,12 +10,14 @@ import org.nanotek.entities.MutableArtistEntity;
 
 @Entity
 @DiscriminatorValue(value = "ArtistComment")
-public class ArtistComment<E extends ArtistComment<E>> extends CommentBase<E> implements BaseArtistCommentEntity<E>,
-																						 MutableArtistEntity<Artist<?>> {
+public class ArtistComment<E extends ArtistComment<E>> 
+extends CommentBase<E> 
+implements BaseArtistCommentEntity<E>,
+MutableArtistEntity<Artist<?>> {
 	private static final long serialVersionUID = 2608408556126104972L;
 
 	@OneToOne(mappedBy = "artistComment")
-	public Artist<?> artist;
+	private Artist<?> artist;
 
 	public ArtistComment() {}
 	

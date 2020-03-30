@@ -3,7 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.entities.BaseAreaBeginDateBean;
-import org.nanotek.opencsv.CsvBaseBean;
+import org.nanotek.proxy.ProxyBase;
 
 
 /*
@@ -11,7 +11,7 @@ import org.nanotek.opencsv.CsvBaseBean;
  */
 public class AreaBeginDateBean 
 <K extends BaseBean<AreaBeginDateBean<K>,AreaBeginDate<?>>> 
-extends CsvBaseBean<AreaBeginDateBean<K>,AreaBeginDate<?>>
+extends ProxyBase<AreaBeginDateBean<K>,AreaBeginDate<?>>
 implements BaseAreaBeginDateBean<AreaBeginDateBean<K>> {
 
 	private static final long serialVersionUID = 8578601319977342826L;

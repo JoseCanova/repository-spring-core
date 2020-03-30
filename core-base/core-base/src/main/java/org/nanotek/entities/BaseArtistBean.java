@@ -1,51 +1,31 @@
 package org.nanotek.entities;
 
-import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.beans.entity.ArtistEndDate;
-import org.nanotek.entities.immutables.ArtistBeginDateEntity;
-import org.nanotek.entities.immutables.ArtistIdEntity;
-import org.nanotek.entities.immutables.BeginYearEntity;
-import org.nanotek.entities.immutables.EndDayEntity;
-import org.nanotek.entities.immutables.EndMonthEntity;
-import org.nanotek.entities.immutables.EndYearEntity;
+import org.nanotek.beans.entity.ArtistType;
+import org.nanotek.beans.entity.Gender;
 
 public interface BaseArtistBean
 <K extends BaseBean<K,Artist<?>>> extends 
 Base<K>,
 BaseBean<K,Artist<?>>,
-BaseAreaEntity<Area<?>>,
+BaseAreaEntity<BaseAreaBean<?>>,
 MutableArtistIdEntity<Long>,
-MutableGidEntity<String>,
-MutableNameEntity<String>,
+MutableArtistSortNameEntity<BaseArtistSortNameBean<?>>,
+MutableArtistCommentEntity<BaseArtistCommentBean<?>>,
 MutableArtistBeginDateEntity<ArtistBeginDate<?>>,
-MutableBeginDateEntity<ArtistBeginDate<?>>,
-MutableBeginDateYearEntity<Integer>,
-MutableBeginDateMonthEntity<Integer>,
-MutableBeginDateDayEntity<Integer>,
 MutableArtistEndDateEntity<ArtistEndDate<?>>,
-MutableEndDateYearEntity<Integer>,
-MutableEndDateMonthEntity<Integer>,
-MutableEndDateDayEntity<Integer>,
-MutableTypeIdEntity<Long>,
-MutableAreaEntity<Area<?>>,
-MutableGenderEntity<Long>,
-MutableGenderIdEntity<Long>,
-MutableCommentEntity<String>,
-MutableAreaIdEntity<Long>,
-MutableArtistBeginAreaEntity<Area<?>>,
-MutableArtistEndAreaEntity<Area<?>>,
-MutableTypeEntity<Long>
-//,
-//MutableBeginDateEntity<Integer>
-
+MutableArtistTypeEntity<ArtistType<?>>,
+MutableGenderEntity<Gender<?>>,
+MutableAreaEntity<BaseAreaBean<?>>,
+MutableArtistBeginAreaEntity<BaseAreaBean<?>>,
+MutableArtistEndAreaEntity<BaseAreaBean<?>>,
+MutableGidEntity<UUID>,MutableNameEntity<String>
 {
 
 	

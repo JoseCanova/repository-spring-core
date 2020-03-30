@@ -23,7 +23,6 @@ MutableSortNameEntity<String>{
 		write(MutableSortNameEntity.class,k);
 	}
 	
-	
 	public static void main(String[] args) { 
 		ArtistAliasSortNameBean bean = new ArtistAliasSortNameBean();
 		bean.setSortName("a  sort name");
