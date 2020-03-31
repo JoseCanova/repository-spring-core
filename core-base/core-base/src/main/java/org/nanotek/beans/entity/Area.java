@@ -92,8 +92,8 @@ public class Area
 	public Area() {
 		areaBeginDate = new AreaBeginDate<>();
 		areaEndDate = new AreaEndDate<>();
-		areaType = new AreaType();
-		areaComment = new AreaComment(this);
+		areaType = new AreaType<>();
+		areaComment = new AreaComment<>(this);
 	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
