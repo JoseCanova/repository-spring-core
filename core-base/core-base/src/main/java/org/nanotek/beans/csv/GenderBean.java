@@ -1,112 +1,42 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Gender;
-import org.nanotek.opencsv.CsvResult;
+import org.nanotek.entities.BaseBaseTypeDescriptionBean;
+import org.nanotek.entities.BaseGenderBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class GenderBean
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
-	
-	private ID id;
-	
-	public ID getId() {
-		return id;
-	}
-	
+<K extends BaseBean<GenderBean<K>,Gender<?>>> 
+extends ProxyBase<GenderBean<K>,Gender<?>>
+implements BaseGenderBean<GenderBean<K>>{
+
 	public static final long serialVersionUID = -1492542566677551150L;
-	public Long genderId; 
-	public String name; 
-	public Long parent; 
-	public Long childOrder; 
-	public String description; 
-	public String gid;
 	
+	BaseBaseTypeDescriptionBean<?>  baseBaseTypeDescription;
 	
-	public GenderBean(Class<ID> id) {
-		super(id);
-	}
-
-
 	public GenderBean() {
-		super(Gender.class);
+		super((Class<? extends Gender<?>>) Gender.class);
+		baseBaseTypeDescription = new BaseTypeDescriptionBean();
 	}
-
-
-	public String getName() {
-		return name;
+	
+	public GenderBean(Class<? extends Gender<?>> class1) {
+		super(class1);
+		baseBaseTypeDescription = new BaseTypeDescriptionBean();
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
+		return baseBaseTypeDescription;
 	}
-
-	public Long getParent() {
-		return parent;
-	}
-
-	public void setParent(Long parent) {
-		this.parent = parent;
-	}
-
-	public Long getChildOrder() {
-		return childOrder;
-	}
-
-	public void setChildOrder(Long childOrder) {
-		this.childOrder = childOrder;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getGid() {
-		return gid;
-	}
-
-	public void setGid(String gid) {
-		this.gid = gid;
-	}
-
-
-	public Long getGenderId() {
-		return genderId;
-	}
-
-
-	public void setGenderId(Long genderId) {
-		this.genderId = genderId;
+	@Override
+	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> k) {
+			this.baseBaseTypeDescription = k;
 	}
 
 	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
+	public int compareTo(GenderBean<K> o) {
+		return 0;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
-	
+
+
 }

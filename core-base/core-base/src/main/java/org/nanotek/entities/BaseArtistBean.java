@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
+import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.beans.entity.ArtistEndDate;
@@ -14,7 +15,7 @@ public interface BaseArtistBean
 <K extends BaseBean<K,Artist<?>>> extends 
 Base<K>,
 BaseBean<K,Artist<?>>,
-BaseAreaEntity<BaseAreaBean<?>>,
+MutableArtistAreaEntity<AreaBean<?>>,
 MutableArtistIdEntity<Long>,
 MutableArtistSortNameEntity<BaseArtistSortNameBean<?>>,
 MutableArtistCommentEntity<BaseArtistCommentBean<?>>,
@@ -27,9 +28,5 @@ MutableArtistBeginAreaEntity<BaseAreaBean<?>>,
 MutableArtistEndAreaEntity<BaseAreaBean<?>>,
 MutableGidEntity<UUID>,MutableNameEntity<String>
 {
-
 	
-
-
-
 }
