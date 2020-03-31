@@ -2,6 +2,7 @@ package org.nanotek;
 
 import java.beans.PropertyDescriptor;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -148,11 +149,11 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			boolean result = false;
 			if(p.getWriteMethod() !=null) { 
 				result = registryMethod(classId , interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
-				System.out.println(result + " " +  classId.toString() + " " + interf.toString());
 			}
 			if(p.getReadMethod() !=null) {
 				result = registryMethod(classId , interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 			}
+			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
 			return result;
 		}).filter(r -> r==true).orElse(false);
 
@@ -164,11 +165,32 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		
 		MethodHandle methodHandle;
 		
+		METHOD_TYPE methodTypeEnum; 
+		
+		MethodType methodType;
 		
 		public ClassHandle(Class<T> clazz, MethodHandle methodHandle) {
 			super();
 			this.clazz = clazz;
 			this.methodHandle = methodHandle;
+		}
+
+		public ClassHandle(Class<T> clazz, MethodHandle methodHandle, METHOD_TYPE methodType) {
+			super();
+			this.clazz = clazz;
+			this.methodHandle = methodHandle;
+			this.methodTypeEnum = methodType;
+		}
+
+		
+		
+		public ClassHandle(Class<T> clazz, MethodHandle methodHandle, METHOD_TYPE methodTypeEnum,
+				MethodType methodType) {
+			super();
+			this.clazz = clazz;
+			this.methodHandle = methodHandle;
+			this.methodTypeEnum = methodTypeEnum;
+			this.methodType = methodType;
 		}
 
 		public Class<T> getClazz() {
@@ -179,42 +201,14 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			return methodHandle;
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
-			result = prime * result + ((methodHandle == null) ? 0 : methodHandle.hashCode());
-			return result;
+		public METHOD_TYPE getMethodTypeEnum() {
+			return methodTypeEnum;
 		}
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ClassHandle other = (ClassHandle) obj;
-			if (clazz == null) {
-				if (other.clazz != null)
-					return false;
-			} else if (!clazz.equals(other.clazz))
-				return false;
-			if (methodHandle == null) {
-				if (other.methodHandle != null)
-					return false;
-			} else if (!methodHandle.equals(other.methodHandle))
-				return false;
-			return true;
+		public MethodType getMethodType() {
+			return methodType;
 		}
-
 
 	}
-	
-	
-	
-	
 	
 }

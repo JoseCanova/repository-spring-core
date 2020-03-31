@@ -17,8 +17,6 @@ extends CsvBaseBean<Area<?>>
 implements BaseAreaBean<K>
  * 
  */
-
-
 public class ArtistBean
 <K extends BaseBean<K,Artist<?>>> 
 extends ProxyBase<Artist<?>>

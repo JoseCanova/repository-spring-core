@@ -29,13 +29,7 @@ uniqueConstraints= {
 		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
 		})
 public class Area
-<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
-															MutableAreaIdEntity<Long>,		
-															MutableTypeEntity<AreaType<?>>,
-															MutableAreaCommentEntity<AreaComment<?>>,
-															MutableAreaBeginDateEntity<AreaBeginDate<?>>,
-															MutableAreaEndDateEntity<AreaEndDate<?>>,
-															MutableGidEntity<UUID>,MutableNameEntity<String>
+<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>
 															{
 
 	private static final long serialVersionUID = -7073321340141567106L;
@@ -46,7 +40,7 @@ public class Area
 	
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 		
 	@NotNull
@@ -73,7 +67,7 @@ public class Area
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
-	public AreaComment<?> areaComment;
+	private AreaComment<?> areaComment;
 	
 	
 	

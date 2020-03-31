@@ -44,6 +44,21 @@ public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> 
 		return baseSupplier.get();
 	}
 
+	static UUID withUUID(Class<?> clazz) { 
+		UUID uuid = null;
+		try { 
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			ObjectOutputStream oos =  new ObjectOutputStream(bao);
+			oos.writeObject(clazz);
+			oos.flush();
+			uuid = UUID.nameUUIDFromBytes(bao.toByteArray());
+			oos.close();
+		}catch (Exception ex) { 
+			ex.printStackTrace();
+		}
+		return Optional.ofNullable(uuid).orElseThrow(BaseException::new);
+	}
+	
 	default UUID withUUID() { 
 		UUID uuid = null;
 		try { 
