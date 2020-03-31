@@ -7,6 +7,7 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean.METHOD_TYPE;
+import org.nanotek.BaseException;
 import org.nanotek.MutatorSupport;
 import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
@@ -65,7 +67,9 @@ implements InvocationHandler , Base<K>{
 	
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		return visitMethod(method);
+		
+		Object returnType = visitMethod(method,args).invoke(args !=null?method.getParameters()[0].getType().cast(args[0]):args);
+		return  null;
 	}
 	
 	public boolean registerInterface(Class<?> interf ,  Method method) {
@@ -83,31 +87,44 @@ implements InvocationHandler , Base<K>{
 
 	}
 	
-	private boolean visitMethod(Method method) {
+	private MethodHandle visitMethod(Method method, Object[] args) {
 		 boolean found=false;
 		 	METHOD_TYPE mtype  = METHOD_TYPE.READ;
 			Class<?>[] parameters = method.getParameterTypes();
 			Class<?> returnType  = method.getReturnType();
 			Class<?> classId = method.getDeclaringClass();
+			String fieldName = null;
 			if (method.getParameters() == null) { 
 				mtype  = METHOD_TYPE.READ;
 			}else {
 				mtype = METHOD_TYPE.WRITE;
 			}
+			
 			MethodType mt = MethodType.methodType(returnType, mtype.equals(METHOD_TYPE.WRITE)?parameters:new Class[] {});
 			MethodHandle mh = null;
-			try {
-					mh = lookup.findVirtual(classId, method.getName(), mt);
+			try {	switch (mtype) { 
+						case READ:
+							mh = lookup.findVirtual(classId, method.getName(), mt).asType(mt);//lookup.findGetter(Area.class, fieldName, method.getReturnType());
+							break;
+						case WRITE:
+							Class<?> clazz = method.getParameterTypes()[0];
+							mh = lookup.findVirtual(classId, method.getName(), mt).asType(mt);//lookup.findSetter(Area.class, fieldName, clazz);
+							break;
+						default:
+							mh = lookup.findVirtual(classId, method.getName(), mt);
+							break;
+					}
+					
 					found = true;
 			} catch (Exception e) {
 				e.printStackTrace();
-				return found;
+				throw new BaseException(e);
 			}			
-		return found;
+		return mh;
 	}
 	
 	public static void main(String[] main) {
-		AreaBean pbb = new AreaBean(Area.class);
+		Area pbb = new Area();
 		BaseInvocationHandler ih = new BaseInvocationHandler(pbb);
 		BaseProxy proxy = new BaseProxy(ih);
 		Object sb1 = BaseProxy.

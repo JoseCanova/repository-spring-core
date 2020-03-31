@@ -10,6 +10,7 @@ import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.SequenceLongBase;
+import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseAreaEntity;
 
 
@@ -36,8 +37,9 @@ extends ProxyBase<K,ID> implements InvocationHandler{
 			   	Area.class.getClassLoader(),
 			   	Area.class.getInterfaces(),
 	            pbb);
+       
 //	   sb1.getId();
-	   BaseAreaEntity slb = BaseAreaEntity.class.cast(sb1);
+	   BaseAreaBean slb = BaseAreaBean.class.cast(sb1);
 	   slb.setAreaId(100L);
 	   AreaBeginDate.class.cast(slb.getAreaBeginDate()).setBeginYear(100);
 	   System.out.println(slb.getAreaId());
