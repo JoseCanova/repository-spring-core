@@ -6,8 +6,9 @@ import java.util.Optional;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
+import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.SequenceLongBase;
 import org.nanotek.entities.BaseAreaEntity;
 
@@ -30,26 +31,27 @@ extends ProxyBase<K,ID> implements InvocationHandler{
 	}
 
    public static void main(String[] args) { 
-	   
-	   ProxyBaseBean pbb = new ProxyBaseBean(Artist.class);
-	   Object sb1 = java.lang.reflect.Proxy.newProxyInstance(
-			   	Area.class.getClassLoader(),
-			   	Area.class.getInterfaces(),
-	            pbb);
-	   Object sb2 = java.lang.reflect.Proxy.newProxyInstance(
+	   ProxyBaseBean<?,Area<?>> pbb = new ProxyBaseBean<>(Area.class);
+		   Object sb1 = java.lang.reflect.Proxy.newProxyInstance(
 			   	Area.class.getClassLoader(),
 			   	Area.class.getInterfaces(),
 	            pbb);
 //	   sb1.getId();
 	   BaseAreaEntity slb = BaseAreaEntity.class.cast(sb1);
-	   slb.setAreaId(100);
-	   System.out.println("");
-	   
+	   slb.setAreaId(100L);
+	   AreaBeginDate.class.cast(slb.getAreaBeginDate()).setBeginYear(100);
+	   System.out.println(slb.getAreaId());
+	   System.out.println(AreaBeginDate.class.cast(slb.getAreaBeginDate()).getBeginYear());
    }
    
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		System.out.println(method.getDeclaringClass());
+		if (args != null && args.length == 1)
+			return writeA(method.getDeclaringClass(), args[0]);
+		else if (args == null) {
+			Object value =  readB(method.getDeclaringClass()).orElse(null);
+			return value;
+		}
 		return null;
 	}
 

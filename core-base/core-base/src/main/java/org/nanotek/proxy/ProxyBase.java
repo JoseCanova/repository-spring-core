@@ -10,10 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
@@ -35,13 +33,13 @@ implements BaseBean<K,ID>
 
 	private MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-	private ID id;
+	public ID id;
 
 	protected Class<? extends ID> baseClass;
 
 	protected PropertyChangeSupport propertyChangeSupport = null;
 
-	private HashMap<UUID , HashMap<Class<?> , BaseBean.ClassHandle<?>>> childInterfaceMap;
+	private HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> childInterfaceMap;
 	
 	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
@@ -53,20 +51,18 @@ implements BaseBean<K,ID>
 		configureBaseBean();
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
 		return IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class));
 	}
 
-	private void configureBaseBean() {
+	public void configureBaseBean() {
 		childInterfaceMap = new HashMap<>();
 		registryDynaBean();
 	}
 	
 	@Override
 	public void mountInstanceMap() {
-		Class<? extends ID> baseEntity = getBaseClass();
 		getInstanceMap().put(getBaseClass(),getId());
 		getFields(getBaseClass())
 					.stream()
@@ -106,7 +102,7 @@ implements BaseBean<K,ID>
 	}
 
 	public MethodHandle getAtributeNameInstance(Class<?> ownerClass,Class<?> interfaceClass) {
-		return childInterfaceMap.get(Base.withUUID(ownerClass)).get(interfaceClass).getMethodHandle();
+		return childInterfaceMap.get(ownerClass).get(interfaceClass).getMethodHandle();
 	}
 
 
@@ -154,7 +150,7 @@ implements BaseBean<K,ID>
 				}
 				Optional.ofNullable(mh).ifPresentOrElse(
 											mhandle ->
-														childInterfaceMap.put(Base.withUUID(classId)  ,   
+														childInterfaceMap.put(classId  ,   
 														verifyAndStore(classId,clazz,mhandle,mtype,mt)),
 														()->notFound(clazz));
 			} catch (Exception e) {
@@ -170,7 +166,7 @@ implements BaseBean<K,ID>
 
 	private HashMap<Class<?>, ClassHandle<?>> verifyAndStore(Class<?> classId, Class<?> clazz, MethodHandle mh,
 			METHOD_TYPE mtype, MethodType mt) {
-		HashMap<Class<?>, BaseBean.ClassHandle<?>> map = childInterfaceMap.get(Base.withUUID(classId));
+		HashMap<Class<?>, BaseBean.ClassHandle<?>> map = childInterfaceMap.get(classId);
 		if (map ==null) { 
 			map = new HashMap<Class<?>, BaseBean.ClassHandle<?>>();
 		}
@@ -190,7 +186,7 @@ implements BaseBean<K,ID>
 
 
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
-		return Optional.ofNullable(childInterfaceMap.get(Base.withUUID(baseClass)).get(clazz)).map(f -> 
+		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{
 			try {
 				f.getMethodHandle().invoke(this.getId(),v);
@@ -201,7 +197,7 @@ implements BaseBean<K,ID>
 	}
 
 	public <V> Optional<V> writeA(Class<?>ownerClass,Class<?> clazz , V v){
-		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(Base.withUUID(ownerClass))).map(f -> 
+		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
 		{
 			try {
 				f.get(clazz).getMethodHandle().invoke(instanceMap.get(ownerClass),v);
@@ -213,7 +209,7 @@ implements BaseBean<K,ID>
 
 	
 	public Optional<?> readB(Class<?> clazz){
-		return Optional.ofNullable(childInterfaceMap.get(Base.withUUID(baseClass)).get(clazz)).map(f -> 
+		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{
 			try {
 				return f.getMethodHandle().invoke(this.getId());
@@ -226,7 +222,7 @@ implements BaseBean<K,ID>
 	}
 
 	public Optional<?> readB(Class<?> ownerClass,Class<?> clazz){
-		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(Base.withUUID(ownerClass))).map(f -> 
+		return Optional.ofNullable(Optional.ofNullable(childInterfaceMap.get(ownerClass)).map(f -> 
 		{
 			try {
 				return f.get(clazz).getMethodHandle().invoke(instanceMap.get(ownerClass));
@@ -264,12 +260,12 @@ implements BaseBean<K,ID>
 	}
 
 
-	public HashMap<UUID, HashMap<Class<?>, BaseBean.ClassHandle<?>>> getChildInterfaceMap() {
+	public HashMap<Class<?>, HashMap<Class<?>, BaseBean.ClassHandle<?>>> getChildInterfaceMap() {
 		return childInterfaceMap;
 	}
 
 
-	public void setChildInterfaceMap(HashMap<UUID, HashMap<Class<?>, BaseBean.ClassHandle<?>>> childInterfaceMap) {
+	public void setChildInterfaceMap(HashMap<Class<?>, HashMap<Class<?>, BaseBean.ClassHandle<?>>> childInterfaceMap) {
 		this.childInterfaceMap = childInterfaceMap;
 	}
 

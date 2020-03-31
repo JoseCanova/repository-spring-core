@@ -1,5 +1,9 @@
 package org.nanotek.proxy;
 
+import java.beans.PropertyDescriptor;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -9,40 +13,45 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.nanotek.Base;
-import org.nanotek.BaseEntity;
+import org.nanotek.BaseBean.METHOD_TYPE;
+import org.nanotek.MutatorSupport;
+import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.proxy.entities.BaseAreaEntityProxy;
+import org.nanotek.entities.BaseAreaBean;
 
 import jdk.internal.reflect.CallerSensitive;
 
-public 	class BaseProxy extends Proxy 
-implements InvocationHandler{
-
-	private ProxyBaseBean<?, ?> proxyBaseBean;
+public 	class BaseProxy<K extends Base<K>> extends Proxy
+implements InvocationHandler , Base<K>{
 	
-	private Map<UUID, Class<?>> instanceRegistryClass;
+	private MethodHandles.Lookup lookup = MethodHandles.lookup();
+	
+	private Map<UUID, Class<?>> instanceClassRegistry;
 	
 	private Map<UUID,Object> proxyRegistry;
 	
-	private Class<?> currentClass;
 
-	public BaseProxy(InvocationHandler h) {
-		super(withDelegateBaseProxy());
+	public BaseProxy(InvocationHandler h , boolean bo) {
+		super(h);
 	}
 
-	public BaseProxy(ProxyBaseBean<?,?> pbb) {
-		super(pbb);
-		this.proxyBaseBean = pbb;
-		registerIntance(pbb);
+	public BaseProxy(BaseInvocationHandler<?> pbb) {
+		super(withDelegateBaseProxy(pbb));
+		registerInstance(pbb);
+		pbb.setDelegateInvocationHandler(this);
 	}
 	
-	private void registerIntance(ProxyBaseBean<?, ?> pbb) {
-		instanceRegistryClass = new  HashMap<>();
-		instanceRegistryClass.put(Base.withUUID(pbb.getBaseClass()), pbb.getBaseClass());
+	private static InvocationHandler withDelegateBaseProxy(BaseInvocationHandler<?> pbb) {
+		return new  BaseProxy(InvocationHandler.class.cast(pbb) , true);
+	}
+
+	private void registerInstance(BaseInvocationHandler<?> pbb) {
+		instanceClassRegistry = new  HashMap<>();
+		instanceClassRegistry.put(Base.withUUID(pbb.getBaseClass()), pbb.getBaseClass());
 	}
 
 	private static InvocationHandler withDelegateBaseProxy() {
-		return new ProxyBaseBean<>();
+		return new BaseInvocationHandler<>();
 	}
 
 	
@@ -56,28 +65,61 @@ implements InvocationHandler{
 	
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		Class<?> ownerClass = instanceRegistryClass.get(Base.withUUID(Area.class));
-		if (args != null && args.length == 1)
-			return proxyBaseBean.writeA(method.getDeclaringClass(), args[0]);
-		else if (args == null) {
-			Object value =  proxyBaseBean.readB(method.getDeclaringClass()).orElse(null);
-			return value;
-		}
-		return null;
+		return visitMethod(method);
+	}
+	
+	public boolean registerInterface(Class<?> interf ,  Method method) {
+		Optional<PropertyDescriptor> pd = MutatorSupport.getPropertyDescriptor(interf);
+		return	pd.map(p-> {
+			boolean result = false;
+			if(p.getWriteMethod() !=null) { 
+//				result = registryMethod(classId , p.getWriteMethod().getDeclaringClass() , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
+			}
+			if(p.getReadMethod() !=null) {
+//				result = registryMethod(classId , p.getReadMethod().getDeclaringClass() , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
+			}
+			return result;
+		}).filter(r -> r==true).orElse(false);
+
+	}
+	
+	private boolean visitMethod(Method method) {
+		 boolean found=false;
+		 	METHOD_TYPE mtype  = METHOD_TYPE.READ;
+			Class<?>[] parameters = method.getParameterTypes();
+			Class<?> returnType  = method.getReturnType();
+			Class<?> classId = method.getDeclaringClass();
+			if (method.getParameters() == null) { 
+				mtype  = METHOD_TYPE.READ;
+			}else {
+				mtype = METHOD_TYPE.WRITE;
+			}
+			MethodType mt = MethodType.methodType(returnType, mtype.equals(METHOD_TYPE.WRITE)?parameters:new Class[] {});
+			MethodHandle mh = null;
+			try {
+					mh = lookup.findVirtual(classId, method.getName(), mt);
+					found = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return found;
+			}			
+		return found;
 	}
 	
 	public static void main(String[] main) {
-		ProxyBaseBean pbb = new ProxyBaseBean(Area.class);
-		BaseProxy proxy = new BaseProxy(pbb);
+		AreaBean pbb = new AreaBean(Area.class);
+		BaseInvocationHandler ih = new BaseInvocationHandler(pbb);
+		BaseProxy proxy = new BaseProxy(ih);
 		Object sb1 = BaseProxy.
-						newProxyInstance(ProxyBaseBean.class.getClassLoader(), 
-								new Class[] {BaseAreaEntityProxy.class},
-								proxy);
-		 BaseAreaEntityProxy slb = BaseAreaEntityProxy.class.cast(sb1);
-		 slb.setAreaId(100L);
-		 slb.getAreaEndDate().setEndYear(200);
-		 System.out.println(slb.getAreaId());
-		 System.out.println(slb.getEndYear());
+								newProxyInstance(ProxyBaseBean.class.getClassLoader(), 
+								new Class[] {BaseAreaBean.class},
+								ih);
+		BaseAreaBean slb = BaseAreaBean.class.cast(sb1);
+		System.out.println("'");
+		slb.setAreaId(100L);
+		slb.setEndYear(300);
+		System.out.println(slb.getAreaId());
+		System.out.println(slb.getEndYear());
 	}
 	
 }

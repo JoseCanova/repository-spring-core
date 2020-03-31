@@ -148,10 +148,10 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		return	pd.map(p-> {
 			boolean result = false;
 			if(p.getWriteMethod() !=null) { 
-				result = registryMethod(classId , interf , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
+				result = registryMethod(classId , p.getWriteMethod().getDeclaringClass() , p.getName() , p.getWriteMethod(),METHOD_TYPE.WRITE);
 			}
 			if(p.getReadMethod() !=null) {
-				result = registryMethod(classId , interf , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
+				result = registryMethod(classId , p.getReadMethod().getDeclaringClass() , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 			}
 			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
 			return result;
