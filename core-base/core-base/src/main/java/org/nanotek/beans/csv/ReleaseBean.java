@@ -1,13 +1,8 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Release;
-import org.nanotek.opencsv.CsvResult;
+import org.nanotek.entities.BaseReleaseBean;
 import org.nanotek.proxy.ProxyBase;
 
 /**
@@ -16,9 +11,9 @@ import org.nanotek.proxy.ProxyBase;
  *
  */
 public class ReleaseBean 
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
+<K extends BaseBean<ReleaseBean<K>,Release<?>>> 
+extends ProxyBase<ReleaseBean<K>,Release<?>>
+implements BaseReleaseBean<ReleaseBean<K>>{
 
 
 	
@@ -26,146 +21,35 @@ implements BaseBean<K,ID>{
 	
 	private static final long serialVersionUID = -11618084576388817L;
 	
-	private ID id; 
 	
-	public ID getId() { 
-		return id;
+//	public Long releaseId; 
+//	public String gid; 
+//	public String name;
+//	public Long artistCreditId; 
+//	public Long releaseGroup; 
+//	public Long status; 
+//	public Long  packaging; 
+//	public Long  language; 
+//	public Integer script;
+//	public String barcode; 
+//	public String comment; 
+//	public Integer editsPending; 
+//	public Integer quality; 
+//	public String lastUpdated;
+//	
+	
+
+	public ReleaseBean(Class<? extends Release<?>> class1) {
+		super(class1);
+		// TODO Auto-generated constructor stub
 	}
-	
-	public Long releaseId; 
-	public String gid; 
-	public String name;
-	public Long artistCreditId; 
-	public Long releaseGroup; 
-	public Long status; 
-	public Long  packaging; 
-	public Long  language; 
-	public Integer script;
-	public String barcode; 
-	public String comment; 
-	public Integer editsPending; 
-	public Integer quality; 
-	public String lastUpdated;
-	
-	
-	public ReleaseBean(Class<ID> id) {
-		super(id);
-	}
+
+
 
 	public ReleaseBean() {
-		super(Release.class);
+		super((Class<? extends Release<?>>) Release.class);
 	}
 	
 	
-	public String getGid() {
-		return gid;
-	}
-	public void setGid(String gid) {
-		this.gid = gid;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Long getArtistCreditId() {
-		return artistCreditId;
-	}
-	public void setArtistCreditId(Long artistCreditId) {
-		this.artistCreditId = artistCreditId;
-	}
-	public Long getReleaseGroup() {
-		return releaseGroup;
-	}
-	public void setReleaseGroup(Long releaseGroup) {
-		this.releaseGroup = releaseGroup;
-	}
-	public Long getStatus() {
-		return status;
-	}
-	public void setStatus(Long status) {
-		this.status = status;
-	}
-	public Integer getScript() {
-		return script;
-	}
-	public void setScript(Integer script) {
-		this.script = script;
-	}
-	public String getBarcode() {
-		return barcode;
-	}
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	public Integer getEditsPending() {
-		return editsPending;
-	}
-	public void setEditsPending(Integer editsPending) {
-		this.editsPending = editsPending;
-	}
-	public Integer getQuality() {
-		return quality;
-	}
-	public void setQuality(Integer quality) {
-		this.quality = quality;
-	}
-	public String getLastUpdated() {
-		return lastUpdated;
-	}
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
 
-	public Long getPackaging() {
-		return packaging;
-	}
-
-	public void setPackaging(Long packaging) {
-		this.packaging = packaging;
-	}
-
-	public Long getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(Long language) {
-		this.language = language;
-	}
-
-
-	public Long getReleaseId() {
-		return releaseId;
-	}
-
-
-	public void setReleaseId(Long releaseId) {
-		this.releaseId = releaseId;
-	} 
-	
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
 }

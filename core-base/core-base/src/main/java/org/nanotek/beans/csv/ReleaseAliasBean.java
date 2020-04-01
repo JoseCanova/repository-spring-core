@@ -1,265 +1,47 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.ReleaseAlias;
-import org.nanotek.opencsv.CsvResult;
+import org.nanotek.entities.BaseReleaseAliasBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class ReleaseAliasBean 
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
+<K extends BaseBean<ReleaseAliasBean<K>,ReleaseAlias<?>>> 
+extends ProxyBase<ReleaseAliasBean<K>,ReleaseAlias<?>>
+implements BaseReleaseAliasBean<ReleaseAliasBean<K>>{
 
 	private static final long serialVersionUID = 3986721500454057322L;
-	
-	private ID id; 
-	
-	public ID getId() { 
-		return id;
-	}
-	
-	public Long releaseAliasId; 
-	public Long release; 
-	public String name; 
-	public String locale; 
-	public Integer editsPending; 
-	public String lastUpdated; 
-	public Long type; 
-	public String sortName;
-	public Integer beginDateYear ;
-	public Integer beginDateMonth;
-	public Integer beginDateDay;
-	public Integer endDateYear;
-	public Integer endDateMonth;
-	public Integer endDateDay; 
-	public String primaryForLocale;
-	public String ended;
 
 	
-	public ReleaseAliasBean(Class<ID> id) {
-		super(id);
-	}
+//	public Long releaseAliasId; 
+//	public Long release; 
+//	public String name; 
+//	public String locale; 
+//	public Integer editsPending; 
+//	public String lastUpdated; 
+//	public Long type; 
+//	public String sortName;
+//	public Integer beginDateYear ;
+//	public Integer beginDateMonth;
+//	public Integer beginDateDay;
+//	public Integer endDateYear;
+//	public Integer endDateMonth;
+//	public Integer endDateDay; 
+//	public String primaryForLocale;
+//	public String ended;
 
+
+
+	
+	
 	public ReleaseAliasBean() {
-		super(ReleaseAlias.class);
+		super((Class<? extends ReleaseAlias<?>>) ReleaseAlias.class);
 	}
 
 
-	public Long getRelease() {
-		return release;
+	public ReleaseAliasBean(Class<? extends ReleaseAlias<?>> class1) {
+		super(class1);
 	}
 
 
-
-	public void setRelease(Long release) {
-		this.release = release;
-	}
-
-
-
-	public String getName() {
-		return name;
-	}
-
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-
-	public String getLocale() {
-		return locale;
-	}
-
-
-
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
-
-
-
-	public Integer getEditsPending() {
-		return editsPending;
-	}
-
-
-
-	public void setEditsPending(Integer editsPending) {
-		this.editsPending = editsPending;
-	}
-
-
-
-	public String getLastUpdated() {
-		return lastUpdated;
-	}
-
-
-
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
-
-
-	public Long getType() {
-		return type;
-	}
-
-
-
-	public void setType(Long type) {
-		this.type = type;
-	}
-
-
-
-	public String getSortName() {
-		return sortName;
-	}
-
-
-
-	public void setSortName(String sortName) {
-		this.sortName = sortName;
-	}
-
-
-
-	public Integer getBeginDateYear() {
-		return beginDateYear;
-	}
-
-
-
-	public void setBeginDateYear(Integer beginDateYear) {
-		this.beginDateYear = beginDateYear;
-	}
-
-
-
-	public Integer getBeginDateMonth() {
-		return beginDateMonth;
-	}
-
-
-
-	public void setBeginDateMonth(Integer beginDateMonth) {
-		this.beginDateMonth = beginDateMonth;
-	}
-
-
-
-	public Integer getBeginDateDay() {
-		return beginDateDay;
-	}
-
-
-
-	public void setBeginDateDay(Integer beginDateDay) {
-		this.beginDateDay = beginDateDay;
-	}
-
-
-
-	public Integer getEndDateYear() {
-		return endDateYear;
-	}
-
-
-
-	public void setEndDateYear(Integer endDateYear) {
-		this.endDateYear = endDateYear;
-	}
-
-
-
-	public Integer getEndDateMonth() {
-		return endDateMonth;
-	}
-
-
-
-	public void setEndDateMonth(Integer endDateMonth) {
-		this.endDateMonth = endDateMonth;
-	}
-
-
-
-	public Integer getEndDateDay() {
-		return endDateDay;
-	}
-
-
-
-	public void setEndDateDay(Integer endDateDay) {
-		this.endDateDay = endDateDay;
-	}
-
-
-
-	public String getPrimaryForLocale() {
-		return primaryForLocale;
-	}
-
-
-
-	public void setPrimaryForLocale(String primaryForLocale) {
-		this.primaryForLocale = primaryForLocale;
-	}
-
-
-
-	public String getEnded() {
-		return ended;
-	}
-
-
-
-	public void setEnded(String ended) {
-		this.ended = ended;
-	}
-
-
-
-
-	public Long getReleaseAliasId() {
-		return releaseAliasId;
-	}
-
-
-
-
-	public void setReleaseAliasId(Long releaseAliasId) {
-		this.releaseAliasId = releaseAliasId;
-	}
-
-	
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}	
-	
 }

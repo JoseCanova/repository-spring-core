@@ -6,120 +6,42 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.ImmutableBase;
+import org.nanotek.beans.entity.ReleaseAlias;
 import org.nanotek.beans.entity.ReleaseAliasType;
+import org.nanotek.entities.BaseReleaseAliasBean;
+import org.nanotek.entities.BaseReleaseAliasTypeBean;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.proxy.ProxyBase;
 
 public class ReleaseAliasTypeBean 
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
+<K extends BaseBean<ReleaseAliasTypeBean<K>,ReleaseAliasType<?>>> 
+extends ProxyBase<ReleaseAliasTypeBean<K>,ReleaseAliasType<?>>
+implements BaseReleaseAliasTypeBean<ReleaseAliasTypeBean<K>>{
 
 	private static final long serialVersionUID = -6271568961378072618L;
+
 	
-	private ID id;
+//	
+//	private Long resultAliasTypeId; 
+//	private String name; 
+//	private Long parent; 
+//	private Long childOrder; 
+//	private String description; 
+//	private String gid;
 	
-	public ID getId() { 
-		return id; 
-	}
-	
-	
-	private Long resultAliasTypeId; 
-	private String name; 
-	private Long parent; 
-	private Long childOrder; 
-	private String description; 
-	private String gid;
-	
-	
-	public ReleaseAliasTypeBean(Class<ID> id) {
-		super(id);
-	}
+
 
 	public ReleaseAliasTypeBean() {
-		super(ReleaseAliasType.class);
+		super((Class<? extends ReleaseAliasType<?>>) ReleaseAliasType.class);
+	}
+
+
+	public ReleaseAliasTypeBean(Class<? extends ReleaseAliasType<?>> class1) {
+		super(class1);
+		// TODO Auto-generated constructor stub
 	}
 
 
 
-	public String getName() {
-		return name;
-	}
 
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public Long getParent() {
-		return parent;
-	}
-
-
-	public void setParent(Long parent) {
-		this.parent = parent;
-	}
-
-
-	public Long getChildOrder() {
-		return childOrder;
-	}
-
-
-	public void setChildOrder(Long childOrder) {
-		this.childOrder = childOrder;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public String getGid() {
-		return gid;
-	}
-
-
-	public void setGid(String gid) {
-		this.gid = gid;
-	}
-
-
-
-	public Long getResultAliasTypeId() {
-		return resultAliasTypeId;
-	}
-
-
-
-	public void setResultAliasTypeId(Long resultAliasTypeId) {
-		this.resultAliasTypeId = resultAliasTypeId;
-	}
-
-	
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
 }

@@ -11,9 +11,9 @@ public class ArtistCreditNameBeanValidator implements Predicate<ArtistCreditName
 
 	@Override
 	public boolean test(ArtistCreditNameBean artist) {
-		return Optional.ofNullable(artist.getArtistCreditId()).orElse(0L) != 0 
+		return Optional.ofNullable(artist.getArtistCreditNameId()).orElse(0L) != 0 
 				&&  notEmpty(artist.getName()) 
-				&& Optional.ofNullable(artist.getArtistId()).orElse(0L) !=0;
+				&& Optional.ofNullable(artist.getArtistCreditNameId()).orElse(0L) !=0;
 	}
 
 	private static boolean notEmpty(String value) {

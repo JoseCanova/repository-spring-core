@@ -37,33 +37,33 @@ MutableIsoCode3Entity<String> {
 	
 	@NotNull
 	@Column(name="language_id")
-	private Long languageId;
+	public Long languageId;
 	
 	@NotBlank
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode2T" , length=3)
-	private String isoCode2T; 
+	public String isoCode2T; 
 	
 	@NotBlank
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode2B" , length=3)
-	private String isoCode2B; 
+	public String isoCode2B; 
 	
 	@NotBlank
 	@Size(min = 2 , max = 2)
 	@Column(name="isoCode1" , length=2)
-	private String isoCode1; 
+	public String isoCode1; 
 	
 	@Column(name="frequency")
-	private Long frequency;
+	public Long frequency;
 	
 	@NotBlank
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode3", length=3)
-	private String isoCode3;
+	public String isoCode3;
 
 	@OneToMany(mappedBy = "language")
-	public Set<Release> releases;
+	private Set<Release> releases;
  	
 	
 	public Language() {}

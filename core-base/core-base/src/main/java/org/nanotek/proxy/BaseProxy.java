@@ -7,7 +7,6 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -17,11 +16,8 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean.METHOD_TYPE;
 import org.nanotek.BaseException;
 import org.nanotek.MutatorSupport;
-import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.entities.BaseAreaBean;
-
-import jdk.internal.reflect.CallerSensitive;
 
 public 	class BaseProxy<K extends Base<K>> extends Proxy
 implements InvocationHandler , Base<K>{
@@ -57,7 +53,6 @@ implements InvocationHandler , Base<K>{
 	}
 
 	
-	@CallerSensitive
     public static Object newProxyInstance(ClassLoader loader,
                                           Class<?>[] interfaces,
                                           InvocationHandler h) {

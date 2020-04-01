@@ -1,201 +1,48 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.RecordingAlias;
-import org.nanotek.opencsv.CsvResult;
+import org.nanotek.entities.BaseRecordingAliasBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class RecordingAliasBean 
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
+<K extends BaseBean<RecordingAliasBean<K>,RecordingAlias<?>>> 
+extends ProxyBase<RecordingAliasBean<K>,RecordingAlias<?>>
+implements BaseRecordingAliasBean<RecordingAliasBean<K>>{
 
 
 	private static final long serialVersionUID = 4772995387500387928L;
 
-	private ID id;
 	
-	public ID getId() {
-		return id;
-	}
+//	public Long resultId;
+//	public Long recording; 
+//	public String name; 
+//	public String locale; 
+//	public Integer editsPending; 
+//	public String lastUpdated; 
+//	public Long type; 
+//	public String sortName;
+//	public Integer beginDateYear ;
+//	public Integer beginDateMonth;
+//	public Integer beginDateDay;
+//	public Integer endDateYear;
+//	public Integer endDateMonth;
+//	public Integer endDateDay; 
+//	public String primaryForLocale;
+//	public String ended;
+//	
+//	
 	
-	public Long resultId;
-	public Long recording; 
-	public String name; 
-	public String locale; 
-	public Integer editsPending; 
-	public String lastUpdated; 
-	public Long type; 
-	public String sortName;
-	public Integer beginDateYear ;
-	public Integer beginDateMonth;
-	public Integer beginDateDay;
-	public Integer endDateYear;
-	public Integer endDateMonth;
-	public Integer endDateDay; 
-	public String primaryForLocale;
-	public String ended;
-	
-	
-	
-	public RecordingAliasBean(Class<ID> id) {
-		super(id);
-	}
 
 	public RecordingAliasBean() {
-		super(RecordingAlias.class);
+		super((Class<? extends RecordingAlias<?>>) RecordingAlias.class);
 	}
 
-	public Long getRecording() {
-		return recording;
+
+	public RecordingAliasBean(Class<? extends RecordingAlias<?>> class1) {
+		super(class1);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setRecording(Long recording) {
-		this.recording = recording;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLocale() {
-		return locale;
-	}
-
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
-
-	public Integer getEditsPending() {
-		return editsPending;
-	}
-
-	public void setEditsPending(Integer editsPending) {
-		this.editsPending = editsPending;
-	}
-
-	public String getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
-	public Long getType() {
-		return type;
-	}
-
-	public void setType(Long type) {
-		this.type = type;
-	}
-
-	public String getSortName() {
-		return sortName;
-	}
-
-	public void setSortName(String sortName) {
-		this.sortName = sortName;
-	}
-
-	public Integer getBeginDateYear() {
-		return beginDateYear;
-	}
-
-	public void setBeginDateYear(Integer beginDateYear) {
-		this.beginDateYear = beginDateYear;
-	}
-
-	public Integer getBeginDateMonth() {
-		return beginDateMonth;
-	}
-
-	public void setBeginDateMonth(Integer beginDateMonth) {
-		this.beginDateMonth = beginDateMonth;
-	}
-
-	public Integer getBeginDateDay() {
-		return beginDateDay;
-	}
-
-	public void setBeginDateDay(Integer beginDateDay) {
-		this.beginDateDay = beginDateDay;
-	}
-
-	public Integer getEndDateYear() {
-		return endDateYear;
-	}
-
-	public void setEndDateYear(Integer endDateYear) {
-		this.endDateYear = endDateYear;
-	}
-
-	public Integer getEndDateMonth() {
-		return endDateMonth;
-	}
-
-	public void setEndDateMonth(Integer endDateMonth) {
-		this.endDateMonth = endDateMonth;
-	}
-
-	public Integer getEndDateDay() {
-		return endDateDay;
-	}
-
-	public void setEndDateDay(Integer endDateDay) {
-		this.endDateDay = endDateDay;
-	}
-
-	public String getPrimaryForLocale() {
-		return primaryForLocale;
-	}
-
-	public void setPrimaryForLocale(String primaryForLocale) {
-		this.primaryForLocale = primaryForLocale;
-	}
-
-	public String getEnded() {
-		return ended;
-	}
-
-	public void setEnded(String ended) {
-		this.ended = ended;
-	}
-
-	public Long getResultId() {
-		return resultId;
-	}
-
-	public void setResultId(Long resultId) {
-		this.resultId = resultId;
-	}
-	
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
 
 }
