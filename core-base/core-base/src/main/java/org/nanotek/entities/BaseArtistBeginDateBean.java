@@ -2,17 +2,17 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.csv.AreaBeginDateBean;
-import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.AreaBeginDate;
+import org.nanotek.beans.csv.ArtistBeginDateBean;
+import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.entities.immutables.BeginYearEntity;
 
-public interface BaseAreaBeginDateBean
-<K extends BaseBean<K,AreaBeginDate<?>>>
+public interface BaseArtistBeginDateBean
+<K extends BaseBean<K,ArtistBeginDate<?>>>
 extends 
 Base<K>,
-BaseBean<K,AreaBeginDate<?>>,
+BaseBean<K,ArtistBeginDate<?>>,
 MutableBeginDateEntity<Integer> {
+
 	
 	@Override
 	default void setBeginYear(Integer k) {
@@ -43,4 +43,15 @@ MutableBeginDateEntity<Integer> {
 	default Integer getBeginDay() {
 		return read(BeginDayEntity.class).map(d->Integer.class.cast(d)).orElse(Integer.MIN_VALUE);
 	}
+	
+	public static void main(String[] args) { 
+		ArtistBeginDateBean<?> bean = new ArtistBeginDateBean<>();
+		bean.setBeginDay(100);
+		System.out.println(bean.getBeginDay());
+		bean.setBeginMonth(100);
+		System.out.println(bean.getBeginMonth());
+		bean.setBeginYear(200);
+		System.out.println(bean.getBeginYear());
+	}
+	
 }

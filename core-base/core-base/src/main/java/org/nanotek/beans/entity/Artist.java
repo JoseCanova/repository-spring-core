@@ -58,7 +58,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	
 	public void setGid(UUID gid) {
@@ -226,10 +226,6 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.artistEndDate = k;
 	}
 
-	@Override
-	public ArtistEndDate<?> getArtistEndDateEntity() {
-		return this.artistEndDate;
-	}
 
 	@Override
 	public void setArtistType(ArtistType<?> k) {

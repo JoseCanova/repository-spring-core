@@ -1,13 +1,10 @@
 package org.nanotek.beans.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 
@@ -21,7 +18,7 @@ public class ArtistCreditCount<K extends ArtistCreditCount<K>> extends LongCount
 
 	@NotNull
 	@OneToOne(optional = false , mappedBy = "artistCreditCount")
-	public ArtistCredit<?> artistCredit;
+	private ArtistCredit<?> artistCredit;
 	
 	public ArtistCreditCount() {
 	}

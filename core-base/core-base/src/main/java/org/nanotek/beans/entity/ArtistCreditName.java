@@ -16,14 +16,14 @@ import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutablePositionEntity;
-import org.nanotek.entities.MutatbleArtistCreditNameIdEntity;
+import org.nanotek.entities.MutatleArtistCreditNameIdEntity;
 
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditName<K extends ArtistCreditName<K>> 
 extends BrainzBaseEntity<K> 
 implements  BaseArtistCreditNameEntity<K>,
-MutatbleArtistCreditNameIdEntity<Long>, 
+MutatleArtistCreditNameIdEntity<Long>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
 MutablePositionEntity<ArtistCreditNamePosition<?>>,
@@ -54,11 +54,11 @@ MutableNameEntity<String>{
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
-	public ArtistCredit<?> artistCredit;
+	private  ArtistCredit<?> artistCredit;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artistid" , insertable = true , nullable = true, referencedColumnName = "id")
-	public Artist<?> artist;
+	private  Artist<?> artist;
 	
 	@OneToOne
 	@JoinTable(
@@ -70,6 +70,10 @@ MutableNameEntity<String>{
 	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true)
 	public String artistCreditNameJoinPhrase;
 
+	
+	public ArtistCreditName() {
+	}
+	
 	public ArtistCreditName(@NotBlank String name, @NotNull Long artistCreditNameId) {
 		this.name = name;
 		this.artistCreditNameId = artistCreditNameId;

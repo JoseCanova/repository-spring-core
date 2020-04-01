@@ -14,7 +14,8 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.AreaIdEntity;
 
 
-public interface BaseAreaBean<K extends BaseBean<K,Area<?>>> 
+public interface BaseAreaBean
+<K extends BaseBean<K,Area<?>>> 
 extends 
 Base<K>,
 BaseBean<K,Area<?>>,

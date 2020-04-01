@@ -127,7 +127,7 @@ implements BaseBean<K,ID>
 						mh = lookup.findSetter(classId.asSubclass(BaseEntity.class), f.getName(), f.getType());
 						found = true;
 					}else if(Arrays.asList(classId.getDeclaredClasses()).contains(clazz)){
-						mh = lookup.findVirtual(classId.asSubclass(BaseEntity.class), method.getName(), mt);
+						mh = lookup.findVirtual(classId.asSubclass(BaseEntity.class), method.getName(), mt);//my guess this is wrong.
 						found = true;
 					}
 					break;
@@ -135,7 +135,8 @@ implements BaseBean<K,ID>
 					if(f.getName().equals(atributeName)){
 						mh = lookup.findGetter(classId, f.getName(), f.getType());
 						found = true;
-					}else {
+					}
+					else{//just to not enter on  this section.. check this later on jvm docs.
 						mh = lookup.findVirtual(clazz, method.getName(), mt);
 						found = true;
 					}

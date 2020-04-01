@@ -19,7 +19,7 @@ MutableArtistCreditNameEntity<ArtistCreditName<?>>{
 	
 	@NotNull
 	@OneToOne(mappedBy="position")
-	public ArtistCreditName<?> artistCreditName;
+	private ArtistCreditName<?> artistCreditName;
 	
 	public ArtistCreditNamePosition(@NotNull ArtistCreditName<?> artistCreditName) {
 		super();

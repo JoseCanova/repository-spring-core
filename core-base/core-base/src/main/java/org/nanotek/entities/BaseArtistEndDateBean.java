@@ -2,19 +2,18 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaEndDate;
+import org.nanotek.beans.entity.ArtistEndDate;
 import org.nanotek.entities.immutables.EndDayEntity;
 import org.nanotek.entities.immutables.EndMonthEntity;
 import org.nanotek.entities.immutables.EndYearEntity;
 
-public interface BaseAreaEndDateBean
-<K extends BaseBean<K,AreaEndDate<?>>>
+public interface BaseArtistEndDateBean
+<K extends BaseBean<K,ArtistEndDate<?>>>
 extends  
 Base<K>,
-BaseBean<K,AreaEndDate<?>>,
-MutableEndDateEntity<Integer>{
+BaseBean<K,ArtistEndDate<?>>,
+MutableEndDateEntity<Integer> {
 
-	
 	@Override
 	default void setEndYear(Integer t) {
 		write(MutableEndYearEntity.class,t);
@@ -44,4 +43,5 @@ MutableEndDateEntity<Integer>{
 	default Integer getEndDay() {
 		return read(EndDayEntity.class).map(d -> Integer.class.cast(d)).orElse(Integer.MIN_VALUE);
 	}
+	
 }

@@ -24,7 +24,11 @@ public interface MutatorSupport<T> {
 		}
 		return Optional.empty();
 	}
-	
+	/**
+	 * use just for acessor/mutator interfaces.
+	 * @param type
+	 * @return
+	 */
 	static Optional<PropertyDescriptor> getPropertyDescriptor(Class<?> type) { 
 		try {
 			BeanInfo beanInfo = Introspector.getBeanInfo(type);
