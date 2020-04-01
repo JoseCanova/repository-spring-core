@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.BaseEntity;
 import org.nanotek.beans.entity.Medium;
 import org.nanotek.entities.BaseMediumBean;
 import org.nanotek.proxy.ProxyBase;
@@ -33,7 +34,12 @@ implements BaseMediumBean<MediumBean<K>> {
 	
 
 	public MediumBean() {
-		super((Class<? extends Medium<?>>) Medium.class);
+		super(castClass());
+	}
+
+
+	private static Class<? extends Medium<?>> castClass() {
+		return (Class<? extends Medium<?>>) Medium.class.asSubclass(Medium.class);
 	}
 
 

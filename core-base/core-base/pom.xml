@@ -203,11 +203,11 @@
 			<artifactId>jackson-module-jsonSchema</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-jdk8</artifactId>
 			<version>${org.mapstruct.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.immutables</groupId>
 			<artifactId>value</artifactId>
@@ -239,11 +239,11 @@
 			<artifactId>guava</artifactId>
 			<version>28.2-jre</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
 			<version>LATEST</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -257,8 +257,8 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
-					<version>3.8.0</version>
 					<compilerArgument>-XDignore.symbol.file</compilerArgument>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse> 
 					<annotationProcessorPaths>
 						<!-- <path> <groupId>org.mapstruct</groupId> <artifactId>mapstruct-processor</artifactId> 
 							<version>${org.mapstruct.version}</version> </path> -->

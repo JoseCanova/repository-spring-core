@@ -6,12 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseMediumFormatEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableMediumFomatEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableYearEntity;
@@ -42,7 +41,7 @@ extends BrainzBaseEntity<K> implements
 	@Column(name = "hasDiscId", length=6, nullable=false)
 	private String hasDiscId;
 	
-	@NotBlank
+	@NotNull
 	@Column(name = "gid" , length=50 , insertable=true , nullable=false , updatable=true)
 	private UUID gid;
 	

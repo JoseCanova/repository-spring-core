@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseArtistBean;
 import org.nanotek.entities.BaseArtistBeginDateBean;
@@ -76,11 +77,16 @@ implements BaseArtistBean<ArtistBean<K>>
 	
 	
 	public  ArtistBean() {
-		super((Class<Artist<?>>)Artist.class.asSubclass(Artist.class));
+		super( castClass());
 		postConstruct();
 	}
 
-
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Artist<?>> castClass() {
+		return (Class<? extends Artist<?>>) 
+				Artist.class.
+				asSubclass(Artist.class);
+	}
 
 	private void postConstruct() {
 		 artistSortName = new ArtistSortNameBean<>();

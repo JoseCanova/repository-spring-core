@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.ReleasePackaging;
 import org.nanotek.beans.entity.ReleaseStatus;
 import org.nanotek.entities.BaseReleaseStatusBean;
 import org.nanotek.proxy.ProxyBase;
@@ -33,9 +34,16 @@ implements BaseReleaseStatusBean<ReleaseStatusBean<K>>{
 
 
 	public ReleaseStatusBean() {
-		super((Class<? extends ReleaseStatus<?>>) ReleaseStatus.class);
+		super(castClass());
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ReleaseStatus<?>>castClass() {
+		return (Class<? extends ReleaseStatus<?>>) 
+				ReleaseStatus.class.
+				asSubclass(ReleaseStatus.class);
+	}
 
  
 }

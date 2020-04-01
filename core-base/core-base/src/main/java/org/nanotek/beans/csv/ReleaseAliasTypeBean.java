@@ -1,16 +1,8 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.ReleaseAlias;
 import org.nanotek.beans.entity.ReleaseAliasType;
-import org.nanotek.entities.BaseReleaseAliasBean;
 import org.nanotek.entities.BaseReleaseAliasTypeBean;
-import org.nanotek.opencsv.CsvResult;
 import org.nanotek.proxy.ProxyBase;
 
 public class ReleaseAliasTypeBean 
@@ -30,9 +22,15 @@ implements BaseReleaseAliasTypeBean<ReleaseAliasTypeBean<K>>{
 //	private String gid;
 	
 
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ReleaseAliasType<?>> castClass() {
+		return (Class<? extends ReleaseAliasType<?>>) 
+				ReleaseAliasType.class.asSubclass(ReleaseAliasType.class);
+	}
+
 
 	public ReleaseAliasTypeBean() {
-		super((Class<? extends ReleaseAliasType<?>>) ReleaseAliasType.class);
+		super(castClass());
 	}
 
 

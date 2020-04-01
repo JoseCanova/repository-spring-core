@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
@@ -19,6 +20,7 @@ import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.Medium;
 import org.nanotek.entities.MutableAreaIdEntity;
 import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
@@ -50,6 +52,8 @@ implements BaseBean<K,ID>
 		mountInstanceMap();
 		configureBaseBean();
 	}
+	
+
 
 	@SuppressWarnings("unchecked")
 	public static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
@@ -280,4 +284,23 @@ implements BaseBean<K,ID>
 		this.id = id;
 	}
 
+	@Override
+	public int compareTo(K to) {
+		return withUUID().compareTo(to.withUUID());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+			boolean b = Optional.ofNullable(obj).isPresent();
+			if (b) {
+				Base theBase = this.getClass().cast(obj);
+				return this.compareTo(theBase) == 0;}
+			return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return md5Digest().hashCode();
+	}
+	
 }

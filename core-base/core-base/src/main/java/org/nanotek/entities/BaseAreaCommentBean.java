@@ -1,7 +1,5 @@
 package org.nanotek.entities;
 
-import javax.validation.constraints.NotNull;
-
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaComment;
@@ -16,7 +14,7 @@ BaseAreaCommentEntity<AreaComment<?>>,
 MutableCommentEntity<String>{
 	
 	@Override
-	default void setComment(@NotNull String k) {
+	default void setComment(String k) {
 		write(MutableCommentEntity.class,k);
 	}
 	

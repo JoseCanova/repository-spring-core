@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaType;
+import org.nanotek.beans.entity.ArtistCreditName;
 import org.nanotek.beans.entity.BaseTypeDescription;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase;
@@ -19,7 +20,15 @@ implements BaseBaseTypeDescriptionBean<BaseTypeDescriptionBean<K>>{
 	private static final long serialVersionUID = -8448752427285481821L;
 
 	public <ID extends AreaType<?>> BaseTypeDescriptionBean() {
-		super((Class<? extends BaseTypeDescription<?>>) BaseTypeDescription.class);
+		super(castClass());
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends BaseTypeDescription<?>> castClass() {
+		return (Class<? extends BaseTypeDescription<?>>) 
+				BaseTypeDescription.class.
+				asSubclass(BaseTypeDescription.class);
 	}
 
 	public BaseTypeDescriptionBean(Class<BaseTypeDescription<?>> class1) {

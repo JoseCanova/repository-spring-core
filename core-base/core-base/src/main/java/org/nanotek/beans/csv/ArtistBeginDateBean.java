@@ -13,9 +13,16 @@ implements BaseArtistBeginDateBean<ArtistBeginDateBean<K>>{
 	private static final long serialVersionUID = -4636175302472127767L;
 
 	public ArtistBeginDateBean() {
-		super((Class<? extends ArtistBeginDate<?>>) ArtistBeginDate.class);
+		super(castClass());
 	}
 
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistBeginDate<?>> castClass() {
+		return (Class<? extends ArtistBeginDate<?>>) 
+				ArtistBeginDate.class.
+				asSubclass(ArtistBeginDate.class);
+	}
+	
 	public ArtistBeginDateBean(Class<? extends ArtistBeginDate<?>> class1) {
 		super(class1);
 	}

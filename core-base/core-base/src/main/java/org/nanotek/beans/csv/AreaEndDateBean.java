@@ -15,10 +15,21 @@ implements BaseAreaEndDateBean<AreaEndDateBean<K>>{
 	public AreaEndDateBean(Class<AreaEndDate<?>> id) {
 		super(id);
 	}
-	
+
+	public AreaEndDateBean() {
+		super(castClass());
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends AreaEndDate<?>> castClass() {
+		return (Class<? extends AreaEndDate<?>>) AreaEndDate.class.asSubclass(AreaEndDate.class);
+	}
+
+
 	public static void main(String[] args) { 
 		AreaEndDateBean bean = new AreaEndDateBean(AreaEndDate.class);
-		
+
 		bean.setEndYear(2000);
 		bean.setEndDay(2000);
 		bean.setEndMonth(2000);

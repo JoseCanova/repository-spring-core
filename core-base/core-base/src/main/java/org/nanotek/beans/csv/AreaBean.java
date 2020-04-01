@@ -26,8 +26,15 @@ implements BaseAreaBean<AreaBean<K>>{
 	private BaseAreaCommentBean<?> areaComment;
 
 	public AreaBean() {
-		super((Class<? extends Area<?>>) Area.class);
+		super(castClass());
 		postConstruct();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Area<?>> castClass() {
+		return (Class<? extends Area<?>>) 
+				Area.class.asSubclass(Area.class);
 	}
 	
 	public AreaBean(Class<Area<?>>id) {
@@ -35,7 +42,7 @@ implements BaseAreaBean<AreaBean<K>>{
 		postConstruct();
 	}
 	
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void postConstruct() {
 		areaBeginDate = new  AreaBeginDateBean(AreaBeginDate.class); 
 		areaEndDate = new AreaEndDateBean(AreaEndDate.class);

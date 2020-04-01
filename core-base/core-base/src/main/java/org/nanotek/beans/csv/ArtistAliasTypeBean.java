@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistAliasType;
+import org.nanotek.beans.entity.BaseTypeDescription;
 import org.nanotek.entities.BaseArtistAliasTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -21,7 +22,15 @@ implements  BaseArtistAliasTypeBean<ArtistAliasTypeBean<K>>{
 
 	
 	public ArtistAliasTypeBean() {
-		super((Class<? extends ArtistAliasType<?>>) ArtistAliasType.class);
+		super(castClass());
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistAliasType<?>>castClass() {
+		return (Class<? extends ArtistAliasType<?>>) 
+				ArtistAliasType.class.
+				asSubclass(ArtistAliasType.class);
 	}
 	
 	public ArtistAliasTypeBean(Class<? extends ArtistAliasType<?>> class1) {

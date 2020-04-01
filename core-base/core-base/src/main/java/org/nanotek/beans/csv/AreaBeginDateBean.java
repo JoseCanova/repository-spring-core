@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.entities.BaseAreaBeginDateBean;
 import org.nanotek.proxy.ProxyBase;
@@ -20,6 +21,17 @@ implements BaseAreaBeginDateBean<AreaBeginDateBean<K>> {
 		super(id);
 	}
 
+	public AreaBeginDateBean() {
+		super(castClass() );
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends AreaBeginDate<?>> castClass() {
+		return (Class<? extends AreaBeginDate<?>>) 
+				AreaBeginDate.class.asSubclass(AreaBeginDate.class);
+	}
+	
+	
 	public static void main(String[] args) {
 		AreaBeginDateBean bean = new AreaBeginDateBean(AreaBeginDate.class);
 		bean.setBeginYear(2000);

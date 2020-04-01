@@ -1,16 +1,8 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.Gender;
 import org.nanotek.beans.entity.Instrument;
-import org.nanotek.entities.BaseGenderBean;
 import org.nanotek.entities.BaseIntrumentBean;
-import org.nanotek.opencsv.CsvResult;
 import org.nanotek.proxy.ProxyBase;
 
 public class InstrumentBean
@@ -32,7 +24,13 @@ implements BaseIntrumentBean<InstrumentBean<K>>{
 //	public String description;
 	
 	public InstrumentBean() {
-		super((Class<? extends Instrument<?>>) Instrument.class);
+		super(castClass());
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Instrument<?>> castClass() {
+		return (Class<? extends Instrument<?>>) Instrument.class.asSubclass(Instrument.class);
 	}
 
 

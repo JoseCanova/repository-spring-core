@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.ArtistComment;
 import org.nanotek.beans.entity.ArtistCreditName;
 import org.nanotek.entities.BaseArtistCreditNameBean;
 import org.nanotek.proxy.ProxyBase;
@@ -25,9 +26,17 @@ implements BaseArtistCreditNameBean<ArtistCreditNameBean<K>>{
 
 	
 	public ArtistCreditNameBean() {
-		super((Class<? extends ArtistCreditName<?>>) ArtistCreditName.class);
+		super( castClass());
 		// TODO Auto-generated constructor stub
 	}
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistCreditName<?>> castClass() {
+		return (Class<? extends ArtistCreditName<?>>) 
+				ArtistCreditName.class.
+				asSubclass(ArtistCreditName.class);
+	}
+	
 	
 	public ArtistCreditNameBean(Class<? extends ArtistCreditName<?>> class1) {
 		super(class1);

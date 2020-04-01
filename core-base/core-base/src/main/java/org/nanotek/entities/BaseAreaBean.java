@@ -116,7 +116,7 @@ MutableGidEntity<UUID>{
 	}
 
 	@Override
-	default void setComment(@NotNull String k) {
+	default void setComment(String k) {
 		getAreaComment().setComment(k);
 	}
 	

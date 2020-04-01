@@ -12,16 +12,26 @@ extends ProxyBase<GenderBean<K>,Gender<?>>
 implements BaseGenderBean<GenderBean<K>>{
 
 	public static final long serialVersionUID = -1492542566677551150L;
-	
+
 	BaseBaseTypeDescriptionBean<?>  baseBaseTypeDescription;
-	
+
 	public GenderBean() {
-		super((Class<? extends Gender<?>>) Gender.class);
-		baseBaseTypeDescription = new BaseTypeDescriptionBean();
+		super(castClass());
+		postConstruct();
 	}
-	
+
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Gender<?>> castClass() {
+		return (Class<? extends Gender<?>>) Gender.class.asSubclass(Gender.class);
+	}
+
 	public GenderBean(Class<? extends Gender<?>> class1) {
 		super(class1);
+	}
+
+	void postConstruct(){
 		baseBaseTypeDescription = new BaseTypeDescriptionBean();
 	}
 	
@@ -30,7 +40,7 @@ implements BaseGenderBean<GenderBean<K>>{
 	}
 	@Override
 	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> k) {
-			this.baseBaseTypeDescription = k;
+		this.baseBaseTypeDescription = k;
 	}
 
 	@Override

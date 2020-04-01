@@ -15,8 +15,13 @@ implements BaseInstrumentTypeBean<InstrumentTypeBean<K>> {
 	
 	
 	public InstrumentTypeBean() {
-		super((Class<? extends InstrumentType<?>>) InstrumentType.class);
-		postConstruct();
+		super(castClass());
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends InstrumentType<?>> castClass() {
+		return (Class<? extends InstrumentType<?>>) InstrumentType.class.asSubclass(InstrumentType.class);
 	}
 	
 	

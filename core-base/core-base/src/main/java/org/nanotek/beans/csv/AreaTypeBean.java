@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaType;
+import org.nanotek.beans.entity.Language;
 import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase; 
@@ -22,12 +23,17 @@ implements BaseAreaTypeBean<AreaTypeBean<K>> {
 	private static final long serialVersionUID = -6271568961378072618L;
 
 	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
-	
-	public <ID extends AreaType<?>> AreaTypeBean() {
-		super((Class<? extends AreaType<?>>) AreaType.class);
-		postConstruct();
+
+	public AreaTypeBean() {
+		super(castClass());
 	}
-	
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends AreaType<?>> castClass() {
+		return (Class<? extends AreaType<?>>) AreaType.class.asSubclass(AreaType.class);
+	}
+
 	private void postConstruct() {
 		baseTypeDescription = new  BaseTypeDescriptionBean();
 	}
@@ -44,5 +50,5 @@ implements BaseAreaTypeBean<AreaTypeBean<K>> {
 	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> baseTypeDescription) {
 		this.baseTypeDescription = baseTypeDescription;
 	}
-	
+
 }

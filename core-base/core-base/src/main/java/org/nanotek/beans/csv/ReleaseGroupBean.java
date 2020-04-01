@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.ArtistAliasSortName;
 import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.entities.BaseReleaseGroupBean;
 import org.nanotek.proxy.ProxyBase;
@@ -28,9 +29,17 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 
 
 	public ReleaseGroupBean() { 
-		super((Class<? extends ReleaseGroup<?>>) ReleaseGroup.class);
+		super(castClass());
 	}
 
+	
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ReleaseGroup<?>>castClass() {
+		return (Class<? extends ReleaseGroup<?>>) 
+				ReleaseGroup.class.
+				asSubclass(ReleaseGroup.class);
+	}
 
 	public ReleaseGroupBean(Class<? extends ReleaseGroup<?>> class1) {
 		super(class1);

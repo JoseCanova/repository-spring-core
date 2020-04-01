@@ -1,16 +1,8 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.InstrumentType;
 import org.nanotek.beans.entity.Language;
-import org.nanotek.entities.BaseInstrumentTypeBean;
 import org.nanotek.entities.BaseLanguageBean;
-import org.nanotek.opencsv.CsvResult;
 import org.nanotek.proxy.ProxyBase;
 
 public class LanguageBean
@@ -20,7 +12,13 @@ implements BaseLanguageBean<LanguageBean<K>> {
 
 
 	public LanguageBean() {
-		super((Class<? extends Language<?>>) Language.class);
+		super(castClass());
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Language<?>> castClass() {
+		return (Class<? extends Language<?>>) Language.class.asSubclass(Language.class);
 	}
 	
 	public LanguageBean(Class<? extends Language<?>> class1) {

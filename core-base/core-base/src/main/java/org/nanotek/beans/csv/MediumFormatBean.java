@@ -1,16 +1,8 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.Medium;
 import org.nanotek.beans.entity.MediumFormat;
-import org.nanotek.entities.BaseMediumBean;
 import org.nanotek.entities.BaseMediumFormatBean;
-import org.nanotek.opencsv.CsvResult;
 import org.nanotek.proxy.ProxyBase;
 
 public class MediumFormatBean 
@@ -35,12 +27,17 @@ implements BaseMediumFormatBean<MediumFormatBean<K>>{
 
 
 	public MediumFormatBean() {
-		super((Class<? extends MediumFormat<?>>) MediumFormat.class);
+		super(castClass());
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends MediumFormat<?>> castClass() {
+		return (Class<? extends MediumFormat<?>>) MediumFormat.class.asSubclass(MediumFormat.class);
 	}
 
 	public MediumFormatBean(Class<? extends MediumFormat<?>> class1) {
 		super(class1);
-		// TODO Auto-generated constructor stub
 	}
 
 	

@@ -12,7 +12,12 @@ implements BaseArtistAliasEndDateBean<K>{
 	private static final long serialVersionUID = 4332333591206455409L;
 
 	public ArtistAliasEndDateBean() {
-		super((Class<? extends ArtistAliasEndDate<?>>) ArtistAliasEndDate.class);
+		super(castClass());
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistAliasEndDate<?>> castClass() {
+		return (Class<? extends ArtistAliasEndDate<?>>) ArtistAliasEndDate.class.asSubclass(ArtistAliasEndDate.class);
 	}
 	
 	public ArtistAliasEndDateBean(Class<ArtistAliasEndDate<?>> clazz) {

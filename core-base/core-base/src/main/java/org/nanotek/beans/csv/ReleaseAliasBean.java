@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.RecordingAliasType;
 import org.nanotek.beans.entity.ReleaseAlias;
 import org.nanotek.entities.BaseReleaseAliasBean;
 import org.nanotek.proxy.ProxyBase;
@@ -32,10 +33,15 @@ implements BaseReleaseAliasBean<ReleaseAliasBean<K>>{
 
 
 
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ReleaseAlias<?>> castClass() {
+		return (Class<? extends ReleaseAlias<?>>) 
+				ReleaseAlias.class.asSubclass(ReleaseAlias.class);
+	}
 	
 	
 	public ReleaseAliasBean() {
-		super((Class<? extends ReleaseAlias<?>>) ReleaseAlias.class);
+		super(castClass() );
 	}
 
 

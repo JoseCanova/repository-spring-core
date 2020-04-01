@@ -14,11 +14,15 @@ extends ProxyBase<ArtistCreditBean<K>,ArtistCredit<?>>
 implements BaseArtistCreditBean<ArtistCreditBean<K>>{
 
 	
-	
-	
-	
 	public ArtistCreditBean() {
-		super((Class<? extends ArtistCredit<?>>) ArtistCredit.class);
+		super(castClass() );
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistCredit<?>> castClass() {
+		return (Class<? extends ArtistCredit<?>>) 
+				ArtistCredit.class.
+				asSubclass(ArtistCredit.class);
 	}
 	
 	

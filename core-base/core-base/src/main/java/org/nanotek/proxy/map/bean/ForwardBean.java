@@ -13,4 +13,5 @@ implements Base<ForwardBean<M,B>>{
 	abstract M from();
     
 	abstract B to();
+	
 }

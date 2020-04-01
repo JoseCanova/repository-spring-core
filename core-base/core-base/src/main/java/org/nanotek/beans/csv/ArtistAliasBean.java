@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistAlias;
+import org.nanotek.beans.entity.ArtistAliasLocale;
 import org.nanotek.entities.BaseArtistAliasBean;
 import org.nanotek.entities.BaseArtistAliasBeginDateBean;
 import org.nanotek.entities.BaseArtistAliasEndDateBean;
@@ -26,41 +27,47 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 	private static final long serialVersionUID = -2745888243978330408L;
 
 	BaseArtistAliasTypeBean<?> artistAliasType;
-	
+
 	BaseArtistAliasLocaleBean<?> artistAliasLocale;
-	
+
 	BaseArtistAliasBeginDateBean<?> artistAliasBeginDate;
-	
+
 	BaseArtistAliasEndDateBean<?> artistAliasEndDate;
-	
+
 	BaseArtistAliasSortNameBean<?> artistAliasSortName;
-	
+
 	Artist<?> artist;
-	
-	
+
+
 	public ArtistAliasBean() {
-		super((Class<? extends ArtistAlias<?>>) ArtistAlias.class);
+		super(castClass());
 		postConstruct();
 	}
-	
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistAlias<?>> castClass() {
+		return (Class<? extends ArtistAlias<?>>) ArtistAlias.class.asSubclass(ArtistAlias.class);
+	}
+
 	private void postConstruct() {
 		artistAliasType = new ArtistAliasTypeBean<>();
-		
-		 artistAliasLocale = new ArtistAliasLocaleBean<>();
-		
+
+		artistAliasLocale = new ArtistAliasLocaleBean<>();
+
 		artistAliasBeginDate = new ArtistAliasBeginDateBean<> ();
-		
-		 artistAliasEndDate = new ArtistAliasEndDateBean<>();
-		
-		 artistAliasSortName = new ArtistAliasSortNameBean<>();		
+
+		artistAliasEndDate = new ArtistAliasEndDateBean<>();
+
+		artistAliasSortName = new ArtistAliasSortNameBean<>();		
 	}
 
 	public ArtistAliasBean(Class<? extends ArtistAlias<?>> class1) {
 		super(class1);
 		postConstruct();
 	}
-	
-	
+
+
 
 	public BaseArtistAliasTypeBean<?> getArtistAliasType() {
 		return artistAliasType;
@@ -110,26 +117,26 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 		this.artist = artist;
 	}
 
-	
 
-//	
-//	public Long aliasId; 
-//	public Long artistId; 
-//	public String name; 
-//	public Long artistAliasLocale; 
-//	public Integer editsPending;
-//	public String lastUpdated; 
-//	public Long artistAliasType; 
-//	public String artistAliasSortName;
-//	public Integer beginYear; 
-//	public Integer beginMonth;
-//	public Integer beginDay;
-//	public Integer endDateYear; 
-//	public Integer endDateMonth;
-//	public Integer endDateDay;
-//	public String primaryForLocale;
-//	public String ended;
-	
 
-	
+	//	
+	//	public Long aliasId; 
+	//	public Long artistId; 
+	//	public String name; 
+	//	public Long artistAliasLocale; 
+	//	public Integer editsPending;
+	//	public String lastUpdated; 
+	//	public Long artistAliasType; 
+	//	public String artistAliasSortName;
+	//	public Integer beginYear; 
+	//	public Integer beginMonth;
+	//	public Integer beginDay;
+	//	public Integer endDateYear; 
+	//	public Integer endDateMonth;
+	//	public Integer endDateDay;
+	//	public String primaryForLocale;
+	//	public String ended;
+
+
+
 }

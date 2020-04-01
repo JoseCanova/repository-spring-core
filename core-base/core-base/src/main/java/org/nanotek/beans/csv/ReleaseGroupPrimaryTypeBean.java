@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.beans.entity.ReleaseGroupPrimaryType;
 import org.nanotek.entities.BaseReleaseGroupPrimaryTypeBean;
 import org.nanotek.proxy.ProxyBase;
@@ -27,9 +28,15 @@ implements BaseReleaseGroupPrimaryTypeBean<ReleaseGroupPrimaryTypeBean<K>>{
 
 
 	public ReleaseGroupPrimaryTypeBean() {
-		super((Class<? extends ReleaseGroupPrimaryType<?>>) ReleaseGroupPrimaryType.class);
+		super(castClass());
 	}
 
 
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ReleaseGroupPrimaryType<?>>castClass() {
+		return (Class<? extends ReleaseGroupPrimaryType<?>>) 
+				ReleaseGroupPrimaryType.class.
+				asSubclass(ReleaseGroupPrimaryType.class);
+	}
 	
 }

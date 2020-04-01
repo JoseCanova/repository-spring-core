@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.Gender;
 import org.nanotek.beans.entity.RecordingAlias;
 import org.nanotek.entities.BaseRecordingAliasBean;
 import org.nanotek.proxy.ProxyBase;
@@ -32,10 +33,15 @@ implements BaseRecordingAliasBean<RecordingAliasBean<K>>{
 //	public String ended;
 //	
 //	
-	
+	@SuppressWarnings("unchecked")
+	private static Class<? extends RecordingAlias<?>> castClass() {
+		return (Class<? extends RecordingAlias<?>>) 
+				RecordingAlias.class.asSubclass(RecordingAlias.class);
+	}
+
 
 	public RecordingAliasBean() {
-		super((Class<? extends RecordingAlias<?>>) RecordingAlias.class);
+		super(castClass());
 	}
 
 

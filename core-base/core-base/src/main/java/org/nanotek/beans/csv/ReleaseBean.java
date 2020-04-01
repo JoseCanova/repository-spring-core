@@ -1,6 +1,7 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.beans.entity.Release;
 import org.nanotek.entities.BaseReleaseBean;
 import org.nanotek.proxy.ProxyBase;
@@ -37,17 +38,20 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 //	public Integer quality; 
 //	public String lastUpdated;
 //	
-	
-
 	public ReleaseBean(Class<? extends Release<?>> class1) {
 		super(class1);
-		// TODO Auto-generated constructor stub
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Release<?>> castClass() {
+		return (Class<? extends Release<?>>) Release.class.asSubclass(Release.class);
 	}
 
 
 
 	public ReleaseBean() {
-		super((Class<? extends Release<?>>) Release.class);
+		super(castClass());
 	}
 	
 	

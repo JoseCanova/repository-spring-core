@@ -13,9 +13,17 @@ implements BaseArtistAliasSortNameBean<ArtistAliasSortNameBean<K>>{
 	private static final long serialVersionUID = -8288974192757187546L;
 
 	public ArtistAliasSortNameBean() {
-		super((Class<? extends ArtistAliasSortName<?>>) ArtistAliasSortName.class);
+		super(castClass() );
 	}
 
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends ArtistAliasSortName<?>>castClass() {
+		return (Class<? extends ArtistAliasSortName<?>>) 
+				ArtistAliasSortName.class.
+				asSubclass(ArtistAliasSortName.class);
+	}
+	
 	public ArtistAliasSortNameBean(Class<ArtistAliasSortName<?>> clazz) {
 		super(clazz);
 	}

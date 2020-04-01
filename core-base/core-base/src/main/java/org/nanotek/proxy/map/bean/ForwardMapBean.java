@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.DataTransferMutator;
 import org.nanotek.MutatorSupport;
@@ -16,7 +17,7 @@ import org.nanotek.beans.entity.Area;
 import org.springframework.util.ClassUtils;
 
 @SuppressWarnings("unchecked")
-public class ForwardMapBean<B>
+public class ForwardMapBean<B extends Base<?>>
 extends ForwardBean<Map<String, PropertyDescriptorType>,B>
 implements DataTransferMutator<String>
 {
@@ -55,10 +56,10 @@ implements DataTransferMutator<String>
 	}
 
 	private void populatePropertyDescriptorMap(Class<?> clazz) {
-			Optional <PropertyDescriptor[]> pd = MutatorSupport.getPropertyDescriptors(clazz);
-			Arrays.asList(pd.get()).forEach(property->{
-					if (property.getReadMethod() !=null || property.getWriteMethod()!=null)
-						addDescriptorOnMap(property.getDisplayName(),property);
+		Optional <PropertyDescriptor[]> pd = MutatorSupport.getPropertyDescriptors(clazz);
+		Arrays.asList(pd.get()).forEach(property->{
+			if (property.getReadMethod() !=null || property.getWriteMethod()!=null)
+				addDescriptorOnMap(property.getDisplayName(),property);
 		});
 	}
 
@@ -69,7 +70,7 @@ implements DataTransferMutator<String>
 		}else {
 			descriptorMap.put(displayName, verifyValue(pTye,forMap));
 		}
-		
+
 	}
 
 	private PropertyDescriptorType verifyValue(PropertyDescriptorType v, PropertyDescriptor forMap) {
@@ -126,6 +127,11 @@ implements DataTransferMutator<String>
 		return Arrays.asList(classId.getFields());
 	}
 
+	@Override
+	public int compareTo(ForwardBean<Map<String,PropertyDescriptorType>,B> a){
+		return 0;
+	}
+
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException { 
 
 		ForwardMapBean<?> dm = new ForwardMapBean<>(Area.class);
@@ -162,7 +168,7 @@ class PropertyDescriptorType{
 		if(old.getWriteMethod()!=null)
 			propertyDescriptorWrite = thenew;
 	}
-	
+
 	public PropertyDescriptorType(PropertyDescriptor propertyDescriptor) {
 		if (propertyDescriptor.getReadMethod()!=null)
 			propertyDescriptorRead =propertyDescriptor;
