@@ -25,6 +25,11 @@ implements BaseAreaBean<AreaBean<K>>{
 	
 	private BaseAreaCommentBean<?> areaComment;
 
+	public AreaBean() {
+		super((Class<? extends Area<?>>) Area.class);
+		postConstruct();
+	}
+	
 	public AreaBean(Class<Area<?>>id) {
 		super(id);
 		postConstruct();

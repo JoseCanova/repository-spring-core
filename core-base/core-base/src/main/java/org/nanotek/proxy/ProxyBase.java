@@ -52,7 +52,7 @@ implements BaseBean<K,ID>
 	}
 
 	@SuppressWarnings("unchecked")
-	private static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
+	public static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
 		return IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class));
 	}
 

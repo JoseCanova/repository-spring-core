@@ -10,7 +10,6 @@ import org.nanotek.BaseException;
 import org.nanotek.GidEntity;
 import org.nanotek.Id;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.AreaIdEntity;
 
