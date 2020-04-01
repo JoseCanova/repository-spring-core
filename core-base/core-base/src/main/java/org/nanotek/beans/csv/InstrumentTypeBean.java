@@ -1,127 +1,58 @@
 package org.nanotek.beans.csv;
 
-import java.util.Optional;
-
-import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseEntity;
-import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.InstrumentType;
-import org.nanotek.opencsv.CsvResult;
+import org.nanotek.entities.BaseBaseTypeDescriptionBean;
+import org.nanotek.entities.BaseInstrumentTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class InstrumentTypeBean 
-<K extends ImmutableBase<K,ID>,ID extends BaseEntity<?,?>> 
-extends ProxyBase<ID>
-implements BaseBean<K,ID>{
+<K extends BaseBean<InstrumentTypeBean<K>,InstrumentType<?>>> 
+extends ProxyBase<InstrumentTypeBean<K>,InstrumentType<?>>
+implements BaseInstrumentTypeBean<InstrumentTypeBean<K>> {
 
+	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
 	
+	
+	public InstrumentTypeBean() {
+		super((Class<? extends InstrumentType<?>>) InstrumentType.class);
+		postConstruct();
+	}
+	
+	
+	public InstrumentTypeBean(Class<? extends InstrumentType<?>> class1) {
+		super(class1);
+		postConstruct();
+	}
+
+	private void postConstruct() {
+		 baseTypeDescription = new BaseTypeDescriptionBean<>();
+	}
 
 	private static final long serialVersionUID = 245355432039730928L;
 
-	private ID id;
+
+	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
+		return baseTypeDescription;
+	}
+
+
+	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> baseTypeDescription) {
+		this.baseTypeDescription = baseTypeDescription;
+	}
+
+//	public Long instrumentTypeId; 
+//	
+//	public String name; 
+//	
+//	public Long parent; 
+//	
+//	public Long childOrder; 
+//	
+//	public String description; 
+//	
+//	public String gid; 
 	
-	public ID getId() { 
-		return id;
-	}
 	
-	public Long instrumentTypeId; 
-	
-	public String name; 
-	
-	public Long parent; 
-	
-	public Long childOrder; 
-	
-	public String description; 
-	
-	public String gid; 
-	
-	
-	
-	public InstrumentTypeBean(Class<ID> id) {
-		super(id);
-	}
-
-	public InstrumentTypeBean() {
-		super(InstrumentType.class);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public Long getParent() {
-		return parent;
-	}
-
-
-	public void setParent(Long parent) {
-		this.parent = parent;
-	}
-
-
-	public Long getChildOrder() {
-		return childOrder;
-	}
-
-
-	public void setChildOrder(Long childOrder) {
-		this.childOrder = childOrder;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public String getGid() {
-		return gid;
-	}
-
-
-	public void setGid(String gid) {
-		this.gid = gid;
-	}
-
-
-	public Long getInstrumentTypeId() {
-		return instrumentTypeId;
-	}
-
-	public void setInstrumentTypeId(Long instrumentTypeId) {
-		this.instrumentTypeId = instrumentTypeId;
-	}
-
-	@Override
-	public int compareTo(K to) {
-		return withUUID().compareTo(to.withUUID());
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-			boolean b = Optional.ofNullable(obj).isPresent();
-			if (b) {
-				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
-			return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return md5Digest().hashCode();
-	}
 	
 }
