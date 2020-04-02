@@ -9,8 +9,12 @@ import java.util.Map;
 
 import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CsvToBean<T> {
+	
+	Logger log = LoggerFactory.getLogger(CsvToBean.class);
 	
     private Map<Class<?>, PropertyEditor> editorMap = null;
 
@@ -26,6 +30,8 @@ public class CsvToBean<T> {
             String value = null;
             Object obj = null;
 	            if (null != prop) {
+	            	log.debug(prop.toString());
+	            	log.debug(sb.getClass() + "  "  + sb.getId());
 	                value = checkForTrim(sb.getValue(), prop);
 	                obj = convertValue(value, prop);
 	                prop.getWriteMethod().invoke(bean, obj);

@@ -1,14 +1,22 @@
 package org.nanotek.opencsv;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.HashMap;
 import java.util.Optional;
+
+import com.sun.beans.*;
+import com.sun.beans.finder.*;
 
 import org.assertj.core.util.Arrays;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
+import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.collections.BaseMap;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,10 +40,17 @@ extends  ColumnPositionMappingStrategy<D> {
 
 	HashMap<Class<?>, PropertyEditor> editorMap = new HashMap<Class<?>, PropertyEditor>();
 	
+	Class<D> baseBeanClass;
+	
+	Class<?> baseEntityClass;
+	
+	EntityBeanInfo<?> baseBeanClassInfo;
+	
 	public MapColumnStrategy() {
 		super();
 	}
 
+	@SuppressWarnings("restriction")
 	public <B extends BaseBean<?,?>> 
 	MapColumnStrategy(Class<D> type) {
 		setType(type);
@@ -53,9 +68,32 @@ extends  ColumnPositionMappingStrategy<D> {
 									});
 		this.setColumnMapping(csvColumns);
 		Arrays.asList(csvColumns).stream().forEach(c -> System.out.println(c));
+		verifyTypeDeclaration();
 	}
 	
-	 public String getColumnName(int col) {
+	 private void verifyTypeDeclaration() {
+		 Class<?> typeClass = getType();
+		 TypeVariable<?>[] types = typeClass.getTypeParameters();
+		 checkBaseBeanDeclaredEntity(types);
+	}
+
+	private void checkBaseBeanDeclaredEntity( TypeVariable<?>[] types) {
+		if(types!=null  && types.length==1) {
+			Type[] typeBounds = types[0].getBounds();
+			Type baseBeanType = typeBounds[0];
+			ParameterizedType ptype = ParameterizedType.class.cast(baseBeanType);
+			Type[] baseBeanTypeArguments = ptype.getActualTypeArguments();
+			ParameterizedType actualBaseBeanType = ParameterizedType.class.cast(baseBeanTypeArguments[0]);
+			ParameterizedType actualEntityType = ParameterizedType.class.cast(baseBeanTypeArguments[1]);
+			baseBeanClass = Class.class.cast(actualBaseBeanType.getRawType());
+			baseEntityClass = Class.class.cast(actualEntityType.getRawType());
+			baseBeanClassInfo = new EntityBeanInfo<>(baseBeanClass);
+//			Type entityType = typeBounds[1];
+			types[0].getClass();
+		}
+	}
+
+	public String getColumnName(int col) {
 	        return (null != columnMapping && col < columnMapping.length) ? columnMapping[col] : null ;
 	 }
 	
@@ -79,5 +117,10 @@ extends  ColumnPositionMappingStrategy<D> {
 	            editorMap.put(cls, editor);
 	        }
 	    }
+	
+	@Override
+	public PropertyDescriptor findDescriptor(String name) throws IntrospectionException {
+		return baseBeanClassInfo.getPropertyDescriptorInfo().get(name);
+	}   
 
 }

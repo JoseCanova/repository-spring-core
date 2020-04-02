@@ -57,6 +57,63 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 		write(MutableArtistIdEntity.class,k);
 	}
 	
+	default void setSortName(String sortName) {
+		getArtistSortName().setSortName(sortName);
+	}
+	
+	default String getSortName() {
+		return getArtistSortName().getSortName();
+	}
+	
+	default void setBeginDateYear(Integer y) {
+		getArtistBeginDate().setBeginYear(y);
+	}
+	
+	default Integer getBeginYear() {
+		return getArtistBeginDate().getBeginYear();
+	}
+	
+	default void setBeginMonth(Integer m) {
+		getArtistBeginDate().setBeginMonth(m);
+	}
+	
+	default Integer getBeginMonth() {
+		return getArtistBeginDate().getBeginMonth();
+	}
+	
+	default void setBeginDay(Integer k) {
+		getArtistBeginDate().setBeginDay(k);
+	}
+	
+	default Integer getBeginDay() {
+		return getArtistBeginDate().getBeginDay();
+	}
+	
+	default void setEndDateYear(Integer y) {
+		getArtistBeginDate().setBeginYear(y);
+	}
+	
+	default Integer getEndYear() {
+		return getArtistBeginDate().getBeginYear();
+	}
+	
+	default void setEndMonth(Integer m) {
+		getArtistEndDate().setEndMonth(m);
+	}
+	
+	default Integer getEndMonth() {
+		return getArtistEndDate().getEndMonth();
+	}
+	
+	default Integer getEndDay() {
+		return getArtistEndDate().getEndDay();
+	}
+	
+	default void setEndDay(Integer v) {
+		 getArtistEndDate().setEndDay(v);
+	}
+	
+	
 	public static void main (String[] args) {
 		ArtistBean artistBean = new ArtistBean();
 		

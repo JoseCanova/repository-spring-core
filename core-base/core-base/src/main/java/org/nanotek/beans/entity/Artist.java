@@ -38,18 +38,8 @@ import org.nanotek.entities.MutableNameEntity;
 		})
 public class Artist
 <K extends Artist<K>> extends 
-BrainzBaseEntity<K> implements BaseArtistEntity<K>,
-MutableArtistIdEntity<Long>,
-MutableArtistSortNameEntity<ArtistSortName<?>>,
-MutableArtistCommentEntity<ArtistComment<?>>,
-MutableArtistBeginDateEntity<ArtistBeginDate<?>>,
-MutableArtistEndDateEntity<ArtistEndDate<?>>,
-MutableArtistTypeEntity<ArtistType<?>>,
-MutableGenderEntity<Gender<?>>,
-MutableAreaEntity<Area<?>>,
-MutableArtistBeginAreaEntity<Area<?>>,
-MutableArtistEndAreaEntity<Area<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+BrainzBaseEntity<K> implements BaseArtistEntity<K>
+{
 	
 	private static final long serialVersionUID = -932806802235346847L;
 
