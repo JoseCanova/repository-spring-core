@@ -130,8 +130,6 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		processRemainingInterfaces(newClassID,notRegistred);
 	}
 	
-	
-	
 	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
 		return ClassUtils.getAllInterfaces(class1);
 	}
