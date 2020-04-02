@@ -60,6 +60,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 		write(MutableNameEntity.class,k);
 	}
 	
+	
 	@Override
 	default UUID getGid() {
 		return read(GidEntity.class).map(v->UUID.class.cast(v)).orElse(UUID.randomUUID());
@@ -92,23 +93,23 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 		getArtistBeginDate().setBeginYear(y);
 	}
 	
-	default Integer getBeginYear() {
+	default Integer getBeginDateYear() {
 		return getArtistBeginDate().getBeginYear();
 	}
 	
-	default void setBeginMonth(Integer m) {
+	default void setBeginDateMonth(Integer m) {
 		getArtistBeginDate().setBeginMonth(m);
 	}
 	
-	default Integer getBeginMonth() {
+	default Integer getBeginDateMonth() {
 		return getArtistBeginDate().getBeginMonth();
 	}
 	
-	default void setBeginDay(Integer k) {
+	default void setBeginDateDay(Integer k) {
 		getArtistBeginDate().setBeginDay(k);
 	}
 	
-	default Integer getBeginDay() {
+	default Integer getBeginDateDay() {
 		return getArtistBeginDate().getBeginDay();
 	}
 	
@@ -116,23 +117,23 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 		getArtistBeginDate().setBeginYear(y);
 	}
 	
-	default Integer getEndYear() {
+	default Integer getEndDateYear() {
 		return getArtistBeginDate().getBeginYear();
 	}
 	
-	default void setEndMonth(Integer m) {
+	default void setEndDateMonth(Integer m) {
 		getArtistEndDate().setEndMonth(m);
 	}
 	
-	default Integer getEndMonth() {
+	default Integer getEndDateMonth() {
 		return getArtistEndDate().getEndMonth();
 	}
 	
-	default Integer getEndDay() {
+	default Integer getEndDateDay() {
 		return getArtistEndDate().getEndDay();
 	}
 	
-	default void setEndDay(Integer v) {
+	default void setEndDateDay(Integer v) {
 		 getArtistEndDate().setEndDay(v);
 	}
 	

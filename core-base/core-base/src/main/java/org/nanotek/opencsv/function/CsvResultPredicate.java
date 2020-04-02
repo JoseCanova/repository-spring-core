@@ -37,7 +37,7 @@ implements Predicate<Optional<K>>{
 			Set<ConstraintViolation<IdBase<?,?>>> violations =validator.validate(i, Default.class) ;
 			if (violations.size() > 0) {
 				violations.stream().forEach(v -> log.debug(v.getRootBeanClass().getName()  + v.getPropertyPath() + "  " + v.getMessage() ));
-				log.debug("CSV RESULT INVALID" + value.get().withUUID().toString());
+				log.debug("CSV RESULT INVALID " + value.get().withUUID().toString());
 			}else { 
 				test = true; 
 			}

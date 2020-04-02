@@ -153,7 +153,8 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			if(p.getReadMethod() !=null) {
 				result = registryMethod(classId , p.getReadMethod().getDeclaringClass() , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 			}
-			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
+//			TODO:Puta a debug line here
+//			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
 			return result;
 		}).filter(r -> r==true).orElse(false);
 

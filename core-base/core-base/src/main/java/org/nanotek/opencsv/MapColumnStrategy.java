@@ -67,11 +67,20 @@ extends  ColumnPositionMappingStrategy<D> {
 									csvColumns[value.get()] = k.getValue().get().toString();
 									});
 		this.setColumnMapping(csvColumns);
-		Arrays.asList(csvColumns).stream().forEach(c -> System.out.println(c));
 		verifyTypeDeclaration();
+		verifyColumnEditorMap();
 	}
 	
-	 private void verifyTypeDeclaration() {
+	 private void verifyColumnEditorMap() {
+		 Arrays.asList(this.getColumnMapping()).stream().forEach(c -> {
+			 if (baseBeanClassInfo.getPropertyDescriptorInfo().get(c) !=null)
+				 System.out.println(c);
+			 else 
+				 System.out.println("NOT FOUND " + c);
+		 });
+	}
+
+	private void verifyTypeDeclaration() {
 		 Class<?> typeClass = getType();
 		 TypeVariable<?>[] types = typeClass.getTypeParameters();
 		 checkBaseBeanDeclaredEntity(types);
@@ -89,7 +98,6 @@ extends  ColumnPositionMappingStrategy<D> {
 			baseEntityClass = Class.class.cast(actualEntityType.getRawType());
 			baseBeanClassInfo = new EntityBeanInfo<>(baseBeanClass);
 //			Type entityType = typeBounds[1];
-			types[0].getClass();
 		}
 	}
 
@@ -108,7 +116,7 @@ extends  ColumnPositionMappingStrategy<D> {
 	            editor = PropertyEditorManager.findEditor(cls);
 	            addEditorToMap(cls, editor);
 	        }
-
+    
 	        return editor;
 	    }
 

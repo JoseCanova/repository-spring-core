@@ -14,7 +14,12 @@ public class UUIDEditor extends PropertyEditorSupport{
     }
     
     public void setAsText(String text) {
-        UUID.fromString(text);
+        setValue((text == null) ? null : UUID.fromString(text));
+    }
+    
+    @Override
+    public Object getValue() {
+    	return super.getValue();
     }
     		
 }

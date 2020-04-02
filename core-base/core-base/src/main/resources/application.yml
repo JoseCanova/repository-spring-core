@@ -50,7 +50,7 @@ entitymanager:
 
 config:
   fileLocation: /opt/mbdump
-  fileName: artist
+  fileName: artist_head_dump
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
