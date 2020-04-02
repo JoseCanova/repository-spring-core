@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyEditorManager;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.beans.beancontext.BeanContext;
@@ -14,9 +15,12 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
+
+import org.nanotek.beans.sun.editors.UUIDEditor;
 
 /**
  * Registry class for JavaBeans/Application Support. 
@@ -36,6 +40,7 @@ public class Registry<K extends Base<?>> implements Base<K> {
 
 	public Registry(BeanContextSupport beanContextSupport2) {
 		this.beanContextSupport = beanContextSupport2;
+		PropertyEditorManager.registerEditor(UUID.class, UUIDEditor.class);
 	}
 
 	public Registry<K> registar() {

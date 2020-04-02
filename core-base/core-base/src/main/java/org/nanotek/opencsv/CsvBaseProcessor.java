@@ -158,7 +158,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 		private R result;
 
 		public ResultCallable(R r){
-			Optional.ofNullable(r).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
+			Optional.ofNullable(r).ifPresent(r1 -> log.debug(r1.toString()));
 			result = r;
 		}
 		

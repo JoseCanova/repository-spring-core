@@ -1,5 +1,6 @@
 package org.nanotek.opencsv;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.nanotek.Base;
@@ -66,8 +67,12 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	
 	@Override
 	public int hashCode() {
-		return md5Digest().hashCode();
+		return getId().md5Digest().hashCode();
 	}
 
+	@Override
+	public String toString() {
+		return "Result in " + new Date().toString();
+	}
 
 }

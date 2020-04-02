@@ -54,7 +54,7 @@ config:
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
-    gid1: 1
+    gid: 1
     name: 2
     sortName: 3
     beginDateYear: 4

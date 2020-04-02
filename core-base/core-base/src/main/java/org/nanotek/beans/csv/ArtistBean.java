@@ -97,9 +97,9 @@ implements BaseArtistBean<ArtistBean<K>>
 		
 		artistEndDate = new ArtistEndDateBean<>();
 		
-		BaseArtistTypeBean<?> artistType = new ArtistTypeBean<> ();
+		artistType = new ArtistTypeBean<> ();
 		
-		BaseGenderBean<?> gender = new GenderBean<>();
+		gender = new GenderBean<>();
 		
 		 area = new AreaBean<>();
 		
@@ -222,6 +222,11 @@ implements BaseArtistBean<ArtistBean<K>>
 
 	public void setArtistComment(BaseArtistCommentBean<?> artistComment) {
 		this.artistComment = artistComment;
+	}
+	
+	@Override
+	public String toString() {
+		return  getId().toString();
 	}
 
 }
