@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import org.nanotek.Base;
@@ -20,7 +22,6 @@ import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
-import org.nanotek.beans.entity.Medium;
 import org.nanotek.entities.MutableAreaIdEntity;
 import org.nanotek.entities.MutableArtistIdEntity;
 import org.nanotek.entities.immutables.AreaIdEntity;
@@ -41,7 +42,30 @@ implements BaseBean<K,ID>
 
 	protected PropertyChangeSupport propertyChangeSupport = null;
 
-	private HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> childInterfaceMap;
+	private static HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> 
+						childInterfaceMap = new  HashMap<Class<?> , HashMap<Class<?> , BaseBean.ClassHandle<?>>> ();
+	
+	private static Semaphore semaphore = new Semaphore(1);
+	
+	private static AtomicBoolean isConfigured = new AtomicBoolean(false);
+	
+	public boolean  isConfigured() {
+		try {
+			semaphore.acquire();
+			if(childInterfaceMap.get(this.baseClass)!=null) {
+				isConfigured.set(true);
+			}
+			semaphore.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return isConfigured.get();
+	}
+	
+	public void setConfigured(boolean b) {
+		isConfigured.set(b);
+		semaphore.release();
+	}
 	
 	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
@@ -49,20 +73,26 @@ implements BaseBean<K,ID>
 	public ProxyBase(Class<? extends ID> class1) {
 		baseClass = class1;
 		id =  class1.cast(ProxyBase.prepareBeanInstance(class1.asSubclass(IdBase.class)));
-		mountInstanceMap();
 		configureBaseBean();
 	}
 	
-
-
 	@SuppressWarnings("unchecked")
 	public static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
 		return IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class));
 	}
 
 	public void configureBaseBean() {
-		childInterfaceMap = new HashMap<>();
-		registryDynaBean();
+		mountInstanceMap();
+		if(!isConfigured()) {
+			try {
+				semaphore.acquire();
+				System.out.println("configuring");
+				registryDynaBean();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				throw new BaseException(e);
+			}
+		}
 	}
 	
 	@Override

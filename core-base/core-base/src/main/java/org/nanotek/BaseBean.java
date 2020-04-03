@@ -6,7 +6,6 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +14,10 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.assertj.core.util.introspection.ClassUtils;
+import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.proxy.ProxyBase;
 
-public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>
+public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>,Configurable<ID>
 {
 
 	public static enum METHOD_TYPE { 
@@ -25,6 +25,12 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		WRITE;
 	}
 
+	default boolean  isConfigured() {
+		return true;
+	}
+	
+	default void setConfigured(boolean b) {
+	}
 
 	boolean registryMethod(Class<?> classId, Class<?> i, String name, Method writeMethod, METHOD_TYPE write);
 	
@@ -91,7 +97,6 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		mountInstanceMap();
 		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
 //		System.out.println("Original Size"+intf.size());
 		List<Class<?>> remainingInterfaces = processInterfaces(getBaseClass(),intf);
@@ -111,7 +116,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 										.collect(Collectors.toList());
 		List<Class<?>> notRegistred = null;
 //		System.out.println("Remaining " + filtered.toString());
-		if (classId == null )return;
+		if (classId == null ) {setConfigured(true);return;}
 		Field[] fields = classId.getFields();
 		Class<?> newClassID = null;
 		for (Field f : fields) {
@@ -208,6 +213,49 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 			return methodType;
 		}
 
+	}
+	
+	public static void main(String[] args) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ArtistBean<?> artistBean = new ArtistBean<>();
+			}
+			
+		}).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ArtistBean<?> artistBean = new ArtistBean<>();
+			}
+			
+		}).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ArtistBean<?> artistBean = new ArtistBean<>();
+			}
+			
+		}).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ArtistBean<?> artistBean = new ArtistBean<>();
+			}
+			
+		}).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ArtistBean<?> artistBean = new ArtistBean<>();
+			}
+			
+		}).start();
 	}
 	
 }
