@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntUnaryOperator;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
@@ -22,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
@@ -38,6 +39,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 
 	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
+	private int INIT_VALUE=10;
+	
 	@Autowired
 	@Qualifier("CsvProcessorCallBack")
 	public CsvProcessorCallBack<R> csvProcessorCallBack;
@@ -45,6 +48,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	@Autowired
 	@Qualifier(value = "serviceTaskExecutor")
     private ThreadPoolTaskExecutor serviceTaskExecutor;
+	
+	private AtomicInteger counter = new  AtomicInteger(INIT_VALUE);
 
 	/**
 	 * 
@@ -107,7 +112,18 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 			Callable<R> call = new ResultCallable();
 			ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
 			ar.addCallback(csvProcessorCallBack);
-			serviceTaskExecutor.createThread(ar).start();
+			Thread t = serviceTaskExecutor.createThread(ar);
+			t.setPriority(counter.getAndUpdate(new IntUnaryOperator() {
+				@Override
+				public int applyAsInt(int operand) {
+					if (operand == 1) {
+						counter.set(INIT_VALUE);
+						return INIT_VALUE;
+					}
+					return operand--;
+				}
+			}));
+			t.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,6 +147,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 		public  R computeNext()  {
 			Optional<R> result = Optional.empty();
 			List<ValueBase<?>> next = getBaseParser().readNext();
+			log.debug("priority" + counter);
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
