@@ -12,7 +12,7 @@ public class CsvProcessorCallBack
 implements ListenableFutureCallback<R> {
 
 	private static Logger log = LoggerFactory.getLogger(CsvProcessorCallBack.class);
-
+    private boolean active = true;
 	public CsvProcessorCallBack() {
 	}
 
@@ -23,20 +23,26 @@ implements ListenableFutureCallback<R> {
 		Optional.ofNullable(result).ifPresentOrElse(r -> {
 			Optional.of(r);//dispatch to another task .
 		}, new Runnable() {
-
+			
 			@Override
 			public void run() {
-					System.out.println("eixting program");
-					System.exit(0);
+					active = false;
+//					System.out.println("exiting program");
+//					System.exit(0);
 			}
 			
 		});
+		
 	}
 
 	@Override
 	public void onFailure(Throwable ex) {
 		log.debug("Exception thrown " ,ex);
 		System.exit(0);
+	}
+
+	public boolean isActive() {
+		return active;
 	}
 
 }

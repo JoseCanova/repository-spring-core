@@ -6,6 +6,7 @@ import java.util.concurrent.FutureTask;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ ApplicationRunner{
 	@Autowired
 	CsvBaseProcessor <T,S,P,M,R> csvBaseProcessor;
 	
+	@Autowired
+	CsvProcessorCallBack<?> processor;
+	
 	
 	public App() {
 	}
@@ -73,21 +77,16 @@ ApplicationRunner{
 		new Thread() {
 			@Override
 			public void run() {
-				CsvResult<?,?> result ; 
+				CsvResult<?,?> result = null ; 
 				FutureTask <R>r;
 				log.debug("start time " + new Date());
 				do {
-					
 					try {
-//							serviceTaskExecutor.execute(csvBaseProcessor);
-						result = csvBaseProcessor.getNext();
-							Thread.currentThread().join(1);
-//						   r.get(1000, TimeUnit.MILLISECONDS);
-						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));
+						   csvBaseProcessor.getNext();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				}while(true);
+				}while(processor.isActive());
 			}
 		}.start();
 		log.debug("end time " + new Date());

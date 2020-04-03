@@ -191,7 +191,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 	}
 	
 	default void setLastUpdated(LocalDate localDate) {
-		System.out.println(localDate);
+//		System.out.println(localDate);
 	}
 	
 	public static void main (String[] args) {

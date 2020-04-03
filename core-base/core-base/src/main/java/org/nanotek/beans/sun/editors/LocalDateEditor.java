@@ -31,7 +31,7 @@ public class LocalDateEditor extends PropertyEditorSupport {
 	
 	private static DateTimeFormatter formatter =  Optional.ofNullable("").map(m->{
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("kk:mm:ss");
 		DateTimeFormatter zoneFormatter = DateTimeFormatter.ofPattern("X");
 		DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
 												.append(yearFormatter)
@@ -44,7 +44,7 @@ public class LocalDateEditor extends PropertyEditorSupport {
 	
 	static LocalDate fromString(String value) { 
 		try {
-			return value !=null?  LocalDateEditor.formatter.parse(value).query(TemporalQueries.localDate()) : null;
+			return value !=null && !value.isEmpty()?  LocalDateEditor.formatter.parse(value).query(TemporalQueries.localDate()) : null;
 			}catch(Exception  ex) { 
 				ex.printStackTrace();
 			}
