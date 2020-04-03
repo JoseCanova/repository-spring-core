@@ -79,7 +79,8 @@ ApplicationRunner{
 //				do {
 					
 					try {
-							serviceTaskExecutor.execute(csvBaseProcessor);
+//							serviceTaskExecutor.execute(csvBaseProcessor);
+						    csvBaseProcessor.getNext();
 							Thread.currentThread().join(1);
 //						   r.get(1000, TimeUnit.MILLISECONDS);
 						  //Optional.ofNullable(r.get()).ifPresent(r1 -> log.debug(r1.withUUID().toString()));

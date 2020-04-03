@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
@@ -37,12 +39,15 @@ R extends CsvResult<?,?>>
 implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 
 	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
-	
+
 	@Autowired
 	@Qualifier("CsvProcessorCallBack")
 	public CsvProcessorCallBack<R> csvProcessorCallBack;
 
-	
+	@Autowired
+	@Qualifier(value = "serviceTaskExecutor")
+    private ThreadPoolTaskExecutor serviceTaskExecutor;
+
 	/**
 	 * 
 	 */
@@ -53,23 +58,23 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 
 	@Autowired
 	private CsvResultNextEventListener<?> csvResultNextEventListener;
-	
+
 	private BaseParser<T,S,P,M> parser; 
-	
+
 	private CsvToBean<M> csvToBean;
-	
+
 	private CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy;
-	
+
 	public CsvBaseProcessor(BaseParser<T,S,P,M> parser) {
 		super();
 		this.parser = parser;
 		csvToBean = new CsvToBean<>();
-//		this.csvToBean = csvToBean;
+		//		this.csvToBean = csvToBean;
 	}
 
-//	CsvToBean<?> getCsvToBean(){ <T,S,P,M>
-//		return csvToBean;
-//	}
+	//	CsvToBean<?> getCsvToBean(){ <T,S,P,M>
+	//		return csvToBean;
+	//	}
 
 	public CsvBaseProcessor(BaseParser<T, S, P, M> parser2, CsvToBean<M> csvToBean2) {
 		super();
@@ -77,10 +82,10 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 		csvToBean = csvToBean2;
 	}
 
-	
+
 	public CsvBaseProcessor(BaseParser<T, S, P, M> parser2, 
-							CsvToBean<M> csvToBean2,
-							CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy2) {
+			CsvToBean<M> csvToBean2,
+			CsvFileItemConcreteStrategy<T,S,P,M> mapColumnStrategy2) {
 		super();
 		this.parser = parser2;
 		csvToBean = csvToBean2;
@@ -93,78 +98,100 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 			throw new BaseException();
 		registry.addPropertyChangeListener("next", csvResultNextEventListener);
 	}	
-	
+
 	public BaseParser getBaseParser() {
 		return parser;
 	}
-	
-    public void reopenFile() throws Exception {
-    	mapColumnStrategy.reopen();
-    }
 
-    @Async("threadPoolTaskExecutor")
-    public void run() { 
-    	ListenableFutureTask<R> t = new ListenableFutureTask<R>(new ResultCallable(computeNext()));
-		t.addCallback(csvProcessorCallBack);
-    } 
-    
-    public R getNext(){
-    	R result = null;
-//    	ListenableFutureTask<R> ar = computeNext();
-//    	while(!ar.isDone()) {}
-//    	try {
-//			 result = ar.get();
+	public void reopenFile() throws Exception {
+		mapColumnStrategy.reopen();
+	}
+
+	@Async("threadPoolTaskExecutor")
+	public void run() { 
+		Callable<R> call = new ResultCallable();
+    	ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
+		ar.addCallback(csvProcessorCallBack);
+//		try {
+//			l.get();
 //		} catch (Exception e) {
-//			log.debug("problems" , e);
-//			throw new BaseException(e);
+//			e.printStackTrace();
+//			throw new BaseException (e);
 //		}
-    	return result;
-    }
-    
+	} 
+
+	@Async("threadPoolTaskExecutor")
+	public R getNext(){
+		R result = null;
+		     	Callable<R> call = new ResultCallable();
+		    	ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
+		    	ar.addCallback(csvProcessorCallBack);
+		    	serviceTaskExecutor.createThread(ar).start();
+		    	try {
+		    		Thread.currentThread().join(1);
+					result = ar.get();
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BaseException(e);
+				}
+		return result;
+	}
+
 	public  R computeNext()  {
-    	Optional<R> result = Optional.empty();
-			List<ValueBase<?>> next = getBaseParser().readNext();
-			if (next !=null) {
-				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
-				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
-//				log.debug(result.get().withUUID().toString());
-				registry.firePropertyChange("next", Optional.empty(), result);
-			}else { 
-				throw new BaseException("Finished");
-			}
-    	return result.get();
+		Optional<R> result = Optional.empty();
+		List<ValueBase<?>> next = getBaseParser().readNext();
+		if (next !=null) {
+			BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+			result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
+			//				log.debug(result.get().withUUID().toString());
+			registry.firePropertyChange("next", Optional.empty(), result);
+		}else { 
+			throw new BaseException("Finished");
+		}
+		return result.get();
 	}
 
 	public List<R> load(Long count) {
-    	List<R> list = new  ArrayList<>();
-//    	int i = 0;
-//    	while (i < count) {
-//    		Optional<R> bean = computeNext();
-//    		bean.ifPresent(value -> list.add(value));
-//    		i++;
-//    		if(bean.isEmpty()) break;
-//    	}
-    	return list;
-    }
+		List<R> list = new  ArrayList<>();
+		//    	int i = 0;
+		//    	while (i < count) {
+		//    		Optional<R> bean = computeNext();
+		//    		bean.ifPresent(value -> list.add(value));
+		//    		i++;
+		//    		if(bean.isEmpty()) break;
+		//    	}
+		return list;
+	}
 
 	@Override
 	public int compareTo(R arg0) {
 		return 0;
-	}
-	
+	} 
+
 	private class ResultCallable implements Callable<R> {
 
-		private R result;
-
-		public ResultCallable(R r){
-			Optional.ofNullable(r).ifPresent(r1 -> log.debug(r1.toString()));
-			result = r;
+		public ResultCallable(){
 		}
 		
 		@Override
 		public R call() {
-			return result;
+			return computeNext();
 		}
+
+		public  R computeNext()  {
+			Optional<R> result = Optional.empty();
+			List<ValueBase<?>> next = getBaseParser().readNext();
+			if (next !=null) {
+				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
+				//				log.debug(result.get().withUUID().toString());
+				registry.firePropertyChange("next", Optional.empty(), result);
+			}else { 
+				throw new BaseException("Finished");
+			}
+			return result.get();
+		}
+		
 	}
 
 }

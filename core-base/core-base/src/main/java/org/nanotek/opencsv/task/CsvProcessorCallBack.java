@@ -20,18 +20,13 @@ implements ListenableFutureCallback<R> {
 	@Override
 	public void onSuccess(R result) {
 		log.debug("Processor Callback");
-		Optional.ofNullable(result).ifPresent(r -> {
-			if (r.getValid() == false) { 
-				log.debug("Result not valid " + r.withUUID().toString());
-			}
-		});
 		Optional.ofNullable(result).ifPresentOrElse(r -> {
-			Optional.of(r);//tranformation here... 
+			Optional.of(r);//dispatch to another task .
 		}, new Runnable() {
 
 			@Override
 			public void run() {
-					
+					System.out.println("eixting program");
 					System.exit(0);
 			}
 			
