@@ -117,10 +117,10 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 				@Override
 				public int applyAsInt(int operand) {
 					if (operand == 1) {
-						counter.set(INIT_VALUE);
-						return INIT_VALUE;
-					}
-					return operand--;
+						operand = INIT_VALUE; 
+					}else
+						--operand;
+					return operand;
 				}
 			}));
 			t.start();
