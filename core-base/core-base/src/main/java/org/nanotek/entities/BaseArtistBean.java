@@ -186,13 +186,13 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
 		return getEndArea().getAreaId();
 	}
 	
-	default LocalDate getLastUpdated() {
-		return null;
-	}
-	
-	default void setLastUpdated(LocalDate localDate) {
-//		System.out.println(localDate);
-	}
+//	default LocalDate getLastUpdated() {
+//		return null;
+//	}
+//	
+//	default void setLastUpdated(LocalDate localDate) {
+////		System.out.println(localDate);
+//	}
 	
 	public static void main (String[] args) {
 		ArtistBean artistBean = new ArtistBean();
