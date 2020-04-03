@@ -104,8 +104,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , Runnable{
 
     @Async("threadPoolTaskExecutor")
     public void run() { 
-    	ListenableFutureTask<R> t = null;
-		t = new ListenableFutureTask<R>(new ResultCallable(computeNext()));
+    	ListenableFutureTask<R> t = new ListenableFutureTask<R>(new ResultCallable(computeNext()));
 		t.addCallback(csvProcessorCallBack);
     } 
     

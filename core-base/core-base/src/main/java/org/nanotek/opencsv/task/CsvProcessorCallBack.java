@@ -16,9 +16,10 @@ implements ListenableFutureCallback<R> {
 	public CsvProcessorCallBack() {
 	}
 
-	//TODO: Put the tranformation here.
+	//TODO: Put the tranformation here.  
 	@Override
 	public void onSuccess(R result) {
+		log.debug("Processor Callback");
 		Optional.ofNullable(result).ifPresent(r -> {
 			if (r.getValid() == false) { 
 				log.debug("Result not valid " + r.withUUID().toString());

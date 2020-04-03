@@ -26,7 +26,6 @@ public interface SimpleFormatDateStamp extends Supplier<SimpleFormatDateStamp>, 
 		}else {
 			StampHolderFormatter.stampHolder.set(getInstance(t));
 		}
-		System.out.println(this.get());
 	}
 	
 	static SimpleFormatDateStamp newStamp(String t ){

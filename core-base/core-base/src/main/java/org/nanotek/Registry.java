@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 
+import org.nanotek.beans.sun.editors.LocalDateEditor;
 import org.nanotek.beans.sun.editors.UUIDEditor;
 
 /**
@@ -41,6 +43,7 @@ public class Registry<K extends Base<?>> implements Base<K> {
 	public Registry(BeanContextSupport beanContextSupport2) {
 		this.beanContextSupport = beanContextSupport2;
 		PropertyEditorManager.registerEditor(UUID.class, UUIDEditor.class);
+		PropertyEditorManager.registerEditor(LocalDate.class, LocalDateEditor.class);
 	}
 
 	public Registry<K> registar() {
