@@ -144,3 +144,26 @@ artistaliastype:
     description: 4
     gid: 5       
     
+    
+artistalias:
+  fileLocation: /opt/mbdump
+  fileName: artist_alias_dump
+  immutable: org.nanotek.beans.csv.ArtistAliasBean
+  baseMap:  
+    aliasId: 0
+    artistId: 1
+    name: 2
+    locale: 3
+    editsPending: 4
+    lastUpdated: 5
+    typeId: 6
+    sortName: 7
+    beginYear: 8
+    beginMonth: 9
+    beginDay: 10
+    endYear: 11
+    endMonth: 12
+    endDay: 13
+    primaryForLocale: 14
+    ended: 15    
+    

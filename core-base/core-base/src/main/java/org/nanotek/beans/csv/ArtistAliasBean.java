@@ -9,6 +9,7 @@ import org.nanotek.entities.BaseArtistAliasEndDateBean;
 import org.nanotek.entities.BaseArtistAliasLocaleBean;
 import org.nanotek.entities.BaseArtistAliasSortNameBean;
 import org.nanotek.entities.BaseArtistAliasTypeBean;
+import org.nanotek.entities.BaseArtistBean;
 import org.nanotek.opencsv.ArtistAliasEndDateBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -35,7 +36,7 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 
 	BaseArtistAliasSortNameBean<?> artistAliasSortName;
 
-	Artist<?> artist;
+	BaseArtistBean<?> artist;
 
 
 	public ArtistAliasBean() {
@@ -50,6 +51,7 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 	}
 
 	private void postConstruct() {
+		artist = new ArtistBean<>();
 		artistAliasType = new ArtistAliasTypeBean<>();
 
 		artistAliasLocale = new ArtistAliasLocaleBean<>();
@@ -108,11 +110,11 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 		this.artistAliasSortName = artistAliasSortName;
 	}
 
-	public Artist<?> getArtist() {
+	public BaseArtistBean<?> getArtist() {
 		return artist;
 	}
 
-	public void setArtist(Artist<?> artist) {
+	public void setArtist(BaseArtistBean<?> artist) {
 		this.artist = artist;
 	}
 
@@ -137,5 +139,9 @@ implements BaseArtistAliasBean<ArtistAliasBean<K>>{
 	//	public String ended;
 
 
+	
+	public static void main(String[] args) {
+		ArtistAliasBean bean = new ArtistAliasBean();
+	}
 
 }

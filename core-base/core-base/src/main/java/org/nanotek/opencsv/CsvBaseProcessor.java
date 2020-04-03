@@ -10,10 +10,8 @@ import java.util.function.IntUnaryOperator;
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
-import org.nanotek.Registry;
 import org.nanotek.ValueBase;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
@@ -56,12 +54,6 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	 */
 	private static final long serialVersionUID = -9020375809532500851L;
 
-	@Autowired
-	private Registry<R> registry;
-
-	@Autowired
-	private CsvResultNextEventListener<?> csvResultNextEventListener;
-
 	private BaseParser<T,S,P,M> parser; 
 
 	private CsvToBean<M> csvToBean;
@@ -94,9 +86,6 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (!registry.add(Base.class.cast(this)))
-			throw new BaseException();
-		registry.addPropertyChangeListener("next", csvResultNextEventListener);
 	}	
 
 	public BaseParser getBaseParser() {
@@ -143,16 +132,14 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 		public R call() {
 			return computeNext();
 		}
-
+		
+		@SuppressWarnings("unchecked")
 		public  R computeNext()  {
 			Optional<R> result = Optional.empty();
 			List<ValueBase<?>> next = getBaseParser().readNext();
-			log.debug("priority" + counter);
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
-				//				log.debug(result.get().withUUID().toString());
-				registry.firePropertyChange("next", Optional.empty(), result);
 			}
 			return result.map(r->r).orElse(null);
 		}

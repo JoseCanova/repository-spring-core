@@ -14,10 +14,19 @@ extends ProxyBase<ArtistCreditBean<K>,ArtistCredit<?>>
 implements BaseArtistCreditBean<ArtistCreditBean<K>>{
 
 	
+	private BaseArtistCreditCountBean<?> artistCreditCount;
+	private BaseArtistCreditRefCountBean<?> artistCreditRefCount;
+	
 	public ArtistCreditBean() {
 		super(castClass() );
+		postConstruct();
 	}
 	
+	private void postConstruct() {
+		artistCreditCount = new ArtistCreditCountBean<>();
+		artistCreditRefCount = new ArtistCreditRefCountBean<>();
+	}
+
 	@SuppressWarnings("unchecked")
 	private static Class<? extends ArtistCredit<?>> castClass() {
 		return (Class<? extends ArtistCredit<?>>) 
@@ -28,24 +37,27 @@ implements BaseArtistCreditBean<ArtistCreditBean<K>>{
 	
 	public ArtistCreditBean(Class<? extends ArtistCredit<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 
 	@Override
 	public void setArtistCreditCount(BaseArtistCreditCountBean<?> k) {
+		this.artistCreditCount = k;
 	}
 
 	@Override
 	public BaseArtistCreditCountBean<?> getArtistCreditCount() {
-		return null;
+		return artistCreditCount;
 	}
 
 	@Override
 	public void setArtistCreditRefCount(BaseArtistCreditRefCountBean<?> k) {
+		this.artistCreditRefCount = k;
 	}
 
 	@Override
 	public BaseArtistCreditRefCountBean<?> getArtistCreditRefCount() {
-		return null;
+		return artistCreditRefCount;
 	}
 
 
