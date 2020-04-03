@@ -93,7 +93,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	default void registryDynaBean() { 
 		mountInstanceMap();
 		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
-		System.out.println("Original Size"+intf.size());
+//		System.out.println("Original Size"+intf.size());
 		List<Class<?>> remainingInterfaces = processInterfaces(getBaseClass(),intf);
 		processRemainingInterfaces(getId().getClass(),remainingInterfaces);
 	}
@@ -110,7 +110,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		List<Class<?>> filtered =  Optional.ofNullable( remainingInterfaces).orElse(new ArrayList<>()).stream()
 										.collect(Collectors.toList());
 		List<Class<?>> notRegistred = null;
-		System.out.println("Remaining " + filtered.toString());
+//		System.out.println("Remaining " + filtered.toString());
 		if (classId == null )return;
 		Field[] fields = classId.getFields();
 		Class<?> newClassID = null;
@@ -119,7 +119,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 				 { try {
 					List <Class<?>> typeInterfaces = getAllInterfaces(f.getType());
 					newClassID = f.getType();
-					System.out.println(typeInterfaces);
+//					System.out.println(typeInterfaces);
 					filtered.addAll(typeInterfaces);
 					notRegistred = processInterfaces(newClassID, filtered);
 				} catch (Exception e) {

@@ -24,8 +24,8 @@ public interface Priority<E extends Base<?>,P extends Comparable<?>> extends Com
 	}
 
 	static <V extends Priority<E,P>,E extends Base<?>,P extends Comparable<P>> 
-	Priority<E,P> createPriorityElement(E element,P priority) {
-		return new Priority<E,P>() {
+	 Priority<?,P> createPriorityElement(E element,P priority) {
+		return  new Priority<E,P>() {
 
 			private P priorityValue = priority;
 
@@ -55,11 +55,11 @@ public interface Priority<E extends Base<?>,P extends Comparable<?>> extends Com
 
 	}
 	
-	public static <V extends Priority<E,P>,E extends Base<?>,P extends Comparable<?>>   void main(String[] args) { 
-		Priority<E,Integer> artistPriority = Priority.createPriorityElement(new Artist(), 10);
-		Priority<E,Integer> areaPriority = Priority.createPriorityElement(new Area(), 80);
-		Priority<E,Integer> areaTypePriority = Priority.createPriorityElement(new AreaType(), 39);
-		PriorityQueue<Priority<E,Integer>> pq = new PriorityQueue<Priority<E,Integer>>(new PriorityComparator<Integer>());
+	public static <V extends Priority<K,P>,K extends Base<?>,P extends Comparable<?>>   void main(String[] args) { 
+		Priority<?, Integer> artistPriority = Priority.createPriorityElement(Base.newInstance(Artist.class).get(), 10);
+		Priority<?, Integer>  areaPriority = Priority.createPriorityElement(Base.newInstance(Area.class).get(), 80);
+		Priority<?, Integer>  areaTypePriority = Priority.createPriorityElement(Base.newInstance(AreaType.class).get(), 39);
+		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
 		boolean result = pq.offer(artistPriority);	
 		System.out.println(result);
 		result =  pq.offer(areaPriority);	

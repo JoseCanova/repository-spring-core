@@ -50,7 +50,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import jdk.internal.misc.SharedSecrets;
 
 /**
  * The main class to parse JavaBeans XML archive.
@@ -371,27 +370,27 @@ public final class DocumentHandler extends DefaultHandler {
             throw new SecurityException("AccessControlContext is not set");
         }
         AccessControlContext stack = AccessController.getContext();
-        SharedSecrets.getJavaSecurityAccess().doIntersectionPrivilege(new PrivilegedAction<Void>() {
-            public Void run() {
-                try {
-                    SAXParserFactory.newInstance().newSAXParser().parse(input, DocumentHandler.this);
-                }
-                catch (ParserConfigurationException exception) {
-                    handleException(exception);
-                }
-                catch (SAXException wrapper) {
-                    Exception exception = wrapper.getException();
-                    if (exception == null) {
-                        exception = wrapper;
-                    }
-                    handleException(exception);
-                }
-                catch (IOException exception) {
-                    handleException(exception);
-                }
-                return null;
-            }
-        }, stack, this.acc);
+//        SharedSecrets.getJavaSecurityAccess().doIntersectionPrivilege(new PrivilegedAction<Void>() {
+//            public Void run() {
+//                try {
+//                    SAXParserFactory.newInstance().newSAXParser().parse(input, DocumentHandler.this);
+//                }
+//                catch (ParserConfigurationException exception) {
+//                    handleException(exception);
+//                }
+//                catch (SAXException wrapper) {
+//                    Exception exception = wrapper.getException();
+//                    if (exception == null) {
+//                        exception = wrapper;
+//                    }
+//                    handleException(exception);
+//                }
+//                catch (IOException exception) {
+//                    handleException(exception);
+//                }
+//                return null;
+//            }
+//        }, stack, this.acc);
     }
 
     /**
