@@ -29,7 +29,7 @@ implements BaseAreaCommentBean<AreaCommentBean<K>>{
 	}
 
 	public static void main(String[] args) {
-		AreaCommentBean bean = new AreaCommentBean(AreaComment.class);
+		AreaCommentBean bean = new AreaCommentBean();
 		bean.setComment("this is a comment");
 		System.out.println(bean.getComment());
 	}

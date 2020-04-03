@@ -3,7 +3,6 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistAlias;
-import org.nanotek.beans.entity.ArtistAliasLocale;
 import org.nanotek.entities.BaseArtistAliasBean;
 import org.nanotek.entities.BaseArtistAliasBeginDateBean;
 import org.nanotek.entities.BaseArtistAliasEndDateBean;

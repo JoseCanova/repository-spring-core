@@ -26,6 +26,7 @@ implements BaseAreaTypeBean<AreaTypeBean<K>> {
 
 	public AreaTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 

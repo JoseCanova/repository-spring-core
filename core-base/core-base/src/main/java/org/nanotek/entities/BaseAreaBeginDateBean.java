@@ -2,8 +2,6 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.csv.AreaBeginDateBean;
-import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.entities.immutables.BeginYearEntity;
 

@@ -67,7 +67,7 @@ public class Area
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
-	private AreaComment<?> areaComment;
+	public AreaComment<?> areaComment;
 	
 	
 	

@@ -13,7 +13,7 @@ extends DescriptionBase<K>{
 	private static final long serialVersionUID = -5502992535337974047L;
 	
 	@OneToOne(mappedBy = "baseTypeDescription")
-	public BaseType<?> baseType;
+	private BaseType<?> baseType;
 
 	public BaseTypeDescription() {
 	}

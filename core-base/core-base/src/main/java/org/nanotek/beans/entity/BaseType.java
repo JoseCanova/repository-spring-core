@@ -58,7 +58,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	private BaseTypeDescription<?> baseTypeDescription; 
+	public BaseTypeDescription<?> baseTypeDescription; 
 	
 	public BaseType() {
 		prepare();
