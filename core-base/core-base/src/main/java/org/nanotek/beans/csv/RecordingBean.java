@@ -4,10 +4,10 @@ import java.util.Set;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Recording;
-import org.nanotek.beans.entity.RecordingLength;
 import org.nanotek.beans.entity.Track;
 import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseRecordingBean;
+import org.nanotek.entities.BaseRecordingLengthBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class RecordingBean  
@@ -18,13 +18,24 @@ implements BaseRecordingBean<RecordingBean<K>>{
 	private static final long serialVersionUID = 2926594064752891481L;
 
 	private BaseArtistCreditBean<?> artistCredit;
+	private BaseRecordingLengthBean<?> recordingLength;
+	
 	
 	public RecordingBean(Class<? extends Recording<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 
+	public  void postConstruct()
+	{
+		artistCredit = new ArtistCreditBean<>();
+		recordingLength = new RecordingLengthBean<>();
+		
+	}
+	
 	public RecordingBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 
@@ -34,14 +45,13 @@ implements BaseRecordingBean<RecordingBean<K>>{
 
 	@Override
 	public void setArtistCredit(BaseArtistCreditBean<?> k) {
-		// TODO Auto-generated method stub
-		
+		this.artistCredit = k;		
 	}
 
 	@Override
 	public BaseArtistCreditBean<?> getArtistCredit() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return artistCredit;
 	}
 
 	@Override
@@ -57,15 +67,14 @@ implements BaseRecordingBean<RecordingBean<K>>{
 	}
 
 	@Override
-	public void setRecordingLength(RecordingLength<?> e) {
-		// TODO Auto-generated method stub
+	public void setRecordingLength(BaseRecordingLengthBean<?> e) {
+		this.recordingLength=e;
 		
 	}
 
 	@Override
-	public RecordingLength<?> getRecordingLength() {
-		// TODO Auto-generated method stub
-		return null;
+	public BaseRecordingLengthBean<?> getRecordingLength() {
+		return recordingLength;
 	}
 
 

@@ -16,7 +16,7 @@ extends BrainzBaseEntity<K> implements MutableLengthEntity<L>{
 	
 	@NotNull
 	@Column(name="length" , nullable=false)
-	protected  L length;
+	public  L length;
 	
 	public LengthyBase() {
 	}

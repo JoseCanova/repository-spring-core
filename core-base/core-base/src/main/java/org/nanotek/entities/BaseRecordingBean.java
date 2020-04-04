@@ -6,9 +6,7 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.RecordingBean;
-import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.Recording;
-import org.nanotek.beans.entity.RecordingLength;
 import org.nanotek.beans.entity.Track;
 import org.nanotek.entities.immutables.RecordingEntity;
 import org.nanotek.entities.immutables.RecordingIdEntity;
@@ -20,7 +18,7 @@ BaseBean<K,Recording<?>>,
 MutableRecordingIdEntity<Long> , 
 MutableArtistCreditEntity<BaseArtistCreditBean<?>>,
 MutableTrackEntitySet<Track<?>>,
-MutableRecordingLengthEntity<RecordingLength<?>>,
+MutableRecordingLengthEntity<BaseRecordingLengthBean<?>>,
 MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	@Override
@@ -30,7 +28,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@Override
 	default void setRecordingId(Long k) {
-		write(RecordingEntity.class,k);
+		write(MutableRecordingIdEntity.class,k);
 	}
 	
 	@Override
@@ -51,8 +49,26 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		write(MutableNameEntity.class,k);
 	}
 	
+	default void setLength(Long l) {
+		getRecordingLength().setLength(l);
+	}
+	
+	default Long getLength() {
+		return getRecordingLength().getLength();
+	}
+	
 	
 	public static void main(String[] args) { 
 		RecordingBean<?> bean = new RecordingBean<>();
+		bean.setRecordingId(1000L);
+		bean.setLength(1002L);
+		UUID id = UUID.randomUUID();
+		System.out.println(id.toString());
+		bean.setGid(id);
+		bean.setName("TheName");
+		System.out.println(bean.getRecordingId());
+		System.out.println(bean.getGid().toString());
+		System.out.println(bean.getName());
+		System.out.println(bean.getLength());
 	}
 }
