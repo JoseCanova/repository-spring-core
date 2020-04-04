@@ -1,6 +1,5 @@
 package org.nanotek.beans.entity;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +21,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditIdEntity;

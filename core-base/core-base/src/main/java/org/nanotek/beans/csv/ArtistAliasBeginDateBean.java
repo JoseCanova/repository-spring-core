@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.ArtistAliasBeginDate;
 import org.nanotek.entities.BaseArtistAliasBeginDateBean;
 import org.nanotek.proxy.ProxyBase;

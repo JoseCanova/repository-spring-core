@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.RecordingAliasType;
 import org.nanotek.beans.entity.ReleaseAlias;
 import org.nanotek.entities.BaseReleaseAliasBean;
 import org.nanotek.proxy.ProxyBase;

@@ -8,7 +8,6 @@ import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.RecordingBean;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.Track;
-import org.nanotek.entities.immutables.RecordingEntity;
 import org.nanotek.entities.immutables.RecordingIdEntity;
 
 public interface BaseRecordingBean

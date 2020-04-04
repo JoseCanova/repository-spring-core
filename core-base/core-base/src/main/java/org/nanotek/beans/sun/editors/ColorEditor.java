@@ -25,8 +25,16 @@
 
 package org.nanotek.beans.sun.editors;
 
-import java.awt.*;
-import java.beans.*;
+import java.awt.Canvas;
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyEditor;
 
 public class ColorEditor extends Panel implements PropertyEditor {
     private static final long serialVersionUID = 1781257185164716054L;

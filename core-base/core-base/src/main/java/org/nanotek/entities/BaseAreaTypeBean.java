@@ -7,7 +7,6 @@ import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.AreaTypeBean;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.immutables.ChildOrderEntity;
 
 

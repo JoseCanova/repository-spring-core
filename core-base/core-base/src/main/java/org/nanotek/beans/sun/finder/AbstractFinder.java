@@ -26,7 +26,6 @@ package org.nanotek.beans.sun.finder;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Modifier;
-
 import java.util.HashMap;
 import java.util.Map;
 

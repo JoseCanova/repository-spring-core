@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseCountBaseEntity;
-import org.nanotek.entities.BaseLongCountBaseEntity;
 import org.nanotek.entities.MutableCountEntity;
 
 @Entity

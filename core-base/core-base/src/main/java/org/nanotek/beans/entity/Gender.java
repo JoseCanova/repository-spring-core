@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
 @Entity
 @DiscriminatorValue(value="Gender")
 public class Gender<K extends Gender<K>> extends BaseType<K> {

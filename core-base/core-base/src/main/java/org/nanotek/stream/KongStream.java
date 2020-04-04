@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import java.util.stream.Stream.Builder;
 
 import org.nanotek.BaseException;
-import org.nanotek.IdBase;
 import org.nanotek.Kong;
 import org.nanotek.beans.entity.Area;
 

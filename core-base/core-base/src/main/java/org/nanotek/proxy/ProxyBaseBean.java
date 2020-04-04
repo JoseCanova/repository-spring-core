@@ -6,12 +6,10 @@ import java.util.Optional;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
-import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.SequenceLongBase;
 import org.nanotek.entities.BaseAreaBean;
-import org.nanotek.entities.BaseAreaEntity;
 
 
 public class ProxyBaseBean

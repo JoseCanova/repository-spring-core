@@ -1,19 +1,13 @@
 package org.nanotek.collections;
 
-import java.lang.reflect.Field;
-import java.util.Optional;
 import java.util.TreeMap;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
-import org.nanotek.BaseException;
 import org.nanotek.beans.csv.ArtistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Component;
 	
 /**
  * 

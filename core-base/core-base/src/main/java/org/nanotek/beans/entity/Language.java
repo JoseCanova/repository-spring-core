@@ -1,7 +1,6 @@
 package org.nanotek.beans.entity;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

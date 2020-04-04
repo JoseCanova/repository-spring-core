@@ -4,9 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import org.nanotek.beans.entity.Area;
 import org.nanotek.entities.BaseAreaBean;
-import org.nanotek.entities.BaseAreaEntity;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;

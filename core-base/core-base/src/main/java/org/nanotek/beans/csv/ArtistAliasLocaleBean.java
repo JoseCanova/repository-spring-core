@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistAliasLocale;
 import org.nanotek.entities.BaseArtistAliasLocaleBean;
 import org.nanotek.proxy.ProxyBase;

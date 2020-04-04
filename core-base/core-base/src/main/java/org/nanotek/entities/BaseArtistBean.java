@@ -1,6 +1,5 @@
 package org.nanotek.entities;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import org.nanotek.Base;

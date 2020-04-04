@@ -24,13 +24,12 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import org.nanotek.beans.sun.finder.ConstructorFinder;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.nanotek.beans.sun.finder.ConstructorFinder;
 
 /**
  * This class is intended to handle &lt;new&gt; element.

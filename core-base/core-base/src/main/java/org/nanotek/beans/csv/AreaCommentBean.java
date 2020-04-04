@@ -2,7 +2,6 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaComment;
-import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.entities.BaseAreaCommentBean;
 import org.nanotek.proxy.ProxyBase;
 

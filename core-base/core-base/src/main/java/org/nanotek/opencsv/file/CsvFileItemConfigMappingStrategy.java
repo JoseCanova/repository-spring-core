@@ -6,9 +6,6 @@ import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
 import org.nanotek.collections.BaseMap;
 
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.MappingStrategy;
-
 public abstract class CsvFileItemConfigMappingStrategy 
 <T extends BaseMap<S,P,M> , 
 S  extends AnyBase<S,String> , 

@@ -24,13 +24,13 @@
  */
 package org.nanotek.beans.sun.finder;
 
-import org.nanotek.beans.sun.util.Cache;
+import static org.nanotek.beans.sun.util.Cache.Kind.SOFT;
+import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import static org.nanotek.beans.sun.util.Cache.Kind.SOFT;
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import org.nanotek.beans.sun.util.Cache;
 
 /**
  * This utility class provides {@code static} methods

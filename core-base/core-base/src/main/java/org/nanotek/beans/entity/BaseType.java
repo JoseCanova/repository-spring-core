@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
-import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableTypeIdEntity;
 

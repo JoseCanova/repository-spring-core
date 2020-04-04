@@ -25,13 +25,6 @@
 
 package org.nanotek.beans.sun.editors;
 
-/**
- * Property editor for a java builtin "long" type.
- *
- */
-
-import java.beans.*;
-
 public class LongEditor extends NumberEditor {
 
     public String getJavaInitializationString() {

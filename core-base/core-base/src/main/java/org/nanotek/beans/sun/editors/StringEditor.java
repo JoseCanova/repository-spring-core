@@ -26,7 +26,7 @@
 
 package org.nanotek.beans.sun.editors;
 
-import java.beans.*;
+import java.beans.PropertyEditorSupport;
 
 public class StringEditor extends PropertyEditorSupport {
 

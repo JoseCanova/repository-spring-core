@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.ArtistComment;
 import org.nanotek.beans.entity.ArtistCreditName;
 import org.nanotek.entities.BaseArtistCreditNameBean;
 import org.nanotek.proxy.ProxyBase;

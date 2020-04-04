@@ -29,8 +29,7 @@ package org.nanotek.beans.sun.editors;
  * Abstract Property editor for a java builtin number types.
  *
  */
-
-import java.beans.*;
+import java.beans.PropertyEditorSupport;
 
 public abstract class NumberEditor extends PropertyEditorSupport {
 

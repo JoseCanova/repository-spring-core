@@ -26,7 +26,6 @@ package org.nanotek.beans.sun;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
-
 import java.util.Map;
 import java.util.WeakHashMap;
 

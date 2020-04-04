@@ -3,7 +3,6 @@ package org.nanotek.entities;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistAliasBean;
-import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistAlias;
 import org.nanotek.entities.immutables.AliasIdEntity;
 

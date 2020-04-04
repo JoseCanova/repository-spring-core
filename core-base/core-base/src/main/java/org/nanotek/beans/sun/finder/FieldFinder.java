@@ -24,10 +24,10 @@
  */
 package org.nanotek.beans.sun.finder;
 
+import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
 
 /**
  * This utility class provides {@code static} methods

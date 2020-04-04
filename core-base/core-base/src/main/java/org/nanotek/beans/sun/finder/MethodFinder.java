@@ -24,8 +24,8 @@
  */
 package org.nanotek.beans.sun.finder;
 
-import org.nanotek.beans.sun.TypeResolver;
-import org.nanotek.beans.sun.util.Cache;
+import static org.nanotek.beans.sun.util.Cache.Kind.SOFT;
+import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -33,8 +33,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import static org.nanotek.beans.sun.util.Cache.Kind.SOFT;
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import org.nanotek.beans.sun.TypeResolver;
+import org.nanotek.beans.sun.util.Cache;
 
 /**
  * This utility class provides {@code static} methods

@@ -1,7 +1,5 @@
 package org.nanotek.beans.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -12,9 +10,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseBarCodeBaseEntity;
-import org.nanotek.entities.MutableBarCodeEntity;
 
 @Entity
 @Table(name="bar_code_base", 

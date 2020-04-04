@@ -1,7 +1,5 @@
 package org.nanotek.entities;
 
-import javax.validation.constraints.NotNull;
-
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistCommentBean;

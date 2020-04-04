@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.IdBase;
-import org.nanotek.ManagedEntity;
 import org.nanotek.PrimaryKey;
 
 public interface BaseSequenceLongBaseEntity

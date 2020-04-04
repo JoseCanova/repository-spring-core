@@ -24,9 +24,9 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import org.nanotek.beans.sun.finder.FieldFinder;
-
 import java.lang.reflect.Field;
+
+import org.nanotek.beans.sun.finder.FieldFinder;
 
 /**
  * This class is intended to handle &lt;field&gt; element.

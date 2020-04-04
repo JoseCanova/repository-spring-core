@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.ReleasePackaging;
 import org.nanotek.beans.entity.ReleaseStatus;
 import org.nanotek.entities.BaseReleaseStatusBean;
 import org.nanotek.proxy.ProxyBase;

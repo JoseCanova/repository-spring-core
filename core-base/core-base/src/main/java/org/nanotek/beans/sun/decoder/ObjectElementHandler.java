@@ -24,9 +24,9 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import java.beans.Expression;
-
 import static java.util.Locale.ENGLISH;
+
+import java.beans.Expression;
 
 /**
  * This class is intended to handle &lt;object&gt; element.
