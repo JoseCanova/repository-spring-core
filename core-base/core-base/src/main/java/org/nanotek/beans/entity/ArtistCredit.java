@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
@@ -29,6 +30,7 @@ import org.nanotek.entities.MutableArtistListEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="artist_credit", uniqueConstraints= {
@@ -59,11 +61,11 @@ MutableNameEntity<String>
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	@NotNull
+	@NotBlank(groups = {Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 

@@ -16,8 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseArtistEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="artist" , 
@@ -30,7 +32,8 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 {
 	
 	private static final long serialVersionUID = -932806802235346847L;
-
+	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
 	

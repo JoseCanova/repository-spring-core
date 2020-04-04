@@ -9,6 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
@@ -18,13 +19,13 @@ import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutablePositionEntity;
 import org.nanotek.entities.MutatleArtistCreditNameIdEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditName<K extends ArtistCreditName<K>> 
 extends BrainzBaseEntity<K> 
-implements  BaseArtistCreditNameEntity<K>,
-MutatleArtistCreditNameIdEntity<Long>, 
+implements  BaseArtistCreditNameEntity<K>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
 MutableArtistCreditNamePositionEntity<ArtistCreditNamePosition<?>>,
@@ -33,12 +34,15 @@ MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -5124525598245692335L;
 
-	@NotNull
-	@Column(name="artist_credit_name_id" , nullable=false)
-	public Long artistCreditNameId;
+	/*
+	 * @NotNull
+	 * 
+	 * @Column(name="artist_credit_name_id" , nullable=false) public Long
+	 * artistCreditNameId;
+	 */
 
 
-	@NotNull
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 
@@ -53,10 +57,12 @@ MutableNameEntity<String>{
 		this.name = k;
 	}
 	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
 	public  ArtistCredit<?> artistCredit;
 	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artistid" , insertable = true , nullable = true, referencedColumnName = "id")
 	public  Artist<?> artist;
@@ -75,9 +81,8 @@ MutableNameEntity<String>{
 	public ArtistCreditName() {
 	}
 	
-	public ArtistCreditName(@NotBlank String name, @NotNull Long artistCreditNameId) {
+	public ArtistCreditName(@NotBlank String name) {
 		this.name = name;
-		this.artistCreditNameId = artistCreditNameId;
 	}
 	
 
@@ -97,14 +102,6 @@ MutableNameEntity<String>{
 		this.artist = artist;
 	}
 	
-	@Override
-	public Long getArtistCreditNameId() {
-		return artistCreditNameId;
-	}
-	@Override
-	public void setArtistCreditNameId(Long k) {
-			this.artistCreditNameId = k;
-	}
 
 	@Override
 	public String getArtistCreditNameJoinPhrase() {

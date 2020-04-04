@@ -17,7 +17,6 @@ import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.csv.ArtistBean;
 import org.springframework.stereotype.Service;
 
-@Service
 public class CsvOnResultPredicate 
 <K extends   BaseBean<K,ID>, ID extends BaseEntity<?,?>>
 implements PredicateBase<K,ID>{
@@ -59,7 +58,6 @@ implements PredicateBase<K,ID>{
 			}).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		
 		transfer(equivalenceMap,immutable,entityBeanInfo );
-		System.out.println("");
 	}
 
 

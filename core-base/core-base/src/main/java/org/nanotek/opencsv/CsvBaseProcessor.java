@@ -19,9 +19,12 @@ import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.nanotek.processor.ProcessorBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
@@ -33,7 +36,7 @@ S  extends AnyBase<S,String> ,
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>, 
 R extends CsvResult<?,?>> 
-implements ProcessorBase<R> , Base<R> , InitializingBean {
+implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAware{
 
 	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
@@ -42,6 +45,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	@Autowired
 	@Qualifier("CsvProcessorCallBack")
 	public CsvProcessorCallBack<R> csvProcessorCallBack;
+	
+	ApplicationContext applicationContext;
 
 	@Autowired
 	@Qualifier(value = "serviceTaskExecutor")
@@ -95,7 +100,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	public void reopenFile() throws Exception {
 		mapColumnStrategy.reopen();
 	}
-
+	
 	public void getNext(){
 		try {
 			Callable<R> call = new ResultCallable();
@@ -119,6 +124,11 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	}
 
 	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
+
+	@Override
 	public int compareTo(R arg0) {
 		return 0;
 	} 
@@ -139,11 +149,17 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+//				result =  of(applicationContext.getBean(CsvResult.class, base));
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
 			}
 			return result.map(r->r).orElse(null);
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public  Optional<R> of(CsvResult<?,?> bean) {
+		return Optional.of((R)bean);
 	}
 
 }

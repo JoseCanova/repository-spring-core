@@ -19,16 +19,14 @@ implements ListenableFutureCallback<R> {
 	//TODO: Put the tranformation here.  
 	@Override
 	public void onSuccess(R result) {
-		log.debug("Processor Callback");
 		Optional.ofNullable(result).ifPresentOrElse(r -> {
-			Optional.of(r);//dispatch to another task .
+			Optional<?> valid = r.on();
+			log.debug("Valid Bean?  " + valid.get()); 
 		}, new Runnable() {
 			
 			@Override
 			public void run() {
 					active = false;
-//					System.out.println("exiting program");
-//					System.exit(0);
 			}
 			
 		});

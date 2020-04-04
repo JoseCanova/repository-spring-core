@@ -14,30 +14,28 @@ import org.nanotek.BaseEntity;
 import org.nanotek.PredicateBase;
 import org.nanotek.Result;
 import org.nanotek.beans.csv.ArtistBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
 
-@Component(value="CsvResult")
-@Qualifier(value="CsvResult")
-@Scope(proxyMode = ScopedProxyMode.NO,scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> extends Result<K,ID> {
 
 	private static final long serialVersionUID = -5768604376039283739L;
 
 	private Boolean valid = false;
 	
-	@Autowired
+	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	
 	CsvOnResultPredicate<K,ID> computePredicate;
 	
-	@Autowired
 	Validator validator;
 	
 	public CsvResult() {
 		super();
+		postConstruct();
+	}
+
+	private void postConstruct() {
+		computePredicate= new CsvOnResultPredicate<>();
+		validator = factory.getValidator();
+		
 	}
 
 	public void setValid(Boolean valid) {
@@ -50,17 +48,19 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	
 	public CsvResult(K immutable, ID id) {
 		super(immutable, id);
+		postConstruct();
 	}
 
 	public CsvResult(K immutable) {
 		super(immutable);
+		postConstruct();
 	}
 
 	
 	@Override
 	public <V> Optional<? super V> on() {
 		return compute(computePredicate).map(id ->{
-			return validator.validate(id, Default.class);
+			return validator.validate(id, CsvValidationGroup.class);
 		}).map(s->{
 			return s.size()>0?(this.valid=false):(this.valid=true);
 		});
