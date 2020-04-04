@@ -15,13 +15,14 @@ import org.nanotek.MutatorSupport;
 import org.nanotek.PredicateBase;
 import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.csv.ArtistBean;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CsvOnResultPredicate 
-<K extends   BaseBean<K,ID>, ID extends BaseEntity<ID,?>>
+<K extends   BaseBean<K,ID>, ID extends BaseEntity<?,?>>
 implements PredicateBase<K,ID>{
 
 	private static final long serialVersionUID = -486052859326166447L;
-	
 	
 	@Override
 	public Optional<ID> evaluate(K immutable) {

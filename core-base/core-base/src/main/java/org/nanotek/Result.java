@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.opencsv.CsvOnResultPredicate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -35,9 +37,6 @@ public abstract class Result<K extends IdBase<K,ID> , ID extends IdBase<?,?>> im
 	public void setImmutable(K immutable) {
 		this.immutable = immutable;
 	}
-
-	@Override
-	public abstract Optional<ID> on(PredicateBase<K, ID> predicate);
 
 	@Override
 	public abstract Optional<ID> compute(PredicateBase<K, ID> predicate);
