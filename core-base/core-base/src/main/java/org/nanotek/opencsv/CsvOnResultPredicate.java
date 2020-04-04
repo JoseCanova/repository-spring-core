@@ -16,29 +16,29 @@ import org.nanotek.PredicateBase;
 import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.csv.ArtistBean;
 
-public class CsvOnResultPredicate <K extends   BaseBean<K,ID>, ID extends BaseEntity<ID,?>>
+public class CsvOnResultPredicate 
+<K extends   BaseBean<K,ID>, ID extends BaseEntity<ID,?>>
 implements PredicateBase<K,ID>{
 
 	private static final long serialVersionUID = -486052859326166447L;
 	
-	private EntityBeanInfo<?> entityBeanInfo;
 	
 	@Override
 	public Optional<ID> evaluate(K immutable) {
-		entityBeanInfo = new EntityBeanInfo<>(immutable.getId().getClass());
 		filterProperties(immutable);
 		return Optional.ofNullable(immutable.getId());
 	}
 	
 	
 	private void filterProperties(K immutable) {
+		EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(immutable.getId().getClass());
 		Optional<PropertyDescriptor[]> pd = MutatorSupport.getPropertyDescriptors(immutable.getClass());
 		Map<PropertyDescriptor , Optional<PropertyDescriptor>> equivalenceMap = Stream.of(pd.get())
 				.map(p->{ return new Map.Entry<PropertyDescriptor,Optional<PropertyDescriptor>>(
 				) {
 				    PropertyDescriptor key = p; 
 				    
-				    Optional<PropertyDescriptor> value = verifyPropertyOnId(p, immutable.getId());
+				    Optional<PropertyDescriptor> value = verifyPropertyOnId(p, immutable.getId(),entityBeanInfo);
 		    
 						@Override
 						public PropertyDescriptor getKey() {
@@ -57,12 +57,12 @@ implements PredicateBase<K,ID>{
 				}; 
 			}).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		
-		transfer(equivalenceMap,immutable);
+		transfer(equivalenceMap,immutable,entityBeanInfo );
 		System.out.println("");
 	}
 
 
-	private void transfer(Map<PropertyDescriptor, Optional<PropertyDescriptor>> equivalenceMap, K immutable) {
+	private void transfer(Map<PropertyDescriptor, Optional<PropertyDescriptor>> equivalenceMap, K immutable,EntityBeanInfo<?> entityBeanInfo ) {
 			equivalenceMap.keySet().stream().forEach(p-> {
 				try {
 					if (p.getReadMethod()!=null) {
@@ -86,7 +86,7 @@ implements PredicateBase<K,ID>{
 	}
 
 
-	private Optional<PropertyDescriptor> verifyPropertyOnId(PropertyDescriptor p, ID id) {
+	private Optional<PropertyDescriptor> verifyPropertyOnId(PropertyDescriptor p, ID id,EntityBeanInfo<?> entityBeanInfo) {
 		return Optional.ofNullable(entityBeanInfo.getPropertyDescriptorInfo().get(p.getName()));
 	}
 
