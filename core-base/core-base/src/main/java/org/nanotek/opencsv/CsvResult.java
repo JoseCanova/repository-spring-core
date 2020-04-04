@@ -3,13 +3,17 @@ package org.nanotek.opencsv;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.groups.Default;
+
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
-import org.nanotek.BaseException;
-import org.nanotek.Entity;
 import org.nanotek.PredicateBase;
 import org.nanotek.Result;
+import org.nanotek.beans.csv.ArtistBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -28,6 +32,9 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	
 	@Autowired
 	CsvOnResultPredicate<K,ID> computePredicate;
+	
+	@Autowired
+	Validator validator;
 	
 	public CsvResult() {
 		super();
@@ -49,25 +56,22 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 		super(immutable);
 	}
 
-
 	
 	@Override
 	public <V> Optional<? super V> on() {
-		return Optional.of(new Entity<ID>() {
-			
-		public boolean valid() {
-			return false;
-		}
-
-	});
+		return compute(computePredicate).map(id ->{
+			return validator.validate(id, Default.class);
+		}).map(s->{
+			return s.size()>0?(this.valid=false):(this.valid=true);
+		});
 	}
 	
 	@Override
 	public Optional<ID> compute(PredicateBase<K, ID> predicate) {
-		return predicate.evaluate(immutable).stream().map(id->{
+		return predicate.evaluate(immutable).map(id->{
 			this.id = id;
 			return id;
-		}).findFirst();
+		});
 	}
 
 	@Override
@@ -98,5 +102,14 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	public String toString() {
 		return "Result in " + new Date().toString();
 	}
+	
+	public static void main(String[] args) {
+		CsvResult<?,?> bean = new CsvResult<>(new ArtistBean());
+		bean.computePredicate = new CsvOnResultPredicate();
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		bean.validator  = factory.getValidator();
+		Optional<?> opt = bean.on();
+		System.out.println(opt.get());
+	} 
 
 }
