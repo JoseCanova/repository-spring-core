@@ -15,7 +15,6 @@ import org.nanotek.MutatorSupport;
 import org.nanotek.PredicateBase;
 import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.csv.ArtistBean;
-import org.springframework.stereotype.Service;
 
 public class CsvOnResultPredicate 
 <K extends   BaseBean<K,ID>, ID extends BaseEntity<?,?>>

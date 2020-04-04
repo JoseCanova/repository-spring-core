@@ -37,7 +37,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
@@ -52,7 +52,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	}	
 
 	
-	@NotNull
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 
@@ -71,7 +71,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	@ManyToMany(mappedBy = "artists",fetch=FetchType.LAZY , targetEntity=org.nanotek.beans.entity.ArtistCredit.class)
 	public List<ArtistCredit<?>> artistCredits;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "artist_sortname_join", 

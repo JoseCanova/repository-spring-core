@@ -17,8 +17,6 @@ import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.MutableArtistCreditNamePositionEntity;
 import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutablePositionEntity;
-import org.nanotek.entities.MutatleArtistCreditNameIdEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity

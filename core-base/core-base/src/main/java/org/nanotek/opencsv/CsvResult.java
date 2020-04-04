@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.groups.Default;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
