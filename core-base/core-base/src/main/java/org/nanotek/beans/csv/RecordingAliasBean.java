@@ -46,7 +46,6 @@ implements BaseRecordingAliasBean<RecordingAliasBean<K>>{
 
 	public RecordingAliasBean(Class<? extends RecordingAlias<?>> class1) {
 		super(class1);
-		// TODO Auto-generated constructor stub
 	}
 
 
