@@ -55,8 +55,9 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
 	public ArtistCredit<?> artistCredit; 
 	
+	//TODO: implement proxy for collections.
 	@OneToMany(mappedBy="recording" , fetch=FetchType.LAZY)
-	public Set<Track<?>> tracks;
+	private Set<Track<?>> tracks;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	public RecordingLength<?> recordingLength;

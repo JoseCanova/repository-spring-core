@@ -31,7 +31,7 @@ implements MutablePositionEntity<Long>{
 
 	@NotNull
 	@Column(name="position" , nullable=false)
-	protected Long position;
+	public Long position;
 	
 	public LongPositionBase() {
 	}

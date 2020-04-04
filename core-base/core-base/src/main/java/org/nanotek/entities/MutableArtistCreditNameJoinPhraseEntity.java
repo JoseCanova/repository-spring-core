@@ -6,6 +6,6 @@ import org.nanotek.entities.immutables.ArtistCreditNameJoinPhraseEntity;
 
 public interface MutableArtistCreditNameJoinPhraseEntity<K extends Serializable> extends ArtistCreditNameJoinPhraseEntity<K> {
 	
-	void setArtistCreditJoinPhrase(K k);
+	void setArtistCreditNameJoinPhrase(K k);
   
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
+import org.nanotek.entities.MutableArtistCreditNamePositionEntity;
 import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutablePositionEntity;
@@ -26,7 +27,7 @@ implements  BaseArtistCreditNameEntity<K>,
 MutatleArtistCreditNameIdEntity<Long>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
-MutablePositionEntity<ArtistCreditNamePosition<?>>,
+MutableArtistCreditNamePositionEntity<ArtistCreditNamePosition<?>>,
 MutableArtistCreditNameJoinPhraseEntity<String>,
 MutableNameEntity<String>{
 
@@ -54,20 +55,20 @@ MutableNameEntity<String>{
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
-	private  ArtistCredit<?> artistCredit;
+	public  ArtistCredit<?> artistCredit;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artistid" , insertable = true , nullable = true, referencedColumnName = "id")
-	private  Artist<?> artist;
+	public  Artist<?> artist;
 	
 	@OneToOne
 	@JoinTable(
 			  name = "artist_credit_name_position_join", 
 			  joinColumns = @JoinColumn(name = "artist_credit_name" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	public ArtistCreditNamePosition<?> position; 
+	public ArtistCreditNamePosition<?> artistCreditNamePosition; 
 	
-	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true)
+	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true,columnDefinition = "TEXT NOT NULL DEFAULT ''")
 	public String artistCreditNameJoinPhrase;
 
 	
@@ -79,14 +80,6 @@ MutableNameEntity<String>{
 		this.artistCreditNameId = artistCreditNameId;
 	}
 	
-	public ArtistCreditNamePosition<?> getPosition() {
-		return position;
-	}
-	
-	public void setPosition(ArtistCreditNamePosition<?> position) {
-		this.position = position;
-	}
-
 
 	public ArtistCredit<?> getArtistCredit() {
 		return artistCredit;
@@ -114,13 +107,21 @@ MutableNameEntity<String>{
 	}
 
 	@Override
-	public String getArtistCreditJoinPhrase() {
+	public String getArtistCreditNameJoinPhrase() {
 		return artistCreditNameJoinPhrase;
 	}
 
 	@Override
-	public void setArtistCreditJoinPhrase(String k) {
+	public void setArtistCreditNameJoinPhrase(String k) {
 		this.artistCreditNameJoinPhrase = k;		
+	}
+
+	public ArtistCreditNamePosition<?> getArtistCreditNamePosition() {
+		return artistCreditNamePosition;
+	}
+
+	public void setArtistCreditNamePosition(ArtistCreditNamePosition<?> artistCreditNamePosition) {
+		this.artistCreditNamePosition = artistCreditNamePosition;
 	}
 	
 }

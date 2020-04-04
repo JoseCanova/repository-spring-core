@@ -103,9 +103,8 @@ implements BaseAreaBean<AreaBean<K>>{
 		this.areaType = areaType;
 	}
 	
-	
-	public static void main(String[] args) {
-		AreaBean a = new AreaBean(Area.class);
+	public static <K extends AreaBean<K>> void main(String[] args) {
+		AreaBean<K> a = new AreaBean<K>();
 		a.setComment("This is a comment");
 		a.setAreaId(1000L);
 		a.setBeginYear(100);

@@ -2,7 +2,10 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistCreditName;
+import org.nanotek.entities.BaseArtistBean;
+import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseArtistCreditNameBean;
+import org.nanotek.entities.BaseArtistCreditNamePositionBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class ArtistCreditNameBean
@@ -13,6 +16,12 @@ implements BaseArtistCreditNameBean<ArtistCreditNameBean<K>>{
 
 	private static final long serialVersionUID = -625201514069517695L;
 
+	private BaseArtistCreditBean<?> artistCredit;
+	
+	private BaseArtistBean<?> artist;
+	
+	private BaseArtistCreditNamePositionBean<?> artistCreditNamePosition;
+	
 //	private Long artistCreditId;
 //	
 //	private Long position;
@@ -26,7 +35,7 @@ implements BaseArtistCreditNameBean<ArtistCreditNameBean<K>>{
 	
 	public ArtistCreditNameBean() {
 		super( castClass());
-		// TODO Auto-generated constructor stub
+		postConstruct();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -39,7 +48,37 @@ implements BaseArtistCreditNameBean<ArtistCreditNameBean<K>>{
 	
 	public ArtistCreditNameBean(Class<? extends ArtistCreditName<?>> class1) {
 		super(class1);
-		// TODO Auto-generated constructor stub
+		postConstruct();
+	}
+
+	private void postConstruct() {
+		artistCredit = new ArtistCreditBean<> ();
+		artist = new ArtistBean<>();
+		artistCreditNamePosition = new ArtistCreditNamePositionBean<>(); 
+	}
+
+	public BaseArtistCreditBean<?> getArtistCredit() {
+		return artistCredit;
+	}
+
+	public void setArtistCredit(BaseArtistCreditBean<?> artistCredit) {
+		this.artistCredit = artistCredit;
+	}
+
+	public BaseArtistBean<?> getArtist() {
+		return artist;
+	}
+
+	public void setArtist(BaseArtistBean<?> artist) {
+		this.artist = artist;
+	}
+
+	public BaseArtistCreditNamePositionBean<?> getArtistCreditNamePosition() {
+		return artistCreditNamePosition;
+	}
+
+	public void setArtistCreditNamePosition(BaseArtistCreditNamePositionBean<?> artistCreditNamePosition) {
+		this.artistCreditNamePosition = artistCreditNamePosition;
 	}
 
 	

@@ -192,7 +192,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "artistalias")
+	@ConfigurationProperties(value = "artistcreditname")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

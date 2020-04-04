@@ -18,8 +18,12 @@ MutableArtistCreditNameEntity<ArtistCreditName<?>>{
 	private static final long serialVersionUID = -482152069144029668L;
 	
 	@NotNull
-	@OneToOne(mappedBy="position")
+	@OneToOne(mappedBy="artistCreditNamePosition")
 	private ArtistCreditName<?> artistCreditName;
+	
+	
+	public ArtistCreditNamePosition() {}
+	
 	
 	public ArtistCreditNamePosition(@NotNull ArtistCreditName<?> artistCreditName) {
 		super();

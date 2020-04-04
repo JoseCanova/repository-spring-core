@@ -272,16 +272,6 @@ implements BaseBean<K,ID>
 		return this;
 	}
 
-	public static void main(String[] args) { 
-		ProxyBase<?,Artist<?>> a = new ProxyBase<>(Artist.class);
-				a.write(MutableArtistIdEntity.class, 1000L);
-				a.read(ArtistIdEntity.class);
-				a.write(Area.class, MutableAreaIdEntity.class,1000L);
-				a.read(Area.class, AreaIdEntity.class);
-				System.out.println(a.read(ArtistIdEntity.class));
-				System.out.println(a.read(Area.class, AreaIdEntity.class));
-	}
-
 	public Class<? extends ID> getBaseClass() {
 		return baseClass;
 	}
