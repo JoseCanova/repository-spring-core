@@ -2,7 +2,6 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Artist;
-import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseArtistBean;
 import org.nanotek.entities.BaseArtistBeginDateBean;

@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.entities.MutablePositionEntity;
 import org.nanotek.entities.MutableValueEntity;
 
 public class ValueBase

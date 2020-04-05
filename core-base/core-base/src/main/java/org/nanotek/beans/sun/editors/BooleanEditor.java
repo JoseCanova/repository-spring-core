@@ -28,8 +28,7 @@ package org.nanotek.beans.sun.editors;
 /**
  * Property editor for a java builtin "boolean" type.
  */
-
-import java.beans.*;
+import java.beans.PropertyEditorSupport;
 
 public class BooleanEditor extends PropertyEditorSupport {
 

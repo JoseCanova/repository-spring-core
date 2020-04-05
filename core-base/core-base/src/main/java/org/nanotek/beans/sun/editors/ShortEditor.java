@@ -26,13 +26,6 @@
 
 package org.nanotek.beans.sun.editors;
 
-/**
- * Property editor for a java builtin "short" type.
- *
- */
-
-import java.beans.*;
-
 public class ShortEditor extends NumberEditor {
 
     public String getJavaInitializationString() {

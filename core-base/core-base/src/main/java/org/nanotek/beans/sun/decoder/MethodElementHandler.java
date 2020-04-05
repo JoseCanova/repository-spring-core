@@ -24,9 +24,9 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import org.nanotek.beans.sun.finder.MethodFinder;
-
 import java.lang.reflect.Method;
+
+import org.nanotek.beans.sun.finder.MethodFinder;
 
 import sun.reflect.misc.MethodUtil;
 

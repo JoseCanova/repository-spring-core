@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.ArtistAliasSortName;
 import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.entities.BaseReleaseGroupBean;
 import org.nanotek.proxy.ProxyBase;

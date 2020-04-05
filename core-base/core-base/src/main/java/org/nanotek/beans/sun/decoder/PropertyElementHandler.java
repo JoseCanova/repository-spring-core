@@ -24,16 +24,15 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import org.nanotek.beans.sun.finder.MethodFinder;
-
 import java.beans.IndexedPropertyDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.nanotek.beans.sun.finder.MethodFinder;
 
 import sun.reflect.misc.MethodUtil;
 

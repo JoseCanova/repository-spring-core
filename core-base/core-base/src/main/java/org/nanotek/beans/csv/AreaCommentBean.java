@@ -2,7 +2,6 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaComment;
-import org.nanotek.beans.entity.AreaEndDate;
 import org.nanotek.entities.BaseAreaCommentBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -29,7 +28,7 @@ implements BaseAreaCommentBean<AreaCommentBean<K>>{
 	}
 
 	public static void main(String[] args) {
-		AreaCommentBean bean = new AreaCommentBean(AreaComment.class);
+		AreaCommentBean bean = new AreaCommentBean();
 		bean.setComment("this is a comment");
 		System.out.println(bean.getComment());
 	}

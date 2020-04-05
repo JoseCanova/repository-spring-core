@@ -10,20 +10,21 @@ import java.util.function.IntUnaryOperator;
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
-import org.nanotek.Registry;
+import org.nanotek.ProcessorBase;
 import org.nanotek.ValueBase;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
-import org.nanotek.processor.ProcessorBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
@@ -35,7 +36,7 @@ S  extends AnyBase<S,String> ,
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>, 
 R extends CsvResult<?,?>> 
-implements ProcessorBase<R> , Base<R> , InitializingBean {
+implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAware{
 
 	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
@@ -44,6 +45,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	@Autowired
 	@Qualifier("CsvProcessorCallBack")
 	public CsvProcessorCallBack<R> csvProcessorCallBack;
+	
+	ApplicationContext applicationContext;
 
 	@Autowired
 	@Qualifier(value = "serviceTaskExecutor")
@@ -55,12 +58,6 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	 * 
 	 */
 	private static final long serialVersionUID = -9020375809532500851L;
-
-	@Autowired
-	private Registry<R> registry;
-
-	@Autowired
-	private CsvResultNextEventListener<?> csvResultNextEventListener;
 
 	private BaseParser<T,S,P,M> parser; 
 
@@ -94,9 +91,6 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (!registry.add(Base.class.cast(this)))
-			throw new BaseException();
-		registry.addPropertyChangeListener("next", csvResultNextEventListener);
 	}	
 
 	public BaseParser getBaseParser() {
@@ -106,7 +100,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	public void reopenFile() throws Exception {
 		mapColumnStrategy.reopen();
 	}
-
+	
 	public void getNext(){
 		try {
 			Callable<R> call = new ResultCallable();
@@ -130,6 +124,11 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 	}
 
 	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
+
+	@Override
 	public int compareTo(R arg0) {
 		return 0;
 	} 
@@ -143,20 +142,24 @@ implements ProcessorBase<R> , Base<R> , InitializingBean {
 		public R call() {
 			return computeNext();
 		}
-
+		
+		@SuppressWarnings("unchecked")
 		public  R computeNext()  {
 			Optional<R> result = Optional.empty();
 			List<ValueBase<?>> next = getBaseParser().readNext();
-			log.debug("priority" + counter);
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+//				result =  of(applicationContext.getBean(CsvResult.class, base));
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
-				//				log.debug(result.get().withUUID().toString());
-				registry.firePropertyChange("next", Optional.empty(), result);
 			}
 			return result.map(r->r).orElse(null);
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public  Optional<R> of(CsvResult<?,?> bean) {
+		return Optional.of((R)bean);
 	}
 
 }

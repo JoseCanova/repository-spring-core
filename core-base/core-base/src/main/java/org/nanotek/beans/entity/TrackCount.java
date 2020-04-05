@@ -3,8 +3,6 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.IdBase;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name="track_count")

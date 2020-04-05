@@ -11,8 +11,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.nanotek.entities.MutableDateEntity;
-
 @Entity
 @Table(name="composite_dates",
 				indexes= {

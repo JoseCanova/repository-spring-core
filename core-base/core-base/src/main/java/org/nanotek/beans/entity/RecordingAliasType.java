@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseRecordingAliasTypeEntity;
 
 @Entity

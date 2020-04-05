@@ -12,10 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.nanotek.entities.BaseRecordingEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -46,7 +44,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
@@ -57,8 +55,9 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
 	public ArtistCredit<?> artistCredit; 
 	
+	//TODO: implement proxy for collections.
 	@OneToMany(mappedBy="recording" , fetch=FetchType.LAZY)
-	public Set<Track<?>> tracks;
+	private Set<Track<?>> tracks;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	public RecordingLength<?> recordingLength;

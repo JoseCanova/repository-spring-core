@@ -36,6 +36,22 @@ MutableArtistCreditRefCountEntity<BaseArtistCreditRefCountBean<?>>
 		return read(ArtistCreditIdEntity.class).map(c->Long.class.cast(c)).orElse(Long.MIN_VALUE);
 	}
 	
+	default Long getCount() {
+		return getArtistCreditCount().getCount();
+	}
+	
+	default void setCount(Long l) {
+		getArtistCreditCount().setCount(l);
+	}
+	
+	default Long getRefCount() {
+		return getArtistCreditRefCount().getCount();
+	}
+	
+	default void setRefCount(Long l) {
+		getArtistCreditCount().setCount(l);
+	}
+	
 	public static void main(String[] args) {
 		ArtistCreditBean<?> bean = new ArtistCreditBean<>();
 		bean.setName("this is a name");

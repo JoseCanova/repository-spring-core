@@ -24,27 +24,18 @@
  */
 package org.nanotek.beans.sun.decoder;
 
-import org.nanotek.beans.sun.finder.ClassFinder;
-
 import java.beans.ExceptionListener;
-
-import java.io.IOException;
 import java.io.StringReader;
-
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
-
+import java.security.AccessControlContext;
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-
+import org.nanotek.beans.sun.finder.ClassFinder;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

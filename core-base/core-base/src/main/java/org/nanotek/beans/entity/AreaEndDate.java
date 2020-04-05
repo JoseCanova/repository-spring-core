@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 
 import org.nanotek.entities.BaseAreaEndDateEntity;
 import org.nanotek.entities.MutableEndDateEntity;
-import org.nanotek.beans.entity.EndDateBase;
 
 @Entity
 @DiscriminatorValue("AreaEndDate")

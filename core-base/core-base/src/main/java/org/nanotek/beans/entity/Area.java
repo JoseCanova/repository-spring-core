@@ -15,13 +15,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseAreaEntity;
-import org.nanotek.entities.MutableAreaBeginDateEntity;
-import org.nanotek.entities.MutableAreaCommentEntity;
-import org.nanotek.entities.MutableAreaEndDateEntity;
-import org.nanotek.entities.MutableAreaIdEntity;
-import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutableTypeEntity;
 
 @Entity
 @Table(name="area" , 
@@ -67,7 +60,7 @@ public class Area
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
-	private AreaComment<?> areaComment;
+	public AreaComment<?> areaComment;
 	
 	
 	

@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
-import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableTypeIdEntity;
 
@@ -58,7 +57,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	private BaseTypeDescription<?> baseTypeDescription; 
+	public BaseTypeDescription<?> baseTypeDescription; 
 	
 	public BaseType() {
 		prepare();

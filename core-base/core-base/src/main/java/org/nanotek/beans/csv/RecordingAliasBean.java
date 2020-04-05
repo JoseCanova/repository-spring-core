@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.Gender;
 import org.nanotek.beans.entity.RecordingAlias;
 import org.nanotek.entities.BaseRecordingAliasBean;
 import org.nanotek.proxy.ProxyBase;
@@ -47,7 +46,6 @@ implements BaseRecordingAliasBean<RecordingAliasBean<K>>{
 
 	public RecordingAliasBean(Class<? extends RecordingAlias<?>> class1) {
 		super(class1);
-		// TODO Auto-generated constructor stub
 	}
 
 

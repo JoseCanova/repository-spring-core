@@ -24,13 +24,13 @@
  */
 package org.nanotek.beans.sun.introspect;
 
-import org.nanotek.beans.sun.util.Cache;
+import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
+import org.nanotek.beans.sun.util.Cache;
 
 public class ClassInfo {
     private static final ClassInfo DEFAULT = new ClassInfo(null);

@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.entities.BaseArtistTypeBean;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;

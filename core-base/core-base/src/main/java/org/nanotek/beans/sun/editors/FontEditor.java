@@ -25,8 +25,17 @@
 
 package org.nanotek.beans.sun.editors;
 
-import java.awt.*;
-import java.beans.*;
+import java.awt.Choice;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.Toolkit;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class FontEditor extends Panel implements java.beans.PropertyEditor {
     private static final long serialVersionUID = 6732704486002715933L;

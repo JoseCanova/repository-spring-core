@@ -25,13 +25,6 @@
 
 package org.nanotek.beans.sun.editors;
 
-/**
- * Property editor for a java builtin "int" type.
- *
- */
-
-import java.beans.*;
-
 public class IntegerEditor extends NumberEditor {
 
 

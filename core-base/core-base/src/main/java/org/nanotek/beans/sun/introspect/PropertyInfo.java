@@ -25,6 +25,8 @@
 
 package org.nanotek.beans.sun.introspect;
 
+import static org.nanotek.beans.sun.finder.ClassFinder.findClass;
+
 import java.beans.BeanProperty;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -37,8 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import static org.nanotek.beans.sun.finder.ClassFinder.findClass;
 
 public class PropertyInfo {
 

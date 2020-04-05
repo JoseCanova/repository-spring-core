@@ -74,7 +74,7 @@ MutableNameEntity<String>{
 			  name = "artist_alias_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
-	private Artist<?> artist;
+	public Artist<?> artist;
 
 	@OneToOne(optional = true)
 	@JoinTable(

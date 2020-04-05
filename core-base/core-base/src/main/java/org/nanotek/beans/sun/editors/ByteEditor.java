@@ -25,13 +25,6 @@
 
 package org.nanotek.beans.sun.editors;
 
-/**
- * Property editor for a java builtin "byte" type.
- *
- */
-
-import java.beans.*;
-
 public class ByteEditor extends NumberEditor {
 
     public String getJavaInitializationString() {

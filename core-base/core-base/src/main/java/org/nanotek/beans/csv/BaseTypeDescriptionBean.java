@@ -2,7 +2,6 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.beans.entity.ArtistCreditName;
 import org.nanotek.beans.entity.BaseTypeDescription;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase;

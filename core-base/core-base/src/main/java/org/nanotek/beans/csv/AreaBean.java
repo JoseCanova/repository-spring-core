@@ -5,10 +5,12 @@ import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaBeginDate;
 import org.nanotek.beans.entity.AreaComment;
 import org.nanotek.beans.entity.AreaEndDate;
+import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.BaseAreaBean;
 import org.nanotek.entities.BaseAreaBeginDateBean;
 import org.nanotek.entities.BaseAreaCommentBean;
 import org.nanotek.entities.BaseAreaEndDateBean;
+import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
 
@@ -24,6 +26,8 @@ implements BaseAreaBean<AreaBean<K>>{
 	private BaseAreaEndDateBean<?> areaEndDate;
 	
 	private BaseAreaCommentBean<?> areaComment;
+	
+	private BaseAreaTypeBean<?> areaType;
 
 	public AreaBean() {
 		super(castClass());
@@ -47,6 +51,7 @@ implements BaseAreaBean<AreaBean<K>>{
 		areaBeginDate = new  AreaBeginDateBean(AreaBeginDate.class); 
 		areaEndDate = new AreaEndDateBean(AreaEndDate.class);
 		areaComment = new AreaCommentBean(AreaComment.class);
+		areaType = new AreaTypeBean(AreaType.class);
 	}
 
 
@@ -79,8 +84,27 @@ implements BaseAreaBean<AreaBean<K>>{
 	}
 
 	
-	public static void main(String[] args) {
-		AreaBean a = new AreaBean(Area.class);
+	public BaseAreaTypeBean<?> getAreaType() {
+		return areaType;
+	}
+
+
+	public void setAreaType(BaseAreaTypeBean<?> areaType) {
+		this.areaType = areaType;
+	}
+	
+	
+	public BaseAreaTypeBean<?> getType() {
+		return areaType;
+	}
+
+
+	public void setType(BaseAreaTypeBean<?> areaType) {
+		this.areaType = areaType;
+	}
+	
+	public static <K extends AreaBean<K>> void main(String[] args) {
+		AreaBean<K> a = new AreaBean<K>();
 		a.setComment("This is a comment");
 		a.setAreaId(1000L);
 		a.setBeginYear(100);
@@ -88,5 +112,6 @@ implements BaseAreaBean<AreaBean<K>>{
 		a.getBeginDay();
 		System.out.println(a.getComment() + "  " + a.getAreaId());
 	}
+
 
 }

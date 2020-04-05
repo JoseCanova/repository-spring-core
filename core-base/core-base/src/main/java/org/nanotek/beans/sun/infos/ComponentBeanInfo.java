@@ -25,7 +25,9 @@
 
 package org.nanotek.beans.sun.infos;
 
-import java.beans.*;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 /**
  * BeanInfo descriptor for a standard AWT component.

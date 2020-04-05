@@ -10,8 +10,6 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
 @Entity
 @DiscriminatorValue(value = "InstrumentType")
 public class InstrumentType<K extends InstrumentType<K>> extends BaseType<K> {

@@ -2,15 +2,13 @@ package org.nanotek.entities;
 
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.GidEntity;
 import org.nanotek.Id;
+import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.AreaType;
 import org.nanotek.entities.immutables.AreaIdEntity;
 
 
@@ -29,7 +27,7 @@ MutableEndMonthEntity<Integer>,
 MutableEndDayEntity<Integer>,
 MutableCommentEntity<String>,
 MutableTypeIdEntity<Long>,
-MutableTypeEntity<AreaType<?>>,
+MutableTypeEntity<BaseAreaTypeBean<?>>,
 MutableAreaCommentEntity<BaseAreaCommentBean<?>>,
 MutableAreaBeginDateEntity<BaseAreaBeginDateBean<?>>,
 MutableAreaEndDateEntity<BaseAreaEndDateBean<?>>,
@@ -144,28 +142,22 @@ MutableGidEntity<UUID>{
 
     @Override
     default Long getTypeId() {
-    	return read(TypeIdEntity.class).map(v -> Long.class.cast(v)).orElse(Long.MIN_VALUE);
+    	return getType().getTypeId();
     }
     
     @Override
     default void setTypeId(Long k) {
-    	write(MutableTypeIdEntity.class,k);
+    	getType().setTypeId(k);
     }
     
     @Override
-    default void setAreaComment(BaseAreaCommentBean<?> k) {
-    	write(MutableAreaCommentEntity.class,k);
-    }
+    void setAreaComment(BaseAreaCommentBean<?> k);
     
     @Override
-    default void setType(AreaType<?> k) {
-    	write(MutableTypeEntity.class,k);
-    }
+    void setType(BaseAreaTypeBean<?> k);
     
     @Override
-    default AreaType<?> getType() {
-    	return read(MutableTypeEntity.class).map(m -> AreaType.class.cast(m)).orElse(new AreaType<>());
-    }
+    BaseAreaTypeBean<?> getType();
     
     @Override
     public BaseAreaCommentBean<?> getAreaComment();
@@ -178,6 +170,28 @@ MutableGidEntity<UUID>{
     @Override
     default Area<?> getId() {
     	return read(Id.class).map(m->Area.class.cast(m)).orElseThrow(BaseException::new);
+    }
+    
+    
+    public static void main (String[] args) {
+    	AreaBean bean = new AreaBean();
+    	bean.setAreaId(1000l);
+    	bean.setName("this is bame");
+    	bean.setGid(UUID.randomUUID());
+    	bean.setComment("this is a comment");
+    	bean.setAreaId(1000L);
+    	bean.setBeginDay(10);
+    	bean.setBeginMonth(10);
+    	bean.setBeginYear(10);
+    	bean.setEndYear(10);
+    	bean.setEndMonth(10);
+    	bean.setEndDay(10);
+    	bean.getAreaId();
+    	bean.getComment();
+    	bean.getTypeId();
+    	
+    	
+    	
     }
     
 }

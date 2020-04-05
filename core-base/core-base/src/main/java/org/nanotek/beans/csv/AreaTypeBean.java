@@ -2,7 +2,6 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.beans.entity.Language;
 import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase; 
@@ -26,6 +25,7 @@ implements BaseAreaTypeBean<AreaTypeBean<K>> {
 
 	public AreaTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 

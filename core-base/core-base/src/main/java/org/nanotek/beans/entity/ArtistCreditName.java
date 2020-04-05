@@ -9,35 +9,38 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
+import org.nanotek.entities.MutableArtistCreditNamePositionEntity;
 import org.nanotek.entities.MutableArtistEntity;
 import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutablePositionEntity;
-import org.nanotek.entities.MutatleArtistCreditNameIdEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditName<K extends ArtistCreditName<K>> 
 extends BrainzBaseEntity<K> 
-implements  BaseArtistCreditNameEntity<K>,
-MutatleArtistCreditNameIdEntity<Long>, 
+implements  BaseArtistCreditNameEntity<K>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
-MutablePositionEntity<ArtistCreditNamePosition<?>>,
+MutableArtistCreditNamePositionEntity<ArtistCreditNamePosition<?>>,
 MutableArtistCreditNameJoinPhraseEntity<String>,
 MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -5124525598245692335L;
 
-	@NotNull
-	@Column(name="artist_credit_name_id" , nullable=false)
-	public Long artistCreditNameId;
+	/*
+	 * @NotNull
+	 * 
+	 * @Column(name="artist_credit_name_id" , nullable=false) public Long
+	 * artistCreditNameId;
+	 */
 
 
-	@NotNull
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 
@@ -52,41 +55,34 @@ MutableNameEntity<String>{
 		this.name = k;
 	}
 	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
-	private  ArtistCredit<?> artistCredit;
+	public  ArtistCredit<?> artistCredit;
 	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artistid" , insertable = true , nullable = true, referencedColumnName = "id")
-	private  Artist<?> artist;
+	public  Artist<?> artist;
 	
 	@OneToOne
 	@JoinTable(
 			  name = "artist_credit_name_position_join", 
 			  joinColumns = @JoinColumn(name = "artist_credit_name" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	public ArtistCreditNamePosition<?> position; 
+	public ArtistCreditNamePosition<?> artistCreditNamePosition; 
 	
-	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true)
+	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true,columnDefinition = "TEXT NOT NULL DEFAULT ''")
 	public String artistCreditNameJoinPhrase;
 
 	
 	public ArtistCreditName() {
 	}
 	
-	public ArtistCreditName(@NotBlank String name, @NotNull Long artistCreditNameId) {
+	public ArtistCreditName(@NotBlank String name) {
 		this.name = name;
-		this.artistCreditNameId = artistCreditNameId;
 	}
 	
-	public ArtistCreditNamePosition<?> getPosition() {
-		return position;
-	}
-	
-	public void setPosition(ArtistCreditNamePosition<?> position) {
-		this.position = position;
-	}
-
 
 	public ArtistCredit<?> getArtistCredit() {
 		return artistCredit;
@@ -104,23 +100,23 @@ MutableNameEntity<String>{
 		this.artist = artist;
 	}
 	
-	@Override
-	public Long getArtistCreditNameId() {
-		return artistCreditNameId;
-	}
-	@Override
-	public void setArtistCreditNameId(Long k) {
-			this.artistCreditNameId = k;
-	}
 
 	@Override
-	public String getArtistCreditJoinPhrase() {
+	public String getArtistCreditNameJoinPhrase() {
 		return artistCreditNameJoinPhrase;
 	}
 
 	@Override
-	public void setArtistCreditJoinPhrase(String k) {
+	public void setArtistCreditNameJoinPhrase(String k) {
 		this.artistCreditNameJoinPhrase = k;		
+	}
+
+	public ArtistCreditNamePosition<?> getArtistCreditNamePosition() {
+		return artistCreditNamePosition;
+	}
+
+	public void setArtistCreditNamePosition(ArtistCreditNamePosition<?> artistCreditNamePosition) {
+		this.artistCreditNamePosition = artistCreditNamePosition;
 	}
 	
 }

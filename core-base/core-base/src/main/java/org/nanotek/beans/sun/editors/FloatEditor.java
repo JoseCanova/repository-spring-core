@@ -25,13 +25,6 @@
 
 package org.nanotek.beans.sun.editors;
 
-/**
- * Property editor for a java builtin "float" type.
- *
- */
-
-import java.beans.*;
-
 public class FloatEditor extends NumberEditor {
 
     public String getJavaInitializationString() {

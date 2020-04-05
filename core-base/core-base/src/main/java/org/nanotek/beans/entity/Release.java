@@ -13,18 +13,17 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.nanotek.entities.BaseReleaseEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableLanguageEntity;
 import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutableReleaseIdEntity;
-import org.nanotek.entities.MutableReleasePackagingEntity;
 import org.nanotek.entities.MutableReleaseBarCodeEntity;
 import org.nanotek.entities.MutableReleaseCommentEntity;
 import org.nanotek.entities.MutableReleaseGroupEntity;
+import org.nanotek.entities.MutableReleaseIdEntity;
+import org.nanotek.entities.MutableReleasePackagingEntity;
 
 
 @Entity

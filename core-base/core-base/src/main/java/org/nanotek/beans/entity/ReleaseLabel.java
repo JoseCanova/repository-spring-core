@@ -3,8 +3,6 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.LongBase;
-
 @Entity
 @Table(name="release_label")
 public class ReleaseLabel<K extends ReleaseLabel<K>> extends  BrainzBaseEntity<K> {

@@ -24,10 +24,9 @@
  */
 package org.nanotek.beans.sun.finder;
 
-import org.nanotek.beans.sun.WeakCache;
-
 import java.beans.PropertyEditor;
 
+import org.nanotek.beans.sun.WeakCache;
 import org.nanotek.beans.sun.editors.BooleanEditor;
 import org.nanotek.beans.sun.editors.ByteEditor;
 import org.nanotek.beans.sun.editors.DoubleEditor;

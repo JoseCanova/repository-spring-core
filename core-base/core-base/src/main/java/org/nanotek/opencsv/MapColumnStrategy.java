@@ -10,18 +10,12 @@ import java.lang.reflect.TypeVariable;
 import java.util.HashMap;
 import java.util.Optional;
 
-import com.sun.beans.*;
-import com.sun.beans.finder.*;
-
 import org.assertj.core.util.Arrays;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.EntityBeanInfo;
-import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.collections.BaseMap;
-import org.springframework.beans.factory.InitializingBean;
 
-import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 /**
@@ -50,7 +44,6 @@ extends  ColumnPositionMappingStrategy<D> {
 		super();
 	}
 
-	@SuppressWarnings("restriction")
 	public <B extends BaseBean<?,?>> 
 	MapColumnStrategy(Class<D> type) {
 		setType(type);

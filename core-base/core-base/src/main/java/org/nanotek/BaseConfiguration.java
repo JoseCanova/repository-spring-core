@@ -159,8 +159,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
-		executor.setMaxPoolSize(100);
-		executor.setQueueCapacity(1000000);
+		executor.setMaxPoolSize(20);
+		executor.setQueueCapacity(10000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
 		executor.initialize();
 		return executor;
@@ -192,7 +192,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "config")
+	@ConfigurationProperties(value = "artistcreditname")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

@@ -16,20 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseArtistEntity;
-import org.nanotek.entities.MutableAreaEntity;
-import org.nanotek.entities.MutableArtistBeginAreaEntity;
-import org.nanotek.entities.MutableArtistBeginDateEntity;
-import org.nanotek.entities.MutableArtistCommentEntity;
-import org.nanotek.entities.MutableArtistEndAreaEntity;
-import org.nanotek.entities.MutableArtistEndDateEntity;
-import org.nanotek.entities.MutableArtistIdEntity;
-import org.nanotek.entities.MutableArtistSortNameEntity;
-import org.nanotek.entities.MutableArtistTypeEntity;
-import org.nanotek.entities.MutableGenderEntity;
-import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="artist" , 
@@ -42,11 +32,12 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 {
 	
 	private static final long serialVersionUID = -932806802235346847L;
-
+	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
@@ -61,7 +52,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	}	
 
 	
-	@NotNull
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 
@@ -80,7 +71,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	@ManyToMany(mappedBy = "artists",fetch=FetchType.LAZY , targetEntity=org.nanotek.beans.entity.ArtistCredit.class)
 	public List<ArtistCredit<?>> artistCredits;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "artist_sortname_join", 

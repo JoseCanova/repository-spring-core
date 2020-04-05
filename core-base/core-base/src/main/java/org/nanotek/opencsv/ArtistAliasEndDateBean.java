@@ -1,7 +1,7 @@
 package org.nanotek.opencsv;
 
 import org.nanotek.BaseBean;
-import  org.nanotek.beans.entity.*;
+import org.nanotek.beans.entity.ArtistAliasEndDate;
 import org.nanotek.entities.BaseArtistAliasEndDateBean;
 import org.nanotek.proxy.ProxyBase;
 

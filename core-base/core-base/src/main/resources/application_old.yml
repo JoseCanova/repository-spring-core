@@ -124,7 +124,7 @@ artistcredit:
   baseMapColumnStrategy:  
     artistCreditId: 0
     name: 1
-    artistCount: 2
+    count: 2
     refCount: 3
     created: 4
     editsPending: 5
@@ -135,7 +135,7 @@ artistcreditname:
   baseMapColumnStrategy:  
     artistCreditId: 0
     position: 1            
-    artist: 2              
+    artistId: 2              
     name: 3                
     joinPhrase: 4    
  

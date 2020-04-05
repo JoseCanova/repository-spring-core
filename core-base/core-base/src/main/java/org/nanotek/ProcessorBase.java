@@ -1,4 +1,4 @@
-package org.nanotek.processor;
+package org.nanotek;
 
 public interface ProcessorBase<R> {
 }

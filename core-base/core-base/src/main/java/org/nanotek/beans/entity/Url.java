@@ -3,8 +3,6 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.nanotek.Base;
-
 @Entity
 @Table(name="url")
 public class Url<K extends Url<K>> extends BrainzBaseEntity<K> {
