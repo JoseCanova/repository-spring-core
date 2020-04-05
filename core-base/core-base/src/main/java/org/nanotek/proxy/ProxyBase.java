@@ -20,12 +20,6 @@ import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.ImmutableBase;
-import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.Artist;
-import org.nanotek.entities.MutableAreaIdEntity;
-import org.nanotek.entities.MutableArtistIdEntity;
-import org.nanotek.entities.immutables.AreaIdEntity;
-import org.nanotek.entities.immutables.ArtistIdEntity;
 
 public class ProxyBase
 <K extends ImmutableBase<K,ID> , ID extends BaseEntity<?,Long>> 
@@ -34,7 +28,7 @@ implements BaseBean<K,ID>
 
 	private static final long serialVersionUID = -1465843449151457466L;
 
-	private MethodHandles.Lookup lookup = MethodHandles.lookup();
+	private static MethodHandles.Lookup lookup = MethodHandles.lookup();
 
 	public ID id;
 

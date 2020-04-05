@@ -68,8 +68,7 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	@Override
 	public Optional<ID> compute(PredicateBase<K, ID> predicate) {
 		return predicate.evaluate(immutable).map(id->{
-			this.id = id;
-			return id;
+			return (this.id = id);
 		});
 	}
 

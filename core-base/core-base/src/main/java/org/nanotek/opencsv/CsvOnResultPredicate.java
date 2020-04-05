@@ -63,7 +63,7 @@ implements PredicateBase<K,ID>{
 	private void transfer(Map<PropertyDescriptor, Optional<PropertyDescriptor>> equivalenceMap, K immutable,EntityBeanInfo<?> entityBeanInfo ) {
 			equivalenceMap.keySet().stream().forEach(p-> {
 				try {
-					if (p.getReadMethod()!=null) {
+					if (Objects.nonNull(p.getReadMethod())) {
 						Object value = p.getReadMethod().invoke(immutable, new Object[]{});
 						if(Objects.nonNull(value)  && BaseBean.class.isAssignableFrom(value.getClass())) {
 							equivalenceMap.get(p).ifPresent(pid ->{
