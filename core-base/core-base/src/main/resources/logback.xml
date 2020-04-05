@@ -19,12 +19,12 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.hibernate" level="info"
+    <logger name="org.hibernate" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
     
-    <logger name="org.hibernate.cache" level="info"
+    <logger name="org.hibernate.cache" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

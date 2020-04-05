@@ -13,5 +13,4 @@ import org.springframework.data.repository.CrudRepository;
 public interface BaseService<K extends BrainzBaseEntity<K>,C extends CrudRepository<K, Long>> extends  
 BrainzBaseRepository<K>,
 NameBaseProjection<K, String>{
-Optional<Area<?>> findByAreaId(@NotNull Long areaId);
 }

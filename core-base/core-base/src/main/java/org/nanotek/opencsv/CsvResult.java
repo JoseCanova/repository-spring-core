@@ -41,7 +41,7 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 		this.valid = valid;
 	}
 
-	public Boolean getValid() {
+	public Boolean isValid() {
 		return valid;
 	}
 	

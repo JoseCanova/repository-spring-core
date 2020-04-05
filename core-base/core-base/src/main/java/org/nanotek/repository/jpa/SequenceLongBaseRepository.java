@@ -5,7 +5,6 @@ import org.nanotek.repository.BaseSequenceLongBaseEntityRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SequenceLongBaseRepository<
-B extends SequenceLongBase<B,Long>> 
-extends  BaseSequenceLongBaseEntityRepository<B, Long> {
+public interface SequenceLongBaseRepository<B extends SequenceLongBase<B,Long>> 
+extends  BaseSequenceLongBaseEntityRepository<B> {
 }

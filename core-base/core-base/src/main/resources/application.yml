@@ -23,10 +23,10 @@ spring:
     maximumPoolSize: 100
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
         ddl-auto: create-drop
         javax:
          cache:

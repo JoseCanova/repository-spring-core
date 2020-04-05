@@ -1,11 +1,12 @@
 package org.nanotek.opencsv.task;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.nanotek.BaseException;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.opencsv.CsvResult;
-import org.nanotek.service.jpa.AreaTypePersistenceService;
+import org.nanotek.service.jpa.BrainzPersistenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class CsvProcessorCallBack
 implements ListenableFutureCallback<R> {
 
 	@Autowired
-	AreaTypePersistenceService<?,?> service;
+	BrainzPersistenceService<?,?> service;
 	
 	private static Logger log = LoggerFactory.getLogger(CsvProcessorCallBack.class);
     private boolean active = true;
@@ -28,13 +29,12 @@ implements ListenableFutureCallback<R> {
 	public void onSuccess(R result) {
 		Optional.ofNullable(result).ifPresentOrElse(r -> {
 			Optional<?> valid = r.on();
-			try { 
-			service.prepareDinamicQuery(AreaType.class);
-			log.debug("Valid Bean?  " + valid.get()); 
-			}catch(Exception ex) {
-				ex.printStackTrace();
-				throw new Error(ex);
-			}
+			valid.ifPresent(v->{
+				if(result.isValid())
+				{
+					service.verifyAndStore(r.getId());
+				}
+			});
 		}, new Runnable() {
 			
 			@Override

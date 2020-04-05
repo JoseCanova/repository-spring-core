@@ -7,6 +7,7 @@
 	<persistence-unit name="spring-core-music-brainz" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.nanotek.beans.entity.EntityLongBase</class>
+		<class>org.nanotek.beans.entity.BrainzBaseEntity</class>
 		<class>org.nanotek.beans.entity.TypeNamedEntity</class>
 		<class>org.nanotek.beans.entity.BaseType</class>
 		<class>org.nanotek.beans.entity.BaseTypeDescription</class>
@@ -100,7 +101,7 @@
 		<validation-mode>NONE</validation-mode>
 	<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> 
 			<property name="hibernate.cache.use_second_level_cache" value="false" />
 			<property name="hibernate.cache.use_query_cache" value="false" />

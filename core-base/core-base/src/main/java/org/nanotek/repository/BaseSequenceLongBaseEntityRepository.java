@@ -1,11 +1,9 @@
 package org.nanotek.repository;
 
-import java.io.Serializable;
-
-import org.nanotek.BaseEntity;
+import org.nanotek.entities.BaseSequenceLongBaseEntity;
 
 public interface BaseSequenceLongBaseEntityRepository 
-<K extends BaseEntity<K,ID>,ID extends Serializable> 
+<K extends BaseSequenceLongBaseEntity<K,Long>> 
 extends 
-BaseEntityRepository<K, ID>{
+BaseEntityRepository<K,Long>{
 }
