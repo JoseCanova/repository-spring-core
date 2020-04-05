@@ -37,6 +37,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
 	
+	
 	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;

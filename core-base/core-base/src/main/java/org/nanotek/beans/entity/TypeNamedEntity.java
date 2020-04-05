@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @MappedSuperclass
 public abstract class TypeNamedEntity
@@ -17,11 +19,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -5235727515178240574L;
 
-	@NotNull
+	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;
 

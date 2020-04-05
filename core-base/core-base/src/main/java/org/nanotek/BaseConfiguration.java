@@ -59,7 +59,7 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @ComponentScan("org.nanotek")
 //@EnableCaching(proxyTargetClass=true)
 @EnableAsync(proxyTargetClass=true)
-@EnableJpaRepositories(basePackages = {"org.nanotek.data.repository"})
+@EnableJpaRepositories(basePackages = {"org.nanotek.repository.jpa"})
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{

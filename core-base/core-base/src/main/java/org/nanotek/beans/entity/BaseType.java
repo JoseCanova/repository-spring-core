@@ -15,11 +15,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
 import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableTypeIdEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 
 @Entity
@@ -42,7 +45,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="type_id" , nullable = false)
 	public Long typeId;
 	
@@ -83,6 +86,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 		prepare();
 	}
 
+	@BrainzKey(entityClass = BaseType.class, pathName = "typeId")
 	public Long getTypeId() {
 		return typeId;
 	}

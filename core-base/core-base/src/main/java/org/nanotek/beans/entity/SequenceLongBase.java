@@ -13,9 +13,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.Base;
 import org.nanotek.entities.BaseSequenceLongBaseEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -29,7 +31,7 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 	private static final long serialVersionUID = 1932266128563675834L;
 	
 	@Id
-	@NotNull
+	@NotNull(groups = {Default.class})
 	@Column(name="id",nullable=false,unique=true)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sequence_id_seq")
 	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq")
