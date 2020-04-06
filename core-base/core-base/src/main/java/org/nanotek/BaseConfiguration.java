@@ -16,6 +16,11 @@ import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -235,11 +240,19 @@ public class BaseConfiguration implements ApplicationContextAware{
 		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
 	}
 	
-	
 	@Bean(name = "CsvProcessorCallBack")
 	@Qualifier(value = "CsvProcessorCallBack")
 	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
 		return new CsvProcessorCallBack<R,B>();
+	}
+	
+	@Bean(name="Reflections")
+	@Qualifier(value="Reflections")
+	public Reflections getReflections() {
+		return new Reflections(new ConfigurationBuilder()
+			     .setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
+			     .setScanners(new SubTypesScanner(), 
+		                  new TypeAnnotationsScanner()));
 	}
 	
 	
