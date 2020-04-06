@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MusicBrainzCsvService 
@@ -24,31 +25,39 @@ public class MusicBrainzCsvService
 	BrainzPersistenceService<B> brainzPeristenceService;
 	
 	@Autowired
-	EntityVerificationCallBack verificationCallBack;
+	EntityVerificationCallBack<B> verificationCallBack;
 	
 	public MusicBrainzCsvService() {
 	}
 	
 	
 	@Async
+	@Transactional
 	public  AsyncResult<?>   verifyBrainzBaseEntity(BaseEntity<?, ?> id) {
 		Optional <B> theOptional = Optional.empty();
 		
 		Class<B> clazz = castClass(id);
 		Optional<Stream<?>> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
-		if(!theStream.isPresent()) {
-			theOptional = convertObject(theStream.get(),clazz);
-		}
-		AsyncResult<Optional<?>> asyncResult = new AsyncResult<Optional<?>>(theOptional);
+		theStream.ifPresent(s->{
+			Optional<?> o = s.findFirst();
+			try {
+				if(!o.isPresent()) {
+					B b = convertObject(id,clazz);
+					brainzPeristenceService.save(b);
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+		
+		AsyncResult<Optional<B>> asyncResult = new AsyncResult<Optional<B>>(theOptional);
 		asyncResult.addCallback(verificationCallBack);
 		return asyncResult;
 	}
 
-	private Optional<B> convertObject(Stream<?> stream,Class<B> clazz) {
-		B result = stream.findAny().map(o->{
-			return clazz.cast(o);
-		}).get();
-		return Optional.ofNullable(result);
+
+	private B convertObject(BaseEntity<?, ?> id,Class<B> clazz) {
+		return clazz.cast(id);
 	}
 
 

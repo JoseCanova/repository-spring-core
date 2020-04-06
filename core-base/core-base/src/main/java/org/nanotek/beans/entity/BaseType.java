@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -55,7 +56,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 	@Column(name="childOrder")
 	public Long childOrder;
 
-	@OneToOne(optional=true,orphanRemoval = true)
+	@OneToOne(optional=true,orphanRemoval = true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
