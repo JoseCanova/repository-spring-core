@@ -22,53 +22,47 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<?>> {
 
 	EntityManager getEntityManager();
 	
-	default Optional<Stream<?>> prepareDinamicQuery(Class<B> clazz,Object instance) {
+	default Optional<Stream<?>> findByBrainzId(Class<B> clazz,Object instance) {
 		EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(clazz);
 		return filterPropertyByClass(entityBeanInfo,instance);
 	}
 	
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	default  Optional<Stream<?>> filterPropertyByClass(EntityBeanInfo<?> entityBeanInfo,Object instance) {
 	    
 		Collection<PropertyInfo> values = entityBeanInfo.getProperties().values();
 		
-		Stream<PropertyInfo> stream = values.stream();
+		Stream<PropertyInfo> streamOfProperties = values.stream();
 		
-		Stream<?> theStream  = null;
+		Optional<PropertyInfo> optPropertyInfo = streamOfProperties.filter(p ->{
+			if ( p.getReadMethod() !=null) {
+				if(p.getReadMethod().getAnnotation(BrainzKey.class)!=null) {
+					return true;
+				}
+			}
+			return false;
+		}).findFirst();
 		
-		stream.forEach(v ->{
-	    	System.out.println("'");
-	    	Stream<?> innerStream = null;
-	    	if ( v.getReadMethod() !=null) {
-	    		System.out.println("''");
-	    		BrainzKey clz = v.getReadMethod().getAnnotation(BrainzKey.class);
-	    		if (clz !=null) {
-	    			try {
-	    				System.out.println("'''");
-						CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-				        CriteriaQuery<?> query = cb.createQuery(clz.entityClass());
-				        Root<?> entity = query.from(clz.entityClass());
-				        Path<?> path = entity.get(clz.pathName());
-				        Object value = v.getReadMethod().invoke(instance, new Object[] {});
-				        Predicate predicate = cb.equal(path, value);
-				        
-				        query.select((Selection) entity).where(predicate);
-				        
-				        TypedQuery<?> typeQuery = getEntityManager().createQuery(query);
-				        innerStream =  typeQuery.getResultStream();
-						}catch(Exception ex) {
-							ex.printStackTrace();
-							throw new Error(ex);
-						}
-	    		}
-	    	}
-	    	
-	    });	
-		
-		
+		return optPropertyInfo.map(p ->{
+			try {
+					BrainzKey clz = p.getReadMethod().getAnnotation(BrainzKey.class);
+					CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+			        CriteriaQuery<?> query = cb.createQuery(clz.entityClass());
+			        Root<?> entity = query.from(clz.entityClass());
+			        Path<?> path = entity.get(clz.pathName());
+			        Object value = p.getReadMethod().invoke(instance, new Object[] {});
+			        Predicate predicate = cb.equal(path, value);
+			        
+			        query.select((Selection) entity).where(predicate);
+			        
+			        TypedQuery<?> typeQuery = getEntityManager().createQuery(query);
+			        return typeQuery.getResultStream();
+			}catch(Exception ex) {
+	        	throw new BaseException (ex);
+	        }
+		});
 				
-		return Optional.ofNullable(theStream);
 	}
 	
 }

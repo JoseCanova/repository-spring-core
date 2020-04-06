@@ -5,19 +5,22 @@ import java.util.stream.Stream;
 
 import org.nanotek.BaseException;
 import org.nanotek.beans.entity.AreaType;
+import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.service.jpa.BrainzPersistenceService;
+import org.nanotek.service.jpa.csv.MusicBrainzCsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 public class CsvProcessorCallBack
-<R extends CsvResult<?, ?>> 
+<R extends CsvResult<?, B>,
+B extends BrainzBaseEntity<B>> 
 implements ListenableFutureCallback<R> {
 
 	@Autowired
-	BrainzPersistenceService<?,?> service;
+	MusicBrainzCsvService<B> service;
 	
 	private static Logger log = LoggerFactory.getLogger(CsvProcessorCallBack.class);
     private boolean active = true;
@@ -32,7 +35,7 @@ implements ListenableFutureCallback<R> {
 			valid.ifPresent(v->{
 				if(result.isValid())
 				{
-					service.verifyAndStore(r.getId());
+					service.verifyBrainzBaseEntity(r.getId());
 				}
 			});
 		}, new Runnable() {

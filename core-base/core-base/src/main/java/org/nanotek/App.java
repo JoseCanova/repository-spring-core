@@ -57,7 +57,7 @@ ApplicationRunner{
 	CsvBaseProcessor <T,S,P,M,R> csvBaseProcessor;
 	
 	@Autowired
-	CsvProcessorCallBack<?> processor;
+	CsvProcessorCallBack<?,?> processor;
 	
 	
 	public App() {

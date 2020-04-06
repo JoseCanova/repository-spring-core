@@ -44,7 +44,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 	
 	@Autowired
 	@Qualifier("CsvProcessorCallBack")
-	public CsvProcessorCallBack<R> csvProcessorCallBack;
+	public CsvProcessorCallBack<R,?> csvProcessorCallBack;
 	
 	ApplicationContext applicationContext;
 

@@ -95,7 +95,6 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 		this.typeId = typeId;
 	}
 
-	
 	public Long getParent() {
 		return parent;
 	}

@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;
@@ -237,8 +238,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	@Bean(name = "CsvProcessorCallBack")
 	@Qualifier(value = "CsvProcessorCallBack")
-	public <R extends CsvResult<?, ?>> CsvProcessorCallBack<R> getCsvProcessorCallBack() {
-		return new CsvProcessorCallBack<R>();
+	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
+		return new CsvProcessorCallBack<R,B>();
 	}
 	
 	
