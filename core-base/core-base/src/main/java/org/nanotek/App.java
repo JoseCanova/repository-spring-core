@@ -91,7 +91,6 @@ ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-
 		 
 		System.out.println(graphModel.getEntityDirectedGraph());
 		
@@ -112,28 +111,7 @@ ApplicationRunner{
 						System.out.println(prior.getElement() + "  " + prior.getPriority());
 				}while(prior !=null);
 		}
-//		graphModel.
-//				getEntityDirectedGraph()
-//				.vertexSet().forEach(v->{
-//					Priority<?,Integer> p = 	priorityMaker.generatePriorityForElement(v);
-//					System.out.println(v.getName() + " " + p.getPriority());
-//				});;
-		
-		
-		
-		
-//	Priority<?,Integer> p = 	priorityMaker.generatePriorityForElement(Artist.class);
-//	Priority<?,Integer> p1 = 	priorityMaker.generatePriorityForElement(Area.class);
-//	Priority<?,Integer> p2 = 	priorityMaker.generatePriorityForElement(Release.class);
-//	Priority<?,Integer> p3 = 	priorityMaker.generatePriorityForElement(AreaType.class);
-//	Priority<?,Integer> p4 = 	priorityMaker.generatePriorityForElement(ReleaseAlias.class);
-//	Priority<?,Integer> p5 = 	priorityMaker.generatePriorityForElement(Gender.class);
-//		System.out.println(p.getPriority());
-//		System.out.println(p1.getPriority());
-//		System.out.println(p2.getPriority());
-//		System.out.println(p3.getPriority());
-//		System.out.println(p4.getPriority());
-//		System.out.println(p5.getPriority());
+
 		
 		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
 		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
