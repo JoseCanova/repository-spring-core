@@ -24,6 +24,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.BreadthFirstIterator;
+import org.jgrapht.traverse.DepthFirstIterator;
 import org.nanotek.BaseEntity;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.beans.EntityBeanInfo;
@@ -214,10 +215,15 @@ public class BrainzGraphModel implements InitializingBean{
 
 	
 	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
-				getBreadthFirstIterator(){
-		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph);
+				getBreadthFirstIterator(Class<? extends BaseEntity> class1){
+		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph,class1);
 	}
 
+	public DepthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
+	getDepthFirstIterator(){
+		return new DepthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph);
+}
+	
 	/**
 	 * 		System.out.println(entityGraph.containsVertex(Artist.class));
 		System.out.println(entityGraph.containsVertex(ArtistCredit.class));

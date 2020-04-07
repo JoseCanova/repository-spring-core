@@ -2,9 +2,11 @@ package org.nanotek;
 
 import java.util.Date;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.JohnsonShortestPaths;
+import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.Artist;
@@ -90,15 +92,26 @@ ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		
+		 
 		System.out.println(graphModel.getEntityDirectedGraph());
 		
-		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
 		
-		pList.forEach(p->{
-			System.out.println(p.getElement() +  "  " + p.getPriority());
-		});
-		
+		int i=0;
+		for (i=0;i<100;i++) {
+				List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+				
+				pList.forEach(p->{
+					pq.add(p);
+				});
+				
+				Priority<?,Integer> prior = null;
+				do {
+					prior = pq.poll();
+					if (prior !=null)
+						System.out.println(prior.getElement() + "  " + prior.getPriority());
+				}while(prior !=null);
+		}
 //		graphModel.
 //				getEntityDirectedGraph()
 //				.vertexSet().forEach(v->{

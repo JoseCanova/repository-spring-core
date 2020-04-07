@@ -136,12 +136,17 @@ implements Priority<K,Integer>{
 	}
 
 	public <V,E> void processGraphByBreadthFirst(Map<Class<?>,Priority<?,Integer>> priorityMap){
+		Priority p = priorityMap.values().stream().max((v1,v2)->new Priority.PriorityComparator().compare(v2,v1)).get();
+		System.out.println("");		
+				
+		
+		brainzGraphModel.getEntityDirectedGraph().vertexSet().forEach(v->{
+		
 		BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
-		iterator = brainzGraphModel.getBreadthFirstIterator();
+		iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
 		while (iterator.hasNext()) { 
 			Class<? extends BaseEntity> next = iterator.next();
 			Class<? extends BaseEntity> parent = iterator.getParent(next);
-			System.out.println("  bfs  "  +  next + "  " + parent);
 			if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
 				PriorityEdge edge = (PriorityEdge) brainzGraphModel.getEntityDirectedGraph().getEdge(next, parent);
 				Priority<?,Integer> pnext=priorityMap.get(next); 
@@ -154,7 +159,7 @@ implements Priority<K,Integer>{
 				}
 			}
 
-		}
+		}});
 	}
 
 	public Priority<?, Integer> generatePriorityForElement(Class<K> element) {
