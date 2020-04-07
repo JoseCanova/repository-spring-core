@@ -16,13 +16,10 @@ import org.nanotek.entities.MutableArtistAliasEntity;
 public class ArtistAliasType<K extends ArtistAliasType<K>> 
 extends  BaseType<K> 
 implements  
-BaseArtistAliasTypeEntity<K>,
-MutableArtistAliasEntity<ArtistAlias<?>>{
+BaseArtistAliasTypeEntity<K>{
 
 	private static final long serialVersionUID = 430998067473248669L;
 	
-	@OneToOne(mappedBy = "artistAliasType" , optional = false)
-	public ArtistAlias<?> artistAlias;
 
 	public ArtistAliasType() {
 		super();
@@ -39,15 +36,6 @@ MutableArtistAliasEntity<ArtistAlias<?>>{
 
 	public ArtistAliasType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ArtistAlias<?> getArtistAlias() {
-		return artistAlias;
-	}
-
-	public void setArtistAlias(ArtistAlias<?> artistAlias) {
-		this.artistAlias = artistAlias;
 	}
 
 

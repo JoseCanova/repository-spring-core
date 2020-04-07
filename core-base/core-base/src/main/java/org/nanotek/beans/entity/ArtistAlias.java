@@ -42,6 +42,7 @@ MutableNameEntity<String>{
 
 	private static final long serialVersionUID = -6829974720983757034L;
 
+			
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String name;

@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.util.Date;
+import java.util.List;
 
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.JohnsonShortestPaths;
@@ -89,8 +90,14 @@ ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		priorityMaker.generatePriorities();
 		
+		System.out.println(graphModel.getEntityDirectedGraph());
+		
+		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+		
+		pList.forEach(p->{
+			System.out.println(p.getElement() +  "  " + p.getPriority());
+		});
 		
 //		graphModel.
 //				getEntityDirectedGraph()

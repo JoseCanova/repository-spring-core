@@ -23,7 +23,7 @@ public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
 		return 0;
 	}
 
-	static <V extends Priority<E,P>,E extends Base<?>,P extends Comparable<P>> 
+	static <V extends Priority<E,P>,E,P extends Comparable<P>> 
 	 Priority<?,P> createPriorityElement(E element,P priority) {
 		return  new Priority<E,P>() {
 

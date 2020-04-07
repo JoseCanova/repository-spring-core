@@ -1,6 +1,5 @@
 package org.nanotek.opencsv;
 
-import org.assertj.core.util.Objects;
 import org.jgrapht.graph.DefaultEdge;
 
 public class PriorityEdge extends DefaultEdge{

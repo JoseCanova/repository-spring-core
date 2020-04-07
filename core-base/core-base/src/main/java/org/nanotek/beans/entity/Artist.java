@@ -151,7 +151,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 		artistComment = new ArtistComment<>(this);
 		artistBeginDate = new ArtistBeginDate<>();
 		artistEndDate = new ArtistEndDate<>();
-		artistType = new ArtistType<>(this);
+		artistType = new ArtistType<>();
 		gender = new Gender<>();
 		area = new Area<>();
 		artistCredits = new ArrayList<ArtistCredit<?>>();
