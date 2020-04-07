@@ -52,7 +52,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	public String name;
 
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY,optional = false)
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
 	public ArtistCredit<?> artistCredit; 
 	

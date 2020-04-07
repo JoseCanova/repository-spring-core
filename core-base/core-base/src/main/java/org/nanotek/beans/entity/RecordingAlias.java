@@ -19,7 +19,7 @@ implements MutableRecordingAliasIdEntity<Long>{
 	public static final long serialVersionUID = -1952011326249338518L;
 
 	@NotNull
-	@Column(name = "recording_alias_id")
+	@Column(name = "recording_alias_id" , nullable = false)
 	public Long recordingAliasId;
 	
 	@Column(name="locale", length=1000)
@@ -30,7 +30,8 @@ implements MutableRecordingAliasIdEntity<Long>{
 	@JoinColumn(name = "recording_id")
 	public Recording<?> recording; 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY , optional = false)
 	@JoinColumn(name="recording_type_id")
 	public RecordingAliasType<?> type;
 
