@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableRecordingAliasIdEntity;
 
 @Entity
@@ -56,6 +57,7 @@ implements MutableRecordingAliasIdEntity<Long>{
 
 
 	@Override
+	@BrainzKey(entityClass = RecordingAlias.class, pathName = "recordingAliasId")
 	public Long getRecordingAliasId() {
 		return recordingAliasId;
 	}

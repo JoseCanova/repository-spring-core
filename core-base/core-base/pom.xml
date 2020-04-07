@@ -184,8 +184,8 @@
 			</dependency> -->
 		<!-- <dependency> <groupId>net.sf.ehcache.internal</groupId> <artifactId>ehcache-rest-agent</artifactId> 
 			<version>2.10.6</version> </dependency> -->
-		<!-- <dependency> <groupId>org.ehcache</groupId> <artifactId>ehcache</artifactId> 
-			<version>3.6.2</version> </dependency> -->
+		<!-- <dependency> <groupId>org.ehcache</groupId> <artifactId>ehcache</artifactId><version>3.6.2</version> 
+			</dependency> -->
 		<!-- <dependency> <groupId>javax.cache</groupId> <artifactId>cache-api</artifactId> 
 			<version>1.1.1</version> </dependency> -->
 		<dependency>
@@ -247,20 +247,15 @@
 			<version>28.2-jre</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.reflections</groupId>
-		    <artifactId>reflections</artifactId>
-		    <version>0.9.12</version>
-		</dependency>	
-		<dependency>	
-		  <groupId>org.jgrapht</groupId>
-		  <artifactId>jgrapht-core</artifactId>
-		  <version>1.4.0</version>	
-		</dependency>	
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.12</version>
+		</dependency>
 		<dependency>
-		  <groupId>org.jheaps</groupId>
-		  <artifactId>jheaps</artifactId>
-		  <version>0.13</version>
-  		</dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 		<!-- <dependency> <groupId>net.bytebuddy</groupId> <artifactId>byte-buddy</artifactId> 
 			<version>LATEST</version> </dependency> -->
 	</dependencies>
@@ -342,8 +337,8 @@
 					<pluginExecution> <pluginExecutionFilter> <groupId> org.apache.openjpa </groupId> 
 					<artifactId> openjpa-maven-plugin </artifactId> <versionRange> [2.3.0,) </versionRange> 
 					<goals> <goal>enhance</goal> </goals> </pluginExecutionFilter> <action> <ignore></ignore> 
-					</action> </pluginExecution> </pluginExecutions> </lifecycleMappingMetadata> 
-					</configuration> </plugin> -->
+					</action> </pluginExecution> </pluginExecutions> </lifecycleMappingMetadata></configuration> 
+					</plugin> -->
 			</plugins>
 		</pluginManagement>
 	</build>

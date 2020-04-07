@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseAreaEntity;
 
 @Entity
@@ -101,6 +102,7 @@ public class Area
 	}
 
 	@Override
+	@BrainzKey(entityClass = Area.class, pathName = "areaId")
 	public Long getAreaId() {
 		return areaId;
 	}

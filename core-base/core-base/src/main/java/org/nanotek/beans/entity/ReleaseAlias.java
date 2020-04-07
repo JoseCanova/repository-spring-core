@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseAliasEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseAliasBeginDateEntity;
@@ -116,6 +117,7 @@ MutableNameEntity<String>
 	}
 
 	@Override
+	@BrainzKey(entityClass = ReleaseAlias.class, pathName = "releaseAliasId")
 	public Long getReleaseAliasId() {
 		return releaseAliasId;
 	}

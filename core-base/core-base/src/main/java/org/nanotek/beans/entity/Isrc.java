@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.nanotek.annotations.BrainzKey;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="isrc")
@@ -22,7 +24,7 @@ public class Isrc<K extends Isrc<K>> extends BrainzBaseEntity<K> {
 	
 	public Isrc() {}
 
-	
+	@BrainzKey(entityClass = Isrc.class, pathName = "isrcId")
 	public Long getIsrcId() {
 		return isrcId;
 	}

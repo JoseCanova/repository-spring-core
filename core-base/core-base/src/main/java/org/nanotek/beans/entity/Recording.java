@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseRecordingEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -101,6 +102,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	}
 
 	@Override
+	@BrainzKey(entityClass = Recording.class, pathName = "recordingId")
 	public Long getRecordingId() {
 		return recordingId;
 	}

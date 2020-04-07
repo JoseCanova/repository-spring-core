@@ -12,6 +12,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistAliasEntity;
 import org.nanotek.entities.MutableAliasIdEntity;
 import org.nanotek.entities.MutableArtistAliasBeginDateEntity;
@@ -71,9 +72,9 @@ MutableNameEntity<String>{
 	@NotNull
 	@ManyToOne(optional = false)
 	@JoinTable(
-			  name = "artist_alias_join", 
-			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
+			name = "artist_alias_join", 
+			inverseJoinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
+			joinColumns  = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
 	public Artist<?> artist;
 
 	@OneToOne(optional = true)
@@ -124,6 +125,7 @@ MutableNameEntity<String>{
 		this.artistAliasSortName = sortName;
 	}
 
+	@BrainzKey(entityClass = ArtistAlias.class, pathName = "aliasId")
 	public Long getAliasId() {
 		return aliasId;
 	}

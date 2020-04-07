@@ -22,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
 import org.nanotek.entities.MutableArtistCreditIdEntity;
@@ -117,6 +118,7 @@ MutableNameEntity<String>
 		this.recordings = recordings;
 	}
 
+	@BrainzKey(entityClass = ArtistCredit.class, pathName = "artistCreditId")
 	public Long getArtistCreditId() {
 		return artistCreditId;
 	}

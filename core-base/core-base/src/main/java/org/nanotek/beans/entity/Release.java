@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -123,6 +124,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.artistCredit = artistCredit;
 	}
 
+	@BrainzKey(entityClass = Release.class, pathName = "releaseId")
 	public Long getReleaseId() {
 		return releaseId;
 	}

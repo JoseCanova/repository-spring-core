@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseMediumFormatEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -27,6 +28,10 @@ extends BrainzBaseEntity<K> implements
 																  MutableDescriptionEntity<String>{
 
 	private static final long serialVersionUID = 8104913204474210789L;
+	
+	@NotNull
+	@Column(name="mediumFormatId" , insertable=true,nullable=false)
+	public Long mediumFormatId;
 	
 	@NotBlank
 	@Column(name = "name" , insertable=true , nullable=false , updatable=true , columnDefinition = "VARCHAR NOT NULL")
@@ -111,6 +116,15 @@ extends BrainzBaseEntity<K> implements
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@BrainzKey(entityClass = MediumFormat.class, pathName = "mediumFormatId")
+	public Long getMediumFormatId() {
+		return mediumFormatId;
+	}
+
+	public void setMediumFormatId(Long mediumFormatId) {
+		this.mediumFormatId = mediumFormatId;
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseInstrumentEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableInstrumentCommentEntity;
@@ -120,6 +121,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.instrumentId = id;
 	}
 
+	@BrainzKey(entityClass = Instrument.class, pathName = "instrumentId")
 	public Long getInstrumentId() {
 		return instrumentId;
 	}

@@ -7,7 +7,7 @@ import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.Artist;
 
-public interface Priority<E extends Base<?>,P extends Comparable<?>> extends Comparator<P> {
+public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
 
 	default E getElement()
 	{ 

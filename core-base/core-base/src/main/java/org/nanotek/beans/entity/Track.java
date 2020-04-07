@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseTrackEntity;
 
 @Entity
@@ -93,6 +94,7 @@ implements BaseTrackEntity<K>{
 	public void setLength(TrackLength length) {
 		this.length = length;
 	}
+	@BrainzKey(entityClass = Track.class, pathName = "trackId")
 	public Long getTrackId() {
 		return trackId;
 	}

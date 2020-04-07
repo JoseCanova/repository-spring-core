@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.ReleasePackagingBase;
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleasePackagingEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
@@ -57,6 +58,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.releasePackagingId = id;
 	}
 
+	@BrainzKey(entityClass = ReleasePackaging.class, pathName = "releasePackagingId")
 	public Long getReleasePackagingId() {
 		return releasePackagingId;
 	}

@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseLabelEntity;
 import org.nanotek.entities.MutableAreaEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -82,7 +83,7 @@ MutableLabelCodeEntity<Integer>{
 	}
 
 
-
+	@BrainzKey(entityClass = Label.class, pathName = "labelId")
 	public Long getLabelId() {
 		return labelId;
 	}

@@ -12,6 +12,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableMediumCountEntity;
 import org.nanotek.entities.MutableNameEntity;
 
@@ -83,7 +84,7 @@ implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
 		this.release = release;
 	}
 
-
+	@BrainzKey(entityClass = Medium.class, pathName = "mediumId")
 	public Long getMediumId() {
 		return mediumId;
 	}
