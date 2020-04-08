@@ -195,13 +195,13 @@ public class BrainzGraphModel implements InitializingBean{
 	private static Graph<Class<? extends BaseEntity>, PriorityEdge> buildEmptySimpleGraph()
 	{
 		return GraphTypeBuilder
-				.<Class<? extends BaseEntity>, DefaultEdge>undirected().allowingMultipleEdges(true)
+				.<Class<? extends BaseEntity>, PriorityEdge>undirected().allowingMultipleEdges(true)
 				.allowingSelfLoops(true).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
 	}
 
 	private static Graph<Class<? extends BaseEntity>, PriorityEdge> buildDirectedSimpleGraph() {
 		return GraphTypeBuilder
-				.<Class<? extends BaseEntity>, DefaultEdge>directed() .allowingMultipleEdges(true)
+				.<Class<? extends BaseEntity>, PriorityEdge>directed() .allowingMultipleEdges(true)
 				.allowingSelfLoops(false).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
 	}
 
