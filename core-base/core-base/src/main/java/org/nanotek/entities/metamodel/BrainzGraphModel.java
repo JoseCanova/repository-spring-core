@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.Bindable;
+import javax.persistence.metamodel.Bindable.BindableType;
 import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -40,19 +41,19 @@ public class BrainzGraphModel implements InitializingBean{
 
 	@PersistenceContext
 	EntityManager entityManager;
-	
+
 	@Autowired 
 	Reflections reflections;
-	
-	Graph<Class<? extends BaseEntity> , ?> entityGraph = BrainzGraphModel.buildEmptySimpleGraph();
-	
+
+	Graph<Class<? extends BaseEntity> , PriorityEdge> entityGraph = BrainzGraphModel.buildEmptySimpleGraph();
+
 	Graph<Class<? extends BaseEntity> , PriorityEdge> entityDirectedGraph = BrainzGraphModel.buildDirectedSimpleGraph();
-	
+
 	MetamodelImpl metaModel;
-	
+
 	Set<ManagedType<?>>  metamodelEntities;
-	
-	
+
+
 	public BrainzGraphModel() {
 	}
 
@@ -60,20 +61,20 @@ public class BrainzGraphModel implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		prePrepareModelGraph();
 	}
-	
+
 	public <X> void prePrepareModelGraph() {
-		
+
 		metaModel = (MetamodelImpl) entityManager.getMetamodel();
-		
+
 		metamodelEntities =  metaModel.getManagedTypes();
-		
+
 		metamodelEntities.stream().forEach(c->{
 			Class<BaseEntity<?,?>> clazz= converToBaseEntityClass(c.getJavaType());
 			prepareAttributeForEntityGraph(c,clazz);
 			prepareAttributeForDirectedGratph(c,clazz);
 		});
-		
-		
+
+
 	}
 
 	private void prepareAttributeForDirectedGratph(ManagedType<?> c, Class<BaseEntity<?, ?>> clazz) {
@@ -89,8 +90,8 @@ public class BrainzGraphModel implements InitializingBean{
 				Class<?> brainsType = getBrainzType(a);
 				Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(brainsType);
 				if(!entityDirectedGraph.containsVertex(clazz1)) {
-						entityDirectedGraph.addVertex(clazz1);
-					}
+					entityDirectedGraph.addVertex(clazz1);
+				}
 				if(!entityDirectedGraph.containsEdge(clazzBase,clazz1))
 					entityDirectedGraph.addEdge(clazzBase,clazz1);
 			});
@@ -107,7 +108,7 @@ public class BrainzGraphModel implements InitializingBean{
 
 	private Boolean verifyCardinality1(Attribute<?, ?> a) {
 		if(a.getPersistentAttributeType().equals(PersistentAttributeType.ONE_TO_ONE) 
-					|| a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_ONE)) {
+				|| a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_ONE)) {
 			SingularAttribute<?, ?> sa = SingularAttribute.class.cast(a);
 			OneToOne one = null;
 			ManyToOne many = null;
@@ -124,12 +125,12 @@ public class BrainzGraphModel implements InitializingBean{
 				return verifyBrainzKey(a.getJavaType());
 			return false;
 		}
-//		else if (a.getPersistentAttributeType().equals(PersistentAttributeType.ONE_TO_MANY)
-//				||  a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_MANY)){
-//			PluralAttribute<?, ?,?> sa = PluralAttribute.class.cast(a);
-//			Class<?> cls =  sa.getElementType().getJavaType();
-//			return verifyBrainzKey(cls);
-//		}
+		//		else if (a.getPersistentAttributeType().equals(PersistentAttributeType.ONE_TO_MANY)
+		//				||  a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_MANY)){
+		//			PluralAttribute<?, ?,?> sa = PluralAttribute.class.cast(a);
+		//			Class<?> cls =  sa.getElementType().getJavaType();
+		//			return verifyBrainzKey(cls);
+		//		}
 		return false;
 	}
 
@@ -155,19 +156,32 @@ public class BrainzGraphModel implements InitializingBean{
 	}
 
 	private void prepareAttributeForEntityGraph(ManagedType<?> c, Class<BaseEntity<?, ?>> clazz) {
-		if(!entityGraph.containsVertex(clazz))
-			entityGraph.addVertex(clazz);
-		c.getSingularAttributes().stream()
-		.filter(a->a.getBindableType().equals(Bindable.BindableType.SINGULAR_ATTRIBUTE))//TODO:refactor here.
-		.filter(a->a.isAssociation() || a.isCollection())
-		.forEach(a ->{
-			Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(a.getJavaType());
-			if(!entityGraph.containsVertex(clazz1))
-				entityGraph.addVertex(clazz1);
-			if(!entityGraph.containsEdge(clazz , clazz1))
-				entityGraph.addEdge(clazz  ,  clazz1);
-		});
-		
+//		if(!entityGraph.containsVertex(clazz))
+//			entityGraph.addVertex(clazz);
+//		c.getAttributes().stream()
+//		.filter(a->a.getBindableType().equals(Bindable.BindableType.SINGULAR_ATTRIBUTE))//TODO:refactor here.
+//		.filter(a->a.isAssociation() || a.isCollection())
+//		.forEach(a ->{
+//			addAttributeOnGraph(entityGraph,clazz,c,a);
+//		});
+
+	}
+
+	
+	//TODO:FinishThis.
+	private void addAttributeOnGraph(Graph<Class<? extends BaseEntity>, PriorityEdge> entityGraph2,
+			Class<BaseEntity<?, ?>> clazz, ManagedType<?> c, Attribute<?, ?> a) {
+		if(a.isCollection() ) { 
+			PluralAttribute<?, ?, ?> pa = PluralAttribute.class.cast(a);
+			if(a.isAssociation()) {
+				
+			}
+		}
+		Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(a.getJavaType());
+		if(!entityGraph.containsVertex(clazz1))
+			entityGraph.addVertex(clazz1);
+		if(!entityGraph.containsEdge(clazz , clazz1))
+			entityGraph.addEdge(clazz  ,  clazz1);		
 	}
 
 	private Annotation hasAnnotation(Field field, Class<? extends Annotation> class1) {
@@ -177,20 +191,20 @@ public class BrainzGraphModel implements InitializingBean{
 	private Class<BaseEntity<?, ?>> converToBaseEntityClass(Class<?> javaType) {
 		return (Class<BaseEntity<?, ?>>) javaType.asSubclass(BaseEntity.class);
 	}
-	
+
 	private static Graph<Class<? extends BaseEntity>, PriorityEdge> buildEmptySimpleGraph()
-    {
-        return GraphTypeBuilder
-            .<Class<? extends BaseEntity>, DefaultEdge>undirected().allowingMultipleEdges(true)
-            .allowingSelfLoops(true).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
-    }
+	{
+		return GraphTypeBuilder
+				.<Class<? extends BaseEntity>, DefaultEdge>undirected().allowingMultipleEdges(true)
+				.allowingSelfLoops(true).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
+	}
 
 	private static Graph<Class<? extends BaseEntity>, PriorityEdge> buildDirectedSimpleGraph() {
 		return GraphTypeBuilder
-	            .<Class<? extends BaseEntity>, DefaultEdge>directed() .allowingMultipleEdges(true)
-	            .allowingSelfLoops(false).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
+				.<Class<? extends BaseEntity>, DefaultEdge>directed() .allowingMultipleEdges(true)
+				.allowingSelfLoops(false).edgeClass(PriorityEdge.class).weighted(false).buildGraph();
 	}
-	
+
 	public Graph<Class<? extends BaseEntity>, ?> getEntityGraph() {
 		return entityGraph;
 	}
@@ -211,25 +225,30 @@ public class BrainzGraphModel implements InitializingBean{
 		return metamodelEntities;
 	}
 
-	
+
 	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
-				getBreadthFirstIterator(Class<? extends BaseEntity> class1){
+	getBreadthFirstIterator(Class<? extends BaseEntity> class1){
 		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph,class1);
+	}
+
+	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
+	getBreadthFirstIteratorUndirected(Class<? extends BaseEntity> class1){
+		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityGraph,class1);
 	}
 
 	public DepthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 	getDepthFirstIterator(){
 		return new DepthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph);
-}
-	
+	}
+
 	/**
 	 * 		System.out.println(entityGraph.containsVertex(Artist.class));
 		System.out.println(entityGraph.containsVertex(ArtistCredit.class));
-		
+
 		JohnsonShortestPaths jsp = new JohnsonShortestPaths(entityGraph);
-						
+
 		GraphPath<Class<? extends BaseEntity>, ?> path=  jsp.getPath(ArtistCredit.class, Area.class);
-		
+
 		GraphMeasurer measurer = new GraphMeasurer(entityGraph,jsp);
 		System.out.println(measurer.getDiameter());
 		System.out.println(measurer.getRadius());
@@ -244,5 +263,5 @@ public class BrainzGraphModel implements InitializingBean{
 		System.out.println(entityGraph.toString());
 		new org.jgrapht.nio.json.JSONExporter().exportGraph(entityGraph, System.out);
 	 */
-	
+
 }
