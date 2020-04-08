@@ -11,12 +11,20 @@ import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.beans.entity.SequenceLongBase;
@@ -40,7 +48,7 @@ public class BrainzMetaModelUtil implements InitializingBean{
 
 	MetamodelImpl metaModel;
 
-	Map<Class<?> , EntityBrainzMetaModel<?,?>> metaModelMap;
+	Map<Class<?> , BrainzEntityMetaModel<?,?>> metaModelMap;
 
 	public BrainzMetaModelUtil() {
 	}
@@ -50,25 +58,25 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		metaModel = (MetamodelImpl) entityManager.getMetamodel();
 		Set<Class<?>>types =  reflections.getTypesAnnotatedWith(StaticMetamodel.class);
-		Map<Class<?> , EntityBrainzMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types,reflections);
+		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types,reflections);
 		metaModelMap = prepareEntityGraph(tempMap);
-		Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
+		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
 		System.out.println("");
 	}
 
-	public EntityBrainzMetaModel<?,?> getMetaModel(Class<?> clazz){
+	public BrainzEntityMetaModel<?,?> getMetaModel(Class<?> clazz){
 		return metaModelMap.get(clazz);
 	}
 
 
-	public Graph<EntityBrainzMetaModel<?, ?>, MetaModelEdge> getModelGraph() {
-		Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> graph = buildUnDirectedSimpleGraph();
+	public Graph<BrainzEntityMetaModel<?, ?>, MetaModelEdge> getModelGraph() {
+		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> graph = buildUnDirectedSimpleGraph();
 		metaModelMap
 		.entrySet()
 		.stream()
 		.forEach(e ->{
-			EntityBrainzMetaModel <?,?> meta = e.getValue();
-			Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> 
+			BrainzEntityMetaModel <?,?> meta = e.getValue();
+			Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> 
 			metaModelGraph = meta.getModelGraph();
 			metaModelGraph
 			.edgeSet()
@@ -90,19 +98,19 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	}
 
 
-	private Map<Class<?> , EntityBrainzMetaModel<?,?>>  prepareEntityGraph(Map<Class<?>, EntityBrainzMetaModel<?, ?>> tempMap) {
-		Map<Class<?> , EntityBrainzMetaModel<?,?>> shallowMap = new HashMap<>();
+	private Map<Class<?> , BrainzEntityMetaModel<?,?>>  prepareEntityGraph(Map<Class<?>, BrainzEntityMetaModel<?, ?>> tempMap) {
+		Map<Class<?> , BrainzEntityMetaModel<?,?>> shallowMap = new HashMap<>();
 		tempMap.entrySet()
 		.stream()
 		.map(e ->{
-			Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> graph = buildDirectedSimpleGraph();
-			EntityBrainzMetaModel<?,?> theEntity = e.getValue();
+			Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> graph = buildDirectedSimpleGraph();
+			BrainzEntityMetaModel<?,?> theEntity = e.getValue();
 			graph.addVertex(theEntity);
 			theEntity
 			.getAttributeMetaModel()
 			.stream()
 			.forEach(a->{
-				EntityBrainzMetaModel<?,?> attributeEntity = tempMap.get(a.getAttributeClass());
+				BrainzEntityMetaModel<?,?> attributeEntity = tempMap.get(a.getAttributeClass());
 				if(attributeEntity!=null) {
 					graph.addVertex(attributeEntity);
 					graph.addEdge(theEntity, attributeEntity);
@@ -117,22 +125,22 @@ public class BrainzMetaModelUtil implements InitializingBean{
 
 	}
 
-	private  Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> buildDirectedSimpleGraph() {
+	private  Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> buildDirectedSimpleGraph() {
 		return GraphTypeBuilder
-				.<EntityBrainzMetaModel<?,?>, MetaModelEdge>directed() .allowingMultipleEdges(true)
+				.<BrainzEntityMetaModel<?,?>, MetaModelEdge>directed() .allowingMultipleEdges(true)
 				.allowingSelfLoops(true).edgeClass(MetaModelEdge.class).weighted(false).buildGraph();
 	}
 
-	private  Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge> buildUnDirectedSimpleGraph() {
+	private  Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> buildUnDirectedSimpleGraph() {
 		return GraphTypeBuilder
-				.<EntityBrainzMetaModel<?,?>, MetaModelEdge>undirected() .allowingMultipleEdges(true)
+				.<BrainzEntityMetaModel<?,?>, MetaModelEdge>undirected() .allowingMultipleEdges(true)
 				.allowingSelfLoops(true).edgeClass(MetaModelEdge.class).weighted(false).buildGraph();
 	}
 
-	private Map<Class<?> , EntityBrainzMetaModel<?,?>>  processEntityBrainzMetaModel(Set<Class<?>> types, Reflections reflections) {
-		Map<Class<?> , EntityBrainzMetaModel<?,?>>  tempMap = new HashMap<Class<?>,EntityBrainzMetaModel<?,?>>();
+	private Map<Class<?> , BrainzEntityMetaModel<?,?>>  processEntityBrainzMetaModel(Set<Class<?>> types, Reflections reflections) {
+		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = new HashMap<Class<?>,BrainzEntityMetaModel<?,?>>();
 		types.stream().forEach(c->{
-			EntityBrainzMetaModel<?,?> brainzMetaModel = prepareEntityBrainzMetaModel(c,reflections);
+			BrainzEntityMetaModel<?,?> brainzMetaModel = prepareEntityBrainzMetaModel(c,reflections);
 			if(brainzMetaModel !=null)
 				tempMap.put(brainzMetaModel.getEntityClass(), brainzMetaModel);
 		});
@@ -140,18 +148,18 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	}
 
 
-	private EntityBrainzMetaModel<?, ?> prepareEntityBrainzMetaModel(Class<?> c, Reflections reflections) {
+	private BrainzEntityMetaModel<?, ?> prepareEntityBrainzMetaModel(Class<?> c, Reflections reflections) {
 		StaticMetamodel sm = c.getAnnotation(StaticMetamodel.class);
 		Class<?> entityClass = sm.value();
 		Class<?> metaModelClass = c;
 		Set<EntityType<?>> entities = metaModel.getEntities();
 		System.out.println(entityClass);
-		EntityBrainzMetaModel<?,?> brainzMetaModel =null;
+		BrainzEntityMetaModel<?,?> brainzMetaModel =null;
 		EntityType<?> et  =null;
 		et = getEntityType(entityClass,entities);
 		if(et !=null) {
 			Set<AttributeMetaModel<?>> attributes = getMetamodelAttributes(c.getFields(),et);
-			brainzMetaModel = new EntityBrainzMetaModel<>(metaModelClass,entityClass); 
+			brainzMetaModel = new BrainzEntityMetaModel<>(metaModelClass,entityClass,et); 
 			brainzMetaModel.setAttributeMetaModel(attributes);
 		}
 		return brainzMetaModel;
@@ -195,5 +203,23 @@ public class BrainzMetaModelUtil implements InitializingBean{
 
 	}
 
+	
+	public void createQuery(Class<?> entityClass , GraphPath<?,?> graphPath) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<?> query = cb.createQuery(entityClass);
+		Root<?> from = query.from(entityClass);
+		
+//		from.join(collection)
+		
+//        CriteriaQuery<?> query = cb.createQuery(clz.entityClass());
+//        Root<?> entity = query.from(clz.entityClass());
+//        Path<?> path = entity.get(clz.pathName());
+//        Object value = p.getReadMethod().invoke(instance, new Object[] {});
+//        Predicate predicate = cb.equal(path, value);
+//        
+//        query.select((Selection) entity).where(predicate);
+//        
+//        TypedQuery<?> typeQuery = getEntityManager().createQuery(query);
+	}
 
 }

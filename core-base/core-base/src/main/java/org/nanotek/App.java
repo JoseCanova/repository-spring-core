@@ -1,22 +1,16 @@
 package org.nanotek;
 
-import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
 
+import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.scoring.AlphaCentrality;
-import org.jgrapht.alg.scoring.PageRank;
-import org.jgrapht.alg.shortestpath.JohnsonShortestPaths;
-import org.nanotek.Priority.PriorityComparator;
+import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
 import org.nanotek.beans.entity.Artist;
-import org.nanotek.beans.entity.Release;
+import org.nanotek.beans.entity.Track;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
@@ -89,7 +83,6 @@ ApplicationRunner{
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 		
-		
 //		SpringApplicationBuilder builder = new SpringApplicationBuilder(App.class);
 //
 //		builder.headless(false);
@@ -108,6 +101,18 @@ ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		
+		Graph<?,?> modelGraph = brainzMetaModelUtil.getModelGraph();
+		
+		BrainzEntityMetaModel<?,?> r1 = brainzMetaModelUtil.getMetaModel(Artist.class);
+		
+		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(Track.class);
+		
+		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
+		
+		GraphPath<?, ?> p =  bf.getPath(r1, r2);
+		
+		System.out.println(p);
 		
 //		System.out.println(graphModel.getEntityDirectedGraph());
 //

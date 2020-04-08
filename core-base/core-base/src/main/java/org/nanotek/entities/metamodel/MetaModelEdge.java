@@ -9,9 +9,9 @@ public class MetaModelEdge extends DefaultEdge{
 	 */
 	private static final long serialVersionUID = -4545976841282043463L; 
 
-	public EntityBrainzMetaModel<?, ?>  getSource()
+	public BrainzEntityMetaModel<?, ?>  getSource()
 	{
-		return (EntityBrainzMetaModel<?, ?>) super.getSource();
+		return (BrainzEntityMetaModel<?, ?>) super.getSource();
 	}
 
 	/**
@@ -20,9 +20,9 @@ public class MetaModelEdge extends DefaultEdge{
 	 *
 	 * @return target of this edge
 	 */
-	public EntityBrainzMetaModel<?, ?>  getTarget()
+	public BrainzEntityMetaModel<?, ?>  getTarget()
 	{
-		return (EntityBrainzMetaModel<?, ?>) super.getTarget();
+		return (BrainzEntityMetaModel<?, ?>) super.getTarget();
 	}
 
 

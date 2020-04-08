@@ -3,25 +3,37 @@ package org.nanotek.entities.metamodel;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.metamodel.EntityType;
+
 import org.jgrapht.Graph;
 
-public class EntityBrainzMetaModel<X,Y>{
+public class BrainzEntityMetaModel<X,Y>{
 
 	private Class<X> metaModelClass;
 
 	private Class<Y> entityClass;
+	
+	private EntityType<Y> entityType;
 
 	private Set<AttributeMetaModel<?>> attributeMetaModel;
 
-	Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge>  modelGraph;
+	Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  modelGraph;
 
-	public EntityBrainzMetaModel() {
+	public BrainzEntityMetaModel() {
 		super();
 		attributeMetaModel = new HashSet<>();
 
 	}
 
-	public EntityBrainzMetaModel(Class<X> metaModelClass, Class<Y> entityClass) {
+	public BrainzEntityMetaModel(Class<X> metaModelClass, Class<Y> entityClass,EntityType<?> entityType1) {
+		super();
+		this.metaModelClass = metaModelClass;
+		this.entityClass = entityClass;
+		this.entityType = (EntityType<Y>) entityType1;
+		attributeMetaModel = new HashSet<>();
+	}
+	
+	public BrainzEntityMetaModel(Class<X> metaModelClass, Class<Y> entityClass) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
@@ -45,11 +57,11 @@ public class EntityBrainzMetaModel<X,Y>{
 		this.entityClass = entityClass;
 	}
 
-	public Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge>  getModelGraph() {
+	public Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  getModelGraph() {
 		return modelGraph;
 	}
 
-	public void setModelGraph(Graph<EntityBrainzMetaModel<?,?>, MetaModelEdge>  modelGraph) {
+	public void setModelGraph(Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  modelGraph) {
 		this.modelGraph = modelGraph;
 	}
 
@@ -59,6 +71,14 @@ public class EntityBrainzMetaModel<X,Y>{
 
 	public void setAttributeMetaModel(Set<AttributeMetaModel<?>> attributeMetaModel) {
 		this.attributeMetaModel = attributeMetaModel;
+	}
+	
+	public EntityType<Y> getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(EntityType<Y> entityType) {
+		this.entityType = entityType;
 	}
 
 	@Override
@@ -78,7 +98,7 @@ public class EntityBrainzMetaModel<X,Y>{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EntityBrainzMetaModel other = (EntityBrainzMetaModel) obj;
+		BrainzEntityMetaModel other = (BrainzEntityMetaModel) obj;
 		if (entityClass == null) {
 			if (other.entityClass != null)
 				return false;
@@ -92,5 +112,4 @@ public class EntityBrainzMetaModel<X,Y>{
 		return "EntityBrainzMetaModel [entityClass=" + entityClass + "]";
 	}
 
-	
 }
