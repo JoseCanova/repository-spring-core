@@ -2,9 +2,9 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-import org.nanotek.SortNameEntity;
+import org.nanotek.entities.immutables.SortNameEntity;
 
-public interface MutableSortNameEntity<K extends Serializable> extends SortNameEntity<K>{
+public interface MutableSortNameEntity<K> extends SortNameEntity<K>{
   
 	void setSortName(K k);
 	

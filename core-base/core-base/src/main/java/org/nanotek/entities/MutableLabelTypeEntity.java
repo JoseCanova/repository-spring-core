@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.LabelTypeEntity;
 
-public interface MutableLabelTypeEntity<K extends Serializable> extends LabelTypeEntity<K>{
+public interface MutableLabelTypeEntity<K> extends LabelTypeEntity<K>{
 
 	void setLabelType(K k);
 	

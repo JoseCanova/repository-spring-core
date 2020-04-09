@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistAliasLocaleEntity;
 
-public interface MutableArtistAliasLocaleEntity<K extends Serializable> extends ArtistAliasLocaleEntity<K>{
+public interface MutableArtistAliasLocaleEntity<K> extends ArtistAliasLocaleEntity<K>{
 
 	void setArtistAliasLocale(K k);
 	

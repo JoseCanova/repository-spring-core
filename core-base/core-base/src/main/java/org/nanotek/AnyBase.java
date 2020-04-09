@@ -51,7 +51,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 			if (b) {
 				if (obj.getClass().equals(AnyBase.class)) {
 				AnyBase theBase = AnyBase.class.cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((S) theBase) == 0;}
 			}
 			return false;
 	}

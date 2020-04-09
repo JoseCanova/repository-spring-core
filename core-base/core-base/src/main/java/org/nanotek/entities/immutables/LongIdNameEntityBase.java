@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 import org.nanotek.Nameable;
 
-public interface LongIdNameEntityBase<K extends Serializable> extends LongIdEntityBase , Nameable<K>{
+public interface LongIdNameEntityBase<K> extends LongIdEntityBase , Nameable<K>{
 }

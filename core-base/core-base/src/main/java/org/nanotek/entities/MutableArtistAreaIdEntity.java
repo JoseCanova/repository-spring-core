@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistAreaIdEntity;
 
-public interface MutableArtistAreaIdEntity<K extends Serializable> extends ArtistAreaIdEntity<K> {
+public interface MutableArtistAreaIdEntity<K> extends ArtistAreaIdEntity<K> {
 void setAreaId(K k);
 }

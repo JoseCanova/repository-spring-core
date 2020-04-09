@@ -2,9 +2,9 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.SortNameEntity;
 import org.nanotek.beans.csv.ArtistSortNameBean;
 import org.nanotek.beans.entity.ArtistSortName;
+import org.nanotek.entities.immutables.SortNameEntity;
 
 public interface BaseArtistSortNameBean
 <K extends  BaseBean<K,ArtistSortName<?>>> 

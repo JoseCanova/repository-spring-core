@@ -25,6 +25,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 import org.nanotek.BaseEntity;
+import org.nanotek.NotImplementedException;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.sun.introspect.PropertyInfo;
@@ -45,7 +46,7 @@ public class BrainzGraphModel implements InitializingBean{
 	@Autowired 
 	Reflections reflections;
 
-	Graph<Class<? extends BaseEntity> , PriorityEdge> entityGraph = BrainzGraphModel.buildEmptySimpleGraph();
+//	Graph<Class<? extends BaseEntity> , PriorityEdge> entityGraph = BrainzGraphModel.buildEmptySimpleGraph();
 
 	Graph<Class<? extends BaseEntity> , PriorityEdge> entityDirectedGraph = BrainzGraphModel.buildDirectedSimpleGraph();
 
@@ -177,11 +178,11 @@ public class BrainzGraphModel implements InitializingBean{
 				
 			}
 		}
-		Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(a.getJavaType());
-		if(!entityGraph.containsVertex(clazz1))
-			entityGraph.addVertex(clazz1);
-		if(!entityGraph.containsEdge(clazz , clazz1))
-			entityGraph.addEdge(clazz  ,  clazz1);		
+//		Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(a.getJavaType());
+//		if(!entityGraph.containsVertex(clazz1))
+//			entityGraph.addVertex(clazz1);
+//		if(!entityGraph.containsEdge(clazz , clazz1))
+//			entityGraph.addEdge(clazz  ,  clazz1);		
 	}
 
 	private Annotation hasAnnotation(Field field, Class<? extends Annotation> class1) {
@@ -206,7 +207,8 @@ public class BrainzGraphModel implements InitializingBean{
 	}
 
 	public Graph<Class<? extends BaseEntity>, ?> getEntityGraph() {
-		return entityGraph;
+		throw new NotImplementedException();
+//		return entityGraph;
 	}
 
 	public Graph<Class<? extends BaseEntity>, ?> getEntityDirectedGraph() {
@@ -233,7 +235,8 @@ public class BrainzGraphModel implements InitializingBean{
 
 	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 	getBreadthFirstIteratorUndirected(Class<? extends BaseEntity> class1){
-		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityGraph,class1);
+		throw new NotImplementedException();
+//		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityGraph,class1);
 	}
 
 	public DepthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>

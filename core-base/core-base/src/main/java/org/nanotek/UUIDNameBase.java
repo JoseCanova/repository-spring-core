@@ -44,7 +44,7 @@ public class UUIDNameBase implements UUIDBaseBase {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				Base theBase = CsvResult.class.cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((UUIDBaseBase) theBase) == 0;}
 			return false;
 	}
 	

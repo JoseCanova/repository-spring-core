@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistAliasSortNameEntity;
 
-public interface MutableArtistAliasSortNameEntity<K extends Serializable> extends ArtistAliasSortNameEntity<K>{
+public interface MutableArtistAliasSortNameEntity<K> extends ArtistAliasSortNameEntity<K>{
 		void setArtistAliasSortName(K k);
 }

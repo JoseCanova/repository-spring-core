@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.LabelBeginDateEntity;
 
-public interface MutableLabelBeginDateEntity<T extends Serializable> 
+public interface MutableLabelBeginDateEntity<T> 
 extends LabelBeginDateEntity<T>{
 void setLabelBeginDate(T t);
 }

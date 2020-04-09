@@ -11,23 +11,13 @@ import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
-import org.nanotek.beans.entity.BrainzBaseEntity;
-import org.nanotek.beans.entity.SequenceLongBase;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +26,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BrainzMetaModelUtil implements InitializingBean{
-
-	@Autowired
-	BrainzGraphModel graphModel;
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -53,6 +40,11 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	public BrainzMetaModelUtil() {
 	}
 
+	public BrainzMetaModelUtil(EntityManager entityManager, Reflections reflections) {
+		super();
+		this.entityManager = entityManager;
+		this.reflections = reflections;
+	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -61,11 +53,10 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types,reflections);
 		metaModelMap = prepareEntityGraph(tempMap);
 		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
-		System.out.println("");
 	}
 
-	public BrainzEntityMetaModel<?,?> getMetaModel(Class<?> clazz){
-		return metaModelMap.get(clazz);
+	public <X,Y> BrainzEntityMetaModel<X,Y> getMetaModel(Class<? super  X> clazz){
+		return (BrainzEntityMetaModel<X, Y>) metaModelMap.get(clazz);
 	}
 
 
@@ -153,7 +144,6 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		Class<?> entityClass = sm.value();
 		Class<?> metaModelClass = c;
 		Set<EntityType<?>> entities = metaModel.getEntities();
-		System.out.println(entityClass);
 		BrainzEntityMetaModel<?,?> brainzMetaModel =null;
 		EntityType<?> et  =null;
 		et = getEntityType(entityClass,entities);
@@ -203,23 +193,24 @@ public class BrainzMetaModelUtil implements InitializingBean{
 
 	}
 
-	
-	public void createQuery(Class<?> entityClass , GraphPath<?,?> graphPath) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<?> query = cb.createQuery(entityClass);
-		Root<?> from = query.from(entityClass);
-		
-//		from.join(collection)
-		
-//        CriteriaQuery<?> query = cb.createQuery(clz.entityClass());
-//        Root<?> entity = query.from(clz.entityClass());
-//        Path<?> path = entity.get(clz.pathName());
-//        Object value = p.getReadMethod().invoke(instance, new Object[] {});
-//        Predicate predicate = cb.equal(path, value);
-//        
-//        query.select((Selection) entity).where(predicate);
-//        
-//        TypedQuery<?> typeQuery = getEntityManager().createQuery(query);
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+
+	public Reflections getReflections() {
+		return reflections;
+	}
+
+
+	public void setReflections(Reflections reflections) {
+		this.reflections = reflections;
 	}
 
 }

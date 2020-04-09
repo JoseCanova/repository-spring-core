@@ -54,7 +54,7 @@ implements Base<SB> , Id<Integer> , MutableValueEntity <String> {
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				ValueBase theBase = ValueBase.class.cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((SB) theBase) == 0;}
 			return false;
 	}
 	

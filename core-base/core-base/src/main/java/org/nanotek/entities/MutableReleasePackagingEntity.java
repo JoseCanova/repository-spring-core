@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ReleasePackagingEntity;
 
-public interface MutableReleasePackagingEntity<T extends Serializable> extends ReleasePackagingEntity<T> {
+public interface MutableReleasePackagingEntity<T> extends ReleasePackagingEntity<T> {
 void setReleasePackaging(T t);
 }

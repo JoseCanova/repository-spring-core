@@ -6,7 +6,7 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="spring-core-music-brainz"
 		transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>org.nanotek.beans.entity.EntityLongBase</class>
 		<class>org.nanotek.beans.entity.BrainzBaseEntity</class>
 		<class>org.nanotek.beans.entity.TypeNamedEntity</class>
@@ -124,10 +124,10 @@
 				value="NONE" />
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->
-			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/music-brainz" 
-				/> <property name="javax.persistence.jdbc.user" value="postgres" /> <property 
-				name="javax.persistence.jdbc.password" value="Postgres123@" /> <property 
-				name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5434/musicbrainz"/> 
+			<property name="javax.persistence.jdbc.user" value="postgres" /> 
+			<property  name="javax.persistence.jdbc.password" value="postgres123@" /> 
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<!-- <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/> -->
 		</properties>
 		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->

@@ -6,6 +6,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.Track;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
@@ -106,7 +107,7 @@ ApplicationRunner{
 		
 		BrainzEntityMetaModel<?,?> r1 = brainzMetaModelUtil.getMetaModel(Artist.class);
 		
-		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(Track.class);
+		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
 		
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
 		

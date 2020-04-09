@@ -2,7 +2,7 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-public interface MutableLenght<K  extends Serializable> {
+public interface MutableLenght<K > {
 
 	void setLength(K length);
 	

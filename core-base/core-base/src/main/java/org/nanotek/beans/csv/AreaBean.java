@@ -34,7 +34,6 @@ implements BaseAreaBean<AreaBean<K>>{
 		postConstruct();
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Area<?>> castClass() {
 		return (Class<? extends Area<?>>) 

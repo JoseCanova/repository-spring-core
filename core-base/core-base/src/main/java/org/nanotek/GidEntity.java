@@ -2,6 +2,6 @@ package org.nanotek;
 
 import java.io.Serializable;
 
-public interface GidEntity<K extends Serializable> {
+public interface GidEntity<K> {
 	K getGid();
 }

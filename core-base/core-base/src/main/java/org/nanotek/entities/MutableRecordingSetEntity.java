@@ -5,6 +5,6 @@ import java.util.Set;
 
 import org.nanotek.entities.immutables.RecordingSetEntity;
 
-public interface MutableRecordingSetEntity<T extends Serializable> extends RecordingSetEntity<T> {
+public interface MutableRecordingSetEntity<T> extends RecordingSetEntity<T> {
 void setRecordings(Set<T> recordings);
 }

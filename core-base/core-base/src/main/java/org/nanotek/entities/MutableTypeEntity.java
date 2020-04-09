@@ -2,9 +2,9 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-import org.nanotek.TypeEntity;
+import org.nanotek.entities.immutables.TypeEntity;
 
-public interface MutableTypeEntity<K extends Serializable> extends TypeEntity<K>{
+public interface MutableTypeEntity<K> extends TypeEntity<K>{
 
 	void setType(K k);
 	

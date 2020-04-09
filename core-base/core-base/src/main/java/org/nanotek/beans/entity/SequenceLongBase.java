@@ -62,7 +62,7 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((K) theBase) == 0;}
 			return false;
 	}
 	

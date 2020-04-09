@@ -9,11 +9,11 @@ import org.jgrapht.Graph;
 
 public class BrainzEntityMetaModel<X,Y>{
 
-	private Class<X> metaModelClass;
+	private Class<Y> metaModelClass;
 
-	private Class<Y> entityClass;
+	private Class<X> entityClass;
 	
-	private EntityType<Y> entityType;
+	private EntityType<X> entityType;
 
 	private Set<AttributeMetaModel<?>> attributeMetaModel;
 
@@ -25,15 +25,15 @@ public class BrainzEntityMetaModel<X,Y>{
 
 	}
 
-	public BrainzEntityMetaModel(Class<X> metaModelClass, Class<Y> entityClass,EntityType<?> entityType1) {
+	public BrainzEntityMetaModel(Class<Y> metaModelClass, Class<X> entityClass,EntityType<?> entityType1) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
-		this.entityType = (EntityType<Y>) entityType1;
+		this.entityType = (EntityType<X>) entityType1;
 		attributeMetaModel = new HashSet<>();
 	}
 	
-	public BrainzEntityMetaModel(Class<X> metaModelClass, Class<Y> entityClass) {
+	public BrainzEntityMetaModel(Class<Y> metaModelClass, Class<X> entityClass) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
@@ -41,19 +41,19 @@ public class BrainzEntityMetaModel<X,Y>{
 
 	}
 
-	public Class<X> getMetaModelClass() {
+	public Class<Y> getMetaModelClass() {
 		return metaModelClass;
 	}
 
-	public void setMetaModelClass(Class<X> metaModelClass) {
+	public void setMetaModelClass(Class<Y> metaModelClass) {
 		this.metaModelClass = metaModelClass;
 	}
 
-	public Class<Y> getEntityClass() {
+	public Class<X> getEntityClass() {
 		return entityClass;
 	}
 
-	public void setEntityClass(Class<Y> entityClass) {
+	public void setEntityClass(Class<X> entityClass) {
 		this.entityClass = entityClass;
 	}
 
@@ -73,11 +73,11 @@ public class BrainzEntityMetaModel<X,Y>{
 		this.attributeMetaModel = attributeMetaModel;
 	}
 	
-	public EntityType<Y> getEntityType() {
+	public EntityType<X> getEntityType() {
 		return entityType;
 	}
 
-	public void setEntityType(EntityType<Y> entityType) {
+	public void setEntityType(EntityType<X> entityType) {
 		this.entityType = entityType;
 	}
 
