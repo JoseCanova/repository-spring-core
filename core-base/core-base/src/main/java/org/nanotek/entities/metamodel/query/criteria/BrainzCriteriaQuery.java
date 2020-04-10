@@ -39,12 +39,12 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	
 	private static final long serialVersionUID = 7036293271761390183L;
 
-	private Class<Y> id;
+	protected Class<Y> id;
 	
-	private EntityManagerFactory entityManagerFactory;
+	protected EntityManagerFactory entityManagerFactory;
 	
 	@Autowired
-	private BrainzMetaModelUtil brainzMetaModelUtil;
+	protected BrainzMetaModelUtil brainzMetaModelUtil;
 	
 	protected CriteriaBuilder criteriaBuilder;
 	
@@ -55,6 +55,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		this.criteriaBuilder = criteriaBuilder;
 		afterPropertiesSet();
 	}
+	
 	
 	
 
@@ -84,15 +85,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	
 	@Override
 	public <Z> Root<Z> from(Class<Z> entityClass) {
-		BrainzEntityMetaModel<Z, ?> clsMeta =   brainzMetaModelUtil.getMetaModel(entityClass);
-		return new AbstractBrainzRoot<Z>(criteriaQuery,clsMeta.getEntityType(),brainzMetaModelUtil) {
-
-			@Override
-			public Class<Z> getId() {
-				return entityClass;
-			}
-			
-		};
+		return new CriteriaQueryFromCopier(entityClass,entityManagerFactory,brainzMetaModelUtil,criteriaBuilder,criteriaQuery).from(entityClass);
 	}
 
 	@SuppressWarnings("rawtypes")

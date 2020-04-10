@@ -32,11 +32,12 @@ import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 
 public 	abstract class  AbstractBrainzRoot<Z> implements Root<Z>,Id<Class<Z>>{ 
 	
-	private BrainzMetaModelUtil brainzMetaModelUtil;
+	protected BrainzMetaModelUtil brainzMetaModelUtil;
 	
-	private Root<Z> delegateRootElement;
+	protected Root<Z> delegateRootElement;
 
-	private CriteriaQuery<?> criteriaQuery;
+	protected CriteriaQuery<?> criteriaQuery;
+	
 	
 	public AbstractBrainzRoot (){}
 	
