@@ -70,10 +70,6 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 
-
-
-
-
 	private void afterPropertiesSet() {
 	}
 
@@ -102,7 +98,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 	public <Z> Root<Z> from(EntityType<Z> entity) {
-		return from(entity);
+		return from(entity.getJavaType());
 	}
 
 	public CriteriaQuery<Y> multiselect(Selection<?>... selections) {
