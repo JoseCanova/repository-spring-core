@@ -87,23 +87,14 @@ public class BrainzMetaBuddy {
 								.orElseThrow(BaseException::new);
 		Class<?> clazz = metaModelClass.asSubclass(metaModelClass);
 		
-		Map<String,Class<?>> types = getAllInterfaces(entityClass);
-		
 		buddy = new ByteBuddy(ClassFileVersion.JAVA_V8)
 				.subclass(clazz)
 				.name("org.nanotek.proxy.buddy.BrainzMeta"+clazz.getSimpleName());
 		buddy  = buddy.implement(AttributeCopier.class);
 		getFields(metaModelClass).forEach(f->
 							{
-								Class<?> interf = types.get(f.getName());
-								if(!f.getType().equals(String.class)&& interf!=null) {
-//									buddy = buddy.defineProperty(f.getName(), f.getType());
+								if(!f.getType().equals(String.class)) {
 									buddy = buddy.defineProperty(f.getName(), f.getType());
-									//.implement(interf).intercept(FieldAccessor.ofBeanProperty())
-//									TypeDescription.Generic td = TypeDescription 
-//												.Generic.Builder.rawType(f.getType()).build();
-//												parameterizedType(interf, f.getType()).build();
-//									buddy = buddy.defineProperty(f.getName(),f.getType());
 								}
 							});
 		powerClass =  buddy.make()
@@ -113,33 +104,9 @@ public class BrainzMetaBuddy {
 		return this;
 	}
 
-	public Map<String,Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
-		Type[] type = class1.getGenericInterfaces();
-		ParameterizedType p = (ParameterizedType) type[0];
-		Map<String,Class<?>> mapDescriptor = new HashMap<>();
-		List<Type> theList = new ArrayList<>();
-		 ClassUtils
-		 	.getAllInterfaces((Class<?>) p.getRawType())
-		 	.forEach(i->{
-		 		i.getName().contains("Mutable");
-//		 		for(Type t : i.getGenericSuperclass()) { 
-		 		Optional<PropertyDescriptor> d = MutatorSupport.getPropertyDescriptor(i);
-		 		d.ifPresent(p1->mapDescriptor.put(p1.getName(), i));
-//		 			if(t instanceof ParameterizedType) {
-//		 				ParameterizedType p = (ParameterizedType)t;
-//		 				theList.add(p.getRawType());
-//		 			}
-//		 		}
-		 	});;
-		 
-		 
-		 return mapDescriptor;
-	}
-	
 	public List<Field> getFields(Class<?> classId) {
 		return Arrays.asList(classId.getFields());
 	}
-	
 	
 	public static <K> void main(String[] args) {
 		BrainzMetaBuddy buddy =  BrainzMetaBuddy.with(Artist_.class);

@@ -23,6 +23,7 @@ import org.nanotek.beans.entity.Artist_;
 import org.nanotek.beans.entity.Release;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
+import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaQuery;
 import org.nanotek.proxy.map.BrainzMetaBuddy;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -68,13 +69,13 @@ public class CriteriaHelper<X extends BaseEntity<?,?>> {
 		this.criteriaBuilder = cb;
 		BrainzCriteriaQuery<?, ?>  criteriaQuery = new BrainzCriteriaQuery<>(cb,entityClass);
 		
-//		CriteriaQuery<?> query = cb.createQuery(entityClass);
+		CriteriaQuery<?> query = cb.createQuery(entityClass);
 		
 		BrainzEntityMetaModel<?, ?> clsMeta =   brainzMetaModelUtil.getMetaModel(Artist.class);
 		EntityType<?> metaModelClass = clsMeta.getEntityType();
 		Object bt = BrainzMetaBuddy.with(clsMeta.getMetaModelClass()).<Artist_>newInstance(metaModelClass);
 		
-		criteriaQuery.from(metaModelClass).join(bt.area);
+//		criteriaQuery.from(metaModelClass).join(bt.area);
 		RootGraph rootGraph;
 		
 		Set<?> set = clsMeta.getAttributeMetaModel();
