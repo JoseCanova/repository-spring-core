@@ -5,14 +5,14 @@ import javax.persistence.TupleElement;
 import org.nanotek.Id;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 
-public abstract class BrainzTupleElement<Z> implements TupleElement<Z> ,Id<Class<Z>>{
+public abstract class AbstractBrainzTupleElement<Z> implements TupleElement<Z> ,Id<Class<Z>>{
 
 	private TupleElement<Z> delegateTupleElement;
 	
-	public BrainzTupleElement() {
+	public AbstractBrainzTupleElement() {
 	}
 
-	public BrainzTupleElement(TupleElement<Z> delegateTupleElement) {
+	public AbstractBrainzTupleElement(TupleElement<Z> delegateTupleElement) {
 		super();
 		this.delegateTupleElement = delegateTupleElement;
 	}
