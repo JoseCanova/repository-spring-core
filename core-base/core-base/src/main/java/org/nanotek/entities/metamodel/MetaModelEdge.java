@@ -8,6 +8,8 @@ public class MetaModelEdge extends DefaultEdge{
 	 * 
 	 */
 	private static final long serialVersionUID = -4545976841282043463L; 
+	
+	
 
 	public BrainzEntityMetaModel<?, ?>  getSource()
 	{

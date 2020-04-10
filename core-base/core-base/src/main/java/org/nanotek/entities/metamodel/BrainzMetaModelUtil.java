@@ -50,7 +50,7 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		metaModel = (MetamodelImpl) entityManager.getMetamodel();
 		Set<Class<?>>types =  reflections.getTypesAnnotatedWith(StaticMetamodel.class);
-		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types,reflections);
+		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types);
 		metaModelMap = prepareEntityGraph(tempMap);
 		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
 	}
@@ -128,10 +128,10 @@ public class BrainzMetaModelUtil implements InitializingBean{
 				.allowingSelfLoops(true).edgeClass(MetaModelEdge.class).weighted(false).buildGraph();
 	}
 
-	private Map<Class<?> , BrainzEntityMetaModel<?,?>>  processEntityBrainzMetaModel(Set<Class<?>> types, Reflections reflections) {
+	private Map<Class<?> , BrainzEntityMetaModel<?,?>>  processEntityBrainzMetaModel(Set<Class<?>> types) {
 		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = new HashMap<Class<?>,BrainzEntityMetaModel<?,?>>();
 		types.stream().forEach(c->{
-			BrainzEntityMetaModel<?,?> brainzMetaModel = prepareEntityBrainzMetaModel(c,reflections);
+			BrainzEntityMetaModel<?,?> brainzMetaModel = prepareEntityBrainzMetaModel(c);
 			if(brainzMetaModel !=null)
 				tempMap.put(brainzMetaModel.getEntityClass(), brainzMetaModel);
 		});
@@ -139,7 +139,7 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	}
 
 
-	private BrainzEntityMetaModel<?, ?> prepareEntityBrainzMetaModel(Class<?> c, Reflections reflections) {
+	private BrainzEntityMetaModel<?, ?> prepareEntityBrainzMetaModel(Class<?> c) {
 		StaticMetamodel sm = c.getAnnotation(StaticMetamodel.class);
 		Class<?> entityClass = sm.value();
 		Class<?> metaModelClass = c;
