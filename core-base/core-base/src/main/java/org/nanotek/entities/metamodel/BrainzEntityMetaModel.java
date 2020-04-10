@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.metamodel.EntityType;
 
 import org.jgrapht.Graph;
+import org.nanotek.proxy.map.BrainzMetaBuddy;
 
 public class BrainzEntityMetaModel<X,Y>{
 
@@ -22,14 +23,13 @@ public class BrainzEntityMetaModel<X,Y>{
 	public BrainzEntityMetaModel() {
 		super();
 		attributeMetaModel = new HashSet<>();
-
 	}
 
 	public BrainzEntityMetaModel(Class<Y> metaModelClass, Class<X> entityClass,EntityType<?> entityType1) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
-		this.entityType = (EntityType<X>) entityType1;
+		this.entityType = BrainzMetaBuddy.with(metaModelClass).newInstance(entityType1);
 		attributeMetaModel = new HashSet<>();
 	}
 	
