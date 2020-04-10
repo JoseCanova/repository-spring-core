@@ -1,12 +1,15 @@
 package org.nanotek.entities.metamodel.query.criteria;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Selection;
 
-public abstract class AbstractBrainzSelection<Z> extends BrainzTupleElement<Z> implements Selection<Z> {
+public abstract class AbstractBrainzSelection<Z> implements Selection<Z> {
 		
 	private Selection<Z> delegateSelector;
+	private CriteriaQuery<?> criteriaQuery;
 	
 	public AbstractBrainzSelection() {
 	}
@@ -14,6 +17,10 @@ public abstract class AbstractBrainzSelection<Z> extends BrainzTupleElement<Z> i
 	public AbstractBrainzSelection(Selection<Z> delegateSelector) {
 		super();
 		this.delegateSelector = delegateSelector;
+	}
+
+	public AbstractBrainzSelection(CriteriaQuery<?> criteriaQuery, Selection<Z> alias) {
+		this.criteriaQuery = criteriaQuery;
 	}
 
 	public Selection<Z> getDelegateSelector() {
@@ -29,7 +36,8 @@ public abstract class AbstractBrainzSelection<Z> extends BrainzTupleElement<Z> i
 	}
 
 	public Selection<Z> alias(String name) {
-		return delegateSelector.alias(name);
+		 this.delegateSelector = delegateSelector.alias(name);
+		 return this;
 	}
 
 	public String getAlias() {
@@ -41,7 +49,17 @@ public abstract class AbstractBrainzSelection<Z> extends BrainzTupleElement<Z> i
 	}
 
 	public List<Selection<?>> getCompoundSelectionItems() {
-		return delegateSelector.getCompoundSelectionItems();
+		List<Selection<?>> l = new ArrayList<>();
+		delegateSelector
+			.getCompoundSelectionItems()
+			.stream()
+			.forEach(p->{
+				if(! (p instanceof AbstractBrainzSelection))
+					l.add(new AbstractBrainzSelection(criteriaQuery,p) {});
+				else 
+					l.add(p);
+			});
+		return l;
 	}
 
 	

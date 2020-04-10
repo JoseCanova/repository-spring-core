@@ -56,7 +56,14 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		afterPropertiesSet();
 	}
 	
-	
+	public BrainzCriteriaQuery(BrainzCriteriaQuery brainzCriteriaQuery) {
+		this.id = brainzCriteriaQuery.id;
+		this.entityManagerFactory = brainzCriteriaQuery.entityManagerFactory;
+		this.brainzMetaModelUtil = brainzCriteriaQuery.brainzMetaModelUtil;
+		this.criteriaBuilder = brainzCriteriaQuery.criteriaBuilder;
+		this.criteriaQuery = brainzCriteriaQuery.criteriaQuery;
+		afterPropertiesSet();
+	}
 	
 
 	public BrainzCriteriaQuery(Class<Y> id, EntityManagerFactory entityManagerFactory,
@@ -79,14 +86,15 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 	
 	
+	@SuppressWarnings("hiding")
 	@Override
-	public <Z> Root<Z> from(Class<Z> entityClass) {
-		return new CriteriaQueryFromCopier(entityClass,entityManagerFactory,brainzMetaModelUtil,criteriaBuilder,criteriaQuery).from(entityClass);
+	public <Y> Root<Y> from(Class<Y> entityClass) {
+		return new CriteriaQueryFromCopier<>(this).from(entityClass);
 	}
 
 	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> select(Selection<? extends Y> selection) {
-		return new CriteriaQuerySelectCopier(getId(),entityManagerFactory,brainzMetaModelUtil,criteriaBuilder,criteriaQuery,selection).select(selection);
+		return new CriteriaQuerySelectCopier(this,selection).select(selection);
 	}
 
 	public <U> Subquery<U> subquery(Class<U> type) {
@@ -94,7 +102,8 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 	public Predicate getRestriction() {
-		return criteriaQuery.getRestriction();
+		return new AbstractBrainzPredicate(this,criteriaQuery.getRestriction()) {
+		}; 
 	}
 
 	public <Z> Root<Z> from(EntityType<Z> entity) {

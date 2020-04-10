@@ -13,15 +13,19 @@ public  class CriteriaQuerySelectCopier<X extends IdBase<X,Y>, Y extends BaseEnt
 
 	private static final long serialVersionUID = 3094942858997785504L;
 
+	
+	public CriteriaQuerySelectCopier(BrainzCriteriaQuery brainzCriteriaQuery,Selection<Y> selection) {
+		super(brainzCriteriaQuery);
+		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection) {
+		});
+	}
+
 	public CriteriaQuerySelectCopier(Class<Y> id, EntityManagerFactory entityManagerFactory,
 			BrainzMetaModelUtil brainzMetaModelUtil, CriteriaBuilder criteriaBuilder,
 			CriteriaQuery<Y> criteriaQuery,Selection<Y> selection) {
 		super(id, entityManagerFactory, brainzMetaModelUtil, criteriaBuilder, criteriaQuery);
 		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection) {
-			@Override
-			public Class<Y> getId() {
-				return id;
-			}
+			
 		});
 	}
 	

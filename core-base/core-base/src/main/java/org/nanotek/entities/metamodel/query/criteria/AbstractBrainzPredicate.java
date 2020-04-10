@@ -3,6 +3,7 @@ package org.nanotek.entities.metamodel.query.criteria;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Selection;
@@ -10,6 +11,7 @@ import javax.persistence.criteria.Selection;
 public abstract class AbstractBrainzPredicate implements Predicate {
 
 	private Predicate delegatePredicate;
+	private CriteriaQuery<?> criteriaQuery;
 	
 	public AbstractBrainzPredicate() {
 	}
@@ -19,8 +21,13 @@ public abstract class AbstractBrainzPredicate implements Predicate {
 		this.delegatePredicate = delegatePredicate;
 	}
 
+	public AbstractBrainzPredicate(CriteriaQuery<?> criteriaQuery, Predicate predicate) {
+		this.criteriaQuery = criteriaQuery;
+		this.delegatePredicate = predicate;
+	}
+
 	public Predicate isNull() {
-		return delegatePredicate.isNull();
+		return new  AbstractBrainzPredicate(criteriaQuery, delegatePredicate.isNull()) {};
 	}
 
 	public Class<? extends Boolean> getJavaType() {
@@ -28,11 +35,11 @@ public abstract class AbstractBrainzPredicate implements Predicate {
 	}
 
 	public Selection<Boolean> alias(String name) {
-		return delegatePredicate.alias(name);
+		return new AbstractBrainzSelection(criteriaQuery , delegatePredicate.alias(name)) {};
 	}
 
 	public Predicate isNotNull() {
-		return delegatePredicate.isNotNull();
+		return new AbstractBrainzPredicate(criteriaQuery , delegatePredicate.isNotNull()) {};
 	}
 
 	public BooleanOperator getOperator() {

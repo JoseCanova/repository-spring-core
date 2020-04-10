@@ -9,7 +9,7 @@ import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
-public class AbstractBrainzFetch<Z, X> implements Fetch<Z, X> {
+public abstract class AbstractBrainzFetch<Z, X> implements Fetch<Z, X> {
 
 	private Fetch<Z,X> delegateFetch;
 	
