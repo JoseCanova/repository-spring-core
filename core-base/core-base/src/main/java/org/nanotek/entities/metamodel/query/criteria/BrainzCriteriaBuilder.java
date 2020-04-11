@@ -32,23 +32,20 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
-import javax.persistence.criteria.CriteriaBuilder.In;
-import javax.persistence.metamodel.Metamodel;
 
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.ExpressionImplementor;
 import org.hibernate.query.criteria.internal.predicate.BetweenPredicate;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate;
+import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator;
 import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.hibernate.query.criteria.internal.predicate.LikePredicate;
-import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.IdBase;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
-import org.nanotek.entities.metamodel.query.criteria.predicate.AbstractBrainzPredicate;
 import org.nanotek.entities.metamodel.query.criteria.predicate.BrainzBetweenPredicate;
 import org.nanotek.entities.metamodel.query.criteria.predicate.BrainzComparisonPredicate;
 import org.nanotek.entities.metamodel.query.criteria.predicate.BrainzInPredicate;
@@ -75,9 +72,6 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 
 	private Reflections reflections;
 
-	private BrainzMetaModelUtil metaModel;
-
-	
 	
 	public BrainzCriteriaBuilder() {
 	}
@@ -90,9 +84,9 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 	}
 
 	private void createMetaModel() {
-		this.metaModel = new BrainzMetaModelUtil(sessionFactory.createEntityManager(),reflections);
+		this.brainzMetaModelUtil = new BrainzMetaModelUtil(sessionFactory.createEntityManager(),reflections);
 		try {
-			this.metaModel.afterPropertiesSet();
+			this.brainzMetaModelUtil.afterPropertiesSet();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,7 +108,8 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		//		ch.entityManager = entityManager;
 		//		ch.brainzMetaModelUtil = metaModel;
 		//		ch.to(Release.class);
-		TypedQuery<?> q = em.createQuery(criteriaQuery.criteriaQuery);
+		criteriaQuery.select(r.get("name"));
+		TypedQuery<?> q = em.createQuery(criteriaQuery.select(r.get("name")));
 		List<?> results = q.getResultList();
 
 		System.out.println("");
@@ -149,14 +144,21 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		return delegateCriteriaBuilder.createQuery();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> CriteriaQuery<T> createQuery(Class<T> resultClass) {
-		return new BrainzCriteriaQuery(this, delegateCriteriaBuilder.createQuery(resultClass),resultClass);
+		return  new BrainzCriteriaQuery(castClass(resultClass), sessionFactory, this , delegateCriteriaBuilder.createQuery(resultClass));//  new BrainzCriteriaQuery(this, delegateCriteriaBuilder.createQuery(resultClass),resultClass);
 	}
 
 	
+	@SuppressWarnings({  "unchecked" })
+	private <X extends IdBase<X,T>,T extends BaseEntity<?,?>> Class<T> castClass(Class<?> resultClass) {
+		return (Class<T>) resultClass.asSubclass(BaseEntity.class);
+	}
+
+
 	private <X extends IdBase<X,T>,T extends BaseEntity<?,?>> BrainzCriteriaQuery<X, T> 
 	createBrainzCriteriaQuery(Class<T> class1) {
-		return new BrainzCriteriaQuery<X,T>(class1, sessionFactory , this.metaModel , this , delegateCriteriaBuilder.createQuery(class1));
+		return new BrainzCriteriaQuery<X,T>(class1, sessionFactory  , this , delegateCriteriaBuilder.createQuery(class1));
 	}
 	
 	public CriteriaQuery<Tuple> createTupleQuery() {
@@ -1211,7 +1213,7 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 				.name("org.nanotek.brainz.buddy.InPredicate")
 				.make()
 				  .load(
-						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 						  .getLoaded().
 						  getConstructor(CriteriaBuilderImpl.class,
 								  Expression.class,
@@ -1247,6 +1249,10 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 	
 	public CriteriaBuilderImpl getDelegateCriteriaBuilder() {
 		return delegateCriteriaBuilder;
+	}
+
+	public BrainzMetaModelUtil getBrainzMetaModelUtil() {
+		return brainzMetaModelUtil;
 	}
 
 	

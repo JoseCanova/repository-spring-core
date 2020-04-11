@@ -32,12 +32,12 @@ import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 
 public 	abstract class  AbstractBrainzRoot<Z> implements Root<Z>,Id<Class<Z>>{ 
 	
-	protected BrainzMetaModelUtil brainzMetaModelUtil;
 	
 	protected Root<Z> delegateRootElement;
 
 	protected CriteriaQuery<?> criteriaQuery;
-	
+
+	protected BrainzCriteriaBuilder brainzCriteriaBuilder;
 	
 	public AbstractBrainzRoot (){}
 	
@@ -45,21 +45,21 @@ public 	abstract class  AbstractBrainzRoot<Z> implements Root<Z>,Id<Class<Z>>{
 		this.delegateRootElement = delegate;
 	}
 	
-	public AbstractBrainzRoot(BrainzMetaModelUtil brainzMetaModelUtil, Root<Z> delegateRootElement) {
+	public AbstractBrainzRoot(BrainzCriteriaBuilder  brainzCriteriaBuilder, Root<Z> delegateRootElement) {
 		super();
-		this.brainzMetaModelUtil = brainzMetaModelUtil;
+		this.brainzCriteriaBuilder = brainzCriteriaBuilder;
 		this.delegateRootElement = delegateRootElement;
 	}
 
-	public AbstractBrainzRoot(CriteriaQuery<?> criteriaQuery, EntityType<Z> entityType,BrainzMetaModelUtil brainzMetaModelUtil) {
+	public AbstractBrainzRoot(BrainzCriteriaBuilder  brainzCriteriaBuilder, EntityType<Z> entityType,BrainzMetaModelUtil brainzMetaModelUtil) {
 		this.delegateRootElement = criteriaQuery.from(entityType);
-		this.brainzMetaModelUtil = brainzMetaModelUtil;
+		this.brainzCriteriaBuilder = brainzCriteriaBuilder;
 		this.criteriaQuery = criteriaQuery;
 	}
 
 	@Override
 	public EntityType<Z> getModel() {
-		return brainzMetaModelUtil.getMetaModel(getId()).getEntityType();
+		return   brainzCriteriaBuilder.  brainzMetaModelUtil.getMetaModel(getId()).getEntityType();
 	}
 
 	public Predicate isNull() {

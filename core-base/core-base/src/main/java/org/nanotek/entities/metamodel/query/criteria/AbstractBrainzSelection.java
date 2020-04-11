@@ -1,63 +1,53 @@
 package org.nanotek.entities.metamodel.query.criteria;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Selection;
 
-public  class AbstractBrainzSelection<Z> extends AbstractBrainzTupleElement<Z> implements Selection<Z> {
+import org.hibernate.query.criteria.internal.SelectionImplementor;
+import org.hibernate.query.criteria.internal.ValueHandlerFactory.ValueHandler;
+
+public  class AbstractBrainzSelection<Z,Y extends SelectionImplementor<Z>> 
+extends AbstractBrainzTupleElement<Z,Y> implements BrainzSelectionImplementor<Z,Y> {
 		
-	protected Selection<Z> delegateSelector;
 
-	
-	public AbstractBrainzSelection() {
+	private AbstractBrainzSelection(Y delegateSelector) {
+		super(null , null);
+		this.delegateTupleElement = delegateSelector;
 	}
 	
-	public AbstractBrainzSelection(Selection<Z> delegateSelector) {
-		super(delegateSelector);
-		this.delegateSelector = delegateSelector;
-	}
-
-	public AbstractBrainzSelection(BrainzCriteriaBuilder criteriaBuilder, Selection<Z> alias) {
-		super(criteriaBuilder,alias);
-		this.delegateSelector = alias;
+	public AbstractBrainzSelection(BrainzCriteriaBuilder criteriaBuilder, Y delegateSelector) {
+		super(criteriaBuilder,delegateSelector);
 	}
 
 	public Selection<Z> getDelegateSelector() {
-		return delegateSelector;
+		return delegateTupleElement;
 	}
 
-	public void setDelegateSelector(Selection<Z> delegateSelector) {
-		this.delegateSelector = delegateSelector;
+	public void setDelegateSelector(Y delegateSelector) {
+		this.delegateTupleElement = delegateSelector;
 	}
 
 
 	public Selection<Z> alias(String name) {
-		 this.delegateSelector = delegateSelector.alias(name);
-		 return this;
+		 return delegateTupleElement.alias(name);
 	}
 
 	public String getAlias() {
-		return delegateSelector.getAlias();
+		return delegateTupleElement.getAlias();
 	}
 
 	public boolean isCompoundSelection() {
-		return delegateSelector.isCompoundSelection();
+		return delegateTupleElement.isCompoundSelection();
 	}
 
 	public List<Selection<?>> getCompoundSelectionItems() {
-		List<Selection<?>> l = new ArrayList<>();
-		delegateSelector
-			.getCompoundSelectionItems()
-			.stream()
-			.forEach(p->{
-				if(! (p instanceof AbstractBrainzSelection))
-					l.add(new AbstractBrainzSelection(brainzCriteriaBuilder,p));
-				else 
-					l.add(p);
-			});
-		return l;
+		return delegateTupleElement.getCompoundSelectionItems();
+	}
+
+	@Override
+	public List<ValueHandler> getValueHandlers() {
+		return delegateTupleElement.getValueHandlers();
 	}
 
 	

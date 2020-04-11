@@ -1,32 +1,29 @@
 package org.nanotek.entities.metamodel.query.criteria;
 
-import javax.persistence.TupleElement;
+import org.hibernate.query.criteria.internal.TupleElementImplementor;
+import org.hibernate.query.criteria.internal.expression.AbstractTupleElement;
 
-import org.nanotek.Id;
-
-public abstract class AbstractBrainzTupleElement<Z> implements TupleElement<Z> ,Id<Class<? extends Z>>{
-
-	protected  TupleElement<Z> delegateTupleElement;
+public  class AbstractBrainzTupleElement
+<Z,Y extends TupleElementImplementor<Z>> 
+extends AbstractTupleElement<Z> 
+implements BrainzTupleImplementor<Z,Y>{
+	
+	
+	protected Class<Z> Id;
+	
+	protected  Y delegateTupleElement;
 	
 	protected  BrainzCriteriaBuilder  brainzCriteriaBuilder;
 	
-	public AbstractBrainzTupleElement() {
-	}
 
-	public AbstractBrainzTupleElement(TupleElement<Z> delegateTupleElement) {
-		super();
-		this.delegateTupleElement = delegateTupleElement;
-	}
-	
-
-	public AbstractBrainzTupleElement(BrainzCriteriaBuilder  brainzCriteriaBuilder , TupleElement<Z> delegateTupleElement) {
-		super();
-		this.delegateTupleElement = delegateTupleElement;
+	public AbstractBrainzTupleElement(BrainzCriteriaBuilder  brainzCriteriaBuilder , Y tupleImplementor) {
+		super(brainzCriteriaBuilder.getDelegateCriteriaBuilder(),withId(tupleImplementor.getJavaType()));
+		this.delegateTupleElement = tupleImplementor;
 		this.brainzCriteriaBuilder = brainzCriteriaBuilder;
 	}
 
-	public Class<? extends Z> getJavaType() {
-		return delegateTupleElement.getJavaType();
+	private static <Y extends X,X>  Class<Y> withId(Class<? extends X> javaType) {
+		return (Class<Y>) javaType;
 	}
 
 	public String getAlias() {
@@ -34,7 +31,12 @@ public abstract class AbstractBrainzTupleElement<Z> implements TupleElement<Z> ,
 	}
 	
 	@Override
-	public Class<? extends Z> getId() {
-		return delegateTupleElement.getJavaType();
+	public Class<Z> getId() {
+		return withId(delegateTupleElement.getJavaType());
+	}
+	
+	@Override
+	public Y getDelegateTupleElement() {
+		return delegateTupleElement;
 	}
 }
