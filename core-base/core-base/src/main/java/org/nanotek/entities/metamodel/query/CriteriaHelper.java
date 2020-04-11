@@ -42,11 +42,11 @@ public class CriteriaHelper<X extends BaseEntity<?,?>> {
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
 	
-	private CriteriaBuilder criteriaBuilder;
+	protected CriteriaBuilder criteriaBuilder;
 
-	private Class<X> entityClass;
+	protected Class<X> entityClass;
 
-	private CriteriaHelper<X>
+	protected CriteriaHelper<X>
 			.QueryHolder<CriteriaQuery<?>,Root<?>> queryHolder;
 	
 	public CriteriaHelper() {

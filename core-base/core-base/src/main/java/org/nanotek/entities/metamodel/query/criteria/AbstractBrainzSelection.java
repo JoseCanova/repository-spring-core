@@ -6,21 +6,22 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Selection;
 
-public abstract class AbstractBrainzSelection<Z> implements Selection<Z> {
+public  class AbstractBrainzSelection<Z> extends AbstractBrainzTupleElement<Z> implements Selection<Z> {
 		
-	private Selection<Z> delegateSelector;
-	private CriteriaQuery<?> criteriaQuery;
+	protected Selection<Z> delegateSelector;
+
 	
 	public AbstractBrainzSelection() {
 	}
 	
 	public AbstractBrainzSelection(Selection<Z> delegateSelector) {
-		super();
+		super(delegateSelector);
 		this.delegateSelector = delegateSelector;
 	}
 
-	public AbstractBrainzSelection(CriteriaQuery<?> criteriaQuery, Selection<Z> alias) {
-		this.criteriaQuery = criteriaQuery;
+	public AbstractBrainzSelection(BrainzCriteriaBuilder criteriaBuilder, Selection<Z> alias) {
+		super(criteriaBuilder,alias);
+		this.delegateSelector = alias;
 	}
 
 	public Selection<Z> getDelegateSelector() {
@@ -31,9 +32,6 @@ public abstract class AbstractBrainzSelection<Z> implements Selection<Z> {
 		this.delegateSelector = delegateSelector;
 	}
 
-	public Class<? extends Z> getJavaType() {
-		return delegateSelector.getJavaType();
-	}
 
 	public Selection<Z> alias(String name) {
 		 this.delegateSelector = delegateSelector.alias(name);
@@ -55,7 +53,7 @@ public abstract class AbstractBrainzSelection<Z> implements Selection<Z> {
 			.stream()
 			.forEach(p->{
 				if(! (p instanceof AbstractBrainzSelection))
-					l.add(new AbstractBrainzSelection(criteriaQuery,p) {});
+					l.add(new AbstractBrainzSelection(brainzCriteriaBuilder,p));
 				else 
 					l.add(p);
 			});

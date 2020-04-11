@@ -1,5 +1,6 @@
 package org.nanotek.entities.metamodel.query.criteria;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.query.CriteriaHelper;
+import org.nanotek.entities.metamodel.query.criteria.predicate.AbstractBrainzPredicate;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -36,18 +38,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BrainzCriteriaQuery
 <X extends IdBase<X,Y>, Y extends BaseEntity<?,?>> 
 implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
-	
+
 	private static final long serialVersionUID = 7036293271761390183L;
 
 	protected Class<Y> id;
-	
+
 	protected EntityManagerFactory entityManagerFactory;
-	
+
 	@Autowired
 	protected BrainzMetaModelUtil brainzMetaModelUtil;
-	
+
 	protected CriteriaBuilder criteriaBuilder;
-	
+
 	protected CriteriaQuery<Y> criteriaQuery;
 
 	public BrainzCriteriaQuery(CriteriaBuilder criteriaBuilder, Class<Y> returnType) {
@@ -55,6 +57,14 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		this.criteriaBuilder = criteriaBuilder;
 		afterPropertiesSet();
 	}
+
+	public BrainzCriteriaQuery(CriteriaBuilder criteriaBuilder, CriteriaQuery<Y> criteriaQuery , Class<Y> returnType) {
+		this.id = returnType;
+		this.criteriaBuilder = criteriaBuilder;
+		this.criteriaQuery = criteriaQuery;
+		afterPropertiesSet();
+	}
+	
 	
 	public BrainzCriteriaQuery(BrainzCriteriaQuery brainzCriteriaQuery) {
 		this.id = brainzCriteriaQuery.id;
@@ -64,7 +74,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		this.criteriaQuery = brainzCriteriaQuery.criteriaQuery;
 		afterPropertiesSet();
 	}
-	
+
 
 	public BrainzCriteriaQuery(Class<Y> id, EntityManagerFactory entityManagerFactory,
 			BrainzMetaModelUtil brainzMetaModelUtil, CriteriaBuilder criteriaBuilder, CriteriaQuery<Y> criteriaQuery) {
@@ -84,8 +94,8 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	public Class<Y> getId() {
 		return id;
 	}
-	
-	
+
+
 	@SuppressWarnings("hiding")
 	@Override
 	public <Y> Root<Y> from(Class<Y> entityClass) {
@@ -102,8 +112,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 	public Predicate getRestriction() {
-		return new AbstractBrainzPredicate(this,criteriaQuery.getRestriction()) {
-		}; 
+		return criteriaQuery.getRestriction(); 
 	}
 
 	public <Z> Root<Z> from(EntityType<Z> entity) {
@@ -111,7 +120,8 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 	public CriteriaQuery<Y> multiselect(Selection<?>... selections) {
-		return criteriaQuery.multiselect(selections);
+		criteriaQuery = criteriaQuery.multiselect(selections);
+		return criteriaQuery;
 	}
 
 	public Set<Root<?>> getRoots() {
@@ -119,15 +129,17 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	}
 
 	public CriteriaQuery<Y> multiselect(List<Selection<?>> selectionList) {
-		return criteriaQuery.multiselect(selectionList);
+		return (criteriaQuery = criteriaQuery.multiselect(selectionList));
 	}
 
 	public Selection<Y> getSelection() {
 		return criteriaQuery.getSelection();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List<Expression<?>> getGroupList() {
-		return criteriaQuery.getGroupList();
+		 return criteriaQuery
+				 	.getGroupList();
 	}
 
 	public Predicate getGroupRestriction() {
@@ -142,84 +154,87 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		return criteriaQuery.getResultType();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> where(Expression<Boolean> restriction) {
-		return criteriaQuery.where(restriction);
+		return (criteriaQuery = criteriaQuery.where(restriction));
 	}
 
 	public CriteriaQuery<Y> where(Predicate... restrictions) {
-		return criteriaQuery.where(restrictions);
+		return (criteriaQuery = criteriaQuery.where(restrictions));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> groupBy(Expression<?>... grouping) {
-		return criteriaQuery.groupBy(grouping);
+		return (criteriaQuery = criteriaQuery.groupBy(grouping));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> groupBy(List<Expression<?>> grouping) {
-		return criteriaQuery.groupBy(grouping);
+		return (criteriaQuery =  criteriaQuery.groupBy(grouping));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> having(Expression<Boolean> restriction) {
-		return criteriaQuery.having(restriction);
+		return (criteriaQuery = criteriaQuery.having(restriction));
 	}
 
 	public CriteriaQuery<Y> having(Predicate... restrictions) {
-		return criteriaQuery.having(restrictions);
+		return (criteriaQuery = criteriaQuery.having(restrictions));
 	}
 
 	public CriteriaQuery<Y> orderBy(Order... o) {
-		return criteriaQuery.orderBy(o);
+		return (criteriaQuery = criteriaQuery.orderBy(o));
 	}
 
 	public CriteriaQuery<Y> orderBy(List<Order> o) {
-		return criteriaQuery.orderBy(o);
+		return (criteriaQuery = criteriaQuery.orderBy(o));
 	}
 
 	public CriteriaQuery<Y> distinct(boolean distinct) {
-		return criteriaQuery.distinct(distinct);
+		return (criteriaQuery = criteriaQuery.distinct(distinct));
 	}
 
 	public List<Order> getOrderList() {
-		return criteriaQuery.getOrderList();
+		return criteriaQuery.getOrderList(); 
 	}
 
 	public Set<ParameterExpression<?>> getParameters() {
 		return criteriaQuery.getParameters();
 	}
 
-	
-	
-@SuppressWarnings("unused")
-public static <X extends Artist> void main(String[] args) throws Exception { 
-		
+	@SuppressWarnings("unused")
+	public static <X extends Artist> void main(String[] args) throws Exception { 
+
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("spring-core-music-brainz");
 		Reflections reflections = newReflections();
 		EntityManager entityManager = emf.createEntityManager();
 		BrainzMetaModelUtil metaModel = new BrainzMetaModelUtil(entityManager,reflections);
 		metaModel.afterPropertiesSet();
-		
+
 		Metamodel metaModelE= entityManager.getMetamodel();
-		
+
 		CriteriaBuilder cb =  entityManager.getCriteriaBuilder();
 		CriteriaQuery<?> query = cb.createQuery(Artist.class);
-		
+
 		BrainzCriteriaQuery<?, ?> bcq =  new BrainzCriteriaQuery(Artist.class, emf, metaModel, cb, query);
 		Root<Artist> r = bcq.from(Artist.class);
+		bcq.orderBy(bcq.criteriaBuilder.asc(r.get("name")).reverse());
 
-//		ch.entityManager = entityManager;
-//		ch.brainzMetaModelUtil = metaModel;
-//		ch.to(Release.class);
+		//		ch.entityManager = entityManager;
+		//		ch.brainzMetaModelUtil = metaModel;
+		//		ch.to(Release.class);
 		TypedQuery<?> q = entityManager.createQuery(query);
 		List<?> results = q.getResultList();
-		
+
 		System.out.println("");
 	}
-	
+
 	public static Reflections newReflections() { 
-			return new Reflections(new ConfigurationBuilder()
-				     .setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
-				     .setScanners(new SubTypesScanner(), 
-			                  new TypeAnnotationsScanner()));
+		return new Reflections(new ConfigurationBuilder()
+				.setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
+				.setScanners(new SubTypesScanner(), 
+						new TypeAnnotationsScanner()));
 	}
-	
-	
+
+
 }

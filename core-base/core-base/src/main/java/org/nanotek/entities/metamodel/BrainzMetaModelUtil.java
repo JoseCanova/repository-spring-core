@@ -55,6 +55,7 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <X,Y> BrainzEntityMetaModel<X,Y> getMetaModel(Class<? super  X> clazz){
 		return (BrainzEntityMetaModel<X, Y>) metaModelMap.get(clazz);
 	}

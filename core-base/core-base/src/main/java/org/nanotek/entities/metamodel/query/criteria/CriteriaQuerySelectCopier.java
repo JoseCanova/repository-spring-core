@@ -16,17 +16,14 @@ public  class CriteriaQuerySelectCopier<X extends IdBase<X,Y>, Y extends BaseEnt
 	
 	public CriteriaQuerySelectCopier(BrainzCriteriaQuery brainzCriteriaQuery,Selection<Y> selection) {
 		super(brainzCriteriaQuery);
-		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection) {
-		});
+		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection));
 	}
 
 	public CriteriaQuerySelectCopier(Class<Y> id, EntityManagerFactory entityManagerFactory,
 			BrainzMetaModelUtil brainzMetaModelUtil, CriteriaBuilder criteriaBuilder,
 			CriteriaQuery<Y> criteriaQuery,Selection<Y> selection) {
 		super(id, entityManagerFactory, brainzMetaModelUtil, criteriaBuilder, criteriaQuery);
-		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection) {
-			
-		});
+		this.criteriaQuery = criteriaQuery.select(new AbstractBrainzSelection<Y>(selection));
 	}
 	
 	@Override
