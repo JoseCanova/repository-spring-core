@@ -32,6 +32,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
+import javax.persistence.metamodel.EntityType;
 
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
@@ -43,8 +44,10 @@ import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.hibernate.query.criteria.internal.predicate.LikePredicate;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
+import org.nanotek.EntityTypeSupport;
 import org.nanotek.IdBase;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.query.criteria.predicate.BrainzBetweenPredicate;
 import org.nanotek.entities.metamodel.query.criteria.predicate.BrainzComparisonPredicate;
@@ -102,10 +105,13 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		EntityManager em = emf.createEntityManager();
 		BrainzCriteriaBuilder criteriaBuilder = new BrainzCriteriaBuilder(emf);
 		BrainzCriteriaQuery<?,?> criteriaQuery = criteriaBuilder.createBrainzCriteriaQuery(Artist.class);
-		Root<Artist> r = criteriaQuery.from(Artist.class);
+		BrainzEntityMetaModel<Artist,?> artistMetaModel = criteriaBuilder.getBrainzMetaModelUtil().getMetaModel(Artist.class);
+		EntityTypeSupport<?,Artist> typeSupport = artistMetaModel.getEntityTypeSupport();
+		Root<Artist> r = criteriaQuery.from(typeSupport); 
 		criteriaQuery.where(criteriaBuilder.like(r.get("name"),"D%"));
 		criteriaQuery.orderBy(criteriaBuilder.asc(r.get("name")).reverse());
 		//		ch.entityManager = entityManager;
+		
 		//		ch.brainzMetaModelUtil = metaModel;
 		//		ch.to(Release.class);
 		criteriaQuery.select(r.get("name"));

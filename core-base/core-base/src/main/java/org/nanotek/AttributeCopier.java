@@ -13,22 +13,24 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 	
 	@Override
 	default  void copy(K k) {
-		Optional<PropertyDescriptor[]> thisProperties = MutatorSupport.getPropertyDescriptors(this.getClass());
-		Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
-		Class<?> clz  = k.getClass();
-		descriptorMap
-			.keySet().stream().forEach(v-> { 
-			try {
-				Object valueToCopy = k.getAttribute(v);
-				PropertyDescriptor p = descriptorMap.get(v);
-				if(p!=null && valueToCopy !=null) { 
-					p.getWriteMethod().invoke(this, valueToCopy);
+		if(k!=null) {
+			Optional<PropertyDescriptor[]> thisProperties = MutatorSupport.getPropertyDescriptors(this.getClass());
+			Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
+			Class<?> clz  = k.getClass();
+			descriptorMap
+				.keySet().stream().forEach(v-> { 
+				try {
+					Object valueToCopy = k.getAttribute(v);
+					PropertyDescriptor p = descriptorMap.get(v);
+					if(p!=null && valueToCopy !=null) { 
+						p.getWriteMethod().invoke(this, valueToCopy);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BaseException(e);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new BaseException(e);
-			}
-		});
+			});
+		}
 	}
 
 	default Map<String, PropertyDescriptor> toMap(Optional<PropertyDescriptor[]> thisProperties){

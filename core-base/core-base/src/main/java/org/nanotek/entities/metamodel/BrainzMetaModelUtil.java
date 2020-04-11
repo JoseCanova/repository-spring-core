@@ -160,11 +160,10 @@ public class BrainzMetaModelUtil implements InitializingBean{
 	private EntityType<?> getEntityType(Class<?> entityClass, Set<EntityType<?>> entities) {
 		return entities
 				.stream()
-				.filter(e->e.getJavaType().equals(entityClass)).findFirst().orElse(null);
-
+				.filter(e->e.getJavaType().equals(entityClass))
+				.findFirst().orElse(null);
 	}
-
-
+ 
 	@SuppressWarnings("unchecked")
 	private <X> Set<AttributeMetaModel<?>> getMetamodelAttributes(Field[] fields,EntityType<?> et) {
 		return Stream

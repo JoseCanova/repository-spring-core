@@ -4,7 +4,11 @@ import java.beans.BeanInfo;
 import java.beans.Beans;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.nanotek.beans.entity.Artist;
 
 
 public interface MutatorSupport<T> {
@@ -12,6 +16,30 @@ public interface MutatorSupport<T> {
 
 	default boolean instanceOf(Class<?> clazz) { 
 		return Beans.isInstanceOf(this, clazz);
+	}
+
+	default <Z> Optional<? super Z> getProperty(String propertyName) { 
+		return getPropertyDescriptors(this.getClass())
+		.map(ps->{
+			PropertyDescriptor z = null;
+			return Stream
+				.of(ps)
+				.reduce(z,(test , value)->{
+					if(value.getName().equals(propertyName)) {
+						test = value;
+					}
+					return test;
+				});
+		})
+		.map(p->read(p.getReadMethod(), this));
+	}
+	
+	default Object read(Method readMethod, MutatorSupport<T> mutatorSupport) {
+		try{
+			return readMethod.invoke(mutatorSupport, new Object[] {});
+		}catch(Exception ex) { 
+			throw new BaseException();
+		}
 	}
 
 	static Optional<PropertyDescriptor[]> getPropertyDescriptors(Class<?> type) { 
@@ -24,6 +52,7 @@ public interface MutatorSupport<T> {
 		}
 		return Optional.empty();
 	}
+	
 	/**
 	 * use just for acessor/mutator interfaces.
 	 * @param type
@@ -40,4 +69,5 @@ public interface MutatorSupport<T> {
 		}
 		return Optional.empty();
 	}
+	
 }

@@ -1,7 +1,9 @@
 package org.nanotek.proxy.map;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.nanotek.BaseException;
+import org.nanotek.EntityTypeSupport;
 import org.assertj.core.util.introspection.ClassUtils;
 import org.nanotek.AttributeCopier;
 import org.nanotek.MutatorSupport;
@@ -26,11 +29,21 @@ import com.google.common.base.Objects;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
 import net.bytebuddy.description.field.FieldDescription;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.modifier.ModifierContributor;
+import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 import net.bytebuddy.implementation.FieldAccessor;
+import net.bytebuddy.implementation.Implementation;
+import net.bytebuddy.implementation.InvocationHandlerAdapter;
+import net.bytebuddy.implementation.MethodCall;
+import net.bytebuddy.implementation.MethodCall.FieldSetting;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.jar.asm.Opcodes;
 
 /**
  * Designed for MetaModel JPA Classes.
@@ -71,7 +84,8 @@ public class BrainzMetaBuddy {
 	
 	public <K> K newInstance(EntityType<?> k) {
 		try {
-			 Object o =  powerClass.getConstructor().newInstance();
+			 Constructor c = powerClass.getConstructor(EntityType.class);
+			 Object o =  powerClass.getConstructor(EntityType.class).newInstance(new Object[] {k});
 			 ((AttributeCopier)o).copy(k);
 			 return (K)o;
 		}catch (Exception ex) {
@@ -88,11 +102,19 @@ public class BrainzMetaBuddy {
 		Class<?> clazz = metaModelClass.asSubclass(metaModelClass);
 		
 		buddy = new ByteBuddy(ClassFileVersion.JAVA_V8)
-				.subclass(clazz)
+				.subclass(clazz,ConstructorStrategy.Default.DEFAULT_CONSTRUCTOR)
 				.name("org.nanotek.proxy.buddy.BrainzMeta"+clazz.getSimpleName());
 		buddy  = buddy.implement(AttributeCopier.class);
-		getFields(metaModelClass).forEach(f->
-							{
+		buddy  = buddy.implement(EntityTypeSupport.class);
+		buddy = buddy.defineProperty("entityType", EntityType.class);
+		buddy  = buddy.defineConstructor(Visibility.PUBLIC )
+				.withParameter(EntityType.class,"entityType",Opcodes.ACC_MANDATED)
+				.intercept(MethodCall
+			               .invoke(metaModelClass.getDeclaredConstructor())
+			               .onSuper()
+			               .andThen(FieldAccessor.ofField("entityType").setsArgumentAt(0)));
+				getFields(metaModelClass).forEach(f->
+							{   
 								if(!f.getType().equals(String.class)) {
 									buddy = buddy.defineProperty(f.getName(), f.getType());
 								}
@@ -108,9 +130,26 @@ public class BrainzMetaBuddy {
 		return Arrays.asList(classId.getFields());
 	}
 	
-	public static <K> void main(String[] args) {
+	public static <K> void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+//		Class<?> target = new ByteBuddy()
+//				  .subclass(Object.class)
+//				  .name("com.test.MyClass")
+//				  .defineConstructor(Opcodes.ACC_PUBLIC)
+//				  .withParameters(String.class)
+//				  .intercept(MethodCall.invoke(Object.class.getConstructor()).andThen(FieldAccessor.ofField("hello").setsArgumentAt(0)))
+//				  .defineField("hello", String.class, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL).value("world")
+//				  .make()
+//				  .load(ClassLoader.getSystemClassLoader()).getLoaded();
+//
+//				  Object targetObj = target.getConstructor(String.class).newInstance("world");
+//
+//				  Field f = target.getDeclaredField("hello");
+//				  f.setAccessible(true);
+//				  System.out.println(f.get(targetObj));
+		
+		
 		BrainzMetaBuddy buddy =  BrainzMetaBuddy.with(Artist_.class);
-		Object buddy1 = buddy.newInstance(); 
+		Object buddy1 = buddy.newInstance(null); 
 		MutatorSupport
 		.getPropertyDescriptors(buddy1.getClass())
 		.ifPresent(properties->{

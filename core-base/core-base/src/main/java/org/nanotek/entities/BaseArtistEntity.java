@@ -1,6 +1,5 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,11 +26,4 @@ MutableArtistBeginAreaEntity<Area<?>>,
 MutableArtistEndAreaEntity<Area<?>>,
 MutableGidEntity<UUID>,MutableNameEntity<String>,
 MutableArtistCreditCollection<List<ArtistCredit<?>>>{
-	
-	@Override
-	Area<?> getArea();
-	
-	@Override
-	void setName(String k);
-
 }
