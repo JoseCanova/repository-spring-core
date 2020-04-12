@@ -20,8 +20,8 @@ import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableInstrumentCommentEntity;
 import org.nanotek.entities.MutableInstrumentDescriptionEntity;
 import org.nanotek.entities.MutableInstrumentIdEntity;
+import org.nanotek.entities.MutableInstrumentNameEntity;
 import org.nanotek.entities.MutableInstrumentTypeEntity;
-import org.nanotek.entities.MutableNameEntity;
 
 @Entity
 @Table(name="instrument", 
@@ -35,7 +35,7 @@ MutableInstrumentIdEntity<Long>,
 MutableInstrumentTypeEntity<InstrumentType<?>>,
 MutableInstrumentCommentEntity<InstrumentComment<?>>,
 MutableInstrumentDescriptionEntity<InstrumentDescription<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 
 	private static final long serialVersionUID = 1720965406197902687L;
 	
@@ -59,17 +59,17 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String instrumentName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getInstrumentName() {
+		return instrumentName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setInstrumentName(String k) {
+		this.instrumentName = k;
 	}
 	
 	@NotNull
@@ -99,7 +99,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 						@NotBlank String name,
 						@NotNull InstrumentType<?> type) {
 		super();
-		this.name = name;
+		this.instrumentName = name;
 		this.gid = gid;
 		this.instrumentType = type;
 		this.instrumentId = id;
@@ -113,7 +113,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 						InstrumentComment<?> comment, 
 						InstrumentDescription<?> description) {
 		super();
-		this.name = name;
+		this.instrumentName = name;
 		this.gid = gid;
 		this.instrumentType = type;
 		this.instrumentComment = comment;

@@ -5,6 +5,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistCreditBean;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.entities.immutables.ArtistCreditIdEntity;
+import org.nanotek.entities.immutables.ArtistCreditNameEntity;
 
 public interface BaseArtistCreditBean
 <K extends BaseBean<K,ArtistCredit<?>>> 
@@ -12,18 +13,18 @@ extends
 Base<K>,
 BaseBean<K,ArtistCredit<?>>,
 MutableArtistCreditIdEntity<Long>,
-MutableNameEntity<String>,
+MutableArtistCreditNameEntity<String>,
 MutableArtistCreditCountEntity<BaseArtistCreditCountBean<?>>,
 MutableArtistCreditRefCountEntity<BaseArtistCreditRefCountBean<?>>
 {
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(n ->String.class.cast(n)).orElse("");
+	default String getArtistCreditName() {
+		return read(ArtistCreditNameEntity.class).map(n ->String.class.cast(n)).orElse("");
 	}
 	
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setArtistCreditName(String k) {
+		write(MutableArtistCreditNameEntity.class,k);
 	}
 	
 	@Override
@@ -54,8 +55,8 @@ MutableArtistCreditRefCountEntity<BaseArtistCreditRefCountBean<?>>
 	
 	public static void main(String[] args) {
 		ArtistCreditBean<?> bean = new ArtistCreditBean<>();
-		bean.setName("this is a name");
-		System.out.println(bean.getName());
+		bean.setArtistCreditName("this is a name");
+		System.out.println(bean.getArtistCreditName());
 		bean.setArtistCreditId(1000L);
 		System.out.println(bean.getArtistCreditId());
 	}

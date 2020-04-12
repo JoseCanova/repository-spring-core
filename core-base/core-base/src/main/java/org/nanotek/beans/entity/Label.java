@@ -18,6 +18,7 @@ import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableLabelBeginDateEntity;
 import org.nanotek.entities.MutableLabelCodeEntity;
 import org.nanotek.entities.MutableLabelEndDateEntity;
+import org.nanotek.entities.MutableLabelNameEntity;
 import org.nanotek.entities.MutableLabelTypeEntity;
 import org.nanotek.entities.MutableNameEntity;
 
@@ -27,7 +28,7 @@ import org.nanotek.entities.MutableNameEntity;
 public class Label<K extends Label<K>> 
 extends SortNameBase<K>
 implements BaseLabelEntity<K>,
-MutableGidEntity<UUID>,MutableNameEntity<String>,
+MutableGidEntity<UUID>,MutableLabelNameEntity<String>,
 MutableLabelBeginDateEntity<LabelBeginDate<?>>,
 MutableLabelEndDateEntity<LabelEndDate<?>>,
 MutableLabelTypeEntity<LabelType<?>>,
@@ -43,7 +44,7 @@ MutableLabelCodeEntity<Integer>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String labelName;
 
 	@ManyToOne
 	public LabelType<?> labelType;
@@ -69,7 +70,7 @@ MutableLabelCodeEntity<Integer>{
 		super(sortName);
 		this.labelId = labelId;
 		this.gid = gid;
-		this.name = name;
+		this.labelName = name;
 		this.labelType = labelType;
 	}
 	
@@ -94,73 +95,49 @@ MutableLabelCodeEntity<Integer>{
 		this.labelId = labelId;
 	}
 
-
-
 	public UUID getGid() {
 		return gid;
 	}
-
-
 
 	public void setGid(UUID gid) {
 		this.gid = gid;
 	}
 
-
-
-	public String getName() {
-		return name;
+	public String getLabelName() {
+		return labelName;
 	}
 
-
-
-	public void setName(String name) {
-		this.name = name;
+	public void setLabelName(String name) {
+		this.labelName = name;
 	}
-
-
 
 	public LabelType<?> getLabelType() {
 		return labelType;
 	}
 
-
-
 	public void setLabelType(LabelType<?> labelType) {
 		this.labelType = labelType;
 	}
-
-
-
+	
 	public Integer getLabelCode() {
 		return labelCode;
 	}
-
-
 
 	public void setLabelCode(Integer labelCode) {
 		this.labelCode = labelCode;
 	}
 
-
-
 	public LabelBeginDate<?> getLabelBeginDate() {
 		return labelBeginDate;
 	}
-
-
 
 	public void setLabelBeginDate(LabelBeginDate<?> labelBeginDate) {
 		this.labelBeginDate = labelBeginDate;
 	}
 
-
-
 	public LabelEndDate<?> getLabelEndDate() {
 		return labelEndDate;
 	}
-
-
 
 	public void setLabelEndDate(LabelEndDate<?> labelEndDate) {
 		this.labelEndDate = labelEndDate;

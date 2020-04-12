@@ -5,16 +5,27 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableRecordingAliasIdEntity;
+import org.nanotek.entities.MutableRecordingAliasNameEntity;
+import org.nanotek.entities.MutableRecordingAliasSortNameEntity;
+import org.nanotek.entities.MutableRecordingEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @DiscriminatorValue(value = "RecordingAlias")
 public class RecordingAlias<K extends RecordingAlias<K>> extends LongIdSortName<K> 
-implements MutableRecordingAliasIdEntity<Long>{
+implements 
+MutableRecordingAliasIdEntity<Long>,
+MutableRecordingAliasNameEntity<String>,
+MutableRecordingEntity<Recording<?>>,
+MutableRecordingAliasSortNameEntity<RecordingAliasSortName<?>>{
 
 	public static final long serialVersionUID = -1952011326249338518L;
 
@@ -25,6 +36,39 @@ implements MutableRecordingAliasIdEntity<Long>{
 	@Column(name="locale", length=1000)
 	public String locale; 
 	
+	
+	@NotNull
+	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
+	public String recordingAliasName;
+
+	
+	public String getRecordingAliasName() {
+		return recordingAliasName;
+	}
+
+
+	public void setRecordingAliasName(String recordingAliasName) {
+		this.recordingAliasName = recordingAliasName;
+	}
+	
+
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@OneToOne(optional=false)
+	@JoinTable(
+			name = "ralias_sortname_join", 
+			joinColumns = @JoinColumn(name = "ralias_id" , referencedColumnName = "id"), 
+			inverseJoinColumns = @JoinColumn(name = "sort_name_id",referencedColumnName = "id") )
+	public RecordingAliasSortName<?> recordingAliasSortName;
+	
+
+	public RecordingAliasSortName<?> getRecordingAliasSortName() {
+		return recordingAliasSortName;
+	}
+
+	public void setRecordingAliasSortName(RecordingAliasSortName<?> recordingAliasSortName) {
+		this.recordingAliasSortName = recordingAliasSortName;
+	}
+
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "recording_id")
