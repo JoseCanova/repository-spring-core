@@ -73,17 +73,17 @@ public class Area
 	 */
 	@NotNull(groups = {Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String areaName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getAreaName() {
+		return areaName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setAreaName(String k) {
+		this.areaName = k;
 	}
 	
 	public Area() {
@@ -94,7 +94,7 @@ public class Area
 	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
-		this.name = name;
+		this.areaName = name;
 		this.gid = gid;
 		this.areaId = id;
 		this.areaType = type;

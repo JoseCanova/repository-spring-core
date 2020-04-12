@@ -14,5 +14,5 @@ MutableTypeEntity<AreaType<?>>,
 MutableAreaCommentEntity<AreaComment<?>>,
 MutableAreaBeginDateEntity<AreaBeginDate<?>>,
 MutableAreaEndDateEntity<AreaEndDate<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,MutableAreaNameEntity<String>{
 }

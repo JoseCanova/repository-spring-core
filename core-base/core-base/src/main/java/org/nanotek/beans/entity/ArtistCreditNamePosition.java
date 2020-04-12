@@ -13,30 +13,30 @@ import org.nanotek.entities.MutableArtistCreditNameEntity;
 public class ArtistCreditNamePosition<T extends ArtistCreditNamePosition<T>> 
 extends LongPositionBase<T> 
 implements BaseArtistCreditNamePositionEntity,
-MutableArtistCreditNameEntity<ArtistCreditName<?>>{
+MutableArtistCreditNameEntity<ArtistCreditedName<?>>{
 
 	private static final long serialVersionUID = -482152069144029668L;
 	
 	@NotNull
 	@OneToOne(mappedBy="artistCreditNamePosition")
-	private ArtistCreditName<?> artistCreditName;
+	private ArtistCreditedName<?> artistCreditName;
 	
 	
 	public ArtistCreditNamePosition() {}
 	
 	
-	public ArtistCreditNamePosition(@NotNull ArtistCreditName<?> artistCreditName) {
+	public ArtistCreditNamePosition(@NotNull ArtistCreditedName<?> artistCreditName) {
 		super();
 		this.artistCreditName = artistCreditName;
 	}
 
 
-	public ArtistCreditName<?> getArtistCreditName() {
+	public ArtistCreditedName<?> getArtistCreditName() {
 		return artistCreditName;
 	}
 
 
-	public void setArtistCreditName(ArtistCreditName<?> artistCretditName) {
+	public void setArtistCreditName(ArtistCreditedName<?> artistCretditName) {
 		this.artistCreditName = artistCretditName;
 	}
 	

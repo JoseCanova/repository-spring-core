@@ -18,6 +18,7 @@ import org.nanotek.entities.MutableAliasIdEntity;
 import org.nanotek.entities.MutableArtistAliasBeginDateEntity;
 import org.nanotek.entities.MutableArtistAliasEndDateEntity;
 import org.nanotek.entities.MutableArtistAliasLocaleEntity;
+import org.nanotek.entities.MutableArtistAliasNameEntity;
 import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
@@ -38,24 +39,24 @@ MutableArtistAliasTypeEntity<ArtistAliasType<?>> ,
 MutableArtistAliasLocaleEntity<ArtistAliasLocale<?>>,
 MutableArtistAliasBeginDateEntity<ArtistAliasBeginDate<?>>,
 MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>,
-MutableNameEntity<String>{
+MutableArtistAliasNameEntity<String>{
 
 	private static final long serialVersionUID = -6829974720983757034L;
 
 			
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String artistAliasName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getArtistAliasName() {
+		return artistAliasName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setArtistAliasName(String k) {
+		this.artistAliasName = k;
 	}
 	
 	@NotNull
@@ -111,7 +112,7 @@ MutableNameEntity<String>{
 	public ArtistAlias(	@NotNull Long id, 
 			@NotNull Artist<?> artist, 
 			@NotBlank String name) {
-				this.name = name;
+				this.artistAliasName = name;
 				this.aliasId = id;
 				this.artist = artist;
 	}
@@ -120,7 +121,7 @@ MutableNameEntity<String>{
 						@NotNull Artist<?> artist, 
 						@NotBlank String name,
 						@NotNull ArtistAliasSortName<?> sortName) {
-		this.name = name;
+		this.artistAliasName = name;
 		this.aliasId = id;
 		this.artist = artist;
 		this.artistAliasSortName = sortName;

@@ -9,13 +9,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.entities.MutableTypeNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @MappedSuperclass
 public abstract class TypeNamedEntity
 <E extends TypeNamedEntity<E>> extends BrainzBaseEntity<E> implements 
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,MutableTypeNameEntity<String>{
 
 	private static final long serialVersionUID = -5235727515178240574L;
 
@@ -26,19 +26,19 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String typeName;
 
 	
 	public TypeNamedEntity() {
 	}
 
 	public TypeNamedEntity(@NotNull String name) {
-		this.name = name;
+		this.typeName = name;
 	}
 
 	public TypeNamedEntity(@NotNull UUID gid, @NotBlank String name) {
 		this.gid = gid; 
-		this.name = name;
+		this.typeName = name;
 	}
 
 	public UUID getGid() {
@@ -49,12 +49,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
-	public String getName() {
-		return name;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTypeName(String name) {
+		this.typeName = name;
 	}
 
 }

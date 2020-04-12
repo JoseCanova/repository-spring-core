@@ -10,6 +10,7 @@ import org.nanotek.Id;
 import org.nanotek.beans.csv.AreaBean;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.entities.immutables.AreaIdEntity;
+import org.nanotek.entities.immutables.AreaNameEntity;
 
 
 public interface BaseAreaBean
@@ -18,7 +19,7 @@ extends
 Base<K>,
 BaseBean<K,Area<?>>,
 MutableAreaIdEntity<Long>,
-MutableNameEntity<String>,
+MutableAreaNameEntity<String>,
 MutableBeginYearEntity<Integer>,
 MutableBeginMonthEntity<Integer>,
 MutableBeginDayEntity<Integer>,
@@ -44,13 +45,13 @@ MutableGidEntity<UUID>{
 	}
 	
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setAreaName(String k) {
+		write(MutableAreaNameEntity.class,k);
 	}
 	
 	@Override	
-	default String getName() {
-		return read(NameEntity.class).filter(v-> v!=null).map(v -> String.class.cast(v)).orElse(new String());
+	default String getAreaName() {
+		return read(AreaNameEntity.class).filter(v-> v!=null).map(v -> String.class.cast(v)).orElse(new String());
 	}
 
 	@Override
@@ -176,7 +177,7 @@ MutableGidEntity<UUID>{
     public static void main (String[] args) {
     	AreaBean bean = new AreaBean();
     	bean.setAreaId(1000l);
-    	bean.setName("this is bame");
+    	bean.setAreaName("this is bame");
     	bean.setGid(UUID.randomUUID());
     	bean.setComment("this is a comment");
     	bean.setAreaId(1000L);

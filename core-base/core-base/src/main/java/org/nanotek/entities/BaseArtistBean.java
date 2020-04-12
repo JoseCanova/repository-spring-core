@@ -8,6 +8,8 @@ import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.immutables.ArtistIdEntity;
+import org.nanotek.entities.immutables.ArtistNameEntity;
+import org.nanotek.entities.immutables.MutableArtistNameEntity;
 
 public interface BaseArtistBean
 <K extends BaseBean<K,Artist<?>>> extends 
@@ -24,7 +26,7 @@ MutableGenderEntity<BaseGenderBean<?>>,
 MutableAreaEntity<BaseAreaBean<?>>,
 MutableArtistBeginAreaEntity<BaseAreaBean<?>>,
 MutableArtistEndAreaEntity<BaseAreaBean<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>
+MutableGidEntity<UUID>,MutableArtistNameEntity<String>
 {
 	/**
 	 * artistId: 0
@@ -48,16 +50,14 @@ MutableGidEntity<UUID>,MutableNameEntity<String>
     endAreaId: 18
 	 */
 	
-	
-	
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(n->String.class.cast(n)).orElse("");
+	default String getArtistName() {
+		return read(ArtistNameEntity.class).map(n->String.class.cast(n)).orElse("");
 	}
 	
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setArtistName(String k) {
+		write(MutableArtistNameEntity.class,k);
 	}
 	
 	

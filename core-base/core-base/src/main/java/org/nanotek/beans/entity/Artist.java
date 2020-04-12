@@ -57,17 +57,17 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 
 	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String artistName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getArtistName() {
+		return artistName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setArtistName(String k) {
+		this.artistName = k;
 	}
 
 
@@ -164,7 +164,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 			@NotBlank String name, 
 			@NotBlank UUID gid) {
 		this.gid  =  gid;
-		this.name =name;
+		this.artistName =name;
 		this.artistId = id;
 		artistCredits = new ArrayList<ArtistCredit<?>>();
 	}

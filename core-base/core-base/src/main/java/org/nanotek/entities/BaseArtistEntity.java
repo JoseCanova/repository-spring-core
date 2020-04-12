@@ -12,6 +12,7 @@ import org.nanotek.beans.entity.ArtistEndDate;
 import org.nanotek.beans.entity.ArtistSortName;
 import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.beans.entity.Gender;
+import org.nanotek.entities.immutables.MutableArtistNameEntity;
 
 public interface BaseArtistEntity<K> extends MutatorSupport<K>,
 MutableArtistIdEntity<Long>,
@@ -24,6 +25,6 @@ MutableGenderEntity<Gender<?>>,
 MutableAreaEntity<Area<?>>,
 MutableArtistBeginAreaEntity<Area<?>>,
 MutableArtistEndAreaEntity<Area<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>,
+MutableGidEntity<UUID>,MutableArtistNameEntity<String>,
 MutableArtistCreditCollection<List<ArtistCredit<?>>>{
 }
