@@ -15,6 +15,7 @@ import org.nanotek.entities.BaseReleaseStatusEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.entities.MutableReleaseStatusIdEntity;
 
 @Entity
 @Table(name="release_status",

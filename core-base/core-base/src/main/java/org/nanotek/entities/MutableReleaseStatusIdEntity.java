@@ -1,4 +1,4 @@
-package org.nanotek.beans.entity;
+package org.nanotek.entities;
 
 import java.io.Serializable;
 

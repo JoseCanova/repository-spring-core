@@ -14,14 +14,22 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableMediumCountEntity;
-import org.nanotek.entities.MutableNameEntity;
+import org.nanotek.entities.MutableMediumFormatEntity;
+import org.nanotek.entities.MutableMediumNameEntity;
+import org.nanotek.entities.MutableMediumPositionEntity;
 
 @Entity
 @Table(uniqueConstraints= {
 		@UniqueConstraint(name="uk_medium_id",columnNames={"medium_id"})
 		})
-public class Medium<K extends Medium<K>> extends BrainzBaseEntity<K> 
-implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
+public class Medium<K extends Medium<K>> 
+extends BrainzBaseEntity<K> 
+implements 
+MutableMediumNameEntity<String>,
+MutableMediumCountEntity<MediumCount<?>>,
+MutableMediumPositionEntity<MediumPosition>,
+MutableMediumFormatEntity<MediumFormat<?>>
+{
 
 	private static final long serialVersionUID = 6669274101742169443L;
 	
@@ -31,7 +39,7 @@ implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String mediumName;
 
 	
 	@NotNull
@@ -48,7 +56,7 @@ implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
 			  name = "medium_position_join", 
 			  joinColumns = @JoinColumn(name = "medium_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	public MediumPosition position;
+	public MediumPosition mediumPosition;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY , optional = false)
@@ -58,22 +66,22 @@ implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="medium_format_id")
-	public MediumFormat<?> format;
+	public MediumFormat<?> mediumFormat;
 
 	public Medium() {}
 
 	
 	public Medium(@NotBlank String name) {
-		this.name = name;
+		this.mediumName = name;
 	}
 
 
-	public MediumPosition getPosition() {
-		return position;
+	public MediumPosition getMediumPosition() {
+		return mediumPosition;
 	}
 
-	public void setPosition(MediumPosition position) {
-		this.position = position;
+	public void setMediumPosition(MediumPosition position) {
+		this.mediumPosition = position;
 	}
 
 	public Release<?> getRelease() {
@@ -95,23 +103,23 @@ implements MutableNameEntity<String>,MutableMediumCountEntity<MediumCount<?>>{
 	}
 
 
-	public MediumFormat<?> getFormat() {
-		return format;
+	public MediumFormat<?> getMediumFormat() {
+		return mediumFormat;
 	}
 
 
-	public void setFormat(MediumFormat<?> format) {
-		this.format = format;
+	public void setMediumFormat(MediumFormat<?> format) {
+		this.mediumFormat = format;
 	}
 
 
-	public String getName() {
-		return name;
+	public String getMediumName() {
+		return mediumName;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMediumName(String name) {
+		this.mediumName = name;
 	}
 
 

@@ -9,7 +9,8 @@ import org.nanotek.entities.MutableMediumEntity;
 
 @Entity
 @DiscriminatorValue(value="MediumCount")
-public class MediumCount<K extends MediumCount<K>> extends LongCountBase<K>
+public class MediumCount<K extends MediumCount<K>> 
+extends LongCountBase<K>
 implements MutableMediumEntity<Medium<?>>
 {
 
@@ -17,12 +18,12 @@ implements MutableMediumEntity<Medium<?>>
 	
 	@NotNull
 	@OneToOne(optional=false, mappedBy="mediumCount")
-	private Medium<?> medium;
+	public Medium<?> medium;
 
 	public MediumCount() {
 	}
 
-	public MediumCount(@NotNull Long count , @NotNull Medium medium) {
+	public MediumCount(@NotNull Long count , @NotNull Medium<?> medium) {
 		super(count);
 	}
 

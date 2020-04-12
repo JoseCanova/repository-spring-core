@@ -1,5 +1,5 @@
 package org.nanotek;
 
 @TagInterface
-public interface Positionable<P>{
+public interface Dateable<T> {
 }
