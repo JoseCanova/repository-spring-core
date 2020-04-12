@@ -4,7 +4,7 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistCreditedNameBean;
 import org.nanotek.beans.entity.ArtistCreditedName;
-import org.nanotek.beans.entity.ArtistCreditNamePosition;
+import org.nanotek.beans.entity.ArtistCreditedNamePosition;
 import org.nanotek.entities.immutables.ArtistCreditNameIdEntity;
 import org.nanotek.entities.immutables.ArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.immutables.ArtistCreditedNameEntity;

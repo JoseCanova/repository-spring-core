@@ -25,7 +25,7 @@
 		<class>org.nanotek.beans.entity.ArtistCreditCount</class>
 		<class>org.nanotek.beans.entity.ArtistCreditRefCount</class>
 		<class>org.nanotek.beans.entity.ArtistCreditedName</class>
-		<class>org.nanotek.beans.entity.ArtistCreditNamePosition</class>
+		<class>org.nanotek.beans.entity.ArtistCreditedNamePosition</class>
 		<class>org.nanotek.beans.entity.ArtistAliasSortName</class>
 		<class>org.nanotek.beans.entity.Artist</class>
 		<class>org.nanotek.beans.entity.ArtistBeginDate</class>

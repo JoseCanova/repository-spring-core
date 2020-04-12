@@ -3,14 +3,14 @@ package org.nanotek.entities;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistCreditNamePositionBean;
-import org.nanotek.beans.entity.ArtistCreditNamePosition;
+import org.nanotek.beans.entity.ArtistCreditedNamePosition;
 import org.nanotek.entities.immutables.PositionEntity;
 
 public interface BaseArtistCreditNamePositionBean
-<K extends BaseBean<K,ArtistCreditNamePosition<?>>> 
+<K extends BaseBean<K,ArtistCreditedNamePosition<?>>> 
 extends 
 Base<K>,
-BaseBean<K,ArtistCreditNamePosition<?>>,
+BaseBean<K,ArtistCreditedNamePosition<?>>,
 MutablePositionEntity<Long>
 {
 	@Override

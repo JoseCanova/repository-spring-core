@@ -27,7 +27,7 @@ extends BrainzBaseEntity<K>
 implements  BaseArtistCreditNameEntity<K>, 
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableArtistEntity<Artist<?>>,
-MutableArtistCreditNamePositionEntity<ArtistCreditNamePosition<?>>,
+MutableArtistCreditNamePositionEntity<ArtistCreditedNamePosition<?>>,
 MutableArtistCreditNameJoinPhraseEntity<String>,
 MutableArtistCreditedNameEntity<String>{
 
@@ -71,7 +71,7 @@ MutableArtistCreditedNameEntity<String>{
 			  name = "artist_credit_name_position_join", 
 			  joinColumns = @JoinColumn(name = "artist_credit_name" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	public ArtistCreditNamePosition<?> artistCreditNamePosition; 
+	public ArtistCreditedNamePosition<?> artistCreditNamePosition; 
 	
 	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true,columnDefinition = "TEXT NOT NULL DEFAULT ''")
 	public String artistCreditNameJoinPhrase;
@@ -112,11 +112,11 @@ MutableArtistCreditedNameEntity<String>{
 		this.artistCreditNameJoinPhrase = k;		
 	}
 
-	public ArtistCreditNamePosition<?> getArtistCreditNamePosition() {
+	public ArtistCreditedNamePosition<?> getArtistCreditNamePosition() {
 		return artistCreditNamePosition;
 	}
 
-	public void setArtistCreditNamePosition(ArtistCreditNamePosition<?> artistCreditNamePosition) {
+	public void setArtistCreditNamePosition(ArtistCreditedNamePosition<?> artistCreditNamePosition) {
 		this.artistCreditNamePosition = artistCreditNamePosition;
 	}
 	
