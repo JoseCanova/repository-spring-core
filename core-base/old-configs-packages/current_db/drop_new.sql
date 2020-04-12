@@ -17,8 +17,8 @@ alter table artist_alias_begin_date_join drop constraint FKfrxbtcqf4kqq1alefmnhe
 alter table artist_alias_begin_date_join drop constraint FKpks05cos5wm1vmqr2pyjt97sf
 alter table artist_alias_end_date_join drop constraint FKk3wtgwoev9350nh1wo48l5svp
 alter table artist_alias_end_date_join drop constraint FKmug4f2wcro7htgp48a4iwycu8
-alter table artist_alias_join drop constraint FKgcd77qcx31282qmxeaypm2wl1
-alter table artist_alias_join drop constraint FKjjqk70jqobun8g8ywh9twu8d2
+alter table artist_alias_join drop constraint FKgdwpq8ctk6a39mvnvsvo2fc5i
+alter table artist_alias_join drop constraint FK48r5krvgiw047ms72erpsxkju
 alter table artist_alias_locale_join drop constraint FK6cwyoivu66wdolbhtmoy29lss
 alter table artist_alias_locale_join drop constraint FKtle5378eltgllln6n2jimbrrd
 alter table artist_alias_sortname_join drop constraint FK1427awkpfiqk6qkm86t1bocm7
@@ -36,8 +36,8 @@ alter table artist_comment_join drop constraint FKtqvsp3t5j61w068n51iowndiw
 alter table artist_credit drop constraint FKfflln8ulxrs8vyupvx9umfmd4
 alter table artist_credit_count_join drop constraint FKll8hqnpmjv9yq8y4mtsrik05e
 alter table artist_credit_count_join drop constraint FK9pp1ahlexg9hgppy4p3eeit7y
-alter table artist_credit_name_position_join drop constraint FKkkhaudkck8jj9ubgmovu68236
-alter table artist_credit_name_position_join drop constraint FK4mnh6d6ipaf6vfjdkgebn0s3l
+alter table artist_credit_name_position_join drop constraint FK16bpho77fdbmp3p1n9cuodgy3
+alter table artist_credit_name_position_join drop constraint FK92reeafxnwbh56ucuujcip32m
 alter table artist_credit_name_rel drop constraint FKn3g0jyj028jrwt6ckpuvk1y5j
 alter table artist_credit_name_rel drop constraint FK44fgvkqt29bcp2ai5oewfl4p1
 alter table artist_end_area_join drop constraint FKdq9xln44yycsfyifwjhpojy5
@@ -58,10 +58,10 @@ alter table ArtistAliasType drop constraint FKalono78x6746rw2wcmg6t46k2
 alter table ArtistBeginDate drop constraint FKdhcho5e2j23qhnig8tjjk6tvq
 alter table ArtistComment drop constraint FKopydxedgw5curkv23kbiiy6gs
 alter table ArtistCreditCount drop constraint FK4fcx6w5gsbalh45mm57vfkww4
-alter table ArtistCreditName drop constraint FKlf3yjsec0ngp79ie1qtnvuyse
-alter table ArtistCreditName drop constraint FK11s4o0pn3k4a4wm0m0bfo5qgm
-alter table ArtistCreditName drop constraint FKsq0uxlsxa8yf00p8hi1qaa9oh
-alter table ArtistCreditNamePosition drop constraint FK10nsv6tlv8aclydauspgubqcf
+alter table ArtistCreditedName drop constraint FKs9buctrdceu49ll5hbk8wddwl
+alter table ArtistCreditedName drop constraint FKamn4sghaewa0iy4b6y0ysdyej
+alter table ArtistCreditedName drop constraint FK7k8tot5t7td9gsrb75yw02tvq
+alter table ArtistCreditedNamePosition drop constraint FKryaoc0uxwu1ydumm0n34agagm
 alter table ArtistCreditRefCount drop constraint FKcgtbya3siypr17q4xkwovosb
 alter table ArtistEndDate drop constraint FKi72cqk5nmh1e13tft96alueph
 alter table ArtistSortName drop constraint FKr6h4vmhne787iw57efomuj22h
@@ -109,6 +109,8 @@ alter table medium_position_join drop constraint FKob85k1mnbwwufgik878sx4w66
 alter table medium_position_join drop constraint FKqpxdjbhc5y2t6sb9g0d6sswg2
 alter table MediumCount drop constraint FKd0gnm2k22chswino0bosjy1vr
 alter table MediumPosition drop constraint FK6ojs0jgh73pbck6q0e2jw4kq2
+alter table ralias_sortname_join drop constraint FK4g2yi7hb987xg7kqt16acn3ba
+alter table ralias_sortname_join drop constraint FKjhkstwd4cbqek9d5hqh5p02y9
 alter table recording drop constraint FKwhnq53y2fteeexfpar6558ut
 alter table recording drop constraint FKp6h8vblmfp7fbvy7t07unr441
 alter table recording drop constraint FK7eub4y9nm9wb4rc8sr7xdeu1v
@@ -116,6 +118,7 @@ alter table recording_lengthy_base drop constraint FKtd3xp568ud34ghhdueiu71cib
 alter table RecordingAlias drop constraint FKe9vlke7fpdlgg80ax13gp7klf
 alter table RecordingAlias drop constraint FKlsqjw4u8lgldn0ush7t1vmk7i
 alter table RecordingAlias drop constraint FKn2hv2nwl1n7fo7p09k0ab0ked
+alter table RecordingAliasSortName drop constraint FK9b0wp3o32ly0iv9km0gckr9vp
 alter table RecordingAliasType drop constraint FKgi0bcnu4b95rbnovoat59xglc
 alter table release drop constraint FKrjxedvgqei5yg4s02538jeu55
 alter table release drop constraint FKne7hflamxfjrj3nwcp7rmyqv1
@@ -204,8 +207,8 @@ drop table if exists ArtistAliasType cascade
 drop table if exists ArtistBeginDate cascade
 drop table if exists ArtistComment cascade
 drop table if exists ArtistCreditCount cascade
-drop table if exists ArtistCreditName cascade
-drop table if exists ArtistCreditNamePosition cascade
+drop table if exists ArtistCreditedName cascade
+drop table if exists ArtistCreditedNamePosition cascade
 drop table if exists ArtistCreditRefCount cascade
 drop table if exists ArtistEndDate cascade
 drop table if exists ArtistSortName cascade
@@ -241,9 +244,11 @@ drop table if exists medium_format cascade
 drop table if exists medium_position_join cascade
 drop table if exists MediumCount cascade
 drop table if exists MediumPosition cascade
+drop table if exists ralias_sortname_join cascade
 drop table if exists recording cascade
 drop table if exists recording_lengthy_base cascade
 drop table if exists RecordingAlias cascade
+drop table if exists RecordingAliasSortName cascade
 drop table if exists RecordingAliasType cascade
 drop table if exists release cascade
 drop table if exists release_alias cascade
