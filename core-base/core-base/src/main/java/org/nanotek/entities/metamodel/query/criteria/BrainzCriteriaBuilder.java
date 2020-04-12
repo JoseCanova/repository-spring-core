@@ -22,6 +22,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.MapJoin;
 import javax.persistence.criteria.Order;
@@ -37,11 +38,14 @@ import javax.persistence.metamodel.EntityType;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.ExpressionImplementor;
+import org.hibernate.query.criteria.internal.expression.ParameterExpressionImpl;
 import org.hibernate.query.criteria.internal.predicate.BetweenPredicate;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator;
 import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.hibernate.query.criteria.internal.predicate.LikePredicate;
+import org.hibernate.query.criteria.internal.predicate.NegatedPredicateWrapper;
+import org.hibernate.query.criteria.internal.predicate.PredicateImplementor;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
@@ -107,14 +111,14 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		BrainzCriteriaQuery<?,?> criteriaQuery = criteriaBuilder.createBrainzCriteriaQuery(Artist.class);
 		BrainzEntityMetaModel<Artist,?> artistMetaModel = criteriaBuilder.getBrainzMetaModelUtil().getMetaModel(Artist.class);
 		EntityTypeSupport<?,Artist> typeSupport = artistMetaModel.getEntityTypeSupport();
-		Root<Artist> r = criteriaQuery.from(typeSupport); 
-		criteriaQuery.where(criteriaBuilder.like(r.get("name"),"D%"));
+		Root<Artist> r = criteriaQuery.from(typeSupport);
+		Object ret = r.join("area" , JoinType.LEFT); 
+		criteriaQuery.where(criteriaBuilder.notLike(r.get("name"),"D%"));
 		criteriaQuery.orderBy(criteriaBuilder.asc(r.get("name")).reverse());
 		//		ch.entityManager = entityManager;
 		
 		//		ch.brainzMetaModelUtil = metaModel;
 		//		ch.to(Release.class);
-		criteriaQuery.select(r.get("name"));
 		TypedQuery<?> q = em.createQuery(criteriaQuery.select(r.get("name")));
 		List<?> results = q.getResultList();
 
@@ -427,153 +431,53 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		return new BrainzLikePredicate<>(this, createLikePredicate(this,matchExpression,pattern));
 	}
 
-	private  LikePredicate 
-	createLikePredicate(
-			BrainzCriteriaBuilder brainzCriteriaBuilder,
-			Expression<String> matchExpression, 
-			String pattern) {
-		try {
-		return new ByteBuddy(ClassFileVersion.JAVA_V8)
-				.subclass(LikePredicate.class)
-				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
-				.make()
-				  .load(
-						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-						  .getLoaded().
-						  getConstructor(CriteriaBuilderImpl.class,
-								  Expression.class,
-								  String.class).newInstance(new Object[] 
-										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
-											  matchExpression,
-											  pattern});
-				}catch(Exception ex) { 
-					throw new BaseException(ex);
-				}
-	}
-	
-	
-	private  LikePredicate 
-	createLikePredicate(
-			BrainzCriteriaBuilder brainzCriteriaBuilder,
-			Expression<String> matchExpression, 
-			Expression<String> pattern,
-			char escapeCharacter) {
-		try {
-		return new ByteBuddy(ClassFileVersion.JAVA_V8)
-				.subclass(LikePredicate.class)
-				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
-				.make()
-				  .load(
-						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-						  .getLoaded().
-						  getConstructor(CriteriaBuilderImpl.class,
-								  Expression.class,
-								  Expression.class,
-								  char.class).newInstance(new Object[] 
-										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
-											  matchExpression,
-											  pattern,
-											  escapeCharacter});
-				}catch(Exception ex) { 
-					throw new BaseException(ex);
-				}
-	}
-	
-	
-	
-	private  LikePredicate 
-	createLikePredicate(
-			BrainzCriteriaBuilder brainzCriteriaBuilder,
-			Expression<String> matchExpression, 
-			Expression<String> pattern,
-			Expression<Character> escapeCharacter) {
-		try {
-		return new ByteBuddy(ClassFileVersion.JAVA_V8)
-				.subclass(LikePredicate.class)
-				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
-				.make()
-				  .load(
-						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-						  .getLoaded().
-						  getConstructor(CriteriaBuilderImpl.class,
-								  Expression.class,
-								  Expression.class,
-								  Expression.class).newInstance(new Object[] 
-										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
-											  matchExpression,
-											  pattern,
-											  escapeCharacter});
-				}catch(Exception ex) { 
-					throw new BaseException(ex);
-				}
-	}
-	
-	
-	private  LikePredicate 
-	createLikePredicate(
-			BrainzCriteriaBuilder brainzCriteriaBuilder,
-			Expression<String> matchExpression, 
-			Expression<String> pattern) {
-		try {
-		return new ByteBuddy(ClassFileVersion.JAVA_V8)
-				.subclass(LikePredicate.class)
-				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
-				.make()
-				  .load(
-						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-						  .getLoaded().
-						  getConstructor(CriteriaBuilderImpl.class,
-								  Expression.class,
-								  Expression.class).newInstance(new Object[] 
-										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
-											  matchExpression,
-											  pattern});
-				}catch(Exception ex) { 
-					throw new BaseException(ex);
-				}
-	}
-	
-	
 	public Predicate like(Expression<String> matchExpression, String pattern, Expression<Character> escapeCharacter) {
-		return delegateCriteriaBuilder.like(matchExpression, pattern, escapeCharacter);
+		return new BrainzLikePredicate <> (this, createLikePredicate(this,matchExpression, pattern , escapeCharacter));
 	}
 
+	
 	public Predicate like(Expression<String> matchExpression, String pattern, char escapeCharacter) {
-		return delegateCriteriaBuilder.like(matchExpression, pattern, escapeCharacter);
+		return new BrainzLikePredicate<>( this, createLikePredicate(this, matchExpression, pattern,escapeCharacter));
 	}
 
+	
 	public Predicate notLike(Expression<String> matchExpression, Expression<String> pattern) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern);
+		return new BrainzNegatedPredicateWrapper<>(this,createNegatePredicateWrapper(like(matchExpression, pattern)));
 	}
-
+	
 	public Predicate notLike(Expression<String> matchExpression, Expression<String> pattern,
 			Expression<Character> escapeCharacter) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern, escapeCharacter);
+		return new BrainzNegatedPredicateWrapper<>(this, createNegatePredicateWrapper(like(matchExpression,pattern,escapeCharacter)));
 	}
-
+	
 	public Predicate notLike(Expression<String> matchExpression, Expression<String> pattern, char escapeCharacter) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern, escapeCharacter);
+		return new BrainzNegatedPredicateWrapper<>(this, createNegatePredicateWrapper(like(matchExpression,pattern,escapeCharacter)));
 	}
 
+	
 	public Predicate notLike(Expression<String> matchExpression, String pattern) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern);
+		return new BrainzNegatedPredicateWrapper<>(this, createNegatePredicateWrapper(like(matchExpression,pattern)));
 	}
 
+	
 	public Predicate notLike(Expression<String> matchExpression, String pattern,
 			Expression<Character> escapeCharacter) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern, escapeCharacter);
+		return new BrainzNegatedPredicateWrapper<>(this, createNegatePredicateWrapper(like(matchExpression,pattern)));
 	}
 
+	
 	public Predicate notLike(Expression<String> matchExpression, String pattern, char escapeCharacter) {
-		return delegateCriteriaBuilder.notLike(matchExpression, pattern, escapeCharacter);
+		return new BrainzNegatedPredicateWrapper<>(this, createNegatePredicateWrapper(like(matchExpression,pattern)));
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> ParameterExpression<T> parameter(Class<T> paramClass) {
-		return delegateCriteriaBuilder.parameter(paramClass);
+		return new BrainzParameterExpressionImpl<T>(this, ParameterExpressionImpl.class.cast(delegateCriteriaBuilder.parameter(paramClass)));
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> ParameterExpression<T> parameter(Class<T> paramClass, String name) {
-		return delegateCriteriaBuilder.parameter(paramClass, name);
+		return new BrainzParameterExpressionImpl<T>(this, ParameterExpressionImpl.class.cast(delegateCriteriaBuilder.parameter(paramClass, name)));
 	}
 
 	public <T> Expression<T> literal(T value) {
@@ -986,6 +890,187 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 	public <M extends Map<?, ?>> Expression<Integer> mapSize(M map) {
 		return delegateCriteriaBuilder.mapSize(map);
 	}
+
+	private NegatedPredicateWrapper
+	createNegatePredicateWrapper(Predicate like){
+		try {
+			return new ByteBuddy(ClassFileVersion.JAVA_V8)
+					.subclass(NegatedPredicateWrapper.class)
+					.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+					.make()
+					  .load(
+							  getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+							  .getLoaded().
+							  getConstructor(PredicateImplementor.class).newInstance(new Object[] 
+											  {	  like
+											  });
+					}catch(Exception ex) { 
+						throw new BaseException(ex);
+					}
+	}
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			String pattern, 
+			char escapeCharacter) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						  getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  String.class,
+								  char.class).newInstance(new Object[] 
+										  {	  brainzCriteriaBuilder.delegateCriteriaBuilder, 
+											  matchExpression,
+											  pattern,
+											  escapeCharacter
+										  });
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			String pattern, 
+			Expression<Character> escapeCharacter) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						  getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  String.class,
+								  Expression.class).newInstance(new Object[] 
+										  {	  brainzCriteriaBuilder.delegateCriteriaBuilder, 
+											  matchExpression,
+											  pattern,
+											  escapeCharacter
+										  });
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			String pattern) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  String.class).newInstance(new Object[] 
+										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
+											  matchExpression,
+											  pattern});
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+	
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			Expression<String> pattern,
+			char escapeCharacter) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  Expression.class,
+								  char.class).newInstance(new Object[] 
+										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
+											  matchExpression,
+											  pattern,
+											  escapeCharacter});
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+	
+	
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			Expression<String> pattern,
+			Expression<Character> escapeCharacter) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  Expression.class,
+								  Expression.class).newInstance(new Object[] 
+										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
+											  matchExpression,
+											  pattern,
+											  escapeCharacter});
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+	
+	
+	private  LikePredicate 
+	createLikePredicate(
+			BrainzCriteriaBuilder brainzCriteriaBuilder,
+			Expression<String> matchExpression, 
+			Expression<String> pattern) {
+		try {
+		return new ByteBuddy(ClassFileVersion.JAVA_V8)
+				.subclass(LikePredicate.class)
+				.name("org.nanotek.brainz.buddy.BuddyLikePredicate")
+				.make()
+				  .load(
+						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+						  .getLoaded().
+						  getConstructor(CriteriaBuilderImpl.class,
+								  Expression.class,
+								  Expression.class).newInstance(new Object[] 
+										  {brainzCriteriaBuilder.delegateCriteriaBuilder , 
+											  matchExpression,
+											  pattern});
+				}catch(Exception ex) { 
+					throw new BaseException(ex);
+				}
+	}
+
 	
 	//Buddy Builders
 	private Order createBuddyOrder (Order delegateOrder){ 

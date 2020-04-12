@@ -1,7 +1,6 @@
 package org.nanotek;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +15,6 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 		if(k!=null) {
 			Optional<PropertyDescriptor[]> thisProperties = MutatorSupport.getPropertyDescriptors(this.getClass());
 			Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
-			Class<?> clz  = k.getClass();
 			descriptorMap
 				.keySet().stream().forEach(v-> { 
 				try {
@@ -35,7 +33,6 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 
 	default Map<String, PropertyDescriptor> toMap(Optional<PropertyDescriptor[]> thisProperties){
 		Map<String,PropertyDescriptor> theMap = new HashMap<>();
-		Stream.Builder<Map.Entry<String, PropertyDescriptor>> builder = Stream.builder();
 
 		thisProperties.ifPresent(ps ->{
 			Stream

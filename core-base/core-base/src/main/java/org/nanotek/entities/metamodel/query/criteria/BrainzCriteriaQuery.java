@@ -72,6 +72,7 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 
 
 	private void afterPropertiesSet() {
+		afterPropertiesSet();
 	}
 
 	@Override
@@ -86,7 +87,6 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		return criteriaQuery.from(entityClass);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> select(Selection<? extends Y> selection) {
 		return  criteriaQuery.select(selection);
 	}
@@ -120,7 +120,6 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		return criteriaQuery.getSelection();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public List<Expression<?>> getGroupList() {
 		 return criteriaQuery
 				 	.getGroupList();
@@ -138,7 +137,6 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		return criteriaQuery.getResultType();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> where(Expression<Boolean> restriction) {
 		return (criteriaQuery = criteriaQuery.where(restriction));
 	}
@@ -147,17 +145,14 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 		return (criteriaQuery = criteriaQuery.where(restrictions));
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> groupBy(Expression<?>... grouping) {
 		return (criteriaQuery = criteriaQuery.groupBy(grouping));
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> groupBy(List<Expression<?>> grouping) {
 		return (criteriaQuery =  criteriaQuery.groupBy(grouping));
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CriteriaQuery<Y> having(Expression<Boolean> restriction) {
 		return (criteriaQuery = criteriaQuery.having(restriction));
 	}

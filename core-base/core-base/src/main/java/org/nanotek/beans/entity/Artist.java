@@ -115,7 +115,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 			inverseJoinColumns = @JoinColumn(name = "gender_id",referencedColumnName = "id"))
 	public Gender<?> gender; 
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "artist_area_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
@@ -123,14 +123,14 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	public Area<?> area;
 
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "artist_begin_area_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
 			inverseJoinColumns = @JoinColumn(name = "area_id",referencedColumnName = "id"))
 	public Area<?> beginArea;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "artist_end_area_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 

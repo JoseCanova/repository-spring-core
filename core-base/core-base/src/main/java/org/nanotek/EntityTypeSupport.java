@@ -1,17 +1,16 @@
 package org.nanotek;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.CollectionAttribute;
-import javax.persistence.metamodel.IdentifiableType;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.MapAttribute;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.Type;
 
 import org.hibernate.graph.spi.SubGraphImplementor;
 import org.hibernate.metamodel.model.domain.internal.EntityTypeImpl;
@@ -27,10 +26,17 @@ import org.hibernate.metamodel.model.domain.spi.SetPersistentAttribute;
 import org.hibernate.metamodel.model.domain.spi.SimpleTypeDescriptor;
 import org.hibernate.metamodel.model.domain.spi.SingularPersistentAttribute;
 
-public interface EntityTypeSupport<Z extends EntityTypeSupport<Z,X>, X> extends EntityTypeDescriptor<X> {
+public interface EntityTypeSupport<Z extends EntityTypeSupport<Z,X>, X> extends EntityTypeDescriptor<X> , MutatorSupport<X>{
 	
 	EntityTypeImpl<X> getEntityType();
 	
+	@SuppressWarnings("unchecked")
+	default <A extends Attribute<?,Y>,Y> Optional<A> get(String  atttributeName){
+		return getProperty(atttributeName).map(a -> {
+			return (A)a;
+		});
+	}
+
 	@Override
 	default PersistentAttributeDescriptor<? super X, ?> findAttribute(String name) {
 		return getEntityType().findAttribute(name);

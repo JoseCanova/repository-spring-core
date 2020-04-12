@@ -1,48 +1,30 @@
 package org.nanotek.proxy.map;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.StaticMetamodel;
 
+import org.nanotek.AttributeCopier;
 import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
-import org.assertj.core.util.introspection.ClassUtils;
-import org.nanotek.AttributeCopier;
 import org.nanotek.MutatorSupport;
 import org.nanotek.beans.entity.Artist_;
 
-import com.google.common.base.Objects;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
-import net.bytebuddy.description.field.FieldDescription;
-import net.bytebuddy.description.method.MethodDescription;
-import net.bytebuddy.description.modifier.ModifierContributor;
 import net.bytebuddy.description.modifier.Visibility;
-import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType.Builder;
-import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 import net.bytebuddy.implementation.FieldAccessor;
-import net.bytebuddy.implementation.Implementation;
-import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.implementation.MethodCall;
-import net.bytebuddy.implementation.MethodCall.FieldSetting;
-import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.jar.asm.Opcodes;
 
 /**
@@ -84,7 +66,6 @@ public class BrainzMetaBuddy {
 	
 	public <K> K newInstance(EntityType<?> k) {
 		try {
-			 Constructor c = powerClass.getConstructor(EntityType.class);
 			 Object o =  powerClass.getConstructor(EntityType.class).newInstance(new Object[] {k});
 			 ((AttributeCopier)o).copy(k);
 			 return (K)o;
