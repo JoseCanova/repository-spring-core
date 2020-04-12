@@ -2,13 +2,13 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistCreditedNamePosition;
-import org.nanotek.entities.BaseArtistCreditNamePositionBean;
+import org.nanotek.entities.BaseArtistCreditedNamePositionBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class ArtistCreditNamePositionBean 
 <K extends BaseBean<ArtistCreditNamePositionBean<K>,ArtistCreditedNamePosition<?>>> 
 extends ProxyBase<ArtistCreditNamePositionBean<K>,ArtistCreditedNamePosition<?>>
-implements BaseArtistCreditNamePositionBean<ArtistCreditNamePositionBean<K>>
+implements BaseArtistCreditedNamePositionBean<ArtistCreditNamePositionBean<K>>
 {
 
 	

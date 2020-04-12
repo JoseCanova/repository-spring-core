@@ -6,7 +6,7 @@ import org.nanotek.beans.csv.ArtistCreditNamePositionBean;
 import org.nanotek.beans.entity.ArtistCreditedNamePosition;
 import org.nanotek.entities.immutables.PositionEntity;
 
-public interface BaseArtistCreditNamePositionBean
+public interface BaseArtistCreditedNamePositionBean
 <K extends BaseBean<K,ArtistCreditedNamePosition<?>>> 
 extends 
 Base<K>,

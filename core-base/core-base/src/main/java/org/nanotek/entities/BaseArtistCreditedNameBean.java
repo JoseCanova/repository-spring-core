@@ -17,7 +17,7 @@ MutableArtistCreditedNameEntity<String>,
 MutatleArtistCreditNameIdEntity<Long>,
 MutableArtistEntity<BaseArtistBean<?>>,
 MutableArtistCreditEntity<BaseArtistCreditBean<?>>,
-MutableArtistCreditNamePositionEntity<BaseArtistCreditNamePositionBean<?>>,
+MutableArtistCreditNamePositionEntity<BaseArtistCreditedNamePositionBean<?>>,
 MutableArtistCreditNameJoinPhraseEntity<String>,
 MutablePositionEntity<Long>
 {

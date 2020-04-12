@@ -5,7 +5,7 @@ import org.nanotek.beans.entity.ArtistCreditedName;
 import org.nanotek.entities.BaseArtistBean;
 import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseArtistCreditedNameBean;
-import org.nanotek.entities.BaseArtistCreditNamePositionBean;
+import org.nanotek.entities.BaseArtistCreditedNamePositionBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class ArtistCreditedNameBean
@@ -20,7 +20,7 @@ implements BaseArtistCreditedNameBean<ArtistCreditedNameBean<K>>{
 	
 	private BaseArtistBean<?> artist;
 	
-	private BaseArtistCreditNamePositionBean<?> artistCreditNamePosition;
+	private BaseArtistCreditedNamePositionBean<?> artistCreditNamePosition;
 	
 //	private Long artistCreditId;
 //	
@@ -73,11 +73,11 @@ implements BaseArtistCreditedNameBean<ArtistCreditedNameBean<K>>{
 		this.artist = artist;
 	}
 
-	public BaseArtistCreditNamePositionBean<?> getArtistCreditNamePosition() {
+	public BaseArtistCreditedNamePositionBean<?> getArtistCreditNamePosition() {
 		return artistCreditNamePosition;
 	}
 
-	public void setArtistCreditNamePosition(BaseArtistCreditNamePositionBean<?> artistCreditNamePosition) {
+	public void setArtistCreditNamePosition(BaseArtistCreditedNamePositionBean<?> artistCreditNamePosition) {
 		this.artistCreditNamePosition = artistCreditNamePosition;
 	}
 
