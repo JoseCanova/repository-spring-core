@@ -113,13 +113,13 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		EntityTypeSupport<?,Artist> typeSupport = artistMetaModel.getEntityTypeSupport();
 		Root<Artist> r = criteriaQuery.from(typeSupport);
 		Object ret = r.join("area" , JoinType.LEFT); 
-		criteriaQuery.where(criteriaBuilder.notLike(r.get("name"),"D%"));
-		criteriaQuery.orderBy(criteriaBuilder.asc(r.get("name")).reverse());
+		criteriaQuery.where(criteriaBuilder.notLike(r.get("artistName"),"D%"));
+		criteriaQuery.orderBy(criteriaBuilder.asc(r.get("artistName")).reverse());
 		//		ch.entityManager = entityManager;
 		
 		//		ch.brainzMetaModelUtil = metaModel;
 		//		ch.to(Release.class);
-		TypedQuery<?> q = em.createQuery(criteriaQuery.select(r.get("name")));
+		TypedQuery<?> q = em.createQuery(criteriaQuery.select(r.get("artistName")));
 		List<?> results = q.getResultList();
 
 		System.out.println("");

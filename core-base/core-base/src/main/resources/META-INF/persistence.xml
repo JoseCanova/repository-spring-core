@@ -72,6 +72,7 @@
 		<class>org.nanotek.beans.entity.Recording</class>
 		<class>org.nanotek.beans.entity.RecordingLength</class>
 		<class>org.nanotek.beans.entity.RecordingAlias</class>
+		<class>org.nanotek.beans.entity.RecordingAliasSortName</class>
 		<class>org.nanotek.beans.entity.RecordingAliasType</class>
 		<class>org.nanotek.beans.entity.RecordingAliasBeginDate</class>
 		<class>org.nanotek.beans.entity.RecordingAliasEndDate</class>
