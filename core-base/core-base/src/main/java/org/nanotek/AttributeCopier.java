@@ -16,7 +16,9 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 			Optional<PropertyDescriptor[]> thisProperties = MutatorSupport.getPropertyDescriptors(this.getClass());
 			Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
 			descriptorMap
-				.keySet().stream().forEach(v-> { 
+				.keySet().stream()
+				.filter(key->!"entityType".equals(key))//refactor this filter.
+				.forEach(v-> { 
 				try {
 					Object valueToCopy = k.getAttribute(v);
 					PropertyDescriptor p = descriptorMap.get(v);

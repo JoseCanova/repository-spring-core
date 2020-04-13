@@ -33,7 +33,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
-import javax.persistence.metamodel.EntityType;
 
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
@@ -103,7 +102,7 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		this.reflections = BrainzCriteriaBuilder.newReflections();
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "rawtypes" })
 	public static <X extends Artist> void main(String[] args) throws Exception { 
 		SessionFactoryImpl emf = (SessionFactoryImpl) Persistence.createEntityManagerFactory("spring-core-music-brainz");
 		EntityManager em = emf.createEntityManager();
