@@ -100,8 +100,8 @@ public class Area
 		this.areaType = type;
 		areaBeginDate = new AreaBeginDate<>();
 		areaEndDate = new AreaEndDate<>();
-		areaType = new AreaType();
-		areaComment = new AreaComment();
+		areaType = new AreaType<>();
+		areaComment = new AreaComment<>();
 	}
 
 	@Override

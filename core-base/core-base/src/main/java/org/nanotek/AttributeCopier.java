@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.persistence.metamodel.Attribute;
+
 import org.hibernate.metamodel.model.domain.spi.ManagedTypeDescriptor;
 import org.nanotek.beans.PropertyDescriptor;
 
@@ -17,7 +19,10 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 			Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
 			descriptorMap
 				.keySet().stream()
-				.filter(key->!"entityType".equals(key))//refactor this filter.
+				.filter(key->{
+					PropertyDescriptor prop = descriptorMap.get(key);
+					return (prop.getReadMethod() !=null && verifyReturnTypeIsAttributeSubClass(prop.getReadMethod().getReturnType()));
+				})//refactor this filter. 
 				.forEach(v-> { 
 				try {
 					Object valueToCopy = k.getAttribute(v);
@@ -31,6 +36,18 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 				}
 			});
 		}
+	}
+ 
+	default boolean verifyReturnTypeIsAttributeSubClass(Class<?> returnTypeClass) {
+		boolean b = returnTypeClass.equals(Attribute.class);
+		Class<?>[] clazzes = returnTypeClass.getInterfaces();
+		if (clazzes.length !=0 && b!=true) { 
+			for(Class<?> clazz : clazzes) {
+				b = verifyReturnTypeIsAttributeSubClass(clazz);
+				if (b==true) break;
+			}
+		}
+		return b;
 	}
 
 	default Map<String, PropertyDescriptor> toMap(Optional<PropertyDescriptor[]> thisProperties){
@@ -46,4 +63,5 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 		});
 		return theMap;
 	}
+	
 }
