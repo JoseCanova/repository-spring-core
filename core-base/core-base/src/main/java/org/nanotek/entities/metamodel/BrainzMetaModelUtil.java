@@ -52,7 +52,6 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		Set<Class<?>>types =  reflections.getTypesAnnotatedWith(StaticMetamodel.class);
 		Map<Class<?> , BrainzEntityMetaModel<?,?>>  tempMap = processEntityBrainzMetaModel(types);
 		metaModelMap = prepareEntityGraph(tempMap);
-		Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> resultingGraph = getModelGraph();
 	}
 
 	@SuppressWarnings("unchecked")

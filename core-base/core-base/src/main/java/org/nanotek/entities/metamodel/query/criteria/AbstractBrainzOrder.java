@@ -1,21 +1,13 @@
 package org.nanotek.entities.metamodel.query.criteria;
 
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
-
-import org.nanotek.BaseException;
-
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.ClassFileVersion;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 
 public class AbstractBrainzOrder implements Order {
 	
 	private Order delegateOrder; 
 	
 	private BrainzCriteriaBuilder criteriaBuilder; 
-	
 
 	public AbstractBrainzOrder() {
 	}

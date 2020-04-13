@@ -54,7 +54,6 @@ public 	abstract class  AbstractBrainzRoot<Z> implements Root<Z>,Id<Class<Z>>{
 	public AbstractBrainzRoot(BrainzCriteriaBuilder  brainzCriteriaBuilder, EntityType<Z> entityType,BrainzMetaModelUtil brainzMetaModelUtil) {
 		this.delegateRootElement = criteriaQuery.from(entityType);
 		this.brainzCriteriaBuilder = brainzCriteriaBuilder;
-		this.criteriaQuery = criteriaQuery;
 	}
 
 	@Override

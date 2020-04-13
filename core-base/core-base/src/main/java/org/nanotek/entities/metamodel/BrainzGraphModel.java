@@ -12,15 +12,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
-import javax.persistence.metamodel.Bindable;
-import javax.persistence.metamodel.Bindable.BindableType;
 import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
@@ -45,8 +42,6 @@ public class BrainzGraphModel implements InitializingBean{
 
 	@Autowired 
 	Reflections reflections;
-
-//	Graph<Class<? extends BaseEntity> , PriorityEdge> entityGraph = BrainzGraphModel.buildEmptySimpleGraph();
 
 	Graph<Class<? extends BaseEntity> , PriorityEdge> entityDirectedGraph = BrainzGraphModel.buildDirectedSimpleGraph();
 
@@ -171,7 +166,7 @@ public class BrainzGraphModel implements InitializingBean{
 	
 	//TODO:FinishThis.
 	private void addAttributeOnGraph(Graph<Class<? extends BaseEntity>, PriorityEdge> entityGraph2,
-			Class<BaseEntity<?, ?>> clazz, ManagedType<?> c, Attribute<?, ?> a) {
+				Class<BaseEntity<?, ?>> clazz, ManagedType<?> c, Attribute<?, ?> a) {
 		if(a.isCollection() ) { 
 			PluralAttribute<?, ?, ?> pa = PluralAttribute.class.cast(a);
 			if(a.isAssociation()) {
