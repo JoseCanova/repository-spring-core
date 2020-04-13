@@ -41,7 +41,7 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 		this.valid = valid;
 	}
 
-	public Boolean getValid() {
+	public Boolean isValid() {
 		return valid;
 	}
 	
@@ -87,7 +87,7 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				Base theBase = CsvResult.class.cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((K) theBase) == 0;}
 			return false;
 	}
 	

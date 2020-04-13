@@ -1,6 +1,5 @@
 package org.nanotek.proxy.map.bean;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -13,6 +12,7 @@ import org.nanotek.Base;
 import org.nanotek.BaseException;
 import org.nanotek.DataTransferMutator;
 import org.nanotek.MutatorSupport;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.entity.Area;
 import org.springframework.util.ClassUtils;
 
@@ -138,9 +138,9 @@ implements DataTransferMutator<String>
 		Long val = 1000l;
 		PropertyDescriptor pd= dm.toWhere("name");
 		System.out.println(pd!=null?pd.getName():"no where");
-		dm.write("name", "The Name");
+		dm.write("areaName", "The Name");
 		System.out.println("");
-		Object vv = dm.read("name");
+		Object vv = dm.read("areaName");
 		System.out.println(vv);
 	}
 

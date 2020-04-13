@@ -10,10 +10,12 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseStatusEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.entities.MutableReleaseStatusIdEntity;
 
 @Entity
 @Table(name="release_status",
@@ -57,6 +59,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.releaseStatusId = id;
 	}
 
+	@BrainzKey(entityClass = ReleaseStatus.class, pathName = "releaseStatusId")
 	public Long getReleaseStatusId() {
 		return releaseStatusId;
 	}

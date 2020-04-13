@@ -1,14 +1,14 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.ArtistCreditNamePosition;
-import org.nanotek.entities.BaseArtistCreditNamePositionBean;
+import org.nanotek.beans.entity.ArtistCreditedNamePosition;
+import org.nanotek.entities.BaseArtistCreditedNamePositionBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class ArtistCreditNamePositionBean 
-<K extends BaseBean<ArtistCreditNamePositionBean<K>,ArtistCreditNamePosition<?>>> 
-extends ProxyBase<ArtistCreditNamePositionBean<K>,ArtistCreditNamePosition<?>>
-implements BaseArtistCreditNamePositionBean<ArtistCreditNamePositionBean<K>>
+<K extends BaseBean<ArtistCreditNamePositionBean<K>,ArtistCreditedNamePosition<?>>> 
+extends ProxyBase<ArtistCreditNamePositionBean<K>,ArtistCreditedNamePosition<?>>
+implements BaseArtistCreditedNamePositionBean<ArtistCreditNamePositionBean<K>>
 {
 
 	
@@ -19,13 +19,13 @@ implements BaseArtistCreditNamePositionBean<ArtistCreditNamePositionBean<K>>
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Class<? extends ArtistCreditNamePosition<?>> castClass() {
-		return (Class<? extends ArtistCreditNamePosition<?>>) 
-				ArtistCreditNamePosition.class.
-				asSubclass(ArtistCreditNamePosition.class);
+	private static Class<? extends ArtistCreditedNamePosition<?>> castClass() {
+		return (Class<? extends ArtistCreditedNamePosition<?>>) 
+				ArtistCreditedNamePosition.class.
+				asSubclass(ArtistCreditedNamePosition.class);
 	}
 
-	public ArtistCreditNamePositionBean(Class<? extends ArtistCreditNamePosition<?>> class1) {
+	public ArtistCreditNamePositionBean(Class<? extends ArtistCreditedNamePosition<?>> class1) {
 		super(class1);
 	}
 	

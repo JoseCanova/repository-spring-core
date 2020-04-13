@@ -19,7 +19,7 @@ public abstract class LongBase<K extends EntityBase<K,Long>> implements EntityBa
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((K) theBase) == 0;}
 			return false;
 	}
 	

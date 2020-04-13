@@ -1,7 +1,5 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
-
-public interface BaseMediumFormatEntity<K extends Serializable>{
+public interface BaseMediumFormatEntity<K>{
 
 }

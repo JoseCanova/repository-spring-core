@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 
-import org.nanotek.SortNameBaseEntity;
+import org.nanotek.entities.immutables.SortNameBaseEntity;
 
-public interface MutableSortedNameBaseEntity<K extends Serializable> extends SortNameBaseEntity<K> {
+public interface MutableSortedNameBaseEntity<K> extends SortNameBaseEntity<K> {
 
 	void setSortName(@NotBlank K sortName);
 	

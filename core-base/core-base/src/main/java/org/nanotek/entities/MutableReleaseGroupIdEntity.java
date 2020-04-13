@@ -2,9 +2,9 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-import org.nanotek.ReleaseGroupIdEntity;
+import org.nanotek.entities.immutables.ReleaseGroupIdEntity;
 
-public interface MutableReleaseGroupIdEntity<K extends Serializable> extends ReleaseGroupIdEntity<K> {
+public interface MutableReleaseGroupIdEntity<K> extends ReleaseGroupIdEntity<K> {
 
 	
 

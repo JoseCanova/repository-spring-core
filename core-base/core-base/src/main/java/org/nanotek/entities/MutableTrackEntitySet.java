@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.nanotek.entities.immutables.TrackEntitySet;
 
-public interface MutableTrackEntitySet<T extends Serializable>  extends TrackEntitySet<T>{
+public interface MutableTrackEntitySet<T>  extends TrackEntitySet<T>{
 
 	void setTracks(Set<T> t);
 	

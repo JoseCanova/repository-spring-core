@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistCreditRefCountEntity;
 
-public interface MutableArtistCreditRefCountEntity<K extends Serializable> extends ArtistCreditRefCountEntity<K>{
+public interface MutableArtistCreditRefCountEntity<K> extends ArtistCreditRefCountEntity<K>{
 	
 	void setArtistCreditRefCount(K k);
 

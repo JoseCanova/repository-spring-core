@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistCommentEntity;
 
-public interface MutableArtistCommentEntity<K extends Serializable> extends ArtistCommentEntity<K>{
+public interface MutableArtistCommentEntity<K> extends ArtistCommentEntity<K>{
 		void setArtistComment(K k);
 }

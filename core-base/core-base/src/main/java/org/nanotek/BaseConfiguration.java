@@ -9,12 +9,18 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,7 +65,7 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @ComponentScan("org.nanotek")
 //@EnableCaching(proxyTargetClass=true)
 @EnableAsync(proxyTargetClass=true)
-@EnableJpaRepositories(basePackages = {"org.nanotek.data.repository"})
+@EnableJpaRepositories(basePackages = {"org.nanotek.repository.jpa"})
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{
@@ -192,7 +198,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "artistcreditname")
+	@ConfigurationProperties(value = "areatype")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
@@ -234,11 +240,19 @@ public class BaseConfiguration implements ApplicationContextAware{
 		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
 	}
 	
-	
 	@Bean(name = "CsvProcessorCallBack")
 	@Qualifier(value = "CsvProcessorCallBack")
-	public <R extends CsvResult<?, ?>> CsvProcessorCallBack<R> getCsvProcessorCallBack() {
-		return new CsvProcessorCallBack<R>();
+	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
+		return new CsvProcessorCallBack<R,B>();
+	}
+	
+	@Bean(name="Reflections")
+	@Qualifier(value="Reflections")
+	public Reflections getReflections() {
+		return new Reflections(new ConfigurationBuilder()
+			     .setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
+			     .setScanners(new SubTypesScanner(), 
+		                  new TypeAnnotationsScanner()));
 	}
 	
 	

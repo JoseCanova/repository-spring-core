@@ -1,6 +1,5 @@
 package org.nanotek.opencsv;
 
-import java.beans.PropertyDescriptor;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,6 +13,7 @@ import org.nanotek.Entity;
 import org.nanotek.MutatorSupport;
 import org.nanotek.PredicateBase;
 import org.nanotek.beans.EntityBeanInfo;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.csv.ArtistBean;
 
 public class CsvOnResultPredicate 
@@ -70,7 +70,8 @@ implements PredicateBase<K,ID>{
 								BaseBean<?,?> valueBean = BaseBean.class.cast(value);
 								Entity<?> baseEntity = Entity.class.cast(valueBean.getId());
 								try {
-										pid.getWriteMethod().invoke(immutable.getId(), new Object[] {baseEntity});
+										if(pid.getWriteMethod() !=null)
+											pid.getWriteMethod().invoke(immutable.getId(), new Object[] {baseEntity});
 								}catch (Exception ex) {
 									throw new BaseException(ex);
 								}
@@ -96,6 +97,5 @@ implements PredicateBase<K,ID>{
 	
 	public static void main(String[] args) {
 		new CsvOnResultPredicate().evaluate(new ArtistBean());
-		
 	}
 }

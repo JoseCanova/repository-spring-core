@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.immutables.CommentEntity;
 
-public interface MutableCommentEntity<K extends Serializable>
+public interface MutableCommentEntity<K>
 extends CommentEntity<K>{
 
 	void setComment(@NotNull K k);

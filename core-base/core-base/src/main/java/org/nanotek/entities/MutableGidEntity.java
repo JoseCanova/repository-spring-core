@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.GidEntity;
 
-public interface MutableGidEntity<K extends Serializable> extends GidEntity<K> {
+public interface MutableGidEntity<K> extends GidEntity<K> {
 	void setGid(K k);
 }

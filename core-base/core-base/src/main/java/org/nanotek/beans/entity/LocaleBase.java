@@ -25,9 +25,9 @@ import org.nanotek.entities.MutableLocaleEntity;
 	    columnDefinition = "VARCHAR NOT NULL"
 	)
 public class LocaleBase<K extends LocaleBase<K>> 
-extends BrainzBaseEntity<K> implements 
-																		BaseLocaleBaseEntity<K>,
-																		MutableLocaleEntity<String> {
+extends BrainzBaseEntity<K> implements 																		
+BaseLocaleBaseEntity<K>,
+MutableLocaleEntity<String> {
 
 	private static final long serialVersionUID = -6664969453930737424L;
 

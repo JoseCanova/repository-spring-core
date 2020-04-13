@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.EndDayEntity;
 
-public interface MutableEndDayEntity<T extends Serializable> extends EndDayEntity<T>{
+public interface MutableEndDayEntity<T> extends EndDayEntity<T>{
  void setEndDay(T t);
 }

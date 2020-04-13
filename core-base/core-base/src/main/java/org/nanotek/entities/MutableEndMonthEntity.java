@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.EndMonthEntity;
 
-public interface MutableEndMonthEntity<T extends Serializable> extends EndMonthEntity<T>{
+public interface MutableEndMonthEntity<T> extends EndMonthEntity<T>{
  void setEndMonth(T t);
 }

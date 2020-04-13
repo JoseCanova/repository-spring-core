@@ -2,7 +2,7 @@ package org.nanotek.entities.immutables;
 
 import java.io.Serializable;
 
-public interface RecordingLengthEntity<T extends Serializable> {
+public interface RecordingLengthEntity<T> {
 	
 	T getRecordingLength();
 

@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.InstrumentTypeEntity;
 
-public interface MutableInstrumentTypeEntity<T extends Serializable> extends InstrumentTypeEntity<T>{
+public interface MutableInstrumentTypeEntity<T> extends InstrumentTypeEntity<T>{
 	void setInstrumentType(T t);
 }

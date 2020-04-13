@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.MutableDescriptionBaseEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="description_base",
@@ -25,7 +27,7 @@ extends BrainzBaseEntity<K> implements MutableDescriptionBaseEntity<String> {
 
 	private static final long serialVersionUID = -4976009864905272762L;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="description", columnDefinition = "VARCHAR NOT NULL" , nullable=false)
 	public String description;
 	

@@ -12,6 +12,7 @@ import org.assertj.core.util.introspection.ClassUtils;
 import org.nanotek.Base;
 import org.nanotek.BaseEntity;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.Artist_;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
@@ -72,20 +73,22 @@ public class ProxyBuddy {
 	
 
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException { 
-		ProxyBuddy a = new ProxyBuddy(Artist.class);
+		ProxyBuddy a = new ProxyBuddy(Artist_.class);
 		Class<?> ab =a.powerClass;
-		Artist<?> object = (Artist<?>) a.powerClass
-                .getDeclaredConstructor()
-                .newInstance();
-		Arrays.asList(object.getClass().getMethods()).forEach(m ->System.out.println(m.getName()));
-		Arrays.asList(ab.getFields()).forEach(f ->System.out.println(f.getName()));
-		object.setArtistId(12L);
-		System.out.println(object.getArtistId());
-		System.out.println(object.withUUID());
-//		assertEquals(m.invoke(type.newInstance()), Bar.sayHelloBar());
-//		a.allClassFieldList.forEach(f ->System.out.println(f.getName()));
-		System.out.println(ab.getName());
-		System.out.println("");
+		
+//		Class<?> ab =a.powerClass;
+//		Artist<?> object = (Artist<?>) a.powerClass
+//                .getDeclaredConstructor()
+//                .newInstance();
+//		Arrays.asList(object.getClass().getMethods()).forEach(m ->System.out.println(m.getName()));
+//		Arrays.asList(ab.getFields()).forEach(f ->System.out.println(f.getName()));
+//		object.setArtistId(12L);
+//		System.out.println(object.getArtistId());
+//		System.out.println(object.withUUID());
+////		assertEquals(m.invoke(type.newInstance()), Bar.sayHelloBar());
+////		a.allClassFieldList.forEach(f ->System.out.println(f.getName()));
+//		System.out.println(ab.getName());
+//		System.out.println("");
 	}
 
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-public interface MutableRecordingAliasIdEntity<K extends Serializable> {
+public interface MutableRecordingAliasIdEntity<K> {
 	
 	K getRecordingAliasId();
 	

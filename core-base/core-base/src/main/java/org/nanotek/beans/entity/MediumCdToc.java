@@ -3,6 +3,8 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.nanotek.annotations.BrainzKey;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="medium_cd_toc")
@@ -30,6 +32,7 @@ public class MediumCdToc<K extends MediumCdToc<K>> extends BrainzBaseEntity<K>{
 	}
 
 
+	@BrainzKey(entityClass = MediumCdToc.class, pathName = "mediumCdTocId")
 	public Long getMediumCdTocId() {
 		return mediumCdTocId;
 	}

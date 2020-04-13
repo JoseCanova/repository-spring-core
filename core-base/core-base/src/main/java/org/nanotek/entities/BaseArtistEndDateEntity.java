@@ -2,6 +2,6 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-public interface BaseArtistEndDateEntity<K extends Serializable>{
+public interface BaseArtistEndDateEntity<K>{
 
 }

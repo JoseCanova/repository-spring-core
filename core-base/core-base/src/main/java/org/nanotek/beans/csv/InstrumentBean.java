@@ -27,16 +27,13 @@ implements BaseIntrumentBean<InstrumentBean<K>>{
 		super(castClass());
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Instrument<?>> castClass() {
 		return (Class<? extends Instrument<?>>) Instrument.class.asSubclass(Instrument.class);
 	}
 
-
 	public InstrumentBean(Class<? extends Instrument<?>> class1) {
 		super(class1);
 	}
-
 
 }

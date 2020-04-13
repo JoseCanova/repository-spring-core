@@ -3,10 +3,13 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.nanotek.annotations.BrainzKey;
+
 @Entity
 @Table(name="url")
 public class Url<K extends Url<K>> extends BrainzBaseEntity<K> {
 
+	private Long urlId;
 	private String gid; 
 	private String url; 
 	private String description; 
@@ -46,6 +49,17 @@ public class Url<K extends Url<K>> extends BrainzBaseEntity<K> {
 
 	public void setRefCount(String refCount) {
 		this.refCount = refCount;
+	}
+
+
+	@BrainzKey(entityClass = Url.class, pathName = "urlId")
+	public Long getUrlId() {
+		return urlId;
+	}
+
+
+	public void setUrlId(Long urlId) {
+		this.urlId = urlId;
 	}
 
 }

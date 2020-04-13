@@ -2,7 +2,7 @@ package org.nanotek.entities.immutables;
 
 import java.io.Serializable;
 
-public interface AreaCommentEntity<K extends Serializable> {
+public interface AreaCommentEntity<K> {
 
 	K getAreaComment();
 	

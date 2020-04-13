@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ArtistAliasTypeEntity;
 
-public interface MutableArtistAliasTypeEntity<K extends Serializable> extends ArtistAliasTypeEntity<K> {
+public interface MutableArtistAliasTypeEntity<K> extends ArtistAliasTypeEntity<K> {
 
 	void setArtistAliasType(K k);
 	

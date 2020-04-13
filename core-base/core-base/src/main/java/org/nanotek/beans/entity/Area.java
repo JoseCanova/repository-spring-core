@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +14,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseAreaEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="area" , 
@@ -27,11 +31,11 @@ public class Area
 
 	private static final long serialVersionUID = -7073321340141567106L;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="area_id",nullable=false)
 	public Long areaId; 
 	
-	@NotNull
+	@NotNull(groups = {Default.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
@@ -40,14 +44,14 @@ public class Area
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "area_begin_date_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id") )
 	public AreaBeginDate<?> areaBeginDate; 
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "area_end_date_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
@@ -55,7 +59,7 @@ public class Area
 	public AreaEndDate<?> areaEndDate;
 	
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
@@ -67,19 +71,19 @@ public class Area
 	/**
 	 * 
 	 */
-	@NotNull
+	@NotNull(groups = {Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String areaName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getAreaName() {
+		return areaName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setAreaName(String k) {
+		this.areaName = k;
 	}
 	
 	public Area() {
@@ -90,7 +94,7 @@ public class Area
 	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
-		this.name = name;
+		this.areaName = name;
 		this.gid = gid;
 		this.areaId = id;
 		this.areaType = type;
@@ -101,6 +105,7 @@ public class Area
 	}
 
 	@Override
+	@BrainzKey(entityClass = Area.class, pathName = "areaId")
 	public Long getAreaId() {
 		return areaId;
 	}

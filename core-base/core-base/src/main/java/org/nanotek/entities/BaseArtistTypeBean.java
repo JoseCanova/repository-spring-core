@@ -84,8 +84,8 @@ MutableDescriptionBaseEntity<String>{
 
 	public static  void main(String[] args) {
 		AreaTypeBean bean = new AreaTypeBean(AreaType.class);
-		bean.setName("name");
-		System.out.println(bean.getName());
+		bean.setTypeName("name");
+		System.out.println(bean.getTypeName());
 		bean.setParent(1000L);
 		System.out.println(bean.getParent());
 		bean.setDescription("this is  a rescription");

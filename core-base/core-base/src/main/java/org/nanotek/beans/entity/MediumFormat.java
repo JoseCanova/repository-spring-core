@@ -8,29 +8,30 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseMediumFormatEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
-import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
-import org.nanotek.entities.MutableParentEntity;
+import org.nanotek.entities.MutableMediumFormatNameEntity;
 import org.nanotek.entities.MutableYearEntity;
 
 @Entity
 @Table(name="medium_format")
 public class MediumFormat<K extends MediumFormat<K>> 
 extends BrainzBaseEntity<K> implements 
-																  BaseMediumFormatEntity<K>,
-																  MutableNameEntity<String>,
-																  MutableParentEntity<Long>,
-																  MutableYearEntity<Integer>,
-																  MutableGidEntity<UUID>,
-																  MutableDescriptionEntity<String>{
+BaseMediumFormatEntity<K>,
+MutableDescriptionEntity<String>,
+MutableMediumFormatNameEntity<String>,
+MutableYearEntity<Integer>{
 
 	private static final long serialVersionUID = 8104913204474210789L;
 	
+	@NotNull
+	@Column(name="mediumFormatId" , insertable=true,nullable=false)
+	public Long mediumFormatId;
+	
 	@NotBlank
 	@Column(name = "name" , insertable=true , nullable=false , updatable=true , columnDefinition = "VARCHAR NOT NULL")
-	public String name; 
+	public String mediumFormatName; 
 	
 	@Column(name = "parent")
 	private Long parent;
@@ -56,7 +57,7 @@ extends BrainzBaseEntity<K> implements
 			@NotBlank  String name, 
 			Long parent, Integer year, String hasDiscId,
 			@NotBlank UUID gid, String description) {
-		this.name = name;
+		this.mediumFormatName = name;
 		this.parent = parent;
 		this.year = year;
 		this.hasDiscId = hasDiscId;
@@ -65,12 +66,12 @@ extends BrainzBaseEntity<K> implements
 	}
 
 
-	public String getName() {
-		return name;
+	public String getMediumFormatName() {
+		return mediumFormatName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMediumFormatName(String name) {
+		this.mediumFormatName = name;
 	}
 
 	public Long getParent() {
@@ -111,6 +112,15 @@ extends BrainzBaseEntity<K> implements
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@BrainzKey(entityClass = MediumFormat.class, pathName = "mediumFormatId")
+	public Long getMediumFormatId() {
+		return mediumFormatId;
+	}
+
+	public void setMediumFormatId(Long mediumFormatId) {
+		this.mediumFormatId = mediumFormatId;
 	}
 
 }

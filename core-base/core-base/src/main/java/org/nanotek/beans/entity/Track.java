@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseTrackEntity;
 
 @Entity
@@ -24,14 +25,14 @@ implements BaseTrackEntity<K>{
 	private Long trackId;
 	
 	@ManyToOne(optional=false)
-	private Medium medium; 
+	private Medium<?> medium; 
 	
 	@OneToOne
 	@JoinTable(
 			  name = "track_position_join", 
 			  joinColumns = @JoinColumn(name = "track_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	private TrackPosition position;
+	private TrackPosition<?> position;
 	
 	@NotNull
 	@OneToOne(optional=false)
@@ -58,17 +59,17 @@ implements BaseTrackEntity<K>{
 	@JoinColumn(name="recordingId" , referencedColumnName="id")
 	private Recording<?> recording;
 	
-	public Medium getMedium() {
+	public Medium<?> getMedium() {
 		return medium;
 	}
-	public void setMedium(Medium medium) {
+	public void setMedium(Medium<?> medium) {
 		this.medium = medium;
 	}
 	
-	public TrackPosition getPosition() {
+	public TrackPosition<?> getPosition() {
 		return position;
 	}
-	public void setPosition(TrackPosition position) {
+	public void setPosition(TrackPosition<?> position) {
 		this.position = position;
 	}
 	
@@ -93,6 +94,7 @@ implements BaseTrackEntity<K>{
 	public void setLength(TrackLength length) {
 		this.length = length;
 	}
+	@BrainzKey(entityClass = Track.class, pathName = "trackId")
 	public Long getTrackId() {
 		return trackId;
 	}

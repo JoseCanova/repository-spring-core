@@ -16,34 +16,16 @@ public class Gender<K extends Gender<K>> extends BaseType<K> {
 	public Gender() {
 	}
 
-	
-
-
-
-
-
 	public Gender(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
-		// TODO Auto-generated constructor stub
 	}
-
-
-
-
-
-
 
 	public Gender(@NotNull Long typeId) {
 		super(typeId);
-		// TODO Auto-generated constructor stub
 	}
-
-
-
 
 	public Gender(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
-		// TODO Auto-generated constructor stub
 	}
 
 }

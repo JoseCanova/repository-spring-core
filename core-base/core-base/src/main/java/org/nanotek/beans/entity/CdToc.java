@@ -3,6 +3,8 @@ package org.nanotek.beans.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.nanotek.annotations.BrainzKey;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="cd_toc")
@@ -13,6 +15,7 @@ public class CdToc<K extends CdToc<K>> extends BrainzBaseEntity<K> {
 	private String freedbId; 
 	private Long trackCount;
 	
+	@BrainzKey(entityClass = CdToc.class, pathName = "cdtocId")
 	public Long getCdtocId() {
 		return cdtocId;
 	}

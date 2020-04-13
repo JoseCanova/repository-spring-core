@@ -14,12 +14,13 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseRecordingEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableRecordingIdEntity;
 import org.nanotek.entities.MutableRecordingLengthEntity;
+import org.nanotek.entities.MutableRecordingNameEntity;
 import org.nanotek.entities.MutableTrackEntitySet;
 
 @Entity
@@ -34,7 +35,7 @@ BaseRecordingEntity<E>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableTrackEntitySet<Track<?>>,
 MutableRecordingLengthEntity<RecordingLength<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,MutableRecordingNameEntity<String>{
 
 	private static final long serialVersionUID = 1795844351898160253L;
 
@@ -48,10 +49,10 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String recordingName;
 
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY,optional = false)
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
 	public ArtistCredit<?> artistCredit; 
 	
@@ -66,13 +67,13 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	public Recording(@NotNull Long id , UUID gid, @NotNull String name) {
 		this.gid = gid; 
-		this.name = name;
+		this.recordingName = name;
 		this.recordingId = id;
 	}
 	
 	public Recording(@NotNull UUID gid, @NotNull String name) {
 		this.gid = gid; 
-		this.name = name;
+		this.recordingName = name;
 	}
 
 	public Set<Track<?>> getTracks() {
@@ -101,6 +102,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	}
 
 	@Override
+	@BrainzKey(entityClass = Recording.class, pathName = "recordingId")
 	public Long getRecordingId() {
 		return recordingId;
 	}
@@ -118,12 +120,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
-	public String getName() {
-		return name;
+	public String getRecordingName() {
+		return recordingName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRecordingName(String name) {
+		this.recordingName = name;
 	}
 
 

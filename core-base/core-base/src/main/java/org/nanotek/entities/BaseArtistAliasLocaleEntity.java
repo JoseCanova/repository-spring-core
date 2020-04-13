@@ -2,5 +2,5 @@ package org.nanotek.entities;
 
 import java.io.Serializable;
 
-public interface BaseArtistAliasLocaleEntity<K extends Serializable>  {
+public interface BaseArtistAliasLocaleEntity<K>  {
 }

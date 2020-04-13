@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -15,11 +16,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
 import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableTypeIdEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 
 @Entity
@@ -42,7 +46,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="type_id" , nullable = false)
 	public Long typeId;
 	
@@ -52,7 +56,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 	@Column(name="childOrder")
 	public Long childOrder;
 
-	@OneToOne(optional=true,orphanRemoval = true)
+	@OneToOne(optional=true,orphanRemoval = true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "base_type_description_join", 
 			  joinColumns = @JoinColumn(name = "base_type_id" , referencedColumnName = "id"), 
@@ -83,6 +87,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 		prepare();
 	}
 
+	@BrainzKey(entityClass = BaseType.class, pathName = "typeId")
 	public Long getTypeId() {
 		return typeId;
 	}
@@ -91,7 +96,6 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 		this.typeId = typeId;
 	}
 
-	
 	public Long getParent() {
 		return parent;
 	}

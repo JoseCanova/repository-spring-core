@@ -38,7 +38,6 @@ implements BaseRecordingBean<RecordingBean<K>>{
 		postConstruct();
 	}
 
-
 	private static Class<? extends Recording<?>> castClass() {
 		return (Class<? extends Recording<?>>) Recording.class.asSubclass(Recording.class);
 	}

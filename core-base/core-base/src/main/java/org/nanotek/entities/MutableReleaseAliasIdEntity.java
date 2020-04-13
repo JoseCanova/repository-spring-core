@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.ReleaseAliasIdEntity;
 
-public interface MutableReleaseAliasIdEntity<K extends Serializable> 
+public interface MutableReleaseAliasIdEntity<K> 
 extends ReleaseAliasIdEntity<K>
 {
 

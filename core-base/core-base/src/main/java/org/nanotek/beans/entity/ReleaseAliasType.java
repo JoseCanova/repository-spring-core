@@ -22,21 +22,18 @@ public class ReleaseAliasType<K extends ReleaseAliasType<K>> extends BaseType<K>
 
 	public ReleaseAliasType(@NotNull Long typeId) {
 		super(typeId);
-		// TODO Auto-generated constructor stub
 	}
 
 
 
 	public ReleaseAliasType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
-		// TODO Auto-generated constructor stub
 	}
 
 
 
 	public ReleaseAliasType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
-		// TODO Auto-generated constructor stub
 	}
 
 

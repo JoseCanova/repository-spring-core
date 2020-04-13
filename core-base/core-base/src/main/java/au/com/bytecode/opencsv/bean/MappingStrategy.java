@@ -17,9 +17,10 @@ package au.com.bytecode.opencsv.bean;
  limitations under the License.
  */
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 import java.io.IOException;
+
+import org.nanotek.beans.IntrospectionException;
+import org.nanotek.beans.PropertyDescriptor;
 
 import au.com.bytecode.opencsv.CSVReader;
 

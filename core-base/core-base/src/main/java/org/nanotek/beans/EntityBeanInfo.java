@@ -1,7 +1,5 @@
 package org.nanotek.beans;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 

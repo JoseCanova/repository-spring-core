@@ -12,7 +12,7 @@ BaseBean<K,Medium<?>>{
 
 	
 	public static void main(String[] args) { 
-		MediumBean<?> language = new MediumBean<>();
+		MediumBean<?> bean = new MediumBean<>();
 	}
 
 }

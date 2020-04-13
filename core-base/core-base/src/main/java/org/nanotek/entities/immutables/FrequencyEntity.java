@@ -2,6 +2,6 @@ package org.nanotek.entities.immutables;
 
 import java.io.Serializable;
 
-public interface FrequencyEntity<K extends Serializable> {
+public interface FrequencyEntity<K> {
 	K getFrequency();
 }

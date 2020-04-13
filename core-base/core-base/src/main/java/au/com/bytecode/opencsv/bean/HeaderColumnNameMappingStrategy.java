@@ -1,9 +1,6 @@
 package au.com.bytecode.opencsv.bean;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +8,10 @@ import java.util.Map;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
+import org.nanotek.beans.BeanInfo;
+import org.nanotek.beans.IntrospectionException;
+import org.nanotek.beans.Introspector;
+import org.nanotek.beans.PropertyDescriptor;
 
 import au.com.bytecode.opencsv.CSVReader;
 

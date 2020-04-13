@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.LongIdNameEntity;
 
-public interface MutableLongIdNameEntity<K extends Serializable> extends LongIdNameEntity<K>{
+public interface MutableLongIdNameEntity<K> extends LongIdNameEntity<K>{
 	
 	void setName(K k);
 

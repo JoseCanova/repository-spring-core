@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.nanotek.entities.immutables.DescriptionBaseEntity;
 
-public interface MutableDescriptionBaseEntity<K extends Serializable> extends DescriptionBaseEntity<K>{
+public interface MutableDescriptionBaseEntity<K> extends DescriptionBaseEntity<K>{
 
 	void setDescription(K k);
 	

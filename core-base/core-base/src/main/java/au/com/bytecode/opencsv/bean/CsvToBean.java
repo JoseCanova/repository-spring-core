@@ -1,6 +1,5 @@
 package au.com.bytecode.opencsv.bean;
 
-import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.util.HashMap;
@@ -9,6 +8,7 @@ import java.util.Map;
 
 import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
+import org.nanotek.beans.PropertyDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

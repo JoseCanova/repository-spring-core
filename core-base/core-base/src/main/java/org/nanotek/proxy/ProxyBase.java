@@ -133,8 +133,6 @@ implements BaseBean<K,ID>
 		return childInterfaceMap.get(ownerClass).get(interfaceClass).getMethodHandle();
 	}
 
-
-
 	public boolean registryMethod(Class<?> classId, Class<?> clazz, String atributeName, Method method , BaseBean.METHOD_TYPE mtype) {
 		Long numFound = Arrays.asList(classId.getFields()).stream().map(f ->{
 			return visitField(classId , f,clazz,atributeName,method,mtype);
@@ -308,7 +306,7 @@ implements BaseBean<K,ID>
 			boolean b = Optional.ofNullable(obj).isPresent();
 			if (b) {
 				Base theBase = this.getClass().cast(obj);
-				return this.compareTo(theBase) == 0;}
+				return this.compareTo((K) theBase) == 0;}
 			return false;
 	}
 	

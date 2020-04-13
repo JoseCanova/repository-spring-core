@@ -12,11 +12,13 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistAliasEntity;
 import org.nanotek.entities.MutableAliasIdEntity;
 import org.nanotek.entities.MutableArtistAliasBeginDateEntity;
 import org.nanotek.entities.MutableArtistAliasEndDateEntity;
 import org.nanotek.entities.MutableArtistAliasLocaleEntity;
+import org.nanotek.entities.MutableArtistAliasNameEntity;
 import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
@@ -37,23 +39,24 @@ MutableArtistAliasTypeEntity<ArtistAliasType<?>> ,
 MutableArtistAliasLocaleEntity<ArtistAliasLocale<?>>,
 MutableArtistAliasBeginDateEntity<ArtistAliasBeginDate<?>>,
 MutableArtistAliasEndDateEntity<ArtistAliasEndDate<?>>,
-MutableNameEntity<String>{
+MutableArtistAliasNameEntity<String>{
 
 	private static final long serialVersionUID = -6829974720983757034L;
 
+			
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String artistAliasName;
 
 
 	@Override
-	public String getName() {
-		return name;
+	public String getArtistAliasName() {
+		return artistAliasName;
 	}
 
 	@Override
-	public void setName(String k) {
-		this.name = k;
+	public void setArtistAliasName(String k) {
+		this.artistAliasName = k;
 	}
 	
 	@NotNull
@@ -71,9 +74,9 @@ MutableNameEntity<String>{
 	@NotNull
 	@ManyToOne(optional = false)
 	@JoinTable(
-			  name = "artist_alias_join", 
-			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
+			name = "artist_alias_join", 
+			inverseJoinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
+			joinColumns  = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
 	public Artist<?> artist;
 
 	@OneToOne(optional = true)
@@ -109,7 +112,7 @@ MutableNameEntity<String>{
 	public ArtistAlias(	@NotNull Long id, 
 			@NotNull Artist<?> artist, 
 			@NotBlank String name) {
-				this.name = name;
+				this.artistAliasName = name;
 				this.aliasId = id;
 				this.artist = artist;
 	}
@@ -118,12 +121,13 @@ MutableNameEntity<String>{
 						@NotNull Artist<?> artist, 
 						@NotBlank String name,
 						@NotNull ArtistAliasSortName<?> sortName) {
-		this.name = name;
+		this.artistAliasName = name;
 		this.aliasId = id;
 		this.artist = artist;
 		this.artistAliasSortName = sortName;
 	}
 
+	@BrainzKey(entityClass = ArtistAlias.class, pathName = "aliasId")
 	public Long getAliasId() {
 		return aliasId;
 	}

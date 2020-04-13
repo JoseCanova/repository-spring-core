@@ -23,10 +23,10 @@ spring:
     maximumPoolSize: 100
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
         ddl-auto: create-drop
         javax:
          cache:
@@ -55,7 +55,7 @@ config:
   baseMap:
     artistId: 0
     gid: 1
-    name: 2
+    artistName: 2
     sortName: 3
     beginDateYear: 4
     beginDateMonth: 5
@@ -82,7 +82,7 @@ artist:
   baseMap:
     artistId: 0
     gid: 1
-    name: 2
+    artistName: 2
     sortName: 3
     beginDateYear: 4
     beginDateMonth: 5
@@ -107,7 +107,7 @@ area:
   baseMap:     
     areaId: 0 
     gid: 1 
-    name: 2 
+    areaName: 2 
     typeId: 3 
     editsPending: 4 
     lastUpdated: 5 
@@ -125,10 +125,10 @@ areatype:
   fileName: area_type
   immutable: org.nanotek.beans.csv.AreaTypeBean  
   baseMap:     
-    areaTypeId: 0
-    name: 1
+    typeId: 0
+    typeName: 1
     parent: 2
-    child_order: 3
+    childOrder: 3
     description: 4
     gid: 5 
     
@@ -138,7 +138,7 @@ artistaliastype:
   immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
   baseMap:     
     artistAliasTypeId: 0
-    name: 1
+    typeName: 1
     parent: 2
     child_order: 3
     description: 4
@@ -152,7 +152,7 @@ artistalias:
   baseMap:  
     aliasId: 0
     artistId: 1
-    name: 2
+    artistAliasName: 2
     locale: 3
     editsPending: 4
     lastUpdated: 5
@@ -173,13 +173,13 @@ artistcredit:
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
     artistCreditId: 0
-    name: 1
+    artistCreditName: 1
     count: 2
     refCount: 3
     created: 4
     editsPending: 5   
     
-artistcreditname:
+artistcreditedname:
   fileLocation: /opt/mbdump
   fileName: artist_credit_name_dump
   immutable: org.nanotek.beans.csv.ArtistCreditNameBean
@@ -187,6 +187,6 @@ artistcreditname:
     artistCreditId: 0
     position: 1            
     artistId: 2              
-    name: 3                
-    artistCreditNameJoinPhrase: 4     
+    artistCreditedName: 3                
+    artistCreditedNameJoinPhrase: 4     
     

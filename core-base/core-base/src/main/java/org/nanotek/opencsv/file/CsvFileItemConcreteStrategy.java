@@ -1,7 +1,6 @@
 package org.nanotek.opencsv.file;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
+
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
@@ -15,6 +14,8 @@ import org.nanotek.AnyBase;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
+import org.nanotek.beans.IntrospectionException;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.MapColumnStrategy;
 import org.slf4j.Logger;

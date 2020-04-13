@@ -5,6 +5,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.beans.csv.ArtistAliasBean;
 import org.nanotek.beans.entity.ArtistAlias;
 import org.nanotek.entities.immutables.AliasIdEntity;
+import org.nanotek.entities.immutables.ArtistAliasNameEntity;
 
 
 public interface BaseArtistAliasBean
@@ -16,7 +17,7 @@ MutableSortNameEntity<String>,
 MutableArtistIdEntity<Long> , 
 MutableTypeIdEntity<Long> , 
 MutableLocaleEntity<String>,
-MutableNameEntity<String>,
+MutableArtistAliasNameEntity<String>,
 MutableBeginYearEntity<Integer>,
 MutableBeginMonthEntity<Integer>,
 MutableBeginDayEntity<Integer>,
@@ -122,13 +123,13 @@ MutableArtistAliasEndDateEntity<BaseArtistAliasEndDateBean<?>>
 	}
 	
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(n->String.class.cast(n)).orElse("");
+	default String getArtistAliasName() {
+		return read(ArtistAliasNameEntity.class).map(n->String.class.cast(n)).orElse("");
 	}
 	
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setArtistAliasName(String k) {
+		write(MutableArtistAliasNameEntity.class,k);
 	}
 	
 	@Override
@@ -155,8 +156,8 @@ MutableArtistAliasEndDateEntity<BaseArtistAliasEndDateBean<?>>
 	
 	public static void main(String[] args) {
 		ArtistAliasBean bean = new ArtistAliasBean();
-		bean.setName("this is a name");
-		System.out.println(bean.getName());
+		bean.setArtistAliasName("this is a name");
+		System.out.println(bean.getArtistAliasName());
 		bean.setBeginDay(10);
 		System.out.println(bean.getBeginDay());
 	}
