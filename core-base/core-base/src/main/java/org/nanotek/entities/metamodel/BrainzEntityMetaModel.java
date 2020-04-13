@@ -1,10 +1,13 @@
 package org.nanotek.entities.metamodel;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.metamodel.EntityType;
 
+import org.nanotek.beans.EntityBeanInfo;
 import org.jgrapht.Graph;
 import org.nanotek.EntityTypeSupport;
 import org.nanotek.proxy.map.BrainzEntityType;
@@ -20,7 +23,9 @@ public class BrainzEntityMetaModel<X,Y>{
 
 	private Set<AttributeMetaModel<?>> attributeMetaModel;
 
-	Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  modelGraph;
+	private Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  modelGraph;
+	
+	private Map<Class<?> , EntityBeanInfo<?>> entityBeanInfoMap;
 
 	private EntityTypeSupport<?,X> metaModelInstance;
 
@@ -39,6 +44,7 @@ public class BrainzEntityMetaModel<X,Y>{
 		this.entityClass = entityClass;
 		this.metaModelInstance = BrainzMetaBuddy.with(metaModelClass).newInstance(entityType1);
 		this.entityType = BrainzEntityType.<K,X>with(entityType1);
+		entityBeanInfoMap = new HashMap<>();
 		attributeMetaModel = new HashSet<>();
 	}
 	

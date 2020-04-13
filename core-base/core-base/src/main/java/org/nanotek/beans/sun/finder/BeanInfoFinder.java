@@ -24,11 +24,12 @@
  */
 package org.nanotek.beans.sun.finder;
 
-import java.beans.BeanDescriptor;
-import java.beans.BeanInfo;
-import java.beans.MethodDescriptor;
-import java.beans.PropertyDescriptor;
+import org.nanotek.beans.MethodDescriptor;
+import org.nanotek.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+
+import org.nanotek.beans.BeanDescriptor;
+import org.nanotek.beans.BeanInfo;
 
 /**
  * This is utility class that provides functionality

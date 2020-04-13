@@ -14,6 +14,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.nanotek.AttributeCopier;
 import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
+import org.nanotek.IdBase;
 import org.nanotek.MutatorSupport;
 import org.nanotek.beans.entity.Artist_;
 
@@ -87,6 +88,7 @@ public class BrainzMetaBuddy {
 				.name("org.nanotek.proxy.buddy.BrainzMeta"+clazz.getSimpleName());
 		buddy  = buddy.implement(AttributeCopier.class);
 		buddy  = buddy.implement(EntityTypeSupport.class);
+		buddy  = buddy.implement(IdBase.class);
 		buddy = buddy.defineProperty("entityType", EntityType.class);
 		buddy  = buddy.defineConstructor(Visibility.PUBLIC )
 				.withParameter(EntityType.class,"entityType",Opcodes.ACC_MANDATED)

@@ -1,6 +1,6 @@
 package org.nanotek;
 
-import java.beans.PropertyDescriptor;
+import org.nanotek.beans.*;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;

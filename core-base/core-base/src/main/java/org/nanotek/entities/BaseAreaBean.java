@@ -178,8 +178,10 @@ MutableGidEntity<UUID>{
     	AreaBean bean = new AreaBean();
     	bean.setAreaId(1000l);
     	bean.setAreaName("this is bame");
+    	System.out.println(bean.getAreaName());
     	bean.setGid(UUID.randomUUID());
     	bean.setComment("this is a comment");
+    	System.out.println(bean.getComment());
     	bean.setAreaId(1000L);
     	bean.setBeginDay(10);
     	bean.setBeginMonth(10);

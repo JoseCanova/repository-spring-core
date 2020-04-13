@@ -1,12 +1,12 @@
 package org.nanotek;
 
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.hibernate.metamodel.model.domain.spi.ManagedTypeDescriptor;
+import org.nanotek.beans.PropertyDescriptor;
 
 public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Copier<K> {
 	

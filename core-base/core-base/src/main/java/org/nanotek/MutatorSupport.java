@@ -1,14 +1,17 @@
 package org.nanotek;
 
-import java.beans.BeanInfo;
 import java.beans.Beans;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+//import java.beans.BeanInfo;
+//import java.beans.Beans;
+//import java.beans.Introspector;
+//import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.BeanInfo;
+import org.nanotek.beans.Introspector;
+import org.nanotek.beans.PropertyDescriptor;
 
 
 public interface MutatorSupport<T> {
@@ -17,6 +20,10 @@ public interface MutatorSupport<T> {
 	default boolean instanceOf(Class<?> clazz) { 
 		return Beans.isInstanceOf(this, clazz);
 	}
+	
+    public static boolean isInstanceOf(Object bean, Class<?> targetType) {
+        return Introspector.isSubclass(bean.getClass(), targetType);
+    }
 
 	default <Z> Optional<? super Z> getProperty(String propertyName) { 
 		return getPropertyDescriptors(this.getClass())

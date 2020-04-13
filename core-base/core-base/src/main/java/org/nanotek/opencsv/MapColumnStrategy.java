@@ -1,7 +1,6 @@
 package org.nanotek.opencsv;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
+
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.lang.reflect.ParameterizedType;
@@ -14,6 +13,8 @@ import org.assertj.core.util.Arrays;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.EntityBeanInfo;
+import org.nanotek.beans.IntrospectionException;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.collections.BaseMap;
 
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;

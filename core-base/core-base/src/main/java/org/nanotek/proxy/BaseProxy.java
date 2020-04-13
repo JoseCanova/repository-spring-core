@@ -1,6 +1,5 @@
 package org.nanotek.proxy;
 
-import java.beans.PropertyDescriptor;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -16,6 +15,7 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean.METHOD_TYPE;
 import org.nanotek.BaseException;
 import org.nanotek.MutatorSupport;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.entities.BaseAreaBean;
 
@@ -62,9 +62,7 @@ implements InvocationHandler , Base<K>{
 	
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		
-		Object returnType = visitMethod(method,args).invoke(args !=null?method.getParameters()[0].getType().cast(args[0]):args);
-		return  null;
+		return visitMethod(method,args).invoke(args !=null?method.getParameters()[0].getType().cast(args[0]):args);
 	}
 	
 	public boolean registerInterface(Class<?> interf ,  Method method) {
