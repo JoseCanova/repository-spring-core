@@ -6,14 +6,6 @@ import org.nanotek.entities.BaseAreaTypeBean;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase; 
 
-//public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 
-//extends Base<K>,
-//BaseBean<K,AreaType<?>>
-//<K extends BaseBean<K,AreaType<?>>,ID extends AreaType<?>> 
-//extends CsvBaseBean<ID>
-//implements BaseAreaTypeBean<K>
-
-
 public class AreaTypeBean
 <K extends BaseBean<AreaTypeBean<K>,AreaType<?>>> 
 extends ProxyBase<AreaTypeBean<K>,AreaType<?>>

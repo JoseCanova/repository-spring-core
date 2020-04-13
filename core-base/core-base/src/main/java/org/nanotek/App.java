@@ -1,17 +1,19 @@
 package org.nanotek;
 
 import java.util.Date;
+import java.util.List;
+import java.util.PriorityQueue;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
+import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistCredit;
-import org.nanotek.beans.entity.Track;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
-import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
@@ -111,26 +113,26 @@ ApplicationRunner{
 		
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
 		
-		GraphPath<?, ?> p =  bf.getPath(r1, r2);
+//		GraphPath<?, ?> p =  bf.getPath(r1, r2);
 		
-		System.out.println(p);
+//		System.out.println(p);
 		
 //		System.out.println(graphModel.getEntityDirectedGraph());
 //
-//		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
+		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
 //
-//		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
-//
-//		pList.forEach(p->{
-//			pq.add(p);
-//		});
-//
-//		Priority<?,Integer> prior = null;
-//		do {
-//			prior = pq.poll();
-//			if (prior !=null)
-//				System.out.println(prior.getElement() + "  " + prior.getPriority());
-//		}while(prior !=null);
+		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+
+		pList.forEach(p->{
+			pq.add(p);
+		});
+
+		Priority<?,Integer> prior = null;
+		do {
+			prior = pq.poll();
+			if (prior !=null)
+				System.out.println(prior.getElement() + "  " + prior.getPriority());
+		}while(prior !=null);
 
 
 //		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());

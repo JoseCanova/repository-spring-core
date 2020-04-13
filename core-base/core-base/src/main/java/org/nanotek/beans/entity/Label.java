@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -46,7 +48,10 @@ MutableLabelCodeEntity<Integer>{
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String labelName;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@JoinTable(name = "label_type_join",joinColumns = 
+	@JoinColumn(name = "label_id" , referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "label_type_id" , referencedColumnName = "id"))
 	public LabelType<?> labelType;
 	
 	@Column

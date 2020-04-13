@@ -68,9 +68,6 @@ public class Area
 	
 	
 	
-	/**
-	 * 
-	 */
 	@NotNull(groups = {Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String areaName;

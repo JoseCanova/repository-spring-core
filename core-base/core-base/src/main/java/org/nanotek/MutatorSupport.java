@@ -16,7 +16,6 @@ import org.nanotek.beans.PropertyDescriptor;
 
 public interface MutatorSupport<T> {
 
-
 	default boolean instanceOf(Class<?> clazz) { 
 		return Beans.isInstanceOf(this, clazz);
 	}

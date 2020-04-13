@@ -23,38 +23,24 @@ public class InstrumentType<K extends InstrumentType<K>> extends BaseType<K> {
 	public InstrumentType() {
 	}
 
-
-
 	public InstrumentType(@NotNull Long typeId) {
 		super(typeId);
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	public InstrumentType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
-		// TODO Auto-generated constructor stub
 	}
-
-
-
 
 	public InstrumentType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	public Set<Instrument<?>> getInstruments() {
 		return instruments;
 	}
 
-
 	public void setInstruments(Set<Instrument<?>> instruments) {
 		this.instruments = instruments;
 	}
-
 
 }

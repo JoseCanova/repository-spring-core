@@ -22,7 +22,7 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 				.filter(key->{
 					PropertyDescriptor prop = descriptorMap.get(key);
 					return (prop.getReadMethod() !=null && verifyReturnTypeIsAttributeSubClass(prop.getReadMethod().getReturnType()));
-				})//refactor this filter. 
+				})
 				.forEach(v-> { 
 				try {
 					Object valueToCopy = k.getAttribute(v);

@@ -98,6 +98,9 @@
 		<class>org.nanotek.beans.entity.TrackLength</class>
 		<class>org.nanotek.beans.entity.TrackNumber</class>
 		<class>org.nanotek.beans.entity.TrackPosition</class>
+		<class>org.nanotek.beans.entity.Work</class>
+		<class>org.nanotek.beans.entity.WorkType</class>
+		<class>org.nanotek.beans.entity.WorkComment</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<validation-mode>NONE</validation-mode>
