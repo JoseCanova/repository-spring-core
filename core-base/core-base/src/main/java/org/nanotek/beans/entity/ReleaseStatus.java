@@ -45,7 +45,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	public String name;
 	
 	@NotNull
-	@OneToOne(mappedBy = "releaseStatus")
+	@OneToOne(mappedBy = "releaseStatus", optional = false)
 	public Release<?> release;
 	
 	public ReleaseStatus() {

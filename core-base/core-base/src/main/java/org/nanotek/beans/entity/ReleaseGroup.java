@@ -60,7 +60,6 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	@JoinColumn(name = "type_id")
 	public ReleaseGroupPrimaryType<?> releaseGroupPrimaryType;
 	
-	
 	@OneToMany(mappedBy = "releaseGroup")
 	public Set<Release<?>> releases;
 	

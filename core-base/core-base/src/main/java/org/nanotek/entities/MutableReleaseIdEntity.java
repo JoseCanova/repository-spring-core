@@ -1,11 +1,9 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.entities.immutables.ReleaseIdEntity;
 
-public interface MutableReleaseIdEntity<K> {
+public interface MutableReleaseIdEntity<K> extends ReleaseIdEntity<K>{
 
-	K getReleaseId();
-	
 	void setReleaseId(K k);
 	
 }

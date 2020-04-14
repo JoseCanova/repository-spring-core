@@ -24,7 +24,7 @@
  */
 package org.nanotek.beans.sun.introspect;
 
-import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
+//import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ClassInfo {
             return DEFAULT;
         }
         try {
-            checkPackageAccess(type);
+//            checkPackageAccess(type);
             return CACHE.get(type);
         } catch (SecurityException exception) {
             return DEFAULT;

@@ -13,18 +13,21 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableLanguageEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseBarCodeEntity;
 import org.nanotek.entities.MutableReleaseCommentEntity;
 import org.nanotek.entities.MutableReleaseGroupEntity;
 import org.nanotek.entities.MutableReleaseIdEntity;
+import org.nanotek.entities.MutableReleaseLabelEntity;
+import org.nanotek.entities.MutableReleaseNameEntity;
 import org.nanotek.entities.MutableReleasePackagingEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 
 @Entity
@@ -33,7 +36,9 @@ uniqueConstraints= {
 @UniqueConstraint(name="uk_release_id",columnNames={"release_id"})
 })
 public class Release
-<K extends Release<K>> extends BrainzBaseEntity<K> implements 
+<K extends Release<K>>
+extends BrainzBaseEntity<K> 
+implements 
 BaseReleaseEntity<K>,
 MutableReleaseIdEntity<Long>,
 MutableReleaseBarCodeEntity<ReleaseBarCode<?>>,
@@ -42,56 +47,64 @@ MutableReleasePackagingEntity<ReleasePackaging<?>>,
 MutableLanguageEntity<Language<?>>,
 MutableReleaseGroupEntity<ReleaseGroup<?>>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,
+MutableReleaseNameEntity<String>,
+MutableReleaseLabelEntity<ReleaseLabel<?>>{
 
 	private static final long serialVersionUID = 8526436903189806951L;
 		
+	@NotNull(groups = {CsvValidationGroup.class,Default.class})
 	@Column(name="release_id" , nullable=false)
-	private Long releaseId;
+	public Long releaseId;
 
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String releaseName;
 
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "VARCHAR(50) NOT NULL")
-	protected UUID gid;
-	
-
+	public UUID gid;
 	
 	@OneToOne(optional = true , orphanRemoval = true)
 	@JoinTable(
 			  name = "release_barcode_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
-	private ReleaseBarCode<?> releaseBarCode;
+	public ReleaseBarCode<?> releaseBarCode;
 	
 	@OneToOne(optional = true , orphanRemoval = true)
 	@JoinTable(
 			  name = "release_comment_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
-	private ReleaseComment<?> releaseComment; 
+	public ReleaseComment<?> releaseComment; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="status_id")
-	private ReleaseStatus<?> releaseStatus; 
+	public ReleaseStatus<?> releaseStatus; 
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="packaging_id")
-	private ReleasePackaging<?> releasePackaging;
+	public ReleasePackaging<?> releasePackaging;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="language_id")
-	private Language<?> language; 
+	public Language<?> language; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="release_group_id" , referencedColumnName="id", insertable=true , nullable=false)
-	private ReleaseGroup<?> releaseGroup; 
+	public ReleaseGroup<?> releaseGroup; 
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id",insertable=true , nullable=true)
-	private ArtistCredit<?> artistCredit;
+	public ArtistCredit<?> artistCredit;
+	
+	@ManyToOne(optional = true ,  fetch = FetchType.LAZY)
+	@JoinTable(
+			  name = "release_relabel_join", 
+			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "label_id",referencedColumnName = "id"))
+	public ReleaseLabel<?> releaseLabel;
 
 	public Release() { 
 	}
@@ -114,7 +127,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 			ArtistCredit<?> artistCredit) {
 		this.releaseId = id;
 		this.gid = gid;
-		this.name = name;
+		this.releaseName = name;
 		this.releaseBarCode = barCode;
 		this.releaseComment = comment;
 		this.releaseStatus = status;
@@ -189,12 +202,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.artistCredit = artistCredit;
 	}
 
-	public String getName() {
-		return name;
+	public String getReleaseName() {
+		return releaseName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReleaseName(String name) {
+		this.releaseName = name;
 	}
 
 	public UUID getGid() {
@@ -205,6 +218,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
+	public ReleaseLabel<?> getReleaseLabel() {
+		return releaseLabel;
+	}
 
+	public void setReleaseLabel(ReleaseLabel<?> releaseLabel) {
+		this.releaseLabel = releaseLabel;
+	}
 	
 }

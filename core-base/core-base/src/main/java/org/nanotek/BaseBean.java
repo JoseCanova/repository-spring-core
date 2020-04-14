@@ -6,10 +6,12 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -98,9 +100,9 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	@PostConstruct
 	default void registryDynaBean() { 
 		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
-//		System.out.println("Original Size"+intf.size());
-		List<Class<?>> remainingInterfaces = processInterfaces(getBaseClass(),intf);
-		processRemainingInterfaces(getId().getClass(),remainingInterfaces);
+		System.out.println("Original Size"+intf.size());
+		registryProperties(getBaseClass(),intf);
+		processAttributesProperties(getId().getClass());
 	}
 	
 	void mountInstanceMap();
@@ -111,12 +113,9 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		return Base.newInstance((Class<K>) fieldClass).get();
 	}
 
-	default void processRemainingInterfaces(Class<?> classId, List<Class<?>> remainingInterfaces) {
-		List<Class<?>> filtered =  Optional.ofNullable( remainingInterfaces).orElse(new ArrayList<>()).stream()
-										.collect(Collectors.toList());
-		List<Class<?>> notRegistred = null;
+	//TODO:Check the original idea of this.
+	default void processAttributesProperties(Class<?> classId) {
 //		System.out.println("Remaining " + filtered.toString());
-		if (classId == null ) {setConfigured(true);return;}
 		Field[] fields = classId.getFields();
 		Class<?> newClassID = null;
 		for (Field f : fields) {
@@ -124,25 +123,31 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 				 { try {
 					List <Class<?>> typeInterfaces = getAllInterfaces(f.getType());
 					newClassID = f.getType();
-//					System.out.println(typeInterfaces);
-					filtered.addAll(typeInterfaces);
-					notRegistred = processInterfaces(newClassID, filtered);
+					registryProperties(newClassID,typeInterfaces);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			 }
 		}
-		processRemainingInterfaces(newClassID,notRegistred);
+		setConfigured(true);
+		return;
 	}
 	
 	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
-		return ClassUtils.getAllInterfaces(class1);
+		List<Class<?>> interfaces = new ArrayList<>();
+		Class<?> [] intAry = class1.getInterfaces();
+		if(intAry.length > 0) { 
+			interfaces.addAll(Arrays.asList(intAry));
+			for(Class<?> c:intAry)
+				interfaces.addAll(getAllInterfaces(c));
+		}
+		return interfaces;
 	}
 
 
-	default List<Class<?>> processInterfaces(Class<?> classId , List<Class<?>> allInterfaces) {
+	default List<Class<?>> registryProperties(Class<?> classId , List<Class<?>> allInterfaces) {
 		return allInterfaces.stream()
-				.filter(interf -> registredInterface(classId , interf) == false)
+				.filter(interf -> !registredInterface(classId , interf))
 				.collect(Collectors.toList());
 	}
 
@@ -157,9 +162,9 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 				result = registryMethod(classId , p.getReadMethod().getDeclaringClass() , p.getName() , p.getReadMethod(),METHOD_TYPE.READ);
 			}
 //			TODO:Puta a debug line here
-//			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
+			System.out.println(result + " " +  classId.toString() + " " + interf.toString());
 			return result;
-		}).filter(r -> r==true).orElse(false);
+		}).orElse(false);
 
 	}
 

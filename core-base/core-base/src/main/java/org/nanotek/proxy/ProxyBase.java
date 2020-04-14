@@ -211,7 +211,6 @@ implements BaseBean<K,ID>
 		map.put(clazz, classHandle);
 	}
 
-
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
 		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 
 		{

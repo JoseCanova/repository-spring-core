@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
+import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm.SpanningTree;
 import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
+import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistCredit;
@@ -112,6 +113,9 @@ ApplicationRunner{
 		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
 		
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
+		
+		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
+		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
 		
 //		GraphPath<?, ?> p =  bf.getPath(r1, r2);
 		
