@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.groups.Default;
 
+import org.hibernate.annotations.DiscriminatorOptions;
 import org.nanotek.entities.BaseSortNameEntity;
 import org.nanotek.entities.MutableSortNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;

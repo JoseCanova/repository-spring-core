@@ -5,7 +5,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -22,13 +21,12 @@ import org.nanotek.entities.MutableLabelCodeEntity;
 import org.nanotek.entities.MutableLabelEndDateEntity;
 import org.nanotek.entities.MutableLabelNameEntity;
 import org.nanotek.entities.MutableLabelTypeEntity;
-import org.nanotek.entities.MutableNameEntity;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label")
 public class Label<K extends Label<K>> 
-extends SortNameBase<K>
+extends BrainzBaseEntity<K>
 implements BaseLabelEntity<K>,
 MutableGidEntity<UUID>,MutableLabelNameEntity<String>,
 MutableLabelBeginDateEntity<LabelBeginDate<?>>,
@@ -72,7 +70,6 @@ MutableLabelCodeEntity<Integer>{
 	
 	public Label(@NotBlank String sortName, Long labelId, @NotNull UUID gid, @NotNull String name,
 			LabelType<?> labelType) {
-		super(sortName);
 		this.labelId = labelId;
 		this.gid = gid;
 		this.labelName = name;
@@ -80,10 +77,6 @@ MutableLabelCodeEntity<Integer>{
 	}
 	
 
-
-	public Label(@NotBlank String sortName) {
-		super(sortName);
-	}
 
 	public Label() {
 	}
