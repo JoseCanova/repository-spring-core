@@ -16,6 +16,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseLabelEntity;
 import org.nanotek.entities.MutableLabelReleaseEntity;
 import org.nanotek.entities.MutableReleaseLabelCatalogEntity;
@@ -69,6 +70,7 @@ MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>{
 		this.releaseLabelId = releaseLabelId;
 	}
 
+	@BrainzKey(entityClass = ReleaseLabel.class,pathName = "releaseLabelId")
 	public Long getReleaseLabelId() {
 		return releaseLabelId;
 	}

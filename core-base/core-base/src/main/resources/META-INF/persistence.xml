@@ -88,6 +88,8 @@
 		<class>org.nanotek.beans.entity.ReleaseAliasEndDate</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasSortName</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasType</class>
+		<class>org.nanotek.beans.entity.ReleaseLabel</class>
+		<class>org.nanotek.beans.entity.ReleaseLabelCatalog</class>
 		<class>org.nanotek.beans.entity.ReleasePackaging</class>
 		<class>org.nanotek.beans.entity.ReleaseGroupPrimaryType</class>
 		<class>org.nanotek.beans.entity.SequenceLongBase</class>

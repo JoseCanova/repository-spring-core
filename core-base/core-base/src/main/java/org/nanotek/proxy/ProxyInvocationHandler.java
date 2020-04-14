@@ -57,7 +57,7 @@ implements InvocationHandler{
 		this.lookup = lookup;
 	}
 
-
+//TODO: FIX THE PROBLEM.
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
 		Class<?> type = new ByteBuddy(ClassFileVersion.JAVA_V8)
 				  .subclass(Object.class)

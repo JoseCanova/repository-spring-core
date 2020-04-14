@@ -136,7 +136,7 @@ implements DataTransferMutator<String>
 
 		ForwardMapBean<?> dm = new ForwardMapBean<>(Area.class);
 		Long val = 1000l;
-		PropertyDescriptor pd= dm.toWhere("name");
+		PropertyDescriptor pd= dm.toWhere("areaName");
 		System.out.println(pd!=null?pd.getName():"no where");
 		dm.write("areaName", "The Name");
 		System.out.println("");
