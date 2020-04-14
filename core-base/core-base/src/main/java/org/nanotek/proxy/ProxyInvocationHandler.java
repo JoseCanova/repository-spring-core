@@ -31,8 +31,6 @@ implements InvocationHandler{
 	}
 
 
-
-
 	public Object getBase() {
 		return base;
 	}

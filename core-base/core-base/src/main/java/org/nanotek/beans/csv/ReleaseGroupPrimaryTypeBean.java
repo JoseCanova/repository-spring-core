@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ReleaseGroupPrimaryType;
+import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.entities.BaseReleaseGroupPrimaryTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -20,14 +21,23 @@ implements BaseReleaseGroupPrimaryTypeBean<ReleaseGroupPrimaryTypeBean<K>>{
 //	public String description; 
 //	public String gid;
 	
+	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
+
+
+
+	private void postConstruct() {
+		baseTypeDescription = new  BaseTypeDescriptionBean<>();
+	}
 	
 	public ReleaseGroupPrimaryTypeBean(Class<? extends ReleaseGroupPrimaryType<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 
 
 	public ReleaseGroupPrimaryTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 
@@ -36,6 +46,18 @@ implements BaseReleaseGroupPrimaryTypeBean<ReleaseGroupPrimaryTypeBean<K>>{
 		return (Class<? extends ReleaseGroupPrimaryType<?>>) 
 				ReleaseGroupPrimaryType.class.
 				asSubclass(ReleaseGroupPrimaryType.class);
+	}
+
+
+	@Override
+	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> k) {
+		this.baseTypeDescription = k;
+	}
+
+
+	@Override
+	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
+		return baseTypeDescription;
 	}
 	
 }

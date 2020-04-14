@@ -1,31 +1,37 @@
 package org.nanotek.beans.entity;
 
-import javax.persistence.Column;
+import java.util.UUID;
+
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseReleaseGroupPrimaryTypeEntity;
 
 @Entity
-@Table(name="release_group_primary_type")
+@DiscriminatorValue(value = "ReleaseGroupPrimaryType")
 public class ReleaseGroupPrimaryType
 <K extends ReleaseGroupPrimaryType<K>> 
-extends BrainzBaseEntity<K> 
+extends BaseType<K>
 implements BaseReleaseGroupPrimaryTypeEntity<K>{
 
 	private static final long serialVersionUID = 3855412565715717271L;
-	
-	@Column(name="name" , nullable = false , length=255)
-	private String name; 
-	@Column(name="gid" , nullable = false , length=50)
-	private String gid;
-	
+
 	public ReleaseGroupPrimaryType() {
+		super();
+	}
+
+	public ReleaseGroupPrimaryType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+	}
+
+	public ReleaseGroupPrimaryType(@NotNull Long typeId) {
+		super(typeId);
+	}
+
+	public ReleaseGroupPrimaryType(@NotNull UUID gid, @NotBlank String name) {
+		super(gid, name);
 	}
 	
-	public ReleaseGroupPrimaryType(String name, String gid) {
-		super();
-		this.name = name;
-		this.gid = gid;
-	}
 }

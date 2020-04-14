@@ -1,6 +1,5 @@
 package org.nanotek;
 
-import org.nanotek.beans.*;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
@@ -11,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+
+import org.springframework.util.ClassUtils;
 
 import javax.annotation.PostConstruct;
 
-import org.assertj.core.util.introspection.ClassUtils;
+import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -134,15 +135,19 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	}
 	
 	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
-		List<Class<?>> interfaces = new ArrayList<>();
-		Class<?> [] intAry = class1.getInterfaces();
-		if(intAry.length > 0) { 
-			interfaces.addAll(Arrays.asList(intAry));
-			for(Class<?> c:intAry)
-				interfaces.addAll(getAllInterfaces(c));
-		}
-		return interfaces;
+		return Arrays.asList(ClassUtils.getAllInterfacesForClass(class1));
 	}
+	
+//	default List<Class<?>> getAllInterfacesFromClass(Class<? extends Object> class1){ 
+//		List<Class<?>> interfaces = new ArrayList<>();
+//		Class<?> [] intAry = class1.getInterfaces();
+//		if(intAry.length > 0) { 
+//			interfaces.addAll(Arrays.asList(intAry));
+//			for(Class<?> c:intAry)
+//				interfaces.addAll(getAllInterfaces(c));
+//		}
+//		return interfaces;
+//	}
 
 
 	default List<Class<?>> registryProperties(Class<?> classId , List<Class<?>> allInterfaces) {

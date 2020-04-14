@@ -61,6 +61,7 @@ public final class BeanInfoFinder
         // this optimization will only use the BeanInfo search path
         // if is has changed from the original
         // or trying to get the ComponentBeanInfo
+        //TODO: remove awt dependency.
         BeanInfo info = !DEFAULT_NEW.equals(prefix) || "ComponentBeanInfo".equals(name)
                 ? super.instantiate(type, prefix, name)
                 : null;
