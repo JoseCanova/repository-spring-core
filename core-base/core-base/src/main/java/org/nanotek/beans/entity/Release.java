@@ -49,7 +49,8 @@ MutableReleaseGroupEntity<ReleaseGroup<?>>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableGidEntity<UUID>,
 MutableReleaseNameEntity<String>,
-MutableReleaseLabelEntity<ReleaseLabel<?>>{
+MutableReleaseLabelEntity<ReleaseLabel<?>>
+{
 
 	private static final long serialVersionUID = 8526436903189806951L;
 		
@@ -65,6 +66,17 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>{
 	@Column(name="gid", nullable=false , columnDefinition = "VARCHAR(50) NOT NULL")
 	public UUID gid;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinTable(
+			  name = "release_language_join", 
+			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "language_id",referencedColumnName = "id"))
+	public Language<?> language; 
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="artist_credit_id" , referencedColumnName="id",insertable=true , nullable=true)
+	public ArtistCredit<?> artistCredit;
+	
 	@OneToOne(optional = true , orphanRemoval = true)
 	@JoinTable(
 			  name = "release_barcode_join", 
@@ -79,8 +91,11 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>{
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
 	public ReleaseComment<?> releaseComment; 
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="status_id")
+	@ManyToOne(fetch=FetchType.LAZY,optional = false)
+	@JoinTable(
+			  name = "release_status_join", 
+			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "status_id",referencedColumnName = "id"))
 	public ReleaseStatus<?> releaseStatus; 
 	
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -88,30 +103,28 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>{
 	public ReleasePackaging<?> releasePackaging;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="language_id")
-	public Language<?> language; 
-
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="release_group_id" , referencedColumnName="id", insertable=true , nullable=false)
+	@JoinTable(
+			  name = "release_group_join", 
+			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "release_group_id",referencedColumnName = "id"))
 	public ReleaseGroup<?> releaseGroup; 
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="artist_credit_id" , referencedColumnName="id",insertable=true , nullable=true)
-	public ArtistCredit<?> artistCredit;
-	
 	@ManyToOne(optional = true ,  fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "release_relabel_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "label_id",referencedColumnName = "id"))
+			  inverseJoinColumns = @JoinColumn(name = "release_label_id",referencedColumnName = "id"))
 	public ReleaseLabel<?> releaseLabel;
 
 	public Release() { 
 	}
 	
-	public Release(@NotNull Long id, @NotNull UUID gid, @NotBlank String name) {
+	public Release(@NotNull(groups = { CsvValidationGroup.class, Default.class }) Long releaseId,
+			@NotNull String releaseName, @NotNull UUID gid) {
+		super();
+		this.releaseId = releaseId;
+		this.releaseName = releaseName;
 		this.gid = gid;
-		this.releaseId = id;
 	}
 
 	public Release(

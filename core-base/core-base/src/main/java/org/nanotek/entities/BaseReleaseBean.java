@@ -7,6 +7,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.ReleaseBean;
 import org.nanotek.beans.entity.Release;
+import org.nanotek.beans.entity.ReleaseComment;
 import org.nanotek.entities.immutables.ReleaseIdEntity;
 import org.nanotek.entities.immutables.ReleaseNameEntity;
 
@@ -17,7 +18,8 @@ MutableReleaseIdEntity<Long>,
 MutableGidEntity<UUID>,
 MutableReleaseNameEntity<String>,
 MutableArtistCreditEntity<BaseArtistCreditBean<?>>,
-MutableReleaseGroupEntity<BaseReleaseGroupBean<?>>{
+MutableReleaseGroupEntity<BaseReleaseGroupBean<?>>,
+MutableReleaseCommentEntity<BaseReleaseCommentBean<?>>{
 
 	//	public Long releaseId; 
 	//	public String gid; 

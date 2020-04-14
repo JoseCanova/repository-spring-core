@@ -1,10 +1,5 @@
 package org.nanotek;
 
-import java.beans.Beans;
-//import java.beans.BeanInfo;
-//import java.beans.Beans;
-//import java.beans.Introspector;
-//import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,30 +11,28 @@ import org.nanotek.beans.PropertyDescriptor;
 
 public interface MutatorSupport<T> {
 
-	default boolean instanceOf(Class<?> clazz) { 
-		return Beans.isInstanceOf(this, clazz);
+
+	public static boolean isInstanceOf(Object bean, Class<?> targetType) {
+		return Introspector.isSubclass(bean.getClass(), targetType);
 	}
-	
-    public static boolean isInstanceOf(Object bean, Class<?> targetType) {
-        return Introspector.isSubclass(bean.getClass(), targetType);
-    }
 
 	default <Z> Optional<? super Z> getProperty(String propertyName) { 
 		return getPropertyDescriptors(this.getClass())
-		.map(ps->{
-			PropertyDescriptor z = null;
-			return Stream
-				.of(ps)
-				.reduce(z,(test , value)->{
-					if(value.getName().equals(propertyName)) {
-						test = value;
-					}
-					return test;
-				});
-		})
-		.map(p->read(p.getReadMethod(), this));
+				.map(ps->{
+					PropertyDescriptor z = null;
+					return Stream
+							.of(ps)
+							.reduce(z,(test , value)->{
+								if(value.getName().equals(propertyName)) {
+									test = value;
+								}
+								return test;
+							});
+				})
+				.map(p->read(p.getReadMethod(), this));
 	}
-	
+
+	//TODO: define a criteria verify parameters from readmethod
 	default Object read(Method readMethod, MutatorSupport<T> mutatorSupport) {
 		try{
 			return readMethod.invoke(mutatorSupport, new Object[] {});
@@ -58,7 +51,7 @@ public interface MutatorSupport<T> {
 		}
 		return Optional.empty();
 	}
-	
+
 	/**
 	 * use just for acessor/mutator interfaces.
 	 * @param type
@@ -75,5 +68,25 @@ public interface MutatorSupport<T> {
 		}
 		return Optional.empty();
 	}
-	
+
+
+	/**
+	 * Check if class is a property class (ie mutator acessor class).
+	 * 
+	 * @param type
+	 * @return
+	 */
+	static boolean isPropertyBean(Class<?> clazz) {
+		try {	
+			BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptors();
+			if(desc == null || desc.length !=1) return false; 
+			PropertyDescriptor descr=desc[0];
+			return descr.getWriteMethod() !=null || descr.getReadMethod() !=null;
+		}catch (Exception ex) { 
+			ex.printStackTrace();
+		}
+		return false;
+	}
+
 }

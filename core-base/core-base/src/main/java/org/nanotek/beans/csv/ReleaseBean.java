@@ -1,10 +1,10 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Release;
 import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseReleaseBean;
+import org.nanotek.entities.BaseReleaseCommentBean;
 import org.nanotek.entities.BaseReleaseGroupBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -23,6 +23,9 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 	BaseArtistCreditBean<?> artistCredit;
 	
 	BaseReleaseGroupBean<?> releaseGroup;
+	
+	BaseReleaseCommentBean<?> releaseComment;
+	
 	
 //	public Long releaseId; 
 //	public String gid; 
@@ -60,6 +63,7 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 	private void postContruct() {
 		 artistCredit = new ArtistCreditBean<>();
 		 releaseGroup = new ReleaseGroupBean<>();
+		 releaseComment = new ReleaseCommentBean<>(); 
 	}
 
 
@@ -80,6 +84,16 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 
 	public void setReleaseGroup(BaseReleaseGroupBean<?> releaseGroup) {
 		this.releaseGroup = releaseGroup;
+	}
+
+
+	public BaseReleaseCommentBean<?> getReleaseComment() {
+		return releaseComment;
+	}
+
+
+	public void setReleaseComment(BaseReleaseCommentBean<?> releaseComment) {
+		this.releaseComment = releaseComment;
 	}
 
 	

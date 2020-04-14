@@ -1,9 +1,11 @@
 package org.nanotek.beans.entity;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -13,9 +15,10 @@ import javax.validation.constraints.NotNull;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseStatusEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.entities.MutableReleaseStatusIdEntity;
+import org.nanotek.entities.MutableReleaseStatusNameEntity;
 
 @Entity
 @Table(name="release_status",
@@ -27,8 +30,10 @@ public class ReleaseStatus
 BrainzBaseEntity<K> 
 implements BaseReleaseStatusEntity<K>,
 MutableReleaseStatusIdEntity<Long>,
-MutableReleaseEntity<Release<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableReleaseSetEntity<Release<?>>,
+MutableGidEntity<UUID>,
+MutableReleaseStatusNameEntity<String>
+{
 
 	private static final long serialVersionUID = 4793056857806342212L;
 	
@@ -42,11 +47,11 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String releaseStatusName;
 	
 	@NotNull
-	@OneToOne(mappedBy = "releaseStatus", optional = false)
-	public Release<?> release;
+	@OneToMany(mappedBy = "releaseStatus")
+	public Set<Release<?>> releases;
 	
 	public ReleaseStatus() {
 	}
@@ -55,7 +60,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 						 @NotBlank String name, 
 						 @NotNull  UUID gid) {
 		this.gid = gid; 
-		this.name = name;
+		this.releaseStatusName = name;
 		this.releaseStatusId = id;
 	}
 
@@ -68,14 +73,6 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.releaseStatusId = releaseStatusId;
 	}
 
-	public Release<?> getRelease() {
-		return release;
-	}
-
-	public void setRelease(Release<?> release) {
-		this.release = release;
-	}
-
 	public UUID getGid() {
 		return gid;
 	}
@@ -84,12 +81,19 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
-	public String getName() {
-		return name;
+	public String getReleaseStatusName() {
+		return releaseStatusName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReleaseStatusName(String name) {
+		this.releaseStatusName = name;
 	}
 
+	public Set<Release<?>> getReleases() {
+		return releases;
+	}
+
+	public void setReleases(Set<Release<?>> releases) {
+		this.releases = releases;
+	}
 }

@@ -15,8 +15,8 @@ import org.nanotek.ReleasePackagingBase;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleasePackagingEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleasePackagingId;
+import org.nanotek.entities.MutableReleasePackagingNameEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 
 @Entity
@@ -30,7 +30,8 @@ implements BaseReleasePackagingEntity<K>,
 ReleasePackagingBase<Long>,
 MutableReleasePackagingId<Long>,
 MutableReleaseSetEntity<Release<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,
+MutableReleasePackagingNameEntity<String>{
 
 	private static final long serialVersionUID = 5351338443793025420L;
 
@@ -44,7 +45,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String releasePackagingName;
 	
 	@OneToMany(mappedBy = "releasePackaging")
 	public Set<Release<?>> releases;
@@ -54,7 +55,7 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	public ReleasePackaging(@NotNull Long id, @NotBlank String name, @NotNull  UUID gid) {
 		this.gid = gid; 
-		this.name = name;
+		this.releasePackagingName = name;
 		this.releasePackagingId = id;
 	}
 
@@ -83,12 +84,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
-	public String getName() {
-		return name;
+	public String getReleasePackagingName() {
+		return releasePackagingName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReleasePackagingName(String name) {
+		this.releasePackagingName = name;
 	}
 
 
