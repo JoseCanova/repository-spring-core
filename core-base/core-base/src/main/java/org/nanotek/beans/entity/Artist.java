@@ -21,19 +21,6 @@ import javax.validation.groups.Default;
 
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistEntity;
-import org.nanotek.entities.MutableAreaEntity;
-import org.nanotek.entities.MutableArtistBeginAreaEntity;
-import org.nanotek.entities.MutableArtistBeginDateEntity;
-import org.nanotek.entities.MutableArtistCommentEntity;
-import org.nanotek.entities.MutableArtistCreditCollection;
-import org.nanotek.entities.MutableArtistEndAreaEntity;
-import org.nanotek.entities.MutableArtistEndDateEntity;
-import org.nanotek.entities.MutableArtistIdEntity;
-import org.nanotek.entities.MutableArtistSortNameEntity;
-import org.nanotek.entities.MutableArtistTypeEntity;
-import org.nanotek.entities.MutableGenderEntity;
-import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.immutables.MutableArtistNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity

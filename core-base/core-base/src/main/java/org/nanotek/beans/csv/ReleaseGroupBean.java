@@ -2,7 +2,9 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ReleaseGroup;
+import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseReleaseGroupBean;
+import org.nanotek.entities.BaseReleaseGroupPrimaryTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
 
@@ -14,24 +16,21 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 
 	private static final long serialVersionUID = -1119657398190391884L;
 
-
-//	
-//	public Long releaseGroupId; 
-//	public String gid; 
-//	public String name; 
-//	public Long artistCredit; 
-//	public Long type;
-//	public String comment; 
-//	public String editsPending;
-//	public String lastUpdated;
-
-
-
+	private BaseArtistCreditBean<?> artistCredit;
+	
+	private BaseReleaseGroupPrimaryTypeBean<?> releaseGroupPrimaryType;
+	
 	public ReleaseGroupBean() { 
 		super(castClass());
+		postConstruct();
+	}
+	
+
+	private void postConstruct() {
+		artistCredit = new ArtistCreditBean<>();
+		releaseGroupPrimaryType = new ReleaseGroupPrimaryTypeBean<>();
 	}
 
-	
 
 	@SuppressWarnings("unchecked")
 	private static Class<? extends ReleaseGroup<?>>castClass() {
@@ -42,8 +41,26 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 
 	public ReleaseGroupBean(Class<? extends ReleaseGroup<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
-	
 
+	public BaseArtistCreditBean<?> getArtistCredit() {
+		return artistCredit;
+	}
+
+	public void setArtistCredit(BaseArtistCreditBean<?> artistCredit) {
+		this.artistCredit = artistCredit;
+	}
+
+	@Override
+	public void setReleaseGroupPrimaryType(BaseReleaseGroupPrimaryTypeBean<?> k) {
+		this.releaseGroupPrimaryType = k;
+		
+	}
+
+	@Override
+	public BaseReleaseGroupPrimaryTypeBean<?> getReleaseGroupPrimaryType() {
+		return releaseGroupPrimaryType;
+	}
 	
 }
