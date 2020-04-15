@@ -32,9 +32,11 @@ extends BrainzBaseEntity<K>
 	@Column(name="year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginYear;
 	
+	@NotNull
 	@Column(name="month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginMonth;
 	
+	@NotNull
 	@Column(name="day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginDay;
 
@@ -44,12 +46,15 @@ extends BrainzBaseEntity<K>
 	public BeginDateBase(@NotNull Integer beginYear) {
 		super();
 		this.beginYear = beginYear;
+		this.beginMonth = 1;
+		this.beginDay = 1;
 	}
 	
 	public BeginDateBase(@NotNull  Integer beginYear, @NotNull Integer beginMonth) {
 		super();
 		this.beginYear = beginYear;
 		this.beginMonth = beginMonth;
+		this.beginDay = 1;
 	}
 	
 	public BeginDateBase(@NotNull  Integer beginYear, @NotNull Integer beginMonth, @NotNull Integer beginDay) {
@@ -64,7 +69,15 @@ extends BrainzBaseEntity<K>
 	}
 
 	public void setBeginYear(Integer beginYear) {
+		verifyMonthDay();
 		this.beginYear = beginYear;
+	}
+
+	private void verifyMonthDay() {
+		if(beginMonth == null)
+			beginMonth =1;
+		if(beginDay == null)
+			beginDay = 1;
 	}
 
 	public Integer getBeginMonth() {

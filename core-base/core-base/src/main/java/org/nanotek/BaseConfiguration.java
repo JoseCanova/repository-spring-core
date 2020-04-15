@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
@@ -140,6 +141,7 @@ public class BaseConfiguration implements ApplicationContextAware{
      }
 	
 	@Bean
+	@Primary
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
@@ -150,6 +152,15 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setDataSource(dataSource());
 		return factory;
 	}
+	
+	@Bean
+	@Qualifier(value="SessionFactoryImpl")
+	public SessionFactoryImpl sessionFactory(@Autowired 
+				LocalContainerEntityManagerFactoryBean entityManagerFactory) { 
+		return SessionFactoryImpl.class.cast(entityManagerFactory.getNativeEntityManagerFactory());
+	}
+	
+	
 //
 	@Bean
 	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 

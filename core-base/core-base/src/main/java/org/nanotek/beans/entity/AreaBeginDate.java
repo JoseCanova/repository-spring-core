@@ -4,7 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.nanotek.entities.AreaBeginDateEntity;
-import org.nanotek.entities.MutableBeginDateEntity;
 import org.nanotek.entities.MutableBeginDayEntity;
 import org.nanotek.entities.MutableBeginMonthEntity;
 import org.nanotek.entities.MutableBeginYearEntity;

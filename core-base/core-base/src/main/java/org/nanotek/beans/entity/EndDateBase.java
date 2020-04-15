@@ -41,12 +41,15 @@ extends BrainzBaseEntity<K>  {
 	public EndDateBase(@NotNull Integer endYear) {
 		super();
 		this.endYear = endYear;
+		this.endMonth = 1;
+		this.endDay = 1;
 	}
 	
 	public EndDateBase(@NotNull  @NotNull  Integer endYear, @NotNull Integer endMonth) {
 		super();
 		this.endYear = endYear;
 		this.endMonth = endMonth;
+		this.endDay = 1;
 	}
 	
 	public EndDateBase(@NotNull  Integer endYear, @NotNull Integer endMonth, @NotNull Integer endDay) {
@@ -61,7 +64,15 @@ extends BrainzBaseEntity<K>  {
 	}
 
 	public void setEndYear(Integer endYear) {
+		verifyMonthDay();
 		this.endYear = endYear;
+	}
+
+	private void verifyMonthDay() {
+		if(endMonth == null)
+			endMonth = 1;
+		if(endDay == null)
+			endDay = 1;
 	}
 
 	public Integer getEndMonth() {

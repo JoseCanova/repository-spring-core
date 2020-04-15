@@ -61,25 +61,37 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 
-public class BrainzCriteriaBuilder implements CriteriaBuilder{
+@Service
+public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean{
 
 	private CriteriaBuilderImpl delegateCriteriaBuilder;
 	
+	@Autowired
+	@Qualifier("SessionFactoryImpl")
 	private SessionFactoryImpl sessionFactory;
 	
 	@Autowired
 	protected BrainzMetaModelUtil brainzMetaModelUtil;
 
+	@Autowired
 	private Reflections reflections;
 
 	
 	public BrainzCriteriaBuilder() {
+	}
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		createBuddy(sessionFactory);
 	}
 	
 	public BrainzCriteriaBuilder(SessionFactoryImpl sessionFactoryImpl) {
@@ -100,6 +112,10 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 
 	private void createReflections() {
 		this.reflections = BrainzCriteriaBuilder.newReflections();
+	}
+	
+	public <X  extends BaseEntity<?,?>> List<X> getResultList(BrainzCriteriaQuery<?,X> criteriaQuery){ 
+		return sessionFactory.createEntityManager().createQuery(criteriaQuery.getCriteriaQuery()).getResultList();
 	}
 
 	@SuppressWarnings({ "unused", "rawtypes" })
@@ -158,14 +174,12 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder{
 		return  new BrainzCriteriaQuery(castClass(resultClass), sessionFactory, this , delegateCriteriaBuilder.createQuery(resultClass));//  new BrainzCriteriaQuery(this, delegateCriteriaBuilder.createQuery(resultClass),resultClass);
 	}
 
-	
 	@SuppressWarnings({  "unchecked" })
 	private <X extends IdBase<X,T>,T extends BaseEntity<?,?>> Class<T> castClass(Class<?> resultClass) {
 		return (Class<T>) resultClass.asSubclass(BaseEntity.class);
 	}
 
-
-	private <X extends IdBase<X,T>,T extends BaseEntity<?,?>> BrainzCriteriaQuery<X, T> 
+	public <X extends IdBase<X,T>,T extends BaseEntity<?,?>> BrainzCriteriaQuery<X, T> 
 	createBrainzCriteriaQuery(Class<T> class1) {
 		return new BrainzCriteriaQuery<X,T>(class1, sessionFactory  , this , delegateCriteriaBuilder.createQuery(class1));
 	}

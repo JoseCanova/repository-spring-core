@@ -21,7 +21,6 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 
 	private Boolean valid = false;
 	
-	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
 	CsvOnResultPredicate<K,ID> computePredicate;
 	
@@ -31,12 +30,12 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	
 	public CsvResult() {
 		super();
-		postConstruct();
+//		postConstruct();
 	}
 
 	private void postConstruct() {
 		computePredicate= new CsvOnResultPredicate<>(applicationContext);
-		validator = factory.getValidator();
+		validator = applicationContext.getBean(Validator.class);
 	}
 	
 	public CsvResult(K immutable, ApplicationContext applicationContext) {
@@ -47,7 +46,6 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 
 	public CsvResult(K immutable) {
 		super(immutable);
-		postConstruct();
 	}
 
 	public void setValid(Boolean valid) {

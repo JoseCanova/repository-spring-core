@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.persistence.metamodel.Attribute;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.groups.Default;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
@@ -48,8 +52,6 @@ implements PredicateBase<K,ID>{
 		this.applicationContext = applicationContext;
 	}
 	
-	
-
 	@Override
 	public Optional<ID> evaluate(K immutable) {
 		populateMetaModel(immutable);
@@ -71,14 +73,13 @@ implements PredicateBase<K,ID>{
 		ID i = immutable.getId();
 		attributeSet
 		.stream()
+		.filter(a->BaseEntity.class.isAssignableFrom(a.getJavaType()))
 		.forEach(a->{
 			Optional<?> optValue = immutable.getProperty(a.getName());
 			Field f = Field.class.cast(a.getJavaMember());
 			optValue.ifPresent(propertyValue -> {
-				if(BaseBean.class.isInstance(propertyValue)) { 
 					BaseBean<?,?> b = BaseBean.class.cast(propertyValue);
 					writeValue(f,b,i);
-				}
 			});
 		});
 		return i;
@@ -87,7 +88,7 @@ implements PredicateBase<K,ID>{
 
 	private void writeValue(Field f  , BaseBean<?,?> b , ID i) {
 		try { 
-			f.set(i, b.getId());
+				f.set(i, b.getId());
 		}catch(Exception ex) { 
 			ex.printStackTrace();
 			throw new BaseException(ex);

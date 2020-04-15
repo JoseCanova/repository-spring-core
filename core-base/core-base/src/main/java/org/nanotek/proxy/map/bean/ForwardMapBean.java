@@ -40,15 +40,21 @@ implements DataTransferMutator<String>
 
 	public ForwardMapBean(Class<?> clazz) {
 		baseClass = clazz;
-		postConstruct(clazz);
+		postConstruct(clazz , null);
 	}
 
+	public ForwardMapBean(Class<?> clazz , B b) {
+		baseClass = clazz;
+		bean = b;
+		postConstruct(clazz , b);
+	}
 
-	private void postConstruct(Class<?> clazz) {
+	private void postConstruct(Class<?> clazz,B b) {
 		descriptorMap = new HashMap<>();
 		populatePropertyDescriptorMap(clazz);
 		try {
-			bean = (B) clazz.getDeclaredConstructor().newInstance();
+			if(b == null)
+				bean = (B) clazz.getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new BaseException(e);

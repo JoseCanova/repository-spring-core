@@ -97,9 +97,6 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 	}
 	
 	public Area() {
-		areaBeginDate = new AreaBeginDate<>();
-		areaEndDate = new AreaEndDate<>();
-		areaType = new AreaType<>();
 		areaComment = new AreaComment<>(this);
 	}
 	
@@ -108,10 +105,7 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 		this.gid = gid;
 		this.areaId = id;
 		this.areaType = type;
-		areaBeginDate = new AreaBeginDate<>();
-		areaEndDate = new AreaEndDate<>();
-		areaType = new AreaType<>();
-		areaComment = new AreaComment<>();
+		areaComment = new AreaComment<>(this);
 	}
 
 	@Override
