@@ -94,7 +94,7 @@ implements BaseBean<K,ID>
 		getInstanceMap().put(getBaseClass(),getId());
 		getFields(getBaseClass())
 					.stream()
-					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
+					.filter(f->BaseEntity.class.isAssignableFrom(f.getType()))
 					.forEach(f -> {
 						try { 
 								BaseEntity<?,?> entity ;

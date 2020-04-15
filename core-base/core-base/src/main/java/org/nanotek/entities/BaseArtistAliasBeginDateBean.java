@@ -10,7 +10,10 @@ public interface BaseArtistAliasBeginDateBean
 <K extends BaseBean<K,ArtistAliasBeginDate<?>>> 
 extends Base<K>,
 BaseBean<K,ArtistAliasBeginDate<?>>,
-MutableBeginDateEntity<Integer>
+MutableBeginDateEntity<Integer>,
+MutableBeginYearEntity<Integer>,
+MutableBeginMonthEntity<Integer>,
+MutableBeginDayEntity<Integer>
 {
 	@Override
 	default Integer getBeginYear() {

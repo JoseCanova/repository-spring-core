@@ -4,14 +4,18 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.nanotek.entities.BaseAreaEndDateEntity;
-import org.nanotek.entities.MutableEndDateEntity;
+import org.nanotek.entities.MutableEndDayEntity;
+import org.nanotek.entities.MutableEndMonthEntity;
+import org.nanotek.entities.MutableEndYearEntity;
 
 @Entity
 @DiscriminatorValue("AreaEndDate")
 public class AreaEndDate<K extends AreaEndDate<K>> 
 extends EndDateBase<K> implements
 BaseAreaEndDateEntity<K>,
-MutableEndDateEntity<Integer>{
+MutableEndYearEntity<Integer>,
+MutableEndMonthEntity<Integer>,
+MutableEndDayEntity<Integer>{
 
 	private static final long serialVersionUID = -8963127006492095677L;
 

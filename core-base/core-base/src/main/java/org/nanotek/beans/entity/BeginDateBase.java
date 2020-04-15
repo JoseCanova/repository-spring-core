@@ -9,6 +9,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.entities.MutableBeginDayEntity;
+import org.nanotek.entities.MutableBeginMonthEntity;
+import org.nanotek.entities.MutableBeginYearEntity;
+
 @Entity
 @Table(name="begin_dates",
 				indexes= {
@@ -18,7 +22,8 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "class_name" ,  columnDefinition = "VARCHAR NOT NULL")
 public abstract class BeginDateBase <K extends BeginDateBase<K>>
-extends BrainzBaseEntity<K>  {
+extends BrainzBaseEntity<K> 
+{
 
 
 	private static final long serialVersionUID = -4544159118931690162L;

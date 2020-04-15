@@ -18,6 +18,13 @@ import javax.validation.groups.Default;
 
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseAreaEntity;
+import org.nanotek.entities.MutableAreaBeginDateEntity;
+import org.nanotek.entities.MutableAreaCommentEntity;
+import org.nanotek.entities.MutableAreaEndDateEntity;
+import org.nanotek.entities.MutableAreaIdEntity;
+import org.nanotek.entities.MutableAreaNameEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableTypeEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
@@ -26,8 +33,14 @@ uniqueConstraints= {
 		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
 		})
 public class Area
-<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>
-															{
+<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
+MutableAreaIdEntity<Long>,		
+MutableTypeEntity<AreaType<?>>,
+MutableAreaCommentEntity<AreaComment<?>>,
+MutableAreaBeginDateEntity<AreaBeginDate<?>>,
+MutableAreaEndDateEntity<AreaEndDate<?>>,
+MutableGidEntity<UUID>,MutableAreaNameEntity<String>
+{
 
 	private static final long serialVersionUID = -7073321340141567106L;
 	

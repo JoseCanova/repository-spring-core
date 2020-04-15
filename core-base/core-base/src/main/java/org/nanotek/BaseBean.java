@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 
 import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.csv.ArtistBean;
+import org.nanotek.beans.entity.SequenceLongBase;
 import org.nanotek.proxy.ProxyBase;
 
 public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>,Configurable<ID>
@@ -120,7 +121,7 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		Field[] fields = classId.getFields();
 		Class<?> newClassID = null;
 		for (Field f : fields) {
-			 if (f.getType().getPackageName().contains("org.nanotek.beans.entity") && !f.getType().equals(getId().getClass()))
+			 if (BaseEntity.class.isAssignableFrom(f.getType()))
 				 { try {
 					List <Class<?>> typeInterfaces = getAllInterfaces(f.getType());
 					newClassID = f.getType();
@@ -134,20 +135,29 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 		return;
 	}
 	
-	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){ 
-		return Arrays.asList(ClassUtils.getAllInterfacesForClass(class1));
+	default List<Class<?>> getAllInterfaces(Class<? extends Object> class1){
+	
+		List<Class<?>> interfaceList = new ArrayList<>();
+		interfaceList.addAll(getAllInterfacesFromClass(class1));
+		Class<?> c1 = class1.getSuperclass();
+		if(c1 !=null)
+			while(c1!=null && !c1.getClass().equals(Object.class)) {
+				interfaceList.addAll(getAllInterfacesFromClass(c1));
+				c1 = c1.getSuperclass();
+			}
+		return interfaceList;
 	}
 	
-//	default List<Class<?>> getAllInterfacesFromClass(Class<? extends Object> class1){ 
-//		List<Class<?>> interfaces = new ArrayList<>();
-//		Class<?> [] intAry = class1.getInterfaces();
-//		if(intAry.length > 0) { 
-//			interfaces.addAll(Arrays.asList(intAry));
-//			for(Class<?> c:intAry)
-//				interfaces.addAll(getAllInterfaces(c));
-//		}
-//		return interfaces;
-//	}
+	default List<Class<?>> getAllInterfacesFromClass(Class<? extends Object> class1){ 
+		List<Class<?>> interfaces = new ArrayList<>();
+		Class<?> [] intAry = class1.getInterfaces();
+		if(intAry.length > 0) { 
+			interfaces.addAll(Arrays.asList(intAry));
+			for(Class<?> c:intAry)
+				interfaces.addAll(getAllInterfaces(c));
+		}
+		return interfaces;
+	}
 
 
 	default List<Class<?>> registryProperties(Class<?> classId , List<Class<?>> allInterfaces) {

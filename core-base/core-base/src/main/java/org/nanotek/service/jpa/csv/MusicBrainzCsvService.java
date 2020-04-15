@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class MusicBrainzCsvService
 	}
 
 
-	//	@Async(value = "serviceTaskExecutor")
+	@Async(value = "serviceTaskExecutor")
 	@Transactional
 	public  AsyncResult<?>   verifyBrainzBaseEntity(BaseEntity<?, ?> id) {
 		try {
