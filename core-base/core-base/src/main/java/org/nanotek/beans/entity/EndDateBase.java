@@ -27,9 +27,11 @@ extends BrainzBaseEntity<K>  {
 	@Column(name="end_year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endYear;
 	
+	@NotNull
 	@Column(name="end_month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endMonth;
 	
+	@NotNull
 	@Column(name="end_day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endDay;
 

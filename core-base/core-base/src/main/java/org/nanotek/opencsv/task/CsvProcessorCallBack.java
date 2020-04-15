@@ -34,7 +34,7 @@ implements ListenableFutureCallback<R> {
 			Optional<?> valid = r.on();
 			valid.ifPresent(v->{
 				if(result.isValid())
-				{
+				{ 
 					service.verifyBrainzBaseEntity(r.getId());
 				}
 			});

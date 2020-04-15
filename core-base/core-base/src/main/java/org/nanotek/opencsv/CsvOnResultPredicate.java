@@ -63,13 +63,12 @@ implements PredicateBase<K,ID>{
 		BrainzMetaModelUtil brainzMetaModelUtil = applicationContext.getBean(BrainzMetaModelUtil.class);
 		baseClassMetaModel = brainzMetaModelUtil.getMetaModel(clazz);
 		entityTypeSupport = (EntityTypeSupport<?, ID>) baseClassMetaModel.getEntityTypeSupport();
-		immutable.getIdBase();
 	}
 
 	private ID filterProperties(K immutable) {
 		
 		Set<Attribute<? super ID,?>> attributeSet = entityTypeSupport.getAttributes();
-		ID id = immutable.getId();
+		ID i = immutable.getId();
 		attributeSet
 		.stream()
 		.forEach(a->{
@@ -78,59 +77,21 @@ implements PredicateBase<K,ID>{
 			optValue.ifPresent(propertyValue -> {
 				if(BaseBean.class.isInstance(propertyValue)) { 
 					BaseBean<?,?> b = BaseBean.class.cast(propertyValue);
-					writeValue(f,id,b);
+					writeValue(f,b,i);
 				}
 			});
 		});
-		return id;
+		return i;
 	}
 
 
-	private void writeValue(Field f, ID id, BaseBean<?,?> b) {
+	private void writeValue(Field f  , BaseBean<?,?> b , ID i) {
 		try { 
-			f.set(id, b.getId());
+			f.set(i, b.getId());
 		}catch(Exception ex) { 
 			ex.printStackTrace();
 			throw new BaseException(ex);
 		}
 	}
 
-	private void transfer(Map<PropertyDescriptor, Optional<PropertyDescriptor>> equivalenceMap, K immutable,EntityBeanInfo<?> entityBeanInfo ) {
-			equivalenceMap.keySet().stream().forEach(p-> {
-				try {
-					if (Objects.nonNull(p.getReadMethod())) {
-						Object value = p.getReadMethod().invoke(immutable, new Object[]{});
-						if(Objects.nonNull(value)  && BaseBean.class.isAssignableFrom(value.getClass())) {
-							equivalenceMap.get(p).ifPresent(pid ->{
-								BaseBean<?,?> valueBean = BaseBean.class.cast(value);
-								Entity<?> baseEntity = Entity.class.cast(valueBean.getId());
-								try {
-										if(pid.getWriteMethod() !=null)
-											pid.getWriteMethod().invoke(immutable.getId(), new Object[] {baseEntity});
-								}catch (Exception ex) {
-									throw new BaseException(ex);
-								}
-							});
-						}
-					}
-				}catch (Exception ex) {
-					throw new BaseException(ex);
-				}
-			});	
-	}
-
-
-	private Optional<PropertyDescriptor> verifyPropertyOnId(PropertyDescriptor p, ID id,EntityBeanInfo<?> entityBeanInfo) {
-		return Optional.ofNullable(entityBeanInfo.getPropertyDescriptorInfo().get(p.getName()));
-	}
-
-
-	@Override
-	public int compareTo(ID o) {
-		return 0;
-	}
-	
-	public static void main(String[] args) {
-		new CsvOnResultPredicate().evaluate(new ArtistBean());
-	}
 }
