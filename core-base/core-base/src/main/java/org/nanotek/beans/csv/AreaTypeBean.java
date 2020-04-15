@@ -27,7 +27,7 @@ implements BaseAreaTypeBean<AreaTypeBean<K>> {
 	}
 
 	private void postConstruct() {
-		baseTypeDescription = new  BaseTypeDescriptionBean();
+		baseTypeDescription = new  BaseTypeDescriptionBean<>();
 	}
 
 	public AreaTypeBean(Class<AreaType<?>> class1) {

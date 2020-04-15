@@ -13,6 +13,7 @@ import org.nanotek.BaseEntity;
 import org.nanotek.PredicateBase;
 import org.nanotek.Result;
 import org.nanotek.beans.csv.ArtistBean;
+import org.springframework.context.ApplicationContext;
 
 public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> extends Result<K,ID> {
 
@@ -25,6 +26,8 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	CsvOnResultPredicate<K,ID> computePredicate;
 	
 	Validator validator;
+
+	private ApplicationContext applicationContext;
 	
 	public CsvResult() {
 		super();
@@ -32,9 +35,19 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 	}
 
 	private void postConstruct() {
-		computePredicate= new CsvOnResultPredicate<>();
+		computePredicate= new CsvOnResultPredicate<>(applicationContext);
 		validator = factory.getValidator();
-		
+	}
+	
+	public CsvResult(K immutable, ApplicationContext applicationContext) {
+		super(immutable);
+		this.applicationContext = applicationContext;
+		postConstruct();
+	}
+
+	public CsvResult(K immutable) {
+		super(immutable);
+		postConstruct();
 	}
 
 	public void setValid(Boolean valid) {
@@ -45,16 +58,6 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 		return valid;
 	}
 	
-	public CsvResult(K immutable, ID id) {
-		super(immutable, id);
-		postConstruct();
-	}
-
-	public CsvResult(K immutable) {
-		super(immutable);
-		postConstruct();
-	}
-
 	
 	@Override
 	public <V> Optional<? super V> on() {

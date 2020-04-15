@@ -70,8 +70,6 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{
 
-	
-	
 	private ApplicationContext applicationContext;
 	
 	@Bean

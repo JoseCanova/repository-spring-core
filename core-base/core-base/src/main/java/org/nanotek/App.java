@@ -3,6 +3,7 @@ package org.nanotek;
 import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.concurrent.FutureTask;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm.SpanningTree;
@@ -113,9 +114,9 @@ ApplicationRunner{
 		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
 		
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
-		
-		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
-		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
+//		
+//		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
+//		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
 		
 //		GraphPath<?, ?> p =  bf.getPath(r1, r2);
 		
@@ -144,21 +145,21 @@ ApplicationRunner{
 //		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 //		System.out.println(path);
 //		System.out.println(path1);
-		//		new Thread() {
-		//			@Override
-		//			public void run() {
-		//				CsvResult<?,?> result = null ; 
-		//				FutureTask <R>r;
-		//				log.debug("start time " + new Date());
-		//				do {
-		//					try {
-		//						   csvBaseProcessor.getNext();
-		//					} catch (Exception e) {
-		//						e.printStackTrace();
-		//					}
-		//				}while(processor.isActive());
-		//			}
-		//		}.start();
+				new Thread() {
+					@Override
+					public void run() {
+						CsvResult<?,?> result = null ; 
+						FutureTask <R>r;
+						log.debug("start time " + new Date());
+						do {
+							try {
+								   csvBaseProcessor.getNext();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}while(processor.isActive());
+					}
+				}.start();
 		log.debug("end time " + new Date());
 	}
 

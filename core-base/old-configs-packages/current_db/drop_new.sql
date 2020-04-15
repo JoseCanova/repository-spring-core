@@ -51,6 +51,8 @@ alter table instrument_comment_join drop constraint FKijmebsqk04tiq99kvcdq1y9m3
 alter table instrument_comment_join drop constraint FK8dawlfgg0km0ofqhs7k8i10rb
 alter table instrument_description_join drop constraint FK4hdpovhkn51kl5pmvlj7spj0l
 alter table instrument_description_join drop constraint FKkvq50u8tmgigintxinspal853
+alter table isrc_recording_join drop constraint FKdst308wec9g1r2pdgl9pu66ba
+alter table isrc_recording_join drop constraint FKegxd27v48533e4ioips2v0om8
 alter table label drop constraint FKqmabfbh4bw9uowqp733r6f3rb
 alter table label drop constraint FK6u3ob85d3br3xccgqcuds8s7j
 alter table label drop constraint FKr2pu4j9nq9q9v33kq9y23wlmt
@@ -69,7 +71,6 @@ alter table recording drop constraint FKp6h8vblmfp7fbvy7t07unr441
 alter table recording_alias drop constraint FKf3bf0jihug16pfd3n6fksolla
 alter table recording_alias drop constraint FKjlmcnxa1hoj9x47ikivshfaq
 alter table release drop constraint FKrjxedvgqei5yg4s02538jeu55
-alter table release drop constraint FKevsgr1j8wgbldkpylyaaruorq
 alter table release_alias drop constraint FK8h783sk9tygkr28w7uaw66hgs
 alter table release_alias drop constraint FKgaxu9q2lmc940ikhiq9awjwv2
 alter table release_alias_begin_date_join drop constraint FK2pwnsix504rih7b9c0p2ldcu2
@@ -92,6 +93,8 @@ alter table release_group_join drop constraint FK9pttnpev0leoq0vx353763urk
 alter table release_group_join drop constraint FKe8w2lu5p1r45yhxl3jtn9hcua
 alter table release_language_join drop constraint FKk3hvg4y9h946ow3b83bt4xvgo
 alter table release_language_join drop constraint FKa341slnl3qhxi6q6jn432b3yy
+alter table release_packaging_join drop constraint FKx49q7bbkt5gfvxat10i9gyfc
+alter table release_packaging_join drop constraint FK6bi5mttra2txy9rmevfarpqg5
 alter table release_relabel_join drop constraint FK6ti3u0w0t7a3kkh2dt4tvtckf
 alter table release_relabel_join drop constraint FK2qubv1qf9tn7vat3i1olv6gam
 alter table release_status_join drop constraint FK5t2s72heb037fymqnesmldax6
@@ -150,6 +153,7 @@ drop table if exists instrument_comment_join cascade
 drop table if exists instrument_description_join cascade
 drop table if exists InstrumentComment cascade
 drop table if exists isrc cascade
+drop table if exists isrc_recording_join cascade
 drop table if exists label cascade
 drop table if exists label_type_join cascade
 drop table if exists language cascade
@@ -180,6 +184,7 @@ drop table if exists release_label cascade
 drop table if exists release_label_catalog cascade
 drop table if exists release_language_join cascade
 drop table if exists release_packaging cascade
+drop table if exists release_packaging_join cascade
 drop table if exists release_relabel_join cascade
 drop table if exists release_status cascade
 drop table if exists release_status_join cascade

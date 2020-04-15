@@ -98,8 +98,11 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>
 			  inverseJoinColumns = @JoinColumn(name = "status_id",referencedColumnName = "id"))
 	public ReleaseStatus<?> releaseStatus; 
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="packaging_id")
+	@ManyToOne(fetch=FetchType.LAZY,optional = true)
+	@JoinTable(
+			  name = "release_packaging_join", 
+			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "packaging_id",referencedColumnName = "id"))
 	public ReleasePackaging<?> releasePackaging;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

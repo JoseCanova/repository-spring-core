@@ -1,4 +1,4 @@
-create sequence sequence_id_seq start 1 increment 50;
+create sequence sequence_id_seq start 1 increment 5;
 create table area (id int8 not null, area_id int8 not null, name VARCHAR NOT NULL not null, gid UUID NOT NULL not null, areaType_id int8 not null, primary key (id));
 create table area_begin_date_join (date_id int8, area_id int8 not null, primary key (area_id));
 create table area_comment_join (comment_id int8, area_id int8 not null, primary key (area_id));
@@ -37,7 +37,8 @@ create table instrument (id int8 not null, gid UUID NOT NULL not null, instrumen
 create table instrument_comment_join (comment_id int8, instrument_id int8 not null, primary key (instrument_id));
 create table instrument_description_join (description_id int8, instrument_id int8 not null, primary key (instrument_id));
 create table InstrumentComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id));
-create table isrc (id int8 not null, ISRC varchar(255), ISRC_ID int8, RECORDING_ID int8, SOURCE varchar(255), primary key (id));
+create table isrc (id int8 not null, isrc CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$') not null, isrc_id int8, source int4, primary key (id));
+create table isrc_recording_join (recording_id int8 not null, isrc_id int8 not null, primary key (isrc_id));
 create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, labelId int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id));
 create table label_type_join (label_type_id int8 not null, label_id int8 not null, primary key (label_id));
 create table language (id int8 not null, frequency int8, isoCode1 varchar(2), isoCode2B varchar(3), isoCode2T varchar(3), isoCode3 varchar(3), language_id int8, primary key (id));
@@ -53,7 +54,7 @@ create table ralias_sortname_join (sort_name_id int8 not null, ralias_id int8 no
 create table recording (id int8 not null, gid UUID NOT NULL not null, recording_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8 not null, recordingLength_id int8, primary key (id));
 create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale varchar(1000), recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id));
 create table recording_lengthy_base (table_id VARCHAR NOT NULL not null, id int8 not null, length int8 not null, primary key (id));
-create table release (id int8 not null, gid VARCHAR(50) NOT NULL not null, release_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8, packaging_id int8, primary key (id));
+create table release (id int8 not null, gid VARCHAR(50) NOT NULL not null, release_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8, primary key (id));
 create table release_alias (id int8 not null, name VARCHAR NOT NULL not null, relase_alias_id int8 not null, release_id int8 not null, type_id int8 not null, primary key (id));
 create table release_alias_begin_date_join (date_id int8, release_alias_id int8 not null, primary key (release_alias_id));
 create table release_alias_end_date_join (date_id int8, release_alias_id int8 not null, primary key (release_alias_id));
@@ -68,6 +69,7 @@ create table release_label (id int8 not null, release_label_id int8 not null, pr
 create table release_label_catalog (id int8 not null, catalog_number VARCHAR NOT NULL not null, primary key (id));
 create table release_language_join (language_id int8, release_id int8 not null, primary key (release_id));
 create table release_packaging (id int8 not null, gid UUID NOT NULL not null, release_packaging_id int8 not null, name VARCHAR NOT NULL not null, primary key (id));
+create table release_packaging_join (packaging_id int8, release_id int8 not null, primary key (release_id));
 create table release_relabel_join (release_label_id int8, release_id int8 not null, primary key (release_id));
 create table release_status (id int8 not null, gid UUID NOT NULL not null, release_status_id int8 not null, name VARCHAR NOT NULL not null, primary key (id));
 create table release_status_join (status_id int8 not null, release_id int8 not null, primary key (release_id));
@@ -97,6 +99,8 @@ create index begin_date_year_idx on begin_dates (year);
 create index description_table_idx on description_base (description);
 create index end_date_year_idx on end_dates (end_year);
 alter table instrument add constraint uk_instrument_id unique (instrument_id);
+alter table isrc add constraint uk_isrc_id unique (isrc_id);
+alter table isrc_recording_join add constraint UK_rr6dneohf8ps5yem9id46erf2 unique (recording_id);
 alter table language add constraint uk_language_id unique (language_id);
 create index locale_table_idx on locale_base (locale);
 create index long_count_field_idx on long_count_base (count);
@@ -172,6 +176,8 @@ alter table instrument_comment_join add constraint FKijmebsqk04tiq99kvcdq1y9m3 f
 alter table instrument_comment_join add constraint FK8dawlfgg0km0ofqhs7k8i10rb foreign key (instrument_id) references instrument;
 alter table instrument_description_join add constraint FK4hdpovhkn51kl5pmvlj7spj0l foreign key (description_id) references description_base;
 alter table instrument_description_join add constraint FKkvq50u8tmgigintxinspal853 foreign key (instrument_id) references instrument;
+alter table isrc_recording_join add constraint FKdst308wec9g1r2pdgl9pu66ba foreign key (recording_id) references recording;
+alter table isrc_recording_join add constraint FKegxd27v48533e4ioips2v0om8 foreign key (isrc_id) references isrc;
 alter table label add constraint FKqmabfbh4bw9uowqp733r6f3rb foreign key (area_id) references area;
 alter table label add constraint FK6u3ob85d3br3xccgqcuds8s7j foreign key (label_begin_date_id) references begin_dates;
 alter table label add constraint FKr2pu4j9nq9q9v33kq9y23wlmt foreign key (label_end_date_id) references end_dates;
@@ -190,7 +196,6 @@ alter table recording add constraint FKp6h8vblmfp7fbvy7t07unr441 foreign key (re
 alter table recording_alias add constraint FKf3bf0jihug16pfd3n6fksolla foreign key (recording_id) references recording;
 alter table recording_alias add constraint FKjlmcnxa1hoj9x47ikivshfaq foreign key (recording_type_id) references base_type;
 alter table release add constraint FKrjxedvgqei5yg4s02538jeu55 foreign key (artist_credit_id) references artist_credit;
-alter table release add constraint FKevsgr1j8wgbldkpylyaaruorq foreign key (packaging_id) references release_packaging;
 alter table release_alias add constraint FK8h783sk9tygkr28w7uaw66hgs foreign key (release_id) references release;
 alter table release_alias add constraint FKgaxu9q2lmc940ikhiq9awjwv2 foreign key (type_id) references base_type;
 alter table release_alias_begin_date_join add constraint FK2pwnsix504rih7b9c0p2ldcu2 foreign key (date_id) references begin_dates;
@@ -213,6 +218,8 @@ alter table release_group_join add constraint FK9pttnpev0leoq0vx353763urk foreig
 alter table release_group_join add constraint FKe8w2lu5p1r45yhxl3jtn9hcua foreign key (release_id) references release;
 alter table release_language_join add constraint FKk3hvg4y9h946ow3b83bt4xvgo foreign key (language_id) references language;
 alter table release_language_join add constraint FKa341slnl3qhxi6q6jn432b3yy foreign key (release_id) references release;
+alter table release_packaging_join add constraint FKx49q7bbkt5gfvxat10i9gyfc foreign key (packaging_id) references release_packaging;
+alter table release_packaging_join add constraint FK6bi5mttra2txy9rmevfarpqg5 foreign key (release_id) references release;
 alter table release_relabel_join add constraint FK6ti3u0w0t7a3kkh2dt4tvtckf foreign key (release_label_id) references release_label;
 alter table release_relabel_join add constraint FK2qubv1qf9tn7vat3i1olv6gam foreign key (release_id) references release;
 alter table release_status_join add constraint FK5t2s72heb037fymqnesmldax6 foreign key (status_id) references release_status;

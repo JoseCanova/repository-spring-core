@@ -109,7 +109,7 @@ implements DataTransferMutator<String>
 	}
 
 	@Override
-	B to() {
+	public B to() {
 		return bean;
 	}
 
