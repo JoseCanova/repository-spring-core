@@ -33,6 +33,33 @@ public interface MutatorSupport<T> {
 				.map(p->read(p.getReadMethod(), this));
 	}
 
+	
+
+	static <Z> Optional<? super Z> getProperty(String propertyName,Object instance) { 
+		return getPropertyDescriptors(instance.getClass())
+				.map(ps->{
+					PropertyDescriptor z = null;
+					return Stream
+							.of(ps)
+							.reduce(z,(test , value)->{
+								if(value.getName().equals(propertyName)) {
+									test = value;
+								}
+								return test;
+							});
+				})
+				.map(p->read(p.getReadMethod(), instance));
+	}
+	
+	//TODO: define a criteria verify parameters from readmethod
+	static Object read(Method readMethod, Object instance) {
+		try{
+			return readMethod.invoke(instance, new Object[] {});
+		}catch(Exception ex) { 
+			throw new BaseException();
+		}
+	}
+	
 	//TODO: define a criteria verify parameters from readmethod
 	default Object read(Method readMethod, MutatorSupport<T> mutatorSupport) {
 		try{
@@ -44,7 +71,6 @@ public interface MutatorSupport<T> {
 
 	static Optional<PropertyDescriptor[]> getPropertyDescriptors(Class<?> type) { 
 		try {
-			new EntityBeanInfo<>(type);
 			EntityBeanInfo<?> beanInfo = new EntityBeanInfo<>(type);
 			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptorInfo().values()
 											.toArray(new PropertyDescriptor[ beanInfo
