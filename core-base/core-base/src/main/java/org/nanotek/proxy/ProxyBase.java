@@ -182,7 +182,6 @@ implements BaseBean<K,ID>
 														()->notFound(clazz));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return found;
 			}			
 		return found;
 	}

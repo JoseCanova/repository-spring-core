@@ -6,6 +6,7 @@ import java.util.Map;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.sun.introspect.ClassInfo;
+import org.nanotek.beans.sun.util.Cache;
 
 public class EntityBeanInfo<E> extends ClassInfo {
 
