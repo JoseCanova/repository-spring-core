@@ -3,10 +3,11 @@ package org.nanotek.beans.entity;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseCommentBaseEntity;
 import org.nanotek.entities.MutableCommentEntity;
+import org.nanotek.opencsv.CsvImportValidation;
 
 @MappedSuperclass
 public class CommentBase<K extends CommentBase<K>> 
@@ -16,7 +17,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	
-	@NotNull
+	@NotBlank(groups = {Default.class,CsvImportValidation.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;
 

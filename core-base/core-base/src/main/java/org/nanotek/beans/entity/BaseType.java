@@ -64,27 +64,19 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 	public BaseTypeDescription<?> baseTypeDescription; 
 	
 	public BaseType() {
-		prepare();
-	}
-
-	private void prepare() {
-		baseTypeDescription  = new BaseTypeDescription<>(this);
 	}
 
 	public BaseType(@NotNull Long typeId) {
 		this.typeId = typeId;
-		prepare();
 	}
 	
 	public BaseType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid , name);
-		prepare();
 	}
 
 	public BaseType(@NotNull Long typeId , @NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 		this.typeId = typeId;
-		prepare();
 	}
 
 	@BrainzKey(entityClass = BaseType.class, pathName = "typeId")

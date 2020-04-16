@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.nanotek.entities.BaseAreaCommentEntity;
 import org.nanotek.entities.MutableCommentEntity;
@@ -18,7 +19,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -68821965634755841L;
 	
-	@NotNull
+	@NotNull(groups = Default.class)
 	@OneToOne(mappedBy = "areaComment")
 	private Area<?> area;
 

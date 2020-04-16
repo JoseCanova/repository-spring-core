@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CollectionJoin;
@@ -34,6 +35,7 @@ import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.ExpressionImplementor;
@@ -63,7 +65,9 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import net.bytebuddy.ByteBuddy;
@@ -75,9 +79,8 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 
 	private CriteriaBuilderImpl delegateCriteriaBuilder;
 	
-	@Autowired
-	@Qualifier("SessionFactoryImpl")
-	private SessionFactoryImpl sessionFactory;
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	@Autowired
 	protected BrainzMetaModelUtil brainzMetaModelUtil;
@@ -91,18 +94,20 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		createBuddy(sessionFactory);
+//		createBuddy(entityManager);
+		this.delegateCriteriaBuilder = CriteriaBuilderImpl.class.cast(entityManager.getCriteriaBuilder());
 	}
 	
 	public BrainzCriteriaBuilder(SessionFactoryImpl sessionFactoryImpl) {
-		this.sessionFactory = sessionFactoryImpl;
-		createBuddy(sessionFactory);
+//		this.sessionFactory = sessionFactoryImpl;
+//		createBuddy(sessionFactory);
 		createReflections();
 		createMetaModel();
+		this.delegateCriteriaBuilder = CriteriaBuilderImpl.class.cast(entityManager.getCriteriaBuilder());
 	}
 
 	private void createMetaModel() {
-		this.brainzMetaModelUtil = new BrainzMetaModelUtil(sessionFactory.createEntityManager(),reflections);
+		this.brainzMetaModelUtil = new BrainzMetaModelUtil(entityManager,reflections);
 		try {
 			this.brainzMetaModelUtil.afterPropertiesSet();
 		} catch (Exception e) {
@@ -115,7 +120,7 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 	}
 	
 	public <X  extends BaseEntity<?,?>> List<X> getResultList(BrainzCriteriaQuery<?,X> criteriaQuery){ 
-		return sessionFactory.createEntityManager().createQuery(criteriaQuery.getCriteriaQuery()).getResultList();
+		return entityManager.createQuery(criteriaQuery.getCriteriaQuery()).getResultList();
 	}
 
 	@SuppressWarnings({ "unused", "rawtypes" })
@@ -147,11 +152,11 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 						new TypeAnnotationsScanner()));
 	}
 	
-	private void createBuddy (SessionFactoryImpl sessionFactory){ 
+	private void createBuddy (SessionFactory sessionFactory){ 
 		try {
 		this.delegateCriteriaBuilder = new ByteBuddy(ClassFileVersion.JAVA_V8)
 		.subclass(CriteriaBuilderImpl.class)
-		.name("org.nanotek.brainz.buddy.BrainzOrder")
+		.name("org.nanotek.brainz.buddy.BuddyCriteriaBuilderImpl")
 		.make()
 		  .load(
 				    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
@@ -171,7 +176,7 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> CriteriaQuery<T> createQuery(Class<T> resultClass) {
-		return  new BrainzCriteriaQuery(castClass(resultClass), sessionFactory, this , delegateCriteriaBuilder.createQuery(resultClass));//  new BrainzCriteriaQuery(this, delegateCriteriaBuilder.createQuery(resultClass),resultClass);
+		return  new BrainzCriteriaQuery(castClass(resultClass), entityManager.getEntityManagerFactory(), this , delegateCriteriaBuilder.createQuery(resultClass));//  new BrainzCriteriaQuery(this, delegateCriteriaBuilder.createQuery(resultClass),resultClass);
 	}
 
 	@SuppressWarnings({  "unchecked" })
@@ -181,7 +186,7 @@ public class BrainzCriteriaBuilder implements CriteriaBuilder , InitializingBean
 
 	public <X extends IdBase<X,T>,T extends BaseEntity<?,?>> BrainzCriteriaQuery<X, T> 
 	createBrainzCriteriaQuery(Class<T> class1) {
-		return new BrainzCriteriaQuery<X,T>(class1, sessionFactory  , this , delegateCriteriaBuilder.createQuery(class1));
+		return new BrainzCriteriaQuery<X,T>(class1, entityManager.getEntityManagerFactory()  , this , delegateCriteriaBuilder.createQuery(class1));
 	}
 	
 	public CriteriaQuery<Tuple> createTupleQuery() {

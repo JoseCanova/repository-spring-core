@@ -79,8 +79,6 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public AreaComment<?> areaComment;
 	
-	
-	
 	@NotNull(groups = {Default.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String areaName;
@@ -97,7 +95,6 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 	}
 	
 	public Area() {
-		areaComment = new AreaComment<>(this);
 	}
 	
 	public Area(@NotNull Long id, @NotBlank String name, @NotBlank  UUID gid , @NotNull  AreaType<?> type) {
@@ -105,7 +102,6 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 		this.gid = gid;
 		this.areaId = id;
 		this.areaType = type;
-		areaComment = new AreaComment<>(this);
 	}
 
 	@Override

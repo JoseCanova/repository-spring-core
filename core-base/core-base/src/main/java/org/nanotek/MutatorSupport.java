@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.nanotek.beans.BeanInfo;
+import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.beans.Introspector;
 import org.nanotek.beans.PropertyDescriptor;
 
@@ -43,8 +44,11 @@ public interface MutatorSupport<T> {
 
 	static Optional<PropertyDescriptor[]> getPropertyDescriptors(Class<?> type) { 
 		try {
-			BeanInfo beanInfo = Introspector.getBeanInfo(type);
-			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptors();
+			new EntityBeanInfo<>(type);
+			EntityBeanInfo<?> beanInfo = new EntityBeanInfo<>(type);
+			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptorInfo().values()
+											.toArray(new PropertyDescriptor[ beanInfo
+											                                 .getPropertyDescriptorInfo().values().size()]);
 			return Optional.of(desc);
 		}catch (Exception ex) { 
 			ex.printStackTrace();
@@ -59,8 +63,7 @@ public interface MutatorSupport<T> {
 	 */
 	static Optional<PropertyDescriptor> getPropertyDescriptor(Class<?> type) { 
 		try {
-			BeanInfo beanInfo = Introspector.getBeanInfo(type);
-			PropertyDescriptor[] desc = beanInfo.getPropertyDescriptors();
+			PropertyDescriptor[] desc = MutatorSupport.getPropertyDescriptors(type).get();
 			if (desc ==null || desc.length != 1) return Optional.empty();
 			return Optional.of(desc[0]);
 		}catch (Exception ex) { 

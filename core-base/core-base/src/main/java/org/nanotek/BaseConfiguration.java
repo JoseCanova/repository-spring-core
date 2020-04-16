@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.SessionFactory;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
@@ -154,8 +155,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	}
 	
 	@Bean
-	@Qualifier(value="SessionFactoryImpl")
-	public SessionFactoryImpl sessionFactory(@Autowired 
+	@Qualifier(value="SessionFactory")
+	public SessionFactory sessionFactory(@Autowired 
 				LocalContainerEntityManagerFactoryBean entityManagerFactory) { 
 		return SessionFactoryImpl.class.cast(entityManagerFactory.getNativeEntityManagerFactory());
 	}

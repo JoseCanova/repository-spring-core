@@ -76,7 +76,6 @@ implements BaseBean<K,ID>
 	}
 
 	public void configureBaseBean() {
-		mountInstanceMap();
 		if(!isConfigured()) {
 			try {
 				semaphore.acquire();
@@ -87,6 +86,7 @@ implements BaseBean<K,ID>
 				throw new BaseException(e);
 			}
 		}
+		mountInstanceMap();
 	}
 	
 	@Override

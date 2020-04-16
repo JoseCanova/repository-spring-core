@@ -3,14 +3,12 @@ package org.nanotek.beans;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nanotek.IdBase;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.sun.introspect.ClassInfo;
 
-public class EntityBeanInfo<E extends IdBase<?,?>> extends ClassInfo {
+public class EntityBeanInfo<E> extends ClassInfo {
 
-	
 	private Class<E> entityClass;
 	
 	private Map<String,PropertyDescriptor> propertyDescriptorInfo;
