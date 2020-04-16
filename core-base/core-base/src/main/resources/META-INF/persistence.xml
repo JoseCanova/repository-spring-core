@@ -88,6 +88,8 @@
 		<class>org.nanotek.beans.entity.ReleaseAliasEndDate</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasSortName</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasType</class>
+		<class>org.nanotek.beans.entity.ReleaseLabel</class>
+		<class>org.nanotek.beans.entity.ReleaseLabelCatalog</class>
 		<class>org.nanotek.beans.entity.ReleasePackaging</class>
 		<class>org.nanotek.beans.entity.ReleaseGroupPrimaryType</class>
 		<class>org.nanotek.beans.entity.SequenceLongBase</class>
@@ -98,6 +100,9 @@
 		<class>org.nanotek.beans.entity.TrackLength</class>
 		<class>org.nanotek.beans.entity.TrackNumber</class>
 		<class>org.nanotek.beans.entity.TrackPosition</class>
+		<class>org.nanotek.beans.entity.Work</class>
+		<class>org.nanotek.beans.entity.WorkType</class>
+		<class>org.nanotek.beans.entity.WorkComment</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<validation-mode>NONE</validation-mode>
@@ -125,10 +130,10 @@
 				value="NONE" />
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5434/musicbrainz"/> 
+			<!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5434/musicbrainz"/> 
 			<property name="javax.persistence.jdbc.user" value="postgres" /> 
 			<property  name="javax.persistence.jdbc.password" value="postgres123@" /> 
-			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />-->
 			<!-- <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/> -->
 		</properties>
 		<!-- <jta-data-source>java:/jboss/datasources/MB</jta-data-source> -->

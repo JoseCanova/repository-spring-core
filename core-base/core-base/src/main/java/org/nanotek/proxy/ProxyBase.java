@@ -76,7 +76,6 @@ implements BaseBean<K,ID>
 	}
 
 	public void configureBaseBean() {
-		mountInstanceMap();
 		if(!isConfigured()) {
 			try {
 				semaphore.acquire();
@@ -87,6 +86,7 @@ implements BaseBean<K,ID>
 				throw new BaseException(e);
 			}
 		}
+		mountInstanceMap();
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ implements BaseBean<K,ID>
 		getInstanceMap().put(getBaseClass(),getId());
 		getFields(getBaseClass())
 					.stream()
-					.filter(f->f.getType().getPackageName().contains("org.nanotek.beans.entity"))
+					.filter(f->BaseEntity.class.isAssignableFrom(f.getType()))
 					.forEach(f -> {
 						try { 
 								BaseEntity<?,?> entity ;
@@ -210,7 +210,6 @@ implements BaseBean<K,ID>
 								ClassHandle<?> classHandle) {
 		map.put(clazz, classHandle);
 	}
-
 
 	public <V> Optional<V> writeA(Class<?> clazz , V v){
 		return Optional.ofNullable(childInterfaceMap.get(baseClass).get(clazz)).map(f -> 

@@ -63,6 +63,9 @@ MutableGidEntity<UUID>,MutableRecordingNameEntity<String>{
 	@OneToOne(fetch = FetchType.LAZY)
 	public RecordingLength<?> recordingLength;
 	
+	@OneToOne(fetch = FetchType.LAZY,mappedBy = "recording")
+	public Isrc<?> recordingIsrc;
+	
 	public Recording() {}
 	
 	public Recording(@NotNull Long id , UUID gid, @NotNull String name) {

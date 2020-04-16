@@ -1,16 +1,16 @@
 package org.nanotek.beans.entity;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableFrequencyEntity;
 import org.nanotek.entities.MutableIsoCode2BEntity;
 import org.nanotek.entities.MutableIsoCode2TEntity;
@@ -18,7 +18,6 @@ import org.nanotek.entities.MutableIsoCode3Entity;
 import org.nanotek.entities.MutableLanguageIdEntity;
 import org.nanotek.entities.immutables.BaseLanguageEntity;
 
-@SuppressWarnings("rawtypes")
 @Entity
 @Table(name="language", uniqueConstraints= {
 		@UniqueConstraint(name="uk_language_id",columnNames={"language_id"})
@@ -61,9 +60,6 @@ MutableIsoCode3Entity<String> {
 	@Column(name="isoCode3", length=3)
 	public String isoCode3;
 
-	@OneToMany(mappedBy = "language")
-	private Set<Release> releases;
- 	
 	
 	public Language() {}
 
@@ -80,11 +76,12 @@ MutableIsoCode3Entity<String> {
 	}
 
 	@Override
-	public void setLanguageiId(Long k) {
+	public void setLanguageId(Long k) {
 		this.languageId = k;
 	}
 
 	@Override
+	@BrainzKey(entityClass = Language.class, pathName = "languageId")
 	public Long getLanguageId() {
 		return languageId;
 	}

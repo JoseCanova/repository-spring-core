@@ -1,15 +1,13 @@
 package org.nanotek.entities.metamodel;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.metamodel.EntityType;
 
-import org.nanotek.beans.EntityBeanInfo;
 import org.jgrapht.Graph;
 import org.nanotek.EntityTypeSupport;
+import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.proxy.map.BrainzEntityType;
 import org.nanotek.proxy.map.BrainzMetaBuddy;
 
@@ -25,35 +23,44 @@ public class BrainzEntityMetaModel<X,Y>{
 
 	private Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge>  modelGraph;
 	
-	private Map<Class<?> , EntityBeanInfo<?>> entityBeanInfoMap;
+	private EntityTypeSupport<?,X> entityTypeSupport;
+	
+	private EntityBeanInfo<?> entityTypeBeanInfo;
 
-	private EntityTypeSupport<?,X> metaModelInstance;
-
-	public EntityTypeSupport<?,X> getEntityTypeSupport() {
-		return metaModelInstance;
-	}
 
 	public BrainzEntityMetaModel() {
 		super();
 		attributeMetaModel = new HashSet<>();
 	}
 
+	public EntityTypeSupport<?, X> getEntityTypeSupport() {
+		return entityTypeSupport;
+	}
+
+	public EntityBeanInfo<?> getEntityTypeBeanInfo() {
+		return entityTypeBeanInfo;
+	}
+
 	public <K extends EntityType<X>> BrainzEntityMetaModel(Class<Y> metaModelClass, Class<X> entityClass,EntityType<?> entityType1) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
-		this.metaModelInstance = BrainzMetaBuddy.with(metaModelClass).newInstance(entityType1);
+		prepareMetaModelEntityInfo(metaModelClass,entityType1);
 		this.entityType = BrainzEntityType.<K,X>with(entityType1);
-		entityBeanInfoMap = new HashMap<>();
 		attributeMetaModel = new HashSet<>();
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void prepareMetaModelEntityInfo(Class<Y> metaModelClass2, EntityType<?> entityType1) {
+		this.entityTypeSupport = BrainzMetaBuddy.with(metaModelClass).newInstance(entityType1);	
+		entityTypeBeanInfo = new EntityBeanInfo(entityTypeSupport.getClass()); 
+	}
+
 	public BrainzEntityMetaModel(Class<Y> metaModelClass, Class<X> entityClass) {
 		super();
 		this.metaModelClass = metaModelClass;
 		this.entityClass = entityClass;
 		attributeMetaModel = new HashSet<>();
-
 	}
 
 	public Class<Y> getMetaModelClass() {

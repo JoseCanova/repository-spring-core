@@ -25,11 +25,11 @@ public abstract class Result<K extends IdBase<K,ID> , ID extends IdBase<?,?>> im
 		this.immutable = immutable;
 	}
 
-	public Result(K immutable,ID id) { 
-		this.immutable = immutable;
-		this.id = id;
-	}
-	
+//	public Result(K immutable,ID id) { 
+//		this.immutable = immutable;
+//		this.id = id;
+//	}
+//	
 	public K getImmutable() {
 		return immutable;
 	}

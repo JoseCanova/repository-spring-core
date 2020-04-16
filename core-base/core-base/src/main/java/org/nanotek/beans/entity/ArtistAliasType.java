@@ -4,12 +4,10 @@ import java.util.UUID;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseArtistAliasTypeEntity;
-import org.nanotek.entities.MutableArtistAliasEntity;
 
 @Entity
 @DiscriminatorValue(value="ArtistAliasType")

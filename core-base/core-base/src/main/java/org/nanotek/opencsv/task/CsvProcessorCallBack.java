@@ -27,14 +27,13 @@ implements ListenableFutureCallback<R> {
 	public CsvProcessorCallBack() {
 	}
 
-	//TODO: Put the tranformation here.  
 	@Override
 	public void onSuccess(R result) {
 		Optional.ofNullable(result).ifPresentOrElse(r -> {
 			Optional<?> valid = r.on();
 			valid.ifPresent(v->{
 				if(result.isValid())
-				{
+				{ 
 					service.verifyBrainzBaseEntity(r.getId());
 				}
 			});

@@ -86,7 +86,7 @@ final class MethodElementHandler extends NewElementHandler {
 
     /**
      * Returns the result of method execution.
-     *
+     * TODO: test and review to remove MethodUtil.
      * @param type  the base class
      * @param args  the array of arguments
      * @return the value of this element

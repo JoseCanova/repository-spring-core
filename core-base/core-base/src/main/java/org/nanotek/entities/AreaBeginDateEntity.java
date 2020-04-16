@@ -1,6 +1,6 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.MutatorSupport;
 
-public interface AreaBeginDateEntity <K>{
+public interface AreaBeginDateEntity <K> extends MutatorSupport<K>{
 }

@@ -149,8 +149,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
-//				result =  of(applicationContext.getBean(CsvResult.class, base));
-				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base)).toArray() , BaseBean.class);
+//				result =  of(applicationContext.getBean(CsvResult.class),base);
+				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base),applicationContext).toArray() , BaseBean.class,ApplicationContext.class);
 			}
 			return result.map(r->r).orElse(null);
 		}
@@ -158,7 +158,8 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 	}
 
 	@SuppressWarnings("unchecked")
-	public  Optional<R> of(CsvResult<?,?> bean) {
+	public  Optional<R> of(CsvResult bean,BaseBean<?,?> base) {
+		bean.setImmutable(base);
 		return Optional.of((R)bean);
 	}
 

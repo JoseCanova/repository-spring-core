@@ -4,28 +4,22 @@ import java.io.Serializable;
 import java.util.Optional;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.nanotek.Base;
 import org.nanotek.entities.BaseSequenceLongBaseEntity;
-import org.nanotek.opencsv.CsvValidationGroup;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-@Entity
-@Table(name="sequence_long_base")
+@MappedSuperclass
 @JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class)
-@Inheritance(strategy = InheritanceType.JOINED)
 public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Serializable> implements  BaseSequenceLongBaseEntity<K, ID>{
 
 	private static final long serialVersionUID = 1932266128563675834L;
@@ -34,7 +28,7 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 	@NotNull(groups = {Default.class})
 	@Column(name="id",nullable=false,unique=true)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sequence_id_seq")
-	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq")
+	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq",allocationSize = 5, initialValue= 1)
 	protected ID id;
 
 	public SequenceLongBase() {

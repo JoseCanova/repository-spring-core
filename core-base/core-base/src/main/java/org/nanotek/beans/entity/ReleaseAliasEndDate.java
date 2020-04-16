@@ -6,13 +6,17 @@ import javax.persistence.OneToOne;
 
 import org.nanotek.entities.BaseReleaseAliasEndDateEntity;
 import org.nanotek.entities.MutableEndDateEntity;
+import org.nanotek.entities.MutableEndDayEntity;
+import org.nanotek.entities.MutableEndMonthEntity;
+import org.nanotek.entities.MutableEndYearEntity;
 
 @Entity
 @DiscriminatorValue(value="ReleaseAliasEndDate")
 public class ReleaseAliasEndDate<K extends ReleaseAliasEndDate<K>> 
 extends EndDateBase<K> 
 implements BaseReleaseAliasEndDateEntity<K>,
-MutableEndDateEntity<Integer>{
+MutableEndDateEntity<Integer>,
+MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity<Integer>{
 
 	private static final long serialVersionUID = -2316725967469275402L;
 

@@ -75,14 +75,14 @@ public class BrainzGraphModel implements InitializingBean{
 
 	private void prepareAttributeForDirectedGratph(ManagedType<?> c, Class<BaseEntity<?, ?>> clazz) {
 		Class<BaseEntity<?, ?>> clazzBase = clazz;
-		if(verifyBrainzKey(clazzBase))
+		if(verifyBrainzKey(clazzBase)) {
+			if(!entityDirectedGraph.containsVertex(clazzBase)) 
+				entityDirectedGraph.addVertex(clazzBase);
 			c.getAttributes().stream()
 			.filter(a-> filterByAttributeType(a))
 			.filter(a->a.isAssociation())
 			.filter(a->verifyCardinality1(a))
 			.forEach(a ->{
-				if(!entityDirectedGraph.containsVertex(clazzBase))
-					entityDirectedGraph.addVertex(clazzBase);
 				Class<?> brainsType = getBrainzType(a);
 				Class<BaseEntity<?,?>> clazz1= converToBaseEntityClass(brainsType);
 				if(!entityDirectedGraph.containsVertex(clazz1)) {
@@ -91,6 +91,7 @@ public class BrainzGraphModel implements InitializingBean{
 				if(!entityDirectedGraph.containsEdge(clazzBase,clazz1))
 					entityDirectedGraph.addEdge(clazzBase,clazz1);
 			});
+		}
 	}
 
 	private Class<?> getBrainzType(Attribute<?, ?> a) {
@@ -117,7 +118,8 @@ public class BrainzGraphModel implements InitializingBean{
 				one = 			method.getAnnotation(OneToOne.class);
 				many = 			method.getAnnotation(ManyToOne.class);
 			}
-			if((one !=null &&  !one.optional() )|| (many !=null && !many.optional()))
+//			if((one !=null &&  !one.optional() )|| (many !=null && !many.optional()))
+			if((one !=null )|| (many !=null))
 				return verifyBrainzKey(a.getJavaType());
 			return false;
 		}

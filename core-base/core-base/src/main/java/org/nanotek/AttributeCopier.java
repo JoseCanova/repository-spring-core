@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.persistence.metamodel.Attribute;
+
 import org.hibernate.metamodel.model.domain.spi.ManagedTypeDescriptor;
 import org.nanotek.beans.PropertyDescriptor;
 
@@ -16,7 +18,12 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 			Optional<PropertyDescriptor[]> thisProperties = MutatorSupport.getPropertyDescriptors(this.getClass());
 			Map<String,PropertyDescriptor> descriptorMap = toMap(thisProperties);
 			descriptorMap
-				.keySet().stream().forEach(v-> { 
+				.keySet().stream()
+				.filter(key->{
+					PropertyDescriptor prop = descriptorMap.get(key);
+					return (prop.getReadMethod() !=null && verifyReturnTypeIsAttributeSubClass(prop.getReadMethod().getReturnType()));
+				})
+				.forEach(v-> { 
 				try {
 					Object valueToCopy = k.getAttribute(v);
 					PropertyDescriptor p = descriptorMap.get(v);
@@ -29,6 +36,18 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 				}
 			});
 		}
+	}
+ 
+	default boolean verifyReturnTypeIsAttributeSubClass(Class<?> returnTypeClass) {
+		boolean b = returnTypeClass.equals(Attribute.class);
+		Class<?>[] clazzes = returnTypeClass.getInterfaces();
+		if (clazzes.length !=0 && b!=true) { 
+			for(Class<?> clazz : clazzes) {
+				b = verifyReturnTypeIsAttributeSubClass(clazz);
+				if (b==true) break;
+			}
+		}
+		return b;
 	}
 
 	default Map<String, PropertyDescriptor> toMap(Optional<PropertyDescriptor[]> thisProperties){
@@ -44,4 +63,5 @@ public interface AttributeCopier<K extends ManagedTypeDescriptor<?>>  extends Co
 		});
 		return theMap;
 	}
+	
 }

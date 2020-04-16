@@ -56,56 +56,56 @@ implements Priority<K,Integer>{
 
 		return priorityMap.values().stream().collect(Collectors.toList());
 	}
-	
-	
+
+
 	private Class<K> castV(Class<? extends BaseEntity> v) {
 		return (Class<K>) v;
 	}
 
 	public void processGraphByBreadthFirst(Map<Class<?>,Priority<?,Integer>> priorityMap){
-		
+
 		brainzGraphModel.getEntityDirectedGraph().vertexSet().forEach(v->{
-		
-		BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
-		iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
-		while (iterator.hasNext()) { 
-			Class<? extends BaseEntity> next = iterator.next();
-			Class<? extends BaseEntity> parent = iterator.getParent(next);
-			if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
-				Priority<?,Integer> pnext=priorityMap.get(next); 
-				Priority<?,Integer> pparent=priorityMap.get(parent);
-				if(pparent.getPriority()>=pnext.getPriority()) { 
-					Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
-					Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
-					priorityMap.put(parent, pparentP);
-					priorityMap.put(next, pnextP);
-				}
-			}
 
-		}});
+			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
+			iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
+			while (iterator.hasNext()) { 
+				Class<? extends BaseEntity> next = iterator.next();
+				Class<? extends BaseEntity> parent = iterator.getParent(next);
+				if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
+					Priority<?,Integer> pnext=priorityMap.get(next); 
+					Priority<?,Integer> pparent=priorityMap.get(parent);
+					if(pparent.getPriority()>=pnext.getPriority()) { 
+						Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
+						Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
+						priorityMap.put(parent, pparentP);
+						priorityMap.put(next, pnextP);
+					}
+				}
+
+			}});
 	}
-	
-public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){
-		
-		brainzGraphModel.getEntityGraph().vertexSet().forEach(v->{
-		
-		BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
-		iterator = brainzGraphModel.getBreadthFirstIteratorUndirected((Class<? extends BaseEntity>)v);
-		while (iterator.hasNext()) { 
-			Class<? extends BaseEntity> next = iterator.next();
-			Class<? extends BaseEntity> parent = iterator.getParent(next);
-			if(brainzGraphModel.getEntityGraph().containsEdge(parent , next)) {
-				Priority<?,Integer> pnext=priorityMap.get(next); 
-				Priority<?,Integer> pparent=priorityMap.get(parent);
-				if(pparent.getPriority()>=pnext.getPriority()) { 
-					Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
-					Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
-					priorityMap.put(parent, pparentP);
-					priorityMap.put(next, pnextP);
-				}
-			}
 
-		}});
+	public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){
+
+		brainzGraphModel.getEntityGraph().vertexSet().forEach(v->{
+
+			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
+			iterator = brainzGraphModel.getBreadthFirstIteratorUndirected((Class<? extends BaseEntity>)v);
+			while (iterator.hasNext()) { 
+				Class<? extends BaseEntity> next = iterator.next();
+				Class<? extends BaseEntity> parent = iterator.getParent(next);
+				if(brainzGraphModel.getEntityGraph().containsEdge(parent , next)) {
+					Priority<?,Integer> pnext=priorityMap.get(next); 
+					Priority<?,Integer> pparent=priorityMap.get(parent);
+					if(pparent.getPriority()>=pnext.getPriority()) { 
+						Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
+						Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
+						priorityMap.put(parent, pparentP);
+						priorityMap.put(next, pnextP);
+					}
+				}
+
+			}});
 	}
 
 
@@ -125,7 +125,7 @@ public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer
 		return generatePriorityForElement(element,priority );
 	}
 
-	
+
 	public Priority<?, Integer> generatePriorityForElementUndirected(Class<K> element) {
 
 		Integer priority = brainzGraphModel

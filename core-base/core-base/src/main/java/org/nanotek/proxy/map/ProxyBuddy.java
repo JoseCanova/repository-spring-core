@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import org.assertj.core.util.introspection.ClassUtils;
 import org.nanotek.Base;
 import org.nanotek.BaseEntity;
-import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.Artist_;
 
 import net.bytebuddy.ByteBuddy;

@@ -11,7 +11,10 @@ public interface BaseArtistBeginDateBean
 extends 
 Base<K>,
 BaseBean<K,ArtistBeginDate<?>>,
-MutableBeginDateEntity<Integer> {
+MutableBeginDateEntity<Integer>,
+MutableBeginYearEntity<Integer>,
+MutableBeginMonthEntity<Integer>,
+MutableBeginDayEntity<Integer>{
 
 	
 	@Override

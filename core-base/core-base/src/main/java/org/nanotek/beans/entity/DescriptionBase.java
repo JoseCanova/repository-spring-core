@@ -5,6 +5,8 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -17,6 +19,7 @@ import org.nanotek.opencsv.CsvValidationGroup;
 						indexes= {
 								@Index(unique = false , name = "description_table_idx" , columnList ="description")
 							})
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
 	    discriminatorType = DiscriminatorType.STRING,
 	    name = "table_id",

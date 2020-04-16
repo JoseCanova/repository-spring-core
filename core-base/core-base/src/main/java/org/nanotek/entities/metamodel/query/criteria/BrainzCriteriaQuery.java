@@ -14,6 +14,7 @@ import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.EntityType;
 
+import org.hibernate.query.criteria.internal.compile.CompilableCriteria;
 import org.nanotek.BaseEntity;
 import org.nanotek.IdBase;
 import org.reflections.Reflections;
@@ -32,6 +33,10 @@ implements IdBase<X,Class<Y>> , CriteriaQuery<Y>{
 	protected Class<Y> id;
 
 	protected EntityManagerFactory entityManagerFactory;
+
+	public CriteriaQuery<Y> getCriteriaQuery() {
+		return criteriaQuery;
+	}
 
 
 	protected BrainzCriteriaBuilder criteriaBuilder;

@@ -20,7 +20,7 @@ spring:
     password: postgres123@   
   hikari:
     connectionTimeout: 20000
-    maximumPoolSize: 100
+    maximumPoolSize: 10000
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
@@ -102,7 +102,7 @@ artist:
 
 area: 
   fileLocation: /opt/mbdump
-  fileName: area_dump
+  fileName: area_dump1
   immutable: org.nanotek.beans.csv.AreaBean
   baseMap:     
     areaId: 0 

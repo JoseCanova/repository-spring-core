@@ -40,15 +40,21 @@ implements DataTransferMutator<String>
 
 	public ForwardMapBean(Class<?> clazz) {
 		baseClass = clazz;
-		postConstruct(clazz);
+		postConstruct(clazz , null);
 	}
 
+	public ForwardMapBean(Class<?> clazz , B b) {
+		baseClass = clazz;
+		bean = b;
+		postConstruct(clazz , b);
+	}
 
-	private void postConstruct(Class<?> clazz) {
+	private void postConstruct(Class<?> clazz,B b) {
 		descriptorMap = new HashMap<>();
 		populatePropertyDescriptorMap(clazz);
 		try {
-			bean = (B) clazz.getDeclaredConstructor().newInstance();
+			if(b == null)
+				bean = (B) clazz.getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new BaseException(e);
@@ -81,7 +87,7 @@ implements DataTransferMutator<String>
 	public <V> V read(String t) {
 		return (V) Optional.ofNullable(descriptorMap.get(t)).map(pd -> {
 			try {
-				return pd.getPropertyDescriptorRead().getReadMethod().invoke(bean, null);
+				return pd.getPropertyDescriptorRead().getReadMethod().invoke(bean, new Object[] {});
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new BaseException(e);
@@ -109,7 +115,7 @@ implements DataTransferMutator<String>
 	}
 
 	@Override
-	B to() {
+	public B to() {
 		return bean;
 	}
 
@@ -127,16 +133,12 @@ implements DataTransferMutator<String>
 		return Arrays.asList(classId.getFields());
 	}
 
-	@Override
-	public int compareTo(ForwardBean<Map<String,PropertyDescriptorType>,B> a){
-		return 0;
-	}
+
 
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException { 
 
 		ForwardMapBean<?> dm = new ForwardMapBean<>(Area.class);
-		Long val = 1000l;
-		PropertyDescriptor pd= dm.toWhere("name");
+		PropertyDescriptor pd= dm.toWhere("areaName");
 		System.out.println(pd!=null?pd.getName():"no where");
 		dm.write("areaName", "The Name");
 		System.out.println("");
@@ -154,7 +156,6 @@ enum TYPE{
 class PropertyDescriptorType{
 
 
-	private TYPE type;
 	private PropertyDescriptor propertyDescriptorRead;
 	private PropertyDescriptor propertyDescriptorWrite;
 

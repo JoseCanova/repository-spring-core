@@ -10,7 +10,10 @@ public interface BaseAreaBeginDateBean
 extends 
 Base<K>,
 BaseBean<K,AreaBeginDate<?>>,
-MutableBeginDateEntity<Integer> {
+MutableBeginDateEntity<Integer>,
+MutableBeginYearEntity<Integer>,
+MutableBeginMonthEntity<Integer>,
+MutableBeginDayEntity<Integer>{
 	
 	@Override
 	default void setBeginYear(Integer k) {

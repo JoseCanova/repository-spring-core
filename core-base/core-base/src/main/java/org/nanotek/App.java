@@ -1,17 +1,21 @@
 package org.nanotek;
 
 import java.util.Date;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.concurrent.FutureTask;
 
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
+import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm.SpanningTree;
 import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
+import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
+import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistCredit;
-import org.nanotek.beans.entity.Track;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
-import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
@@ -110,27 +114,30 @@ ApplicationRunner{
 		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
 		
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
+//		
+//		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
+//		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
 		
-		GraphPath<?, ?> p =  bf.getPath(r1, r2);
+//		GraphPath<?, ?> p =  bf.getPath(r1, r2);
 		
-		System.out.println(p);
+//		System.out.println(p);
 		
 //		System.out.println(graphModel.getEntityDirectedGraph());
 //
-//		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
+		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
 //
-//		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
-//
-//		pList.forEach(p->{
-//			pq.add(p);
-//		});
-//
-//		Priority<?,Integer> prior = null;
-//		do {
-//			prior = pq.poll();
-//			if (prior !=null)
-//				System.out.println(prior.getElement() + "  " + prior.getPriority());
-//		}while(prior !=null);
+		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+
+		pList.forEach(p->{
+			pq.add(p);
+		});
+
+		Priority<?,Integer> prior = null;
+		do {
+			prior = pq.poll();
+			if (prior !=null)
+				System.out.println(prior.getElement() + "  " + prior.getPriority());
+		}while(prior !=null);
 
 
 //		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
@@ -138,21 +145,21 @@ ApplicationRunner{
 //		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 //		System.out.println(path);
 //		System.out.println(path1);
-		//		new Thread() {
-		//			@Override
-		//			public void run() {
-		//				CsvResult<?,?> result = null ; 
-		//				FutureTask <R>r;
-		//				log.debug("start time " + new Date());
-		//				do {
-		//					try {
-		//						   csvBaseProcessor.getNext();
-		//					} catch (Exception e) {
-		//						e.printStackTrace();
-		//					}
-		//				}while(processor.isActive());
-		//			}
-		//		}.start();
+				new Thread() {
+					@Override
+					public void run() {
+						CsvResult<?,?> result = null ; 
+						FutureTask <R>r;
+						log.debug("start time " + new Date());
+						do {
+							try {
+								   csvBaseProcessor.getNext();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}while(processor.isActive());
+					}
+				}.start();
 		log.debug("end time " + new Date());
 	}
 

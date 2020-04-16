@@ -26,7 +26,7 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 	}
 	
 	public static <S extends Base<S>,K extends Comparable<K>,A extends AnyBase<S,K>> A of(K s) { 
-		return   (A) AnyBase.class.cast(new AnyBase<S, K>(s));
+		return    (A) new AnyBase<S, K>(s);
 	}
 	
 	public Optional<K> getValue() {

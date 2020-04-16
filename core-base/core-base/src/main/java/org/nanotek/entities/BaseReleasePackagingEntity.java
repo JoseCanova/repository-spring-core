@@ -1,5 +1,7 @@
 package org.nanotek.entities;
 
-public interface BaseReleasePackagingEntity<T> {
+import org.nanotek.MutatorSupport;
+
+public interface BaseReleasePackagingEntity<K> extends MutatorSupport<K>{
 
 }

@@ -12,7 +12,8 @@ public interface BaseArtistEndDateBean
 extends  
 Base<K>,
 BaseBean<K,ArtistEndDate<?>>,
-MutableEndDateEntity<Integer> {
+MutableEndDateEntity<Integer>,
+MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity<Integer>{
 
 	@Override
 	default void setEndYear(Integer t) {

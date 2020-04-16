@@ -8,6 +8,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
+
+import org.nanotek.opencsv.CsvImportValidation;
 
 @Entity
 @Table(name="end_dates",
@@ -23,13 +26,15 @@ extends BrainzBaseEntity<K>  {
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull
+	@NotNull(groups = {Default.class,CsvImportValidation.class})
 	@Column(name="end_year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endYear;
 	
+	@NotNull(groups = {Default.class,CsvImportValidation.class})
 	@Column(name="end_month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endMonth;
 	
+	@NotNull(groups = {Default.class,CsvImportValidation.class})
 	@Column(name="end_day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endDay;
 
@@ -39,12 +44,15 @@ extends BrainzBaseEntity<K>  {
 	public EndDateBase(@NotNull Integer endYear) {
 		super();
 		this.endYear = endYear;
+		this.endMonth = 1;
+		this.endDay = 1;
 	}
 	
 	public EndDateBase(@NotNull  @NotNull  Integer endYear, @NotNull Integer endMonth) {
 		super();
 		this.endYear = endYear;
 		this.endMonth = endMonth;
+		this.endDay = 1;
 	}
 	
 	public EndDateBase(@NotNull  Integer endYear, @NotNull Integer endMonth, @NotNull Integer endDay) {
@@ -59,7 +67,15 @@ extends BrainzBaseEntity<K>  {
 	}
 
 	public void setEndYear(Integer endYear) {
+		verifyMonthDay();
 		this.endYear = endYear;
+	}
+
+	private void verifyMonthDay() {
+		if(endMonth == null)
+			endMonth = 1;
+		if(endDay == null)
+			endDay = 1;
 	}
 
 	public Integer getEndMonth() {

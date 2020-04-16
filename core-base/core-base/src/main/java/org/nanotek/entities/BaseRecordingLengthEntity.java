@@ -1,7 +1,8 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.MutatorSupport;
+import org.nanotek.TagInterface;
 
-public interface BaseRecordingLengthEntity<K>{
-
+@TagInterface
+public interface BaseRecordingLengthEntity<K> extends MutatorSupport<K>{
 }

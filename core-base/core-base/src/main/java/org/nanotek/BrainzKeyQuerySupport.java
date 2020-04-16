@@ -23,14 +23,14 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<?>> {
 
 	EntityManager getEntityManager();
 	
-	default Optional<Stream<?>> findByBrainzId(Class<B> clazz,Object instance) {
+	default Optional<List<?>> findByBrainzId(Class<B> clazz,Object instance) {
 		EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(clazz);
 		return filterPropertyByClass(entityBeanInfo,instance);
 	}
 	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	default  Optional<Stream<?>> filterPropertyByClass(EntityBeanInfo<?> entityBeanInfo,Object instance) {
+	default  Optional<List<?>> filterPropertyByClass(EntityBeanInfo<?> entityBeanInfo,Object instance) {
 	    
 		Collection<PropertyInfo> values = entityBeanInfo.getProperties().values();
 		
@@ -54,11 +54,9 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<?>> {
 			        Path<?> path = entity.get(clz.pathName());
 			        Object value = p.getReadMethod().invoke(instance, new Object[] {});
 			        Predicate predicate = cb.equal(path, value);
-			        
 			        query.select((Selection) entity).where(predicate);
-			        
 			        TypedQuery<?> typeQuery = getEntityManager().createQuery(query);
-			        return typeQuery.getResultStream();
+			        return typeQuery.getResultList();
 			}catch(Exception ex) {
 	        	throw new BaseException (ex);
 	        }

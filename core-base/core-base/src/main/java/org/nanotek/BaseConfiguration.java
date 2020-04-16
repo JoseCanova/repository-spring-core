@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
@@ -70,8 +72,6 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BaseConfiguration implements ApplicationContextAware{
 
-	
-	
 	private ApplicationContext applicationContext;
 	
 	@Bean
@@ -142,6 +142,7 @@ public class BaseConfiguration implements ApplicationContextAware{
      }
 	
 	@Bean
+	@Primary
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
@@ -152,6 +153,15 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setDataSource(dataSource());
 		return factory;
 	}
+	
+	@Bean
+	@Qualifier(value="SessionFactory")
+	public SessionFactory sessionFactory(@Autowired 
+				LocalContainerEntityManagerFactoryBean entityManagerFactory) { 
+		return SessionFactoryImpl.class.cast(entityManagerFactory.getNativeEntityManagerFactory());
+	}
+	
+	
 //
 	@Bean
 	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
@@ -198,7 +208,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "areatype")
+	@ConfigurationProperties(value = "area")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

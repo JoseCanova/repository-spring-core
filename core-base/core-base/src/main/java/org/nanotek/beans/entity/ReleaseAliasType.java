@@ -18,24 +18,16 @@ public class ReleaseAliasType<K extends ReleaseAliasType<K>> extends BaseType<K>
 	public ReleaseAliasType() {
 	}
 
-
-
 	public ReleaseAliasType(@NotNull Long typeId) {
 		super(typeId);
 	}
-
-
 
 	public ReleaseAliasType(@NotNull UUID gid, @NotBlank String name) {
 		super(gid, name);
 	}
 
-
-
 	public ReleaseAliasType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
 		super(typeId, gid, name);
 	}
-
-
 
 }

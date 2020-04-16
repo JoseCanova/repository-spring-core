@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.nanotek.MutatorSupport;
+import org.nanotek.TagInterface;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.ArtistBeginDate;
 import org.nanotek.beans.entity.ArtistComment;
@@ -14,6 +15,7 @@ import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.beans.entity.Gender;
 import org.nanotek.entities.immutables.MutableArtistNameEntity;
 
+@TagInterface
 public interface BaseArtistEntity<K> extends MutatorSupport<K>,
 MutableArtistIdEntity<Long>,
 MutableArtistSortNameEntity<ArtistSortName<?>>,
@@ -26,5 +28,6 @@ MutableAreaEntity<Area<?>>,
 MutableArtistBeginAreaEntity<Area<?>>,
 MutableArtistEndAreaEntity<Area<?>>,
 MutableGidEntity<UUID>,MutableArtistNameEntity<String>,
-MutableArtistCreditCollection<List<ArtistCredit<?>>>{
+MutableArtistCreditCollection<List<ArtistCredit<?>>>
+{
 }

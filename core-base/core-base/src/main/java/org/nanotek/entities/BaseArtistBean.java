@@ -194,8 +194,10 @@ MutableGidEntity<UUID>,MutableArtistNameEntity<String>
 //	}
 	
 	public static void main (String[] args) {
-		ArtistBean artistBean = new ArtistBean();
-		System.out.println(artistBean.toString());
+		ArtistBean bean = new ArtistBean();
+		System.out.println(bean.toString());
+		bean.setArtistId(1l);
+		System.out.println(bean.getArtistId());
 		
 	}
 	

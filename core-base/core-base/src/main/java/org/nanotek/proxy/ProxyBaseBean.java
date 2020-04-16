@@ -45,11 +45,11 @@ extends ProxyBase<K,ID> implements InvocationHandler{
 				pbb);
 
 		//	   sb1.getId();
-		BaseAreaEntity<K> slb = BaseAreaEntity.class.cast(sb1);
-		slb.setAreaId(100L);
-		slb.getAreaBeginDate().setBeginYear(100);
-		System.out.println(slb.getAreaId());
-		System.out.println(slb.getAreaBeginDate().getBeginYear());
+//		BaseAreaEntity<K> slb = BaseAreaEntity.class.cast(sb1);
+//		slb.setAreaId(100L);
+//		slb.getAreaBeginDate().setBeginYear(100);
+//		System.out.println(slb.getAreaId());
+//		System.out.println(slb.getAreaBeginDate().getBeginYear());
 	}
 
 	@Override

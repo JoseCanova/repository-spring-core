@@ -12,7 +12,8 @@ public interface BaseAreaEndDateBean
 extends  
 Base<K>,
 BaseBean<K,AreaEndDate<?>>,
-MutableEndDateEntity<Integer>{
+MutableEndDateEntity<Integer>,
+MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity<Integer>{
 
 	
 	@Override

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.BaseEntity;
 import org.nanotek.entities.BaseAreaTypeEntity;
 
 @Entity
@@ -37,4 +38,9 @@ implements  BaseAreaTypeEntity<E>{
 		super(typeId);
 	}
 
+	public static void main(String[] args) { 
+		BaseEntity<?,?> e = new AreaType<>();
+		System.out.println(BaseEntity.class.isAssignableFrom(AreaType.class));
+	}
+	
 }

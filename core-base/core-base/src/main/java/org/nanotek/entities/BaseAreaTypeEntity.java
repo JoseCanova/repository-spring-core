@@ -1,7 +1,7 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.TagInterface;
 
-public interface BaseAreaTypeEntity<T >{
-
+@TagInterface
+public interface BaseAreaTypeEntity<T>{
 }

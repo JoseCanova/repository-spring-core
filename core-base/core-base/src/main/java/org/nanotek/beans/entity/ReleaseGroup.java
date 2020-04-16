@@ -18,8 +18,8 @@ import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseGroupEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseGroupIdEntity;
+import org.nanotek.entities.MutableReleaseGroupNameEntity;
 import org.nanotek.entities.MutableReleaseGroupPrimaryTypeEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 
@@ -35,7 +35,7 @@ MutableReleaseGroupIdEntity<Long>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableReleaseGroupPrimaryTypeEntity<ReleaseGroupPrimaryType<?>>,
 MutableReleaseSetEntity<Release<?>>,
-MutableGidEntity<UUID>,MutableNameEntity<String>{
+MutableGidEntity<UUID>,MutableReleaseGroupNameEntity<String>{
 
 	private static final long serialVersionUID = 7603390865547084527L;
 	
@@ -45,11 +45,11 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 
 	@NotNull
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	@NotNull
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String releaseGroupName;
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY , optional = false )
@@ -60,16 +60,25 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 	@JoinColumn(name = "type_id")
 	public ReleaseGroupPrimaryType<?> releaseGroupPrimaryType;
 	
-	
 	@OneToMany(mappedBy = "releaseGroup")
 	public Set<Release<?>> releases;
 	
 	public ReleaseGroup() {}
 	
+	
+	public ReleaseGroup(@NotNull Long releaseGroupId, @NotNull UUID gid, @NotNull String releaseGroupName) {
+		super();
+		this.releaseGroupId = releaseGroupId;
+		this.gid = gid;
+		this.releaseGroupName = releaseGroupName;
+	}
+
+
+
 	public ReleaseGroup(@NotNull Long id, @NotNull UUID gid, @NotBlank String name, @NotNull ArtistCredit<?> artistCredit,
 			ReleaseGroupPrimaryType<?> type) {
 		this.gid = gid; 
-		this.name = name;
+		this.releaseGroupName = name;
 		this.artistCredit = artistCredit;
 		this.releaseGroupPrimaryType = type;
 		this.releaseGroupId = id;
@@ -116,12 +125,12 @@ MutableGidEntity<UUID>,MutableNameEntity<String>{
 		this.gid = gid;
 	}
 
-	public String getName() {
-		return name;
+	public String getReleaseGroupName() {
+		return releaseGroupName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReleaseGroupName(String name) {
+		this.releaseGroupName = name;
 	}
 
 

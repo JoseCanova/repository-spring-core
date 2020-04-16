@@ -1,22 +1,37 @@
 package org.nanotek.beans.entity;
 
+import java.util.UUID;
+
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.nanotek.entities.BaseWorkTypeEntity;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="work_type")
-public class WorkType<K extends WorkType<K>> extends BrainzBaseEntity<K>{
+@DiscriminatorValue(value = "WorkType")
+public class WorkType
+<K extends WorkType<K>> 
+extends BaseType<K> 
+implements BaseWorkTypeEntity<K>
+{
 
-	
-	private String name;
-	
-	public String getName() {
-		return name;
+	public WorkType() {
+		super();
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public WorkType(@NotNull Long typeId, @NotNull UUID gid, @NotBlank String name) {
+		super(typeId, gid, name);
+	}
+
+	public WorkType(@NotNull Long typeId) {
+		super(typeId);
+	}
+
+	public WorkType(@NotNull UUID gid, @NotBlank String name) {
+		super(gid, name);
 	}
 
 }
