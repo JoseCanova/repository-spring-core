@@ -68,14 +68,19 @@ implements BaseBean<K,ID>
 		baseClass = class1;
 		id =  class1.cast(ProxyBase.prepareBeanInstance(class1.asSubclass(IdBase.class)));
 		configureBaseBean();
+		prepareMap();
 	}
 	
+	private void prepareMap() {
+		mountInstanceMap();		
+	}
+
 	@SuppressWarnings("unchecked")
 	public static IdBase<?,?> prepareBeanInstance(Class<?> idBase) { 
 		return IdBase.prepareBeanInstance(idBase.asSubclass(IdBase.class));
 	}
 
-	public void configureBaseBean() {
+	private void configureBaseBean() {
 		if(!isConfigured()) {
 			try {
 				semaphore.acquire();
@@ -86,7 +91,6 @@ implements BaseBean<K,ID>
 				throw new BaseException(e);
 			}
 		}
-		mountInstanceMap();
 	}
 	
 	@Override

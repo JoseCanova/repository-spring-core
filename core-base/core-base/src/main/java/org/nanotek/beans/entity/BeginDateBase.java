@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.MutableBeginDayEntity;
 import org.nanotek.entities.MutableBeginMonthEntity;
 import org.nanotek.entities.MutableBeginYearEntity;
@@ -30,15 +31,15 @@ extends BrainzBaseEntity<K>
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginYear;
 	
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginMonth;
 	
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginDay;
 

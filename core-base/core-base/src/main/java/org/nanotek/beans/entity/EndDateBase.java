@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.opencsv.CsvImportValidation;
 
 @Entity
@@ -26,15 +27,15 @@ extends BrainzBaseEntity<K>  {
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="end_year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endYear;
 	
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="end_month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endMonth;
 	
-	@NotNull(groups = {Default.class,CsvImportValidation.class})
+	@NotNull(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="end_day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endDay;
 

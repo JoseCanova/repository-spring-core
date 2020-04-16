@@ -150,17 +150,9 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("org.nanotek");
 		factory.setPersistenceUnitName("spring-core-music-brainz");
-		factory.setDataSource(dataSource());
+//		factory.setDataSource(dataSource());
 		return factory;
 	}
-	
-	@Bean
-	@Qualifier(value="SessionFactory")
-	public SessionFactory sessionFactory(@Autowired 
-				LocalContainerEntityManagerFactoryBean entityManagerFactory) { 
-		return SessionFactoryImpl.class.cast(entityManagerFactory.getNativeEntityManagerFactory());
-	}
-	
 	
 //
 	@Bean

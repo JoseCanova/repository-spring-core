@@ -5,6 +5,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCommentBaseEntity;
 import org.nanotek.entities.MutableCommentEntity;
 import org.nanotek.opencsv.CsvImportValidation;
@@ -17,7 +18,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	
-	@NotBlank(groups = {Default.class,CsvImportValidation.class})
+	@NotBlank(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;
 

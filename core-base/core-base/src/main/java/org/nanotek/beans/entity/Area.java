@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseAreaEntity;
 import org.nanotek.entities.MutableAreaBeginDateEntity;
@@ -44,16 +45,16 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 
 	private static final long serialVersionUID = -7073321340141567106L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="area_id",nullable=false)
 	public Long areaId; 
 	
-	@NotNull(groups = {Default.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
 		
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
 	
@@ -79,7 +80,7 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public AreaComment<?> areaComment;
 	
-	@NotNull(groups = {Default.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String areaName;
 
@@ -171,4 +172,9 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 		this.areaType = areaType;
 	}
 
+	@Override
+	public String toString() {
+		return new StringBuilder().append(areaId).append('\t').append(areaName).append('\t').append(gid).toString();
+	}
+	
 }

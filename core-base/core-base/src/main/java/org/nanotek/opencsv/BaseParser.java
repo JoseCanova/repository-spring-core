@@ -11,8 +11,11 @@ import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConfigMappingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import au.com.bytecode.opencsv.CSVParser;
 
@@ -23,16 +26,17 @@ I extends AnyBase<I,Integer>
 ,  B extends BaseBean<?,?>> 
 extends CSVParser implements InitializingBean
 {
+	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
 	protected BufferedReader reader;
 	
 	protected CSVParser csvParser;
-
+	
 	@Autowired
 	protected  CsvFileItemConfigMappingStrategy<M,K,I,B> mapColumnStrategy;
 
 	public BaseParser() {this.csvParser = new CSVParser('\t');}
-
+	
 	public   BaseParser(CsvFileItemConfigMappingStrategy<?,?,?,?> mapColumnStrategy) { 
 		this.mapColumnStrategy = CsvFileItemConfigMappingStrategy.class.cast(mapColumnStrategy);
 		reader = mapColumnStrategy.getCSVReader();
@@ -48,6 +52,7 @@ extends CSVParser implements InitializingBean
 	}
 
 	public  <T extends ValueBase<?>, S extends T> List<?>  readNext() {
+		
 		try { 	
 			return Optional.ofNullable(
 					reader.readLine())
@@ -58,6 +63,7 @@ extends CSVParser implements InitializingBean
 	}
 
 	private List<? super ValueBase<?>> mountList(String line) {
+		log.debug("line read\t" + line);
 		int pos = 0;
 		ArrayList<? super ValueBase<?>> al = new ArrayList<>();
 		try { 

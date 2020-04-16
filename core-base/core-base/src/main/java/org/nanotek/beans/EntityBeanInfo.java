@@ -21,17 +21,21 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	
     private static Semaphore semaphore = new Semaphore(1);
 	
-	private static AtomicBoolean isConfigured = new AtomicBoolean(false);
+	private  AtomicBoolean isConfigured = new AtomicBoolean(false);
 	
 	public boolean  isConfigured() {
 			acquire();
-			if(classDescriptorMap.get(this.entityClass)!=null) {
+			if((propertyDescriptorInfo =classDescriptorMap.get(this.entityClass))!=null) {
 				isConfigured.set(true);
 			}
 			release();
 		return isConfigured.get();
 	}
 	
+	public Class<E> getEntityClass() {
+		return entityClass;
+	}
+
 	public void setConfigured(boolean b) {
 		isConfigured.set(b);
 		release();
@@ -54,7 +58,6 @@ public class EntityBeanInfo<E> extends ClassInfo {
 		}
 	}
 	
-	
 	public EntityBeanInfo(Class<E> entityClass) {
 		super(entityClass);
 		this.entityClass = entityClass;
@@ -73,9 +76,6 @@ public class EntityBeanInfo<E> extends ClassInfo {
 			prepareChache(entityClass).construcMethodInfoList().contructPropertiesInfoList().constructProperyDescriptorInfos();
 			classDescriptorMap.put(entityClass, propertyDescriptorInfo);
 			setConfigured(true);
-		}else { 
-			System.out.println("Already Configured " + Thread.currentThread().getName());
-			propertyDescriptorInfo = classDescriptorMap.get(entityClass);
 		}
 	}
 	

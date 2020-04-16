@@ -1,16 +1,17 @@
 package org.nanotek.service.jpa.csv;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.metamodel.Attribute;
 import javax.validation.Validator;
+import javax.validation.groups.Default;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
 import org.nanotek.MutatorSupport;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.entity.BrainzBaseEntity;
@@ -30,8 +31,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @Qualifier(value="MusicBrainzCsvService")
@@ -68,8 +67,8 @@ public class MusicBrainzCsvService
 				if(notFoundByBrainzId(clazz , id)) {
 							B b = convertObject(id,clazz);
 							prepareProperties(b);
-							save(b);
-							saveProperties(b);
+							b = save(b);
+//							saveProperties(b);
 						}
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -88,6 +87,7 @@ public class MusicBrainzCsvService
 			if(a.getJavaType().getAnnotation(Entity.class) !=null) {
 				if(!brainzKeyAnnotationPresent(a.getJavaType())) {
 					Optional<X>  optProperty = dm.read(a.getName());
+					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
 					optProperty.ifPresent(p-> baseEntityRepository.save(p));
 				}
 			}
@@ -95,16 +95,34 @@ public class MusicBrainzCsvService
 	}
 
 
-	@Transactional
-	private void save(B b) {
-		brainzPeristenceService.save(b);		
+	@SuppressWarnings("unchecked")
+	private void populateParentRelationShipIfPresent(B b, Attribute<?, ?> a, X p) {
+		ForwardMapBean<X> dmX = new ForwardMapBean<X>(p.getClass(),p);
+		Class<X> attributeClass = (Class<X>) p.getClass();
+		BrainzEntityMetaModel<X,?> attributeMetaModel = brainzMetaModelUtil.getMetaModel(attributeClass);
+		EntityTypeSupport<?,X> attributeEntityType = attributeMetaModel.getEntityTypeSupport();
+		if(attributeEntityType
+			.getAttributes()
+			.stream()
+			.anyMatch(a1->a1.getJavaType().isAssignableFrom(b.getClass()))) {
+			Attribute<? super X,?> parentAttribute = attributeEntityType
+											.getAttributes()
+											.stream()
+											.filter(a1->a1.getJavaType().isAssignableFrom(b.getClass()))
+											.findFirst().orElse(null);
+			String attributeName = parentAttribute.getName();
+			dmX.write(attributeName, b);
+		}
 	}
 
+	private B save(B b) {
+		logger.debug(b.toString());
+		return validator.validate(b, PrePersistValidationGroup.class).size() == 0  ? brainzPeristenceService.save(b) : b;
+	}
 
 	public boolean notFoundByBrainzId(Class<B> clazz , BaseEntity<?, ?> id) { 
-		Optional<List<?>> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
-		return theStream.map(s->
-		s.size() == 0).orElse(false);
+		Optional<?> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
+		return theStream.isPresent();
 	}
 
 	private void prepareProperties(B b) {
@@ -138,14 +156,18 @@ public class MusicBrainzCsvService
 	}
 
 	private Optional<?> findByBrainzId(Object brainzType , String typeName) {
+		Optional<?> result = Optional.empty();
 		String brainzIdPropertyName = getBrainzPropertyName(brainzType.getClass());
 		Class<X> clzz = castClass(brainzType.getClass());
 		ForwardMapBean<X> from = new ForwardMapBean<X>(clzz , clzz.cast(brainzType));
 		ForwardMapBean<X> to = new ForwardMapBean<X>(clzz);
 		Optional<?> optValueId = from.read(brainzIdPropertyName);
-		to.write(brainzIdPropertyName,optValueId.get());
-		Example<X> example = Example.of(to.to());
-		return baseEntityRepository.findOne(example);
+		if (optValueId.isPresent()) { 
+			to.write(brainzIdPropertyName,optValueId.get());
+			Example<X> example = Example.of(to.to());
+			result = baseEntityRepository.findOne(example);
+		}
+		return result;
 	}
 
 	private  Class<X> castClass(Class<?> class1) {
