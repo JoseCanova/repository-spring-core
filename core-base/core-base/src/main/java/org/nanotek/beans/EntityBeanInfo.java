@@ -2,17 +2,58 @@ package org.nanotek.beans;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.nanotek.beans.csv.ArtistBean;
+import org.nanotek.BaseException;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.sun.introspect.ClassInfo;
-import org.nanotek.beans.sun.util.Cache;
 
 public class EntityBeanInfo<E> extends ClassInfo {
 
 	private Class<E> entityClass;
 	
+	private static 
+		Map<Class<?> , Map<String,PropertyDescriptor>> classDescriptorMap = 
+										new HashMap<Class<?> , Map<String,PropertyDescriptor>>();
+	
 	private Map<String,PropertyDescriptor> propertyDescriptorInfo;
+	
+    private static Semaphore semaphore = new Semaphore(1);
+	
+	private static AtomicBoolean isConfigured = new AtomicBoolean(false);
+	
+	public boolean  isConfigured() {
+			acquire();
+			if(classDescriptorMap.get(this.entityClass)!=null) {
+				isConfigured.set(true);
+			}
+			release();
+		return isConfigured.get();
+	}
+	
+	public void setConfigured(boolean b) {
+		isConfigured.set(b);
+		release();
+	}
+	
+	public void acquire() {
+		try { 
+			semaphore.acquire();
+		}catch (Exception ex) { 
+			isConfigured.set(false);
+			throw new BaseException(ex);
+		}
+	}
+	
+	public void release() { 
+		try { 
+			semaphore.release();
+		}catch (Exception ex) { 
+			throw new BaseException(ex);
+		}
+	}
+	
 	
 	public EntityBeanInfo(Class<E> entityClass) {
 		super(entityClass);
@@ -26,8 +67,16 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	}
 	
 	private void postContruct() {
-		propertyDescriptorInfo = new HashMap<String,PropertyDescriptor>();
-		prepareChache(entityClass).construcMethodInfoList().contructPropertiesInfoList().constructProperyDescriptorInfos();
+		if(!isConfigured()) { 
+			acquire();
+			propertyDescriptorInfo = new HashMap<String,PropertyDescriptor>();
+			prepareChache(entityClass).construcMethodInfoList().contructPropertiesInfoList().constructProperyDescriptorInfos();
+			classDescriptorMap.put(entityClass, propertyDescriptorInfo);
+			setConfigured(true);
+		}else { 
+			System.out.println("Already Configured " + Thread.currentThread().getName());
+			propertyDescriptorInfo = classDescriptorMap.get(entityClass);
+		}
 	}
 	
 	private void constructProperyDescriptorInfos() {
@@ -61,9 +110,19 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	}
 	
 	public static void main(String[] args) {
-		EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(Artist.class);
-		System.out.println("'");
-		EntityBeanInfo<?> baseBeanInfo = new EntityBeanInfo<>(ArtistBean.class);
-		System.out.println("'");
+		for (int i = 0 ; i < 100 ; i++) { 
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("started thread " + Thread.currentThread().getName());
+					EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(Artist.class);
+					entityBeanInfo
+						.getPropertyDescriptorInfo()
+						.forEach((k,v)-> System.out.println(v.getName() + "  " + Thread.currentThread().getName()));
+				} 
+				
+			});
+			t.start();
+		}
 	}
 }
