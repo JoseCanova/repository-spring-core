@@ -30,20 +30,20 @@ extends CSVParser implements InitializingBean
 	private Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
 	protected BufferedReader reader;
-	
+
 	protected CSVParser csvParser;
-	
+
 	@Autowired
 	protected  CsvFileItemConfigMappingStrategy<M,K,I,B> mapColumnStrategy;
 
 	public BaseParser() {this.csvParser = new CSVParser('\t');}
-	
+
 	public   BaseParser(CsvFileItemConfigMappingStrategy<?,?,?,?> mapColumnStrategy) { 
 		this.mapColumnStrategy = CsvFileItemConfigMappingStrategy.class.cast(mapColumnStrategy);
 		reader = mapColumnStrategy.getCSVReader();
 		this.csvParser = new CSVParser('\t');
 	}
-	
+
 	public void afterPropertiesSet() { 
 		this.reader = mapColumnStrategy.getCSVReader();
 	}
@@ -68,9 +68,9 @@ extends CSVParser implements InitializingBean
 		try { 
 			final String[] sArry = Optional
 					.ofNullable(csvParser.parseLine(line)).get();
-		for (int pos = 0 ; pos < sArry.length ; pos++) {
-			al.add(ValueBase.of(pos,sArry[pos]));
-		} 
+			for (int pos = 0 ; pos < sArry.length ; pos++) {
+				al.add(ValueBase.of(pos,sArry[pos]));
+			} 
 		}catch(Exception ex) { 
 			throw new BaseException(ex);
 		}
