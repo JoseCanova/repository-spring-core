@@ -8,6 +8,10 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.groups.Default;
+
+import org.nanotek.PrePersistValidationGroup;
 
 @Entity
 @Table(name="string_number_base",
@@ -24,8 +28,9 @@ public class StringNumberBase<K extends StringNumberBase<K>> extends NumberBase<
 
 	private static final long serialVersionUID = -773476453892134913L;
 
+	@NotBlank(groups= {Default.class,PrePersistValidationGroup.class})
 	@Column(name="number" , columnDefinition = "VARCHAR NOT NULL")
-	protected String number;
+	public String number;
 	
 	
 	public StringNumberBase(String number) {

@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -27,7 +28,9 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 @Table(name="release_group",
 indexes= {
 @Index(name="idx_release_group_id",columnList="release_group_id")
-})
+},
+uniqueConstraints = 
+{@UniqueConstraint(name="uk_release_group_id",columnNames = {"release_group_id"})})
 public class ReleaseGroup
 <E extends ReleaseGroup<E>> extends BrainzBaseEntity<E> 
 implements BaseReleaseGroupEntity<E>, 

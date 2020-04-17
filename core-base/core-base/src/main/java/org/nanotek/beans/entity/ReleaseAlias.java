@@ -8,6 +8,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +24,8 @@ import org.nanotek.entities.MutableReleaseAliasTypeEntity;
 import org.nanotek.entities.MutableReleaseEntity;
 
 @Entity
-@Table(name = "release_alias")
+@Table(name = "release_alias",
+uniqueConstraints = {@UniqueConstraint(name="uk_release_alias_id", columnNames = {"relase_alias_id"})})
 public class ReleaseAlias<K extends ReleaseAlias<K>> extends BrainzBaseEntity<K> implements 
 BaseReleaseAliasEntity<K>,
 MutableReleaseAliasIdEntity<Long>,

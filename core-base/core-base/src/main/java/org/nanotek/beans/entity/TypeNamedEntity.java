@@ -11,11 +11,11 @@ import javax.validation.groups.Default;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableTypeNameEntity;
-import org.nanotek.opencsv.CsvValidationGroup;
 
 @MappedSuperclass
 public abstract class TypeNamedEntity
-<E extends TypeNamedEntity<E>> extends BrainzBaseEntity<E> implements 
+<E extends TypeNamedEntity<E>> extends BrainzBaseEntity<E>
+implements 
 MutableGidEntity<UUID>,MutableTypeNameEntity<String>{
 
 	private static final long serialVersionUID = -5235727515178240574L;

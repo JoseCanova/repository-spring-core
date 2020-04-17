@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -22,7 +23,9 @@ import org.nanotek.entities.MutableRecordingEntity;
 @Table(name="isrc",
 indexes = {
 		@Index(name="uk_isrc_id" , columnList= "isrc_id")
-})
+},
+uniqueConstraints = 
+{@UniqueConstraint(name="uk_isrc_id",columnNames = {"isrc_id"})})
 public class Isrc<K extends Isrc<K>> extends BrainzBaseEntity<K>
 implements 
 BaseIsrcEntity<K>,

@@ -3,11 +3,11 @@ package org.nanotek.beans.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.MutableLengthEntity;
 
 @MappedSuperclass
@@ -15,7 +15,7 @@ public abstract class LengthyBase<K extends LengthyBase<K,L>,L extends Serializa
 extends BrainzBaseEntity<K> implements MutableLengthEntity<L>{
 	private static final long serialVersionUID = 266384916289553935L;
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="length" , nullable=false)
 	public  L length;
 	

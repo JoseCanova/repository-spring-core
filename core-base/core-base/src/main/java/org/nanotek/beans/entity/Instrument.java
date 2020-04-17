@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -27,7 +28,8 @@ import org.nanotek.entities.MutableInstrumentTypeEntity;
 @Table(name="instrument", 
 indexes= {
 @Index(name="uk_instrument_id",columnList="instrument_id")
-})
+},
+uniqueConstraints = {@UniqueConstraint(name="uk_instrument_id",columnNames = {"instrument_id"})})
 public class Instrument
 <E extends Instrument<E>> extends BrainzBaseEntity<E>  
 implements BaseInstrumentEntity,

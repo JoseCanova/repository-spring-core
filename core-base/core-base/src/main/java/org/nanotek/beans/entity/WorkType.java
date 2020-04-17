@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseWorkTypeEntity;
 
-@SuppressWarnings("serial")
 @Entity
 @DiscriminatorValue(value = "WorkType")
 public class WorkType
@@ -17,6 +16,8 @@ public class WorkType
 extends BaseType<K> 
 implements BaseWorkTypeEntity<K>
 {
+
+	private static final long serialVersionUID = 1173232964014909689L;
 
 	public WorkType() {
 		super();

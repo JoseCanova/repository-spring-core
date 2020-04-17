@@ -5,11 +5,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="work_alias")
-public class WorkAlias<K extends WorkAlias<K>> extends BrainzBaseEntity<K> {
+public class WorkAlias<K extends WorkAlias<K>> 
+extends BrainzBaseEntity<K> {
 
 	private Long work; 
-	
-
 	
 	private String locale; 
 	

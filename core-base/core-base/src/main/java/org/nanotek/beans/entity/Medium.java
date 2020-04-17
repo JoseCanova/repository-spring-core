@@ -9,6 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +22,9 @@ import org.nanotek.entities.MutableMediumPositionEntity;
 @Entity
 @Table(indexes= {
 		@Index(name="idx_medium_id",columnList="medium_id")
-		})
+		},
+uniqueConstraints = {@UniqueConstraint(name="uk_medium_id",columnNames = {"medium_id"})}
+)
 public class Medium<K extends Medium<K>> 
 extends BrainzBaseEntity<K> 
 implements 

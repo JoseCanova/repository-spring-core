@@ -2,7 +2,7 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
+//TODO: implements this class.
 @SuppressWarnings("serial")
 @Entity
 @Table(name="label_alias")

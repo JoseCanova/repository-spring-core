@@ -13,9 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseLabelEntity;
 import org.nanotek.entities.MutableLabelReleaseEntity;
@@ -28,6 +30,9 @@ import org.nanotek.opencsv.CsvValidationGroup;
 @Table(name="release_label",
 indexes= {
 @Index(name="idx_release_label_id",columnList="release_label_id")
+},
+uniqueConstraints = {
+		@UniqueConstraint(name="uk_release_label_id",columnNames = {"release_label_id"})
 })
 public class ReleaseLabel<K extends ReleaseLabel<K>> 
 extends  BrainzBaseEntity<K>
@@ -40,7 +45,7 @@ MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>{
 
 	private static final long serialVersionUID = -4336246677898584112L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="release_label_id",nullable = false)
 	public Long releaseLabelId;
 	

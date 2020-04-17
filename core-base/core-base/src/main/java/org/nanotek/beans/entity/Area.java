@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,9 +32,9 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="area" , 
-indexes =  {
-			@Index(name="idx_area_id", columnList = "area_id")
-		})
+indexes =  {@Index(name="idx_area_id", columnList = "area_id")},
+uniqueConstraints = {@UniqueConstraint(columnNames = {"area_id"} , name = "uk_area_id")} 
+)
 public class Area
 <K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
 MutableAreaIdEntity<Long>,		
