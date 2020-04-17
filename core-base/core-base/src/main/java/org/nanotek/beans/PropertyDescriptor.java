@@ -234,40 +234,40 @@ public class PropertyDescriptor extends FeatureDescriptor {
      * @return The method that should be used to read the property value.
      * May return null if the property can't be read.
      */
-    public synchronized Method getReadMethod() {
+    public Method getReadMethod() {
         Method readMethod = this.readMethodRef.get();
-        if (readMethod == null) {
-            Class<?> cls = getClass0();
-            if (cls == null || (readMethodName == null && !this.readMethodRef.isSet())) {
-                // The read method was explicitly set to null.
-                return null;
-            }
-            String nextMethodName = Introspector.GET_PREFIX + getBaseName();
-            if (readMethodName == null) {
-                Class<?> type = getPropertyType0();
-                if (type == boolean.class || type == null) {
-                    readMethodName = Introspector.IS_PREFIX + getBaseName();
-                } else {
-                    readMethodName = nextMethodName;
-                }
-            }
-
-            // Since there can be multiple write methods but only one getter
-            // method, find the getter method first so that you know what the
-            // property type is.  For booleans, there can be "is" and "get"
-            // methods.  If an "is" method exists, this is the official
-            // reader method so look for this one first.
-            readMethod = Introspector.findMethod(cls, readMethodName, 0);
-            if ((readMethod == null) && !readMethodName.equals(nextMethodName)) {
-                readMethodName = nextMethodName;
-                readMethod = Introspector.findMethod(cls, readMethodName, 0);
-            }
-            try {
-                setReadMethod(readMethod);
-            } catch (IntrospectionException ex) {
-                // fall
-            }
-        }
+//        if (readMethod == null) {
+//            Class<?> cls = getClass0();
+//            if (cls == null || (readMethodName == null && !this.readMethodRef.isSet())) {
+//                // The read method was explicitly set to null.
+//                return null;
+//            }
+//            String nextMethodName = Introspector.GET_PREFIX + getBaseName();
+//            if (readMethodName == null) {
+//                Class<?> type = getPropertyType0();
+//                if (type == boolean.class || type == null) {
+//                    readMethodName = Introspector.IS_PREFIX + getBaseName();
+//                } else {
+//                    readMethodName = nextMethodName;
+//                }
+//            }
+//
+//            // Since there can be multiple write methods but only one getter
+//            // method, find the getter method first so that you know what the
+//            // property type is.  For booleans, there can be "is" and "get"
+//            // methods.  If an "is" method exists, this is the official
+//            // reader method so look for this one first.
+//            readMethod = Introspector.findMethod(cls, readMethodName, 0);
+//            if ((readMethod == null) && !readMethodName.equals(nextMethodName)) {
+//                readMethodName = nextMethodName;
+//                readMethod = Introspector.findMethod(cls, readMethodName, 0);
+//            }
+//            try {
+//                setReadMethod(readMethod);
+//            } catch (IntrospectionException ex) {
+//                // fall
+//            }
+//        }
         return readMethod;
     }
 
@@ -303,46 +303,46 @@ public class PropertyDescriptor extends FeatureDescriptor {
      * @return The method that should be used to write the property value.
      * May return null if the property can't be written.
      */
-    public synchronized Method getWriteMethod() {
+    public Method getWriteMethod() {
         Method writeMethod = this.writeMethodRef.get();
-        if (writeMethod == null) {
-            Class<?> cls = getClass0();
-            if (cls == null || (writeMethodName == null && !this.writeMethodRef.isSet())) {
-                // The write method was explicitly set to null.
-                return null;
-            }
-
-            // We need the type to fetch the correct method.
-            Class<?> type = getPropertyType0();
-            if (type == null) {
-                try {
-                    // Can't use getPropertyType since it will lead to recursive loop.
-                    type = findPropertyType(getReadMethod(), null);
-                    setPropertyType(type);
-                } catch (IntrospectionException ex) {
-                    // Without the correct property type we can't be guaranteed
-                    // to find the correct method.
-                    return null;
-                }
-            }
-
-            if (writeMethodName == null) {
-                writeMethodName = Introspector.SET_PREFIX + getBaseName();
-            }
-
-            Class<?>[] args = (type == null) ? null : new Class<?>[] { type };
-            writeMethod = Introspector.findMethod(cls, writeMethodName, 1, args);
-            if (writeMethod != null) {
-                if (!writeMethod.getReturnType().equals(void.class)) {
-                    writeMethod = null;
-                }
-            }
-            try {
-                setWriteMethod(writeMethod);
-            } catch (IntrospectionException ex) {
-                // fall through
-            }
-        }
+//        if (writeMethod == null) {
+//            Class<?> cls = getClass0();
+//            if (cls == null || (writeMethodName == null && !this.writeMethodRef.isSet())) {
+//                // The write method was explicitly set to null.
+//                return null;
+//            }
+//
+//            // We need the type to fetch the correct method.
+//            Class<?> type = getPropertyType0();
+//            if (type == null) {
+//                try {
+//                    // Can't use getPropertyType since it will lead to recursive loop.
+//                    type = findPropertyType(getReadMethod(), null);
+//                    setPropertyType(type);
+//                } catch (IntrospectionException ex) {
+//                    // Without the correct property type we can't be guaranteed
+//                    // to find the correct method.
+//                    return null;
+//                }
+//            }
+//
+//            if (writeMethodName == null) {
+//                writeMethodName = Introspector.SET_PREFIX + getBaseName();
+//            }
+//
+//            Class<?>[] args = (type == null) ? null : new Class<?>[] { type };
+//            writeMethod = Introspector.findMethod(cls, writeMethodName, 1, args);
+//            if (writeMethod != null) {
+//                if (!writeMethod.getReturnType().equals(void.class)) {
+//                    writeMethod = null;
+//                }
+//            }
+//            try {
+//                setWriteMethod(writeMethod);
+//            } catch (IntrospectionException ex) {
+//                // fall through
+//            }
+//        }
         return writeMethod;
     }
 

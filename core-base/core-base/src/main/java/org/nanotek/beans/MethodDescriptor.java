@@ -81,30 +81,30 @@ public class MethodDescriptor extends FeatureDescriptor {
      *
      * @return The low-level description of the method
      */
-    public synchronized Method getMethod() {
-        Method method = this.methodRef.get();
-        if (method == null) {
-            Class<?> cls = getClass0();
-            String name = getName();
-            if ((cls != null) && (name != null)) {
-                Class<?>[] params = getParams();
-                if (params == null) {
-                    for (int i = 0; i < 3; i++) {
-                        // Find methods for up to 2 params. We are guessing here.
-                        // This block should never execute unless the classloader
-                        // that loaded the argument classes disappears.
-                        method = Introspector.findMethod(cls, name, i, null);
-                        if (method != null) {
-                            break;
-                        }
-                    }
-                } else {
-                    method = Introspector.findMethod(cls, name, params.length, params);
-                }
-                setMethod(method);
-            }
-        }
-        return method;
+    public Method getMethod() {
+//        Method method = this.methodRef.get();
+//        if (method == null) {
+//            Class<?> cls = getClass0();
+//            String name = getName();
+//            if ((cls != null) && (name != null)) {
+//                Class<?>[] params = getParams();
+//                if (params == null) {
+//                    for (int i = 0; i < 3; i++) {
+//                        // Find methods for up to 2 params. We are guessing here.
+//                        // This block should never execute unless the classloader
+//                        // that loaded the argument classes disappears.
+//                        method = Introspector.findMethod(cls, name, i, null);
+//                        if (method != null) {
+//                            break;
+//                        }
+//                    }
+//                } else {
+//                    method = Introspector.findMethod(cls, name, params.length, params);
+//                }
+//                setMethod(method);
+//            }
+//        }
+        return this.methodRef.get();
     }
 
     private synchronized void setMethod(Method method) {

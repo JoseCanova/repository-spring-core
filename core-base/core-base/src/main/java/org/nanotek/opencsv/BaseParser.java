@@ -26,7 +26,7 @@ I extends AnyBase<I,Integer>
 ,  B extends BaseBean<?,?>> 
 extends CSVParser implements InitializingBean
 {
-	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
+	private Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
 	protected BufferedReader reader;
 	

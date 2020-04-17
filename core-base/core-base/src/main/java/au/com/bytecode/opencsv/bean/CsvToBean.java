@@ -22,16 +22,15 @@ public class CsvToBean<T> {
     }
 
 
-    public synchronized T processLine(MappingStrategy<T> mapper, List<ValueBase<?>> result) {
-        T bean = mapper.createBean();
+    public T processLine(MappingStrategy<T> mapper, final List<ValueBase<?>> result) {
+//    	synchronized (result) { 
+        final T bean = mapper.createBean();
         result.stream().forEach(sb -> {
         	try { 
         	PropertyDescriptor prop = mapper.findDescriptor(sb.getId());
             String value = null;
             Object obj = null;
 	            if (null != prop) {
-	            	log.debug(prop.toString());
-	            	log.debug(sb.getClass() + "  "  + sb.getId());
 	                value = checkForTrim(sb.getValue(), prop);
 	                obj = convertValue(value, prop);
 	                prop.getWriteMethod().invoke(bean, obj);
@@ -41,6 +40,7 @@ public class CsvToBean<T> {
         	}
         });
         return bean;
+//    	}
     }
 
     private String checkForTrim(String s, PropertyDescriptor prop) {
@@ -76,7 +76,6 @@ public class CsvToBean<T> {
             editor = PropertyEditorManager.findEditor(cls);
             addEditorToMap(cls, editor);
         }
-
         return editor;
     }
 
