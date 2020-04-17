@@ -38,7 +38,7 @@ M extends BaseBean<?,?>,
 R extends CsvResult<?,?>> 
 implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAware{
 
-	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
+	private Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
 	private int INIT_VALUE=10;
 	
@@ -103,21 +103,21 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 	
 	public void getNext(){
 		try {
-			Callable<R> call = new ResultCallable();
-			ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
+			final Callable<R> call = new ResultCallable();
+			final ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
 			ar.addCallback(csvProcessorCallBack);
-			Thread t = serviceTaskExecutor.createThread(ar);
-			t.setPriority(counter.getAndUpdate(new IntUnaryOperator() {
-				@Override
-				public int applyAsInt(int operand) {
-					if (operand == 1) {
-						operand = INIT_VALUE; 
-					}else
-						--operand;
-					return operand;
-				}
-			}));
-			t.start();
+			serviceTaskExecutor.createThread(ar).start();;
+//			t.setPriority(counter.getAndUpdate(new IntUnaryOperator() {
+//				@Override
+//				public int applyAsInt(int operand) {
+//					if (operand == 1) {
+//						operand = INIT_VALUE; 
+//					}else
+//						--operand;
+//					return operand;
+//				}
+//			}));
+//			t.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,9 +146,10 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 		@SuppressWarnings("unchecked")
 		public  R computeNext()  {
 			Optional<R> result = Optional.empty();
-			List<ValueBase<?>> next = getBaseParser().readNext();
+			final List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
-				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+				final BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+				log.debug(base.getId().toString());
 //				result =  of(applicationContext.getBean(CsvResult.class),base);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base),applicationContext).toArray() , BaseBean.class,ApplicationContext.class);
 			}
@@ -157,10 +158,10 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 		
 	}
 
-	@SuppressWarnings("unchecked")
-	public  Optional<R> of(CsvResult bean,BaseBean<?,?> base) {
-		bean.setImmutable(base);
-		return Optional.of((R)bean);
-	}
+//	@SuppressWarnings("unchecked")
+//	public  Optional<R> of(CsvResult bean,BaseBean<?,?> base) {
+//		bean.setImmutable(base);
+//		return Optional.of((R)bean);
+//	}
 
 }

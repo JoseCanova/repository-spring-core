@@ -6,7 +6,8 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="track_name")
-public class TrackName<K extends TrackName<K>> extends BrainzBaseEntity<K>{
+public class TrackName<K extends TrackName<K>>
+extends BrainzBaseEntity<K>{
 
 	
 	private String name;

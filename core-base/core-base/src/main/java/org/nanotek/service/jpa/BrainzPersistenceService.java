@@ -37,5 +37,10 @@ implements BrainzKeyQuerySupport<B>
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	@Override
+	public BrainzBaseEntityRepository<B> getBaseRepository() {
+		return baseRepository;
+	}
 
 }

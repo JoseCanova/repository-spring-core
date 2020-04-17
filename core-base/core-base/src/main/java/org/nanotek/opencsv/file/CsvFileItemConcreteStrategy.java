@@ -133,7 +133,7 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 
 	@Override
 	public M createBean() {
-		return  immutable.cast(Base.newInstance(immutable));
+		return  immutable.cast(Base.newInstance(immutable).get());
 	}
 
 	@Override

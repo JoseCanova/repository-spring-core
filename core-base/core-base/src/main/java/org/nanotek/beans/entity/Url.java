@@ -1,15 +1,24 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.nanotek.annotations.BrainzKey;
 
 @Entity
-@Table(name="url")
-public class Url<K extends Url<K>> extends BrainzBaseEntity<K> {
+@Table(name="url",
+uniqueConstraints = 
+{
+		@UniqueConstraint(name="uk_url_id",columnNames = {"url_id"})
+})
+public class Url<K extends Url<K>> 
+extends BrainzBaseEntity<K> {
 
+	@Column(name="url_id",nullable=false)
 	private Long urlId;
+	
 	private String gid; 
 	private String url; 
 	private String description; 

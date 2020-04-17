@@ -192,9 +192,6 @@ MutableGidEntity<UUID>{
     	bean.getAreaId();
     	bean.getComment();
     	bean.getTypeId();
-    	
-    	
-    	
     }
     
 }

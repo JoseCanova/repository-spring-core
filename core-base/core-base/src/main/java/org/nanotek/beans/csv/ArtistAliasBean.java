@@ -9,7 +9,6 @@ import org.nanotek.entities.BaseArtistAliasLocaleBean;
 import org.nanotek.entities.BaseArtistAliasSortNameBean;
 import org.nanotek.entities.BaseArtistAliasTypeBean;
 import org.nanotek.entities.BaseArtistBean;
-import org.nanotek.opencsv.ArtistAliasEndDateBean;
 import org.nanotek.proxy.ProxyBase;
 
 //public interface BaseAreaTypeBean<K extends BaseBean<K,AreaType<?>>> 

@@ -6,16 +6,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseAreaEntity;
 import org.nanotek.entities.MutableAreaBeginDateEntity;
@@ -29,9 +32,9 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="area" , 
-uniqueConstraints= {
-		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
-		})
+indexes =  {@Index(name="idx_area_id", columnList = "area_id")},
+uniqueConstraints = {@UniqueConstraint(columnNames = {"area_id"} , name = "uk_area_id")} 
+)
 public class Area
 <K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
 MutableAreaIdEntity<Long>,		
@@ -44,16 +47,17 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 
 	private static final long serialVersionUID = -7073321340141567106L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="area_id",nullable=false)
 	public Long areaId; 
 	
-	@NotNull(groups = {Default.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-		
-	@NotNull
+	
+	@Valid
+	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
 	
@@ -79,7 +83,7 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public AreaComment<?> areaComment;
 	
-	@NotNull(groups = {Default.class})
+	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String areaName;
 
@@ -171,4 +175,9 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 		this.areaType = areaType;
 	}
 
+	@Override
+	public String toString() {
+		return new StringBuilder().append(areaId).append('\t').append(areaName).append('\t').append(gid).toString();
+	}
+	
 }

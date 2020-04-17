@@ -102,7 +102,7 @@ artist:
 
 area: 
   fileLocation: /opt/mbdump
-  fileName: area_dump1
+  fileName: area_dump
   immutable: org.nanotek.beans.csv.AreaBean
   baseMap:     
     areaId: 0 

@@ -11,14 +11,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
-import org.springframework.util.ClassUtils;
-
 import javax.annotation.PostConstruct;
 
 import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.csv.ArtistBean;
-import org.nanotek.beans.entity.SequenceLongBase;
 import org.nanotek.proxy.ProxyBase;
 
 public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>,Configurable<ID>
@@ -101,10 +97,10 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
+		List<Class<?>> intf =  getAllInterfaces(getBaseClass());
 		System.out.println("Original Size"+intf.size());
 		registryProperties(getBaseClass(),intf);
-		processAttributesProperties(getId().getClass());
+		processAttributesProperties(getBaseClass());
 	}
 	
 	void mountInstanceMap();

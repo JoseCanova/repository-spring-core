@@ -3,12 +3,12 @@ package org.nanotek.beans.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -22,12 +22,11 @@ import org.nanotek.entities.MutableArtistAliasNameEntity;
 import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
-import org.nanotek.entities.MutableNameEntity;
 
 @Entity
 @Table(name="artist_alias", 
-uniqueConstraints= {
-@UniqueConstraint(name="uk_artist_alias_id",columnNames={"artist_alias_id"})
+indexes= {
+@Index(name="idx_artist_alias_id",columnList="artist_alias_id")
 })
 public class ArtistAlias<K extends ArtistAlias<K>>  extends 
 BrainzBaseEntity<K>  

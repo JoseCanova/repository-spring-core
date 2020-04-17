@@ -5,12 +5,15 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.ReleasePackagingBase;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleasePackagingEntity;
@@ -18,12 +21,16 @@ import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableReleasePackagingId;
 import org.nanotek.entities.MutableReleasePackagingNameEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="release_packaging",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_pack_id",columnNames={"release_packaging_id"})
-})
+indexes= {
+@Index(name="idx_release_pack_id",columnList="release_packaging_id")
+},
+uniqueConstraints = 
+{ @UniqueConstraint(name="uk_release_packaging_id",columnNames = {"release_packaging_id"})
+		})
 public class ReleasePackaging
 <K extends ReleasePackaging<K>> extends BrainzBaseEntity<K> 
 implements BaseReleasePackagingEntity<K>,
@@ -35,15 +42,15 @@ MutableReleasePackagingNameEntity<String>{
 
 	private static final long serialVersionUID = 5351338443793025420L;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="release_packaging_id" , nullable=false)
 	public Long releasePackagingId;
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	protected UUID gid;
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String releasePackagingName;
 	

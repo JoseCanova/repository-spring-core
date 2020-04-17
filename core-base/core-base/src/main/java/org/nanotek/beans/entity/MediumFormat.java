@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +16,9 @@ import org.nanotek.entities.MutableMediumFormatNameEntity;
 import org.nanotek.entities.MutableYearEntity;
 
 @Entity
-@Table(name="medium_format")
+@Table(name="medium_format",
+uniqueConstraints = 
+{@UniqueConstraint(name="uk_medium_format_id",columnNames = {"medium_format_id"})})
 public class MediumFormat<K extends MediumFormat<K>> 
 extends BrainzBaseEntity<K> implements 
 BaseMediumFormatEntity<K>,

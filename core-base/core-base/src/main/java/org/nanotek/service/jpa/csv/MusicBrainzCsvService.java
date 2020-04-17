@@ -1,30 +1,23 @@
 package org.nanotek.service.jpa.csv;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.persistence.Entity;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 import javax.validation.Validator;
-import javax.validation.groups.Default;
 
-import org.nanotek.Base;
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
 import org.nanotek.MutatorSupport;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaBuilder;
-import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaQuery;
+import org.nanotek.opencsv.CsvValidationGroup;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.BaseEntityRepository;
 import org.nanotek.service.jpa.BrainzPersistenceService;
@@ -36,26 +29,23 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
-@Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON  , proxyMode = ScopedProxyMode.NO)
+@Qualifier(value="MusicBrainzCsvService")
 public class MusicBrainzCsvService 
-<B extends BrainzBaseEntity<B>> 
+<B extends BrainzBaseEntity<B>,X extends BaseEntity<X,?>,S extends X> 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(MusicBrainzCsvService.class);
+	private final Logger logger = LoggerFactory.getLogger(MusicBrainzCsvService.class);
 
 	@Autowired
 	BrainzPersistenceService<B> brainzPeristenceService;
 	
 	@Autowired
 	@Qualifier("brainzBaseEntityRepository")
-	BaseEntityRepository<?,?> baseEntityRepository;
+	BaseEntityRepository<X,?> baseEntityRepository;
 
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
@@ -70,21 +60,22 @@ public class MusicBrainzCsvService
 	}
 
 
+	@Transactional
 	public void  verifyBrainzBaseEntity(BaseEntity<?, ?> id) {
 		try {
 			Class<B> clazz = castClass(id);
 				if(notFoundByBrainzId(clazz , id)) {
 							B b = convertObject(id,clazz);
 							prepareProperties(b);
-							saveProperties(b);
-							save(b);
+							b = save(b);
+//							saveProperties(b);
 						}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private <X extends BaseEntity<X,?>>void saveProperties(B b) {
+	private void saveProperties(B b) {
 		BrainzEntityMetaModel<?,B> brainzEntityMetaModel = brainzMetaModelUtil.getMetaModel(b.getClass());
 		EntityTypeSupport<?, ?> typeSupport = brainzEntityMetaModel.getEntityTypeSupport();
 		Class<?> bClass = b.getClass();
@@ -96,23 +87,42 @@ public class MusicBrainzCsvService
 			if(a.getJavaType().getAnnotation(Entity.class) !=null) {
 				if(!brainzKeyAnnotationPresent(a.getJavaType())) {
 					Optional<X>  optProperty = dm.read(a.getName());
-					optProperty.ifPresent(p-> ((BaseEntityRepository<X,?>)baseEntityRepository).save(p));
+					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
+					optProperty.ifPresent(p-> baseEntityRepository.save(p));
 				}
 			}
 		});
 	}
 
 
-	@Transactional
-	private void save(B b) {
-		brainzPeristenceService.save(b);		
+	@SuppressWarnings("unchecked")
+	private void populateParentRelationShipIfPresent(B b, Attribute<?, ?> a, X p) {
+		ForwardMapBean<X> dmX = new ForwardMapBean<X>(p.getClass(),p);
+		Class<X> attributeClass = (Class<X>) p.getClass();
+		BrainzEntityMetaModel<X,?> attributeMetaModel = brainzMetaModelUtil.getMetaModel(attributeClass);
+		EntityTypeSupport<?,X> attributeEntityType = attributeMetaModel.getEntityTypeSupport();
+		if(attributeEntityType
+			.getAttributes()
+			.stream()
+			.anyMatch(a1->a1.getJavaType().isAssignableFrom(b.getClass()))) {
+			Attribute<? super X,?> parentAttribute = attributeEntityType
+											.getAttributes()
+											.stream()
+											.filter(a1->a1.getJavaType().isAssignableFrom(b.getClass()))
+											.findFirst().orElse(null);
+			String attributeName = parentAttribute.getName();
+			dmX.write(attributeName, b);
+		}
 	}
 
+	private B save(B b) {
+		logger.debug(b.toString());
+		return validator.validate(b, new Class[] {PrePersistValidationGroup.class}).size() == 0  ? brainzPeristenceService.save(b) : b;
+	}
 
 	public boolean notFoundByBrainzId(Class<B> clazz , BaseEntity<?, ?> id) { 
-		Optional<List<?>> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
-		return theStream.map(s->
-		s.size() == 0).orElse(false);
+		Optional<?> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
+		return theStream.isPresent();
 	}
 
 	private void prepareProperties(B b) {
@@ -140,31 +150,29 @@ public class MusicBrainzCsvService
 		});
 	}
 
-
 	private boolean valid(Attribute<?, ?> a, ForwardMapBean<B> dm) {
 		Optional<?> optAttributeValue = dm.read(a.getName());
-		return optAttributeValue.map(value->validator.validate(value, Default.class).size() == 0).orElse(false);
+		return optAttributeValue.map(value->validator.validate(value, new Class[] {CsvValidationGroup.class}).size() == 0).orElse(false);
 	}
 
-
-	private <X extends BaseEntity<X,?>,S extends X> Optional<?> findByBrainzId(Object brainzType , String typeName) {
+	private Optional<?> findByBrainzId(Object brainzType , String typeName) {
+		Optional<?> result = Optional.empty();
 		String brainzIdPropertyName = getBrainzPropertyName(brainzType.getClass());
 		Class<X> clzz = castClass(brainzType.getClass());
 		ForwardMapBean<X> from = new ForwardMapBean<X>(clzz , clzz.cast(brainzType));
 		ForwardMapBean<X> to = new ForwardMapBean<X>(clzz);
 		Optional<?> optValueId = from.read(brainzIdPropertyName);
-		to.write(brainzIdPropertyName,optValueId.get());
-		Example<X> example = Example.of(to.to());
-		return ((BaseEntityRepository<X,?>)baseEntityRepository).findOne(example);
+		if (optValueId.isPresent()) { 
+			to.write(brainzIdPropertyName,optValueId.get());
+			Example<X> example = Example.of(to.to());
+			result = baseEntityRepository.findOne(example);
+		}
+		return result;
 	}
 
-	
-	
-
-	private <X extends BaseEntity<X,?>> Class<X> castClass(Class<?> class1) {
+	private  Class<X> castClass(Class<?> class1) {
 		return (Class<X>) class1.asSubclass(BaseEntity.class);
 	}
-
 
 	private boolean brainzKeyAnnotationPresent(Class<?> javaType) {
 		Boolean returnValue = false; 

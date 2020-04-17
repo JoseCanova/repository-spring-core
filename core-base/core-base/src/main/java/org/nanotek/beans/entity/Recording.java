@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,9 +26,10 @@ import org.nanotek.entities.MutableTrackEntitySet;
 
 @Entity
 @Table(name="recording" ,
-uniqueConstraints= {
-@UniqueConstraint(name="uk_recording_id",columnNames={"recording_id"})
-})
+indexes= {
+@Index(name="idx_recording_id",columnList="recording_id")
+},
+uniqueConstraints = {@UniqueConstraint(name="uk_recording_id",columnNames = {"recording_id"})})
 public class Recording
 <E extends Recording<E>> extends BrainzBaseEntity<E> implements 
 MutableRecordingIdEntity<Long> , 

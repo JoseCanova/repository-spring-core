@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -13,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableRecordingAliasIdEntity;
 import org.nanotek.entities.MutableRecordingAliasNameEntity;
@@ -20,11 +22,13 @@ import org.nanotek.entities.MutableRecordingAliasSortNameEntity;
 import org.nanotek.entities.MutableRecordingEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+//TODO:review locale attribute, implement DateStyle classes.
 @Entity
 @Table(name = "recording_alias",
-uniqueConstraints = {
-		@UniqueConstraint(name="uk_recording_alias_id",columnNames={"recording_alias_id"})
-})
+indexes = {
+		@Index(name="idx_recording_alias_id",columnList="recording_alias_id")
+},
+uniqueConstraints = {@UniqueConstraint(name="uk_recording_alias_id" , columnNames = {"recording_alias_id"})})
 @DiscriminatorValue(value = "RecordingAlias")
 public class RecordingAlias<K extends RecordingAlias<K>> extends BrainzBaseEntity<K> 
 implements 
@@ -39,7 +43,7 @@ MutableRecordingAliasSortNameEntity<RecordingAliasSortName<?>>{
 	@Column(name = "recording_alias_id" , nullable = false)
 	public Long recordingAliasId;
 	
-	@Column(name="locale", length=1000)
+	@Column(name="locale",  columnDefinition = "VARCHAR NOT NULL")
 	public String locale; 
 	
 	
@@ -58,7 +62,7 @@ MutableRecordingAliasSortNameEntity<RecordingAliasSortName<?>>{
 	}
 	
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			name = "ralias_sortname_join", 
@@ -75,12 +79,12 @@ MutableRecordingAliasSortNameEntity<RecordingAliasSortName<?>>{
 		this.recordingAliasSortName = recordingAliasSortName;
 	}
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "recording_id")
 	public Recording<?> recording; 
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY , optional = false)
 	@JoinColumn(name="recording_type_id")
 	public RecordingAliasType<?> type;

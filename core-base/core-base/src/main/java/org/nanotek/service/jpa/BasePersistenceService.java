@@ -3,6 +3,8 @@ package org.nanotek.service.jpa;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.springframework.data.domain.Example;
@@ -58,6 +60,7 @@ public class BasePersistenceService<B extends BrainzBaseEntity<B>, C extends Bra
 	}
 
 
+	@Transactional
 	public <S extends B> S save(S entity) {
 		return baseRepository.save(entity);
 	}

@@ -2,11 +2,11 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
+import org.nanotek.beans.csv.ArtistAliasEndDateBean;
 import org.nanotek.beans.entity.ArtistAliasEndDate;
 import org.nanotek.entities.immutables.EndDayEntity;
 import org.nanotek.entities.immutables.EndMonthEntity;
 import org.nanotek.entities.immutables.EndYearEntity;
-import org.nanotek.opencsv.ArtistAliasEndDateBean;
 
 public interface BaseArtistAliasEndDateBean
 <K extends BaseBean<K,ArtistAliasEndDate<?>>> 

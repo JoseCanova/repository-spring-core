@@ -3,6 +3,7 @@ package org.nanotek.beans.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -19,9 +20,11 @@ import org.nanotek.entities.MutableMediumNameEntity;
 import org.nanotek.entities.MutableMediumPositionEntity;
 
 @Entity
-@Table(uniqueConstraints= {
-		@UniqueConstraint(name="uk_medium_id",columnNames={"medium_id"})
-		})
+@Table(indexes= {
+		@Index(name="idx_medium_id",columnList="medium_id")
+		},
+uniqueConstraints = {@UniqueConstraint(name="uk_medium_id",columnNames = {"medium_id"})}
+)
 public class Medium<K extends Medium<K>> 
 extends BrainzBaseEntity<K> 
 implements 

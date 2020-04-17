@@ -9,6 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -24,7 +25,8 @@ import org.nanotek.entities.MutableLabelTypeEntity;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="label")
+@Table(name="label",
+uniqueConstraints = {@UniqueConstraint(name="uk_label_id" , columnNames = {"label_id"})})
 public class Label<K extends Label<K>> 
 extends BrainzBaseEntity<K>
 implements BaseLabelEntity<K>,
@@ -35,7 +37,7 @@ MutableLabelTypeEntity<LabelType<?>>,
 MutableAreaEntity<Area<?>>,
 MutableLabelCodeEntity<Integer>{
 	
-	@Column
+	@Column(name="label_id")
 	private Long labelId;
 
 	@NotNull

@@ -7,10 +7,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseReleaseLabelCatalogEntity;
 import org.nanotek.entities.MutableReleaseLabelEntity;
 import org.nanotek.entities.MutableReleaseLabelNumberEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="release_label_catalog",
@@ -25,11 +28,11 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>{
 
 	private static final long serialVersionUID = 3417803135828126150L;
 	
-	@NotBlank
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="catalog_number" , nullable = false , columnDefinition = "VARCHAR NOT NULL")
 	public String releaseLabelNumber;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional = false , mappedBy = "releaseLabelCatalog")
 	public ReleaseLabel<?> releaseLabel;
 	

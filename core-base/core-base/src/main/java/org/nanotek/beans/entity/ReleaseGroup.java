@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,9 +26,11 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 
 @Entity
 @Table(name="release_group",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_group_id",columnNames={"release_group_id"})
-})
+indexes= {
+@Index(name="idx_release_group_id",columnList="release_group_id")
+},
+uniqueConstraints = 
+{@UniqueConstraint(name="uk_release_group_id",columnNames = {"release_group_id"})})
 public class ReleaseGroup
 <E extends ReleaseGroup<E>> extends BrainzBaseEntity<E> 
 implements BaseReleaseGroupEntity<E>, 

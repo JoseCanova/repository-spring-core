@@ -8,33 +8,42 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseTrackEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
-@Table(name="track")
+@Table(name="track",
+uniqueConstraints = {@UniqueConstraint(name="uk_track_id",columnNames = {"track_id"})})
 public class Track<K extends Track<K>> 
 extends BrainzBaseEntity<K>
 implements BaseTrackEntity<K>{
 
 	private static final long serialVersionUID = 8642862162010029043L;
 
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="track_id")
 	private Long trackId;
 	
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
 	private Medium<?> medium; 
 	
-	@OneToOne
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_position_join", 
 			  joinColumns = @JoinColumn(name = "track_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
 	private TrackPosition<?> position;
 	
-	@NotNull
+	
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_number_join", 
@@ -42,11 +51,11 @@ implements BaseTrackEntity<K>{
 			  inverseJoinColumns = @JoinColumn(name = "number_id",referencedColumnName = "id"))
 	private TrackNumber number; 
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
 	private ArtistCredit<?> artistCredit; 
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_length_join", 
@@ -54,7 +63,7 @@ implements BaseTrackEntity<K>{
 			  inverseJoinColumns = @JoinColumn(name = "length_id",referencedColumnName = "id"))
 	private TrackLength length;
 	
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(fetch=FetchType.LAZY , optional = false)
 	@JoinColumn(name="recordingId" , referencedColumnName="id")
 	private Recording<?> recording;

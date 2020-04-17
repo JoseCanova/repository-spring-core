@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -25,9 +26,10 @@ import org.nanotek.entities.MutableInstrumentTypeEntity;
 
 @Entity
 @Table(name="instrument", 
-uniqueConstraints= {
-@UniqueConstraint(name="uk_instrument_id",columnNames={"instrument_id"})
-})
+indexes= {
+@Index(name="uk_instrument_id",columnList="instrument_id")
+},
+uniqueConstraints = {@UniqueConstraint(name="uk_instrument_id",columnNames = {"instrument_id"})})
 public class Instrument
 <E extends Instrument<E>> extends BrainzBaseEntity<E>  
 implements BaseInstrumentEntity,

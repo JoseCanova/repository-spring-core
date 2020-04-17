@@ -28,7 +28,7 @@ public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Seria
 	@NotNull(groups = {Default.class})
 	@Column(name="id",nullable=false,unique=true)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sequence_id_seq")
-	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq",allocationSize = 5, initialValue= 1)
+	@SequenceGenerator(name = "sequence_id_seq", sequenceName = "sequence_id_seq",allocationSize = 1, initialValue= 1)
 	protected ID id;
 
 	public SequenceLongBase() {
