@@ -30,9 +30,7 @@ implements PredicateBase<K,ID>{
 	
 	EntityTypeSupport<?, ID> entityTypeSupport;
 	
-	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	
-	Validator validator = factory.getValidator(); 
+	Validator validator; 
 	
 	public CsvOnResultPredicate() {}
 	
@@ -53,6 +51,7 @@ implements PredicateBase<K,ID>{
 		BrainzMetaModelUtil brainzMetaModelUtil = applicationContext.getBean(BrainzMetaModelUtil.class);
 		baseClassMetaModel = brainzMetaModelUtil.getMetaModel(clazz);
 		entityTypeSupport = (EntityTypeSupport<?, ID>) baseClassMetaModel.getEntityTypeSupport();
+		validator = applicationContext.getBean(Validator.class);
 	}
 
 	private ID filterProperties(K immutable) {

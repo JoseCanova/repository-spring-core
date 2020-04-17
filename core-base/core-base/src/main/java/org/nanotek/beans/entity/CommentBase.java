@@ -18,7 +18,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	
-	@NotBlank(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;
 

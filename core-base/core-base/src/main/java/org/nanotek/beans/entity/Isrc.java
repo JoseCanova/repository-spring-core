@@ -22,7 +22,7 @@ import org.nanotek.entities.MutableRecordingEntity;
 @Entity
 @Table(name="isrc",
 indexes = {
-		@Index(name="uk_isrc_id" , columnList= "isrc_id")
+		@Index(name="idx_isrc_id" , columnList= "isrc_id")
 },
 uniqueConstraints = 
 {@UniqueConstraint(name="uk_isrc_id",columnNames = {"isrc_id"})})

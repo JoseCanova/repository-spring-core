@@ -39,7 +39,7 @@ create table instrument_description_join (description_id int8, instrument_id int
 create table InstrumentComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id));
 create table isrc (id int8 not null, isrc CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$') not null, isrc_id int8, source int4, primary key (id));
 create table isrc_recording_join (recording_id int8 not null, isrc_id int8 not null, primary key (isrc_id));
-create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, labelId int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id));
+create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, label_id int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id));
 create table label_type_join (label_type_id int8 not null, label_id int8 not null, primary key (label_id));
 create table language (id int8 not null, frequency int8, isoCode1 varchar(2), isoCode2B varchar(3), isoCode2T varchar(3), isoCode3 varchar(3), language_id int8, primary key (id));
 create table locale_base (table_id VARCHAR NOT NULL not null, id int8 not null, locale VARCHAR NOT NULL, primary key (id));
@@ -48,11 +48,11 @@ create table long_number_base (table_id VARCHAR NOT NULL not null, id int8 not n
 create table long_position_base (class_id VARCHAR NOT NULL not null, id int8 not null, position int8 not null, primary key (id));
 create table Medium (id int8 not null, medium_id int8, name VARCHAR NOT NULL not null, medium_format_id int8, release_id int8 not null, primary key (id));
 create table medium_count_join (count_id int8 not null, medium_id int8 not null, primary key (medium_id));
-create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, mediumFormatId int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id));
+create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, medium_format_id int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id));
 create table medium_position_join (position_id int8, medium_id int8 not null, primary key (medium_id));
 create table ralias_sortname_join (sort_name_id int8 not null, ralias_id int8 not null, primary key (ralias_id));
 create table recording (id int8 not null, gid UUID NOT NULL not null, recording_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8 not null, recordingLength_id int8, primary key (id));
-create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale varchar(1000), recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id));
+create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale VARCHAR NOT NULL, recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id));
 create table recording_lengthy_base (table_id VARCHAR NOT NULL not null, id int8 not null, length int8 not null, primary key (id));
 create table release (id int8 not null, gid VARCHAR(50) NOT NULL not null, release_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8, primary key (id));
 create table release_alias (id int8 not null, name VARCHAR NOT NULL not null, relase_alias_id int8 not null, release_id int8 not null, type_id int8 not null, primary key (id));
@@ -80,48 +80,67 @@ create table string_number_base (table_id VARCHAR NOT NULL not null, id int8 not
 create table track (id int8 not null, track_id int8, artistCredit_id int8 not null, medium_id int8 not null, recordingId int8 not null, primary key (id));
 create table track_length_join (length_id int8 not null, track_id int8 not null, primary key (track_id));
 create table track_number_join (number_id int8 not null, track_id int8 not null, primary key (track_id));
-create table track_position_join (position_id int8, track_id int8 not null, primary key (track_id));
+create table track_position_join (position_id int8 not null, track_id int8 not null, primary key (track_id));
 create table TrackLength (id int8 not null, length int8 not null, track_id int8 not null, primary key (id));
 create table work (id int8 not null, gid UUID NOT NULL not null, work_id int8 not null, name VARCHAR NOT NULL not null, workType_id int8 not null, primary key (id));
 create table work_comment_join (comment_id int8, work_id int8 not null, primary key (work_id));
 create table WorkComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id));
+create index idx_area_id on area (area_id);
 alter table area add constraint uk_area_id unique (area_id);
-alter table artist add constraint uk_artist_id unique (artist_id);
-alter table artist_alias add constraint uk_artist_alias_id unique (artist_alias_id);
+create index idex_artist_id on artist (artist_id);
+create index idx_artist_alias_id on artist_alias (artist_alias_id);
 alter table artist_alias_sortname_join add constraint UK_pj758kjmvfi4w6iylmqqyf87y unique (sort_name_id);
-alter table artist_credit add constraint uk_artist_credit_id unique (artist_credit_id);
+create index idx_artist_credit_id on artist_credit (artist_credit_id);
 alter table artist_credit_count_join add constraint UK_b1e6iatyc0a9ebcsnt02cmy6v unique (artist_count_id);
 alter table artist_ref_count_join add constraint UK_cjp45m8pm8reo0nj52n626alp unique (artist_refcount_id);
 alter table artist_sortname_join add constraint UK_tcbnii28trkvjw0for5lvukji unique (sort_name_id);
 create index bar_code_idx on bar_code_base (bar_code);
 create index base_type_id_idx on base_type (type_id);
+alter table base_type add constraint uk_type_id unique (type_id);
 create index begin_date_year_idx on begin_dates (year);
 create index description_table_idx on description_base (description);
 create index end_date_year_idx on end_dates (end_year);
+create index idx_instrument_id on instrument (instrument_id);
 alter table instrument add constraint uk_instrument_id unique (instrument_id);
+create index idx_isrc_id on isrc (isrc_id);
 alter table isrc add constraint uk_isrc_id unique (isrc_id);
 alter table isrc_recording_join add constraint UK_rr6dneohf8ps5yem9id46erf2 unique (recording_id);
+alter table label add constraint uk_label_id unique (label_id);
+create index index_language_id on language (language_id);
 alter table language add constraint uk_language_id unique (language_id);
 create index locale_table_idx on locale_base (locale);
 create index long_count_field_idx on long_count_base (count);
 create index long_position_position_idx on long_position_base (position);
+create index idx_medium_id on Medium (medium_id);
 alter table Medium add constraint uk_medium_id unique (medium_id);
 alter table medium_count_join add constraint UK_t1dpi5c3lb4chf72qb1x0ql3e unique (count_id);
+alter table medium_format add constraint uk_medium_format_id unique (medium_format_id);
 alter table ralias_sortname_join add constraint UK_tanxi0a8ud0dsd29ibeg741i unique (sort_name_id);
+create index idx_recording_id on recording (recording_id);
 alter table recording add constraint uk_recording_id unique (recording_id);
+create index idx_recording_alias_id on recording_alias (recording_alias_id);
 alter table recording_alias add constraint uk_recording_alias_id unique (recording_alias_id);
 create index long_length_table_idx on recording_lengthy_base (length);
+create index idx_release_id on release (release_id);
 alter table release add constraint uk_release_id unique (release_id);
+alter table release_alias add constraint uk_release_alias_id unique (relase_alias_id);
+create index idx_release_group_id on release_group (release_group_id);
 alter table release_group add constraint uk_release_group_id unique (release_group_id);
+create index idx_release_label_id on release_label (release_label_id);
 alter table release_label add constraint uk_release_label_id unique (release_label_id);
 create index release_l_catalog_number_idx on release_label_catalog (catalog_number);
-alter table release_packaging add constraint uk_release_pack_id unique (release_packaging_id);
+create index idx_release_pack_id on release_packaging (release_packaging_id);
+alter table release_packaging add constraint uk_release_packaging_id unique (release_packaging_id);
+create index idx_release_status_id on release_status (release_status_id);
 alter table release_status add constraint uk_release_status_id unique (release_status_id);
 create index sort_name_idx on sort_name_base (sort_name);
 create index string_number_number_idx on string_number_base (number);
+alter table track add constraint uk_track_id unique (track_id);
 alter table track_length_join add constraint UK_scyko933yrk07ctctpybraddq unique (length_id);
 alter table track_number_join add constraint UK_fnkrp16hmvam21nqghfptddt5 unique (number_id);
+alter table track_position_join add constraint UK_4jd53j54t2w20sys1m8iqygvt unique (position_id);
 alter table TrackLength add constraint UK_absbl72sc7dx3ole44pjeg7ny unique (track_id);
+create index idx_work_id on work (work_id);
 alter table work add constraint uk_work_id unique (work_id);
 alter table area add constraint FKkh7fglo0ew1ivq3g17l0v3xb9 foreign key (areaType_id) references base_type;
 alter table area_begin_date_join add constraint FK6ejxgqiu1outyxf4qd2xqjfmj foreign key (date_id) references begin_dates;
@@ -280,7 +299,7 @@ create table instrument_description_join (description_id int8, instrument_id int
 create table InstrumentComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id))
 create table isrc (id int8 not null, isrc CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$') not null, isrc_id int8, source int4, primary key (id))
 create table isrc_recording_join (recording_id int8 not null, isrc_id int8 not null, primary key (isrc_id))
-create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, labelId int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id))
+create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, label_id int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id))
 create table label_type_join (label_type_id int8 not null, label_id int8 not null, primary key (label_id))
 create table language (id int8 not null, frequency int8, isoCode1 varchar(2), isoCode2B varchar(3), isoCode2T varchar(3), isoCode3 varchar(3), language_id int8, primary key (id))
 create table locale_base (table_id VARCHAR NOT NULL not null, id int8 not null, locale VARCHAR NOT NULL, primary key (id))
@@ -289,11 +308,11 @@ create table long_number_base (table_id VARCHAR NOT NULL not null, id int8 not n
 create table long_position_base (class_id VARCHAR NOT NULL not null, id int8 not null, position int8 not null, primary key (id))
 create table Medium (id int8 not null, medium_id int8, name VARCHAR NOT NULL not null, medium_format_id int8, release_id int8 not null, primary key (id))
 create table medium_count_join (count_id int8 not null, medium_id int8 not null, primary key (medium_id))
-create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, mediumFormatId int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id))
+create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, medium_format_id int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id))
 create table medium_position_join (position_id int8, medium_id int8 not null, primary key (medium_id))
 create table ralias_sortname_join (sort_name_id int8 not null, ralias_id int8 not null, primary key (ralias_id))
 create table recording (id int8 not null, gid UUID NOT NULL not null, recording_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8 not null, recordingLength_id int8, primary key (id))
-create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale varchar(1000), recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id))
+create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale VARCHAR NOT NULL, recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id))
 create table recording_lengthy_base (table_id VARCHAR NOT NULL not null, id int8 not null, length int8 not null, primary key (id))
 create table release (id int8 not null, gid VARCHAR(50) NOT NULL not null, release_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8, primary key (id))
 create table release_alias (id int8 not null, name VARCHAR NOT NULL not null, relase_alias_id int8 not null, release_id int8 not null, type_id int8 not null, primary key (id))
@@ -321,12 +340,13 @@ create table string_number_base (table_id VARCHAR NOT NULL not null, id int8 not
 create table track (id int8 not null, track_id int8, artistCredit_id int8 not null, medium_id int8 not null, recordingId int8 not null, primary key (id))
 create table track_length_join (length_id int8 not null, track_id int8 not null, primary key (track_id))
 create table track_number_join (number_id int8 not null, track_id int8 not null, primary key (track_id))
-create table track_position_join (position_id int8, track_id int8 not null, primary key (track_id))
+create table track_position_join (position_id int8 not null, track_id int8 not null, primary key (track_id))
 create table TrackLength (id int8 not null, length int8 not null, track_id int8 not null, primary key (id))
 create table work (id int8 not null, gid UUID NOT NULL not null, work_id int8 not null, name VARCHAR NOT NULL not null, workType_id int8 not null, primary key (id))
 create table work_comment_join (comment_id int8, work_id int8 not null, primary key (work_id))
 create table WorkComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id))
 create index idx_area_id on area (area_id)
+alter table area add constraint uk_area_id unique (area_id)
 create index idex_artist_id on artist (artist_id)
 create index idx_artist_alias_id on artist_alias (artist_alias_id)
 alter table artist_alias_sortname_join add constraint UK_pj758kjmvfi4w6iylmqqyf87y unique (sort_name_id)
@@ -336,34 +356,52 @@ alter table artist_ref_count_join add constraint UK_cjp45m8pm8reo0nj52n626alp un
 alter table artist_sortname_join add constraint UK_tcbnii28trkvjw0for5lvukji unique (sort_name_id)
 create index bar_code_idx on bar_code_base (bar_code)
 create index base_type_id_idx on base_type (type_id)
+alter table base_type add constraint uk_type_id unique (type_id)
 create index begin_date_year_idx on begin_dates (year)
 create index description_table_idx on description_base (description)
 create index end_date_year_idx on end_dates (end_year)
-create index uk_instrument_id on instrument (instrument_id)
-create index uk_isrc_id on isrc (isrc_id)
+create index idx_instrument_id on instrument (instrument_id)
+alter table instrument add constraint uk_instrument_id unique (instrument_id)
+create index idx_isrc_id on isrc (isrc_id)
+alter table isrc add constraint uk_isrc_id unique (isrc_id)
 alter table isrc_recording_join add constraint UK_rr6dneohf8ps5yem9id46erf2 unique (recording_id)
+alter table label add constraint uk_label_id unique (label_id)
 create index index_language_id on language (language_id)
+alter table language add constraint uk_language_id unique (language_id)
 create index locale_table_idx on locale_base (locale)
 create index long_count_field_idx on long_count_base (count)
 create index long_position_position_idx on long_position_base (position)
 create index idx_medium_id on Medium (medium_id)
+alter table Medium add constraint uk_medium_id unique (medium_id)
 alter table medium_count_join add constraint UK_t1dpi5c3lb4chf72qb1x0ql3e unique (count_id)
+alter table medium_format add constraint uk_medium_format_id unique (medium_format_id)
 alter table ralias_sortname_join add constraint UK_tanxi0a8ud0dsd29ibeg741i unique (sort_name_id)
 create index idx_recording_id on recording (recording_id)
+alter table recording add constraint uk_recording_id unique (recording_id)
 create index idx_recording_alias_id on recording_alias (recording_alias_id)
+alter table recording_alias add constraint uk_recording_alias_id unique (recording_alias_id)
 create index long_length_table_idx on recording_lengthy_base (length)
 create index idx_release_id on release (release_id)
+alter table release add constraint uk_release_id unique (release_id)
+alter table release_alias add constraint uk_release_alias_id unique (relase_alias_id)
 create index idx_release_group_id on release_group (release_group_id)
+alter table release_group add constraint uk_release_group_id unique (release_group_id)
 create index idx_release_label_id on release_label (release_label_id)
+alter table release_label add constraint uk_release_label_id unique (release_label_id)
 create index release_l_catalog_number_idx on release_label_catalog (catalog_number)
 create index idx_release_pack_id on release_packaging (release_packaging_id)
+alter table release_packaging add constraint uk_release_packaging_id unique (release_packaging_id)
 create index idx_release_status_id on release_status (release_status_id)
+alter table release_status add constraint uk_release_status_id unique (release_status_id)
 create index sort_name_idx on sort_name_base (sort_name)
 create index string_number_number_idx on string_number_base (number)
+alter table track add constraint uk_track_id unique (track_id)
 alter table track_length_join add constraint UK_scyko933yrk07ctctpybraddq unique (length_id)
 alter table track_number_join add constraint UK_fnkrp16hmvam21nqghfptddt5 unique (number_id)
+alter table track_position_join add constraint UK_4jd53j54t2w20sys1m8iqygvt unique (position_id)
 alter table TrackLength add constraint UK_absbl72sc7dx3ole44pjeg7ny unique (track_id)
 create index idx_work_id on work (work_id)
+alter table work add constraint uk_work_id unique (work_id)
 alter table area add constraint FKkh7fglo0ew1ivq3g17l0v3xb9 foreign key (areaType_id) references base_type
 alter table area_begin_date_join add constraint FK6ejxgqiu1outyxf4qd2xqjfmj foreign key (date_id) references begin_dates
 alter table area_begin_date_join add constraint FKhxwhfi68h7pm6nw99q60kulwx foreign key (area_id) references area
@@ -521,7 +559,7 @@ create table instrument_description_join (description_id int8, instrument_id int
 create table InstrumentComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id))
 create table isrc (id int8 not null, isrc CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$') not null, isrc_id int8, source int4, primary key (id))
 create table isrc_recording_join (recording_id int8 not null, isrc_id int8 not null, primary key (isrc_id))
-create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, labelId int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id))
+create table label (id int8 not null, gid UUID NOT NULL not null, labelCode int4, label_id int8, name VARCHAR NOT NULL not null, area_id int8, label_begin_date_id int8, label_end_date_id int8, primary key (id))
 create table label_type_join (label_type_id int8 not null, label_id int8 not null, primary key (label_id))
 create table language (id int8 not null, frequency int8, isoCode1 varchar(2), isoCode2B varchar(3), isoCode2T varchar(3), isoCode3 varchar(3), language_id int8, primary key (id))
 create table locale_base (table_id VARCHAR NOT NULL not null, id int8 not null, locale VARCHAR NOT NULL, primary key (id))
@@ -530,11 +568,11 @@ create table long_number_base (table_id VARCHAR NOT NULL not null, id int8 not n
 create table long_position_base (class_id VARCHAR NOT NULL not null, id int8 not null, position int8 not null, primary key (id))
 create table Medium (id int8 not null, medium_id int8, name VARCHAR NOT NULL not null, medium_format_id int8, release_id int8 not null, primary key (id))
 create table medium_count_join (count_id int8 not null, medium_id int8 not null, primary key (medium_id))
-create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, mediumFormatId int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id))
+create table medium_format (id int8 not null, description varchar(4000), gid uuid not null, hasDiscId varchar(6) not null, medium_format_id int8 not null, name VARCHAR NOT NULL not null, parent int8, year int4, primary key (id))
 create table medium_position_join (position_id int8, medium_id int8 not null, primary key (medium_id))
 create table ralias_sortname_join (sort_name_id int8 not null, ralias_id int8 not null, primary key (ralias_id))
 create table recording (id int8 not null, gid UUID NOT NULL not null, recording_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8 not null, recordingLength_id int8, primary key (id))
-create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale varchar(1000), recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id))
+create table recording_alias (id int8 not null, begin_date_day int4, begin_date_month int4, begin_date_year int4, end_date_day int4, end_date_month int4, end_date_year int4, locale VARCHAR NOT NULL, recording_alias_id int8 not null, name VARCHAR NOT NULL not null, recording_id int8 not null, recording_type_id int8 not null, primary key (id))
 create table recording_lengthy_base (table_id VARCHAR NOT NULL not null, id int8 not null, length int8 not null, primary key (id))
 create table release (id int8 not null, gid VARCHAR(50) NOT NULL not null, release_id int8 not null, name VARCHAR NOT NULL not null, artist_credit_id int8, primary key (id))
 create table release_alias (id int8 not null, name VARCHAR NOT NULL not null, relase_alias_id int8 not null, release_id int8 not null, type_id int8 not null, primary key (id))
@@ -562,12 +600,13 @@ create table string_number_base (table_id VARCHAR NOT NULL not null, id int8 not
 create table track (id int8 not null, track_id int8, artistCredit_id int8 not null, medium_id int8 not null, recordingId int8 not null, primary key (id))
 create table track_length_join (length_id int8 not null, track_id int8 not null, primary key (track_id))
 create table track_number_join (number_id int8 not null, track_id int8 not null, primary key (track_id))
-create table track_position_join (position_id int8, track_id int8 not null, primary key (track_id))
+create table track_position_join (position_id int8 not null, track_id int8 not null, primary key (track_id))
 create table TrackLength (id int8 not null, length int8 not null, track_id int8 not null, primary key (id))
 create table work (id int8 not null, gid UUID NOT NULL not null, work_id int8 not null, name VARCHAR NOT NULL not null, workType_id int8 not null, primary key (id))
 create table work_comment_join (comment_id int8, work_id int8 not null, primary key (work_id))
 create table WorkComment (id int8 not null, comment VARCHAR NOT NULL not null, primary key (id))
 create index idx_area_id on area (area_id)
+alter table area add constraint uk_area_id unique (area_id)
 create index idex_artist_id on artist (artist_id)
 create index idx_artist_alias_id on artist_alias (artist_alias_id)
 alter table artist_alias_sortname_join add constraint UK_pj758kjmvfi4w6iylmqqyf87y unique (sort_name_id)
@@ -577,34 +616,52 @@ alter table artist_ref_count_join add constraint UK_cjp45m8pm8reo0nj52n626alp un
 alter table artist_sortname_join add constraint UK_tcbnii28trkvjw0for5lvukji unique (sort_name_id)
 create index bar_code_idx on bar_code_base (bar_code)
 create index base_type_id_idx on base_type (type_id)
+alter table base_type add constraint uk_type_id unique (type_id)
 create index begin_date_year_idx on begin_dates (year)
 create index description_table_idx on description_base (description)
 create index end_date_year_idx on end_dates (end_year)
-create index uk_instrument_id on instrument (instrument_id)
-create index uk_isrc_id on isrc (isrc_id)
+create index idx_instrument_id on instrument (instrument_id)
+alter table instrument add constraint uk_instrument_id unique (instrument_id)
+create index idx_isrc_id on isrc (isrc_id)
+alter table isrc add constraint uk_isrc_id unique (isrc_id)
 alter table isrc_recording_join add constraint UK_rr6dneohf8ps5yem9id46erf2 unique (recording_id)
+alter table label add constraint uk_label_id unique (label_id)
 create index index_language_id on language (language_id)
+alter table language add constraint uk_language_id unique (language_id)
 create index locale_table_idx on locale_base (locale)
 create index long_count_field_idx on long_count_base (count)
 create index long_position_position_idx on long_position_base (position)
 create index idx_medium_id on Medium (medium_id)
+alter table Medium add constraint uk_medium_id unique (medium_id)
 alter table medium_count_join add constraint UK_t1dpi5c3lb4chf72qb1x0ql3e unique (count_id)
+alter table medium_format add constraint uk_medium_format_id unique (medium_format_id)
 alter table ralias_sortname_join add constraint UK_tanxi0a8ud0dsd29ibeg741i unique (sort_name_id)
 create index idx_recording_id on recording (recording_id)
+alter table recording add constraint uk_recording_id unique (recording_id)
 create index idx_recording_alias_id on recording_alias (recording_alias_id)
+alter table recording_alias add constraint uk_recording_alias_id unique (recording_alias_id)
 create index long_length_table_idx on recording_lengthy_base (length)
 create index idx_release_id on release (release_id)
+alter table release add constraint uk_release_id unique (release_id)
+alter table release_alias add constraint uk_release_alias_id unique (relase_alias_id)
 create index idx_release_group_id on release_group (release_group_id)
+alter table release_group add constraint uk_release_group_id unique (release_group_id)
 create index idx_release_label_id on release_label (release_label_id)
+alter table release_label add constraint uk_release_label_id unique (release_label_id)
 create index release_l_catalog_number_idx on release_label_catalog (catalog_number)
 create index idx_release_pack_id on release_packaging (release_packaging_id)
+alter table release_packaging add constraint uk_release_packaging_id unique (release_packaging_id)
 create index idx_release_status_id on release_status (release_status_id)
+alter table release_status add constraint uk_release_status_id unique (release_status_id)
 create index sort_name_idx on sort_name_base (sort_name)
 create index string_number_number_idx on string_number_base (number)
+alter table track add constraint uk_track_id unique (track_id)
 alter table track_length_join add constraint UK_scyko933yrk07ctctpybraddq unique (length_id)
 alter table track_number_join add constraint UK_fnkrp16hmvam21nqghfptddt5 unique (number_id)
+alter table track_position_join add constraint UK_4jd53j54t2w20sys1m8iqygvt unique (position_id)
 alter table TrackLength add constraint UK_absbl72sc7dx3ole44pjeg7ny unique (track_id)
 create index idx_work_id on work (work_id)
+alter table work add constraint uk_work_id unique (work_id)
 alter table area add constraint FKkh7fglo0ew1ivq3g17l0v3xb9 foreign key (areaType_id) references base_type
 alter table area_begin_date_join add constraint FK6ejxgqiu1outyxf4qd2xqjfmj foreign key (date_id) references begin_dates
 alter table area_begin_date_join add constraint FKhxwhfi68h7pm6nw99q60kulwx foreign key (area_id) references area

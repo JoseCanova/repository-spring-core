@@ -28,15 +28,15 @@ extends BrainzBaseEntity<K>
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginYear;
 	
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginMonth;
 	
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginDay;
 

@@ -1,6 +1,7 @@
 package org.nanotek.service.jpa.csv;
 
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.metamodel.Attribute;
@@ -25,9 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,8 +114,13 @@ public class MusicBrainzCsvService
 	}
 
 	private B save(B b) {
-		logger.debug(b.toString());
-		return validator.validate(b, new Class[] {PrePersistValidationGroup.class}).size() == 0  ? brainzPeristenceService.save(b) : b;
+		Set<?> validationConstraints = validator.validate(b, new Class[] {PrePersistValidationGroup.class});
+		if(validationConstraints.size()>0) {
+			validationConstraints.stream().forEach(v->logger.debug(v.toString()));
+		}else { 
+			brainzPeristenceService.save(b);
+		}
+		return b;
 	}
 
 	public boolean notFoundByBrainzId(Class<B> clazz , BaseEntity<?, ?> id) { 
@@ -152,7 +155,7 @@ public class MusicBrainzCsvService
 
 	private boolean valid(Attribute<?, ?> a, ForwardMapBean<B> dm) {
 		Optional<?> optAttributeValue = dm.read(a.getName());
-		return optAttributeValue.map(value->validator.validate(value, new Class[] {CsvValidationGroup.class}).size() == 0).orElse(false);
+		return optAttributeValue.map(value->validator.validate(value, new Class[] {PrePersistValidationGroup.class}).size() == 0).orElse(false);
 	}
 
 	private Optional<?> findByBrainzId(Object brainzType , String typeName) {
