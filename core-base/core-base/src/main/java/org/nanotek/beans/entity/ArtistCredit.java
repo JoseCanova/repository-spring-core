@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,7 +18,6 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -29,14 +29,13 @@ import org.nanotek.entities.MutableArtistCreditIdEntity;
 import org.nanotek.entities.MutableArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditRefCountEntity;
 import org.nanotek.entities.MutableArtistListEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
-@Table(name="artist_credit", uniqueConstraints= {
-		@UniqueConstraint(name="uk_artist_credit_id",columnNames={"artist_credit_id"})
+@Table(name="artist_credit", indexes= {
+		@Index(name="idx_artist_credit_id",columnList="artist_credit_id")
 		})
 @NamedQueries(value = { 
 		@NamedQuery(name = "FindArtistCreditById", query ="Select a from ArtistCredit a where a.id = :id"),

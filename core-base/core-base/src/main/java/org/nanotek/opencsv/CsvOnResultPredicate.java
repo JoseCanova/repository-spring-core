@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.metamodel.Attribute;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
@@ -26,6 +29,10 @@ implements PredicateBase<K,ID>{
 	BrainzEntityMetaModel<?,?> baseClassMetaModel; 
 	
 	EntityTypeSupport<?, ID> entityTypeSupport;
+	
+	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	
+	Validator validator = factory.getValidator(); 
 	
 	public CsvOnResultPredicate() {}
 	
@@ -69,7 +76,10 @@ implements PredicateBase<K,ID>{
 
 	private void writeValue(Field f  , BaseBean<?,?> b , ID i) {
 		try { 
-				f.set(i, b.getId());
+			    if (validator.validate(b.getId(), new Class[] {CsvValidationGroup.class}).size() == 0)
+			    	f.set(i, b.getId());
+			    else 
+			    	f.set(i, null);
 		}catch(Exception ex) { 
 			ex.printStackTrace();
 			throw new BaseException(ex);

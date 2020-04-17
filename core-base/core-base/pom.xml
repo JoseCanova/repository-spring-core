@@ -209,7 +209,7 @@
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-hikaricp</artifactId>
-		    <version>5.4.14.Final</version>
+			<version>5.4.14.Final</version>
 		</dependency>
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-cache</artifactId> 
 			<version>2.1.1.RELEASE</version> </dependency> <dependency> <groupId>org.hibernate</groupId> 
@@ -228,10 +228,12 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>6.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>6.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -296,7 +298,7 @@
 		<dependency>
 		    <groupId>net.bytebuddy</groupId>
 		    <artifactId>byte-buddy</artifactId>
-		    <version>1.10.9</version>
+		   <!--  <version>1.10.9</version> -->
 		</dependency>
 	</dependencies>
 

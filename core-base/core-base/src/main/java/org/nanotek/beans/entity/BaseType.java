@@ -18,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableBaseTypeDescriptionEntity;
 import org.nanotek.entities.MutableChildOrderEntity;
@@ -46,7 +47,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="type_id" , nullable = false)
 	public Long typeId;
 	

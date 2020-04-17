@@ -5,12 +5,12 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -32,8 +32,8 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="release",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_id",columnNames={"release_id"})
+indexes= {
+@Index(name="idx_release_id",columnList="release_id")
 })
 public class Release
 <K extends Release<K>>

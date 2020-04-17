@@ -66,5 +66,10 @@ implements Base<SB> , Id<Integer> , MutableValueEntity <String> {
 	public static ValueBase<?> of(Integer id, String value){ 
 		return ValueBase.class.asSubclass(ValueBase.class).cast(new ValueBase<>(id,value));
 	}
+
+	@Override
+	public String toString() {
+		return "ValueBase [id=" + id + ", value=" + value + "]";
+	}
 	
 }

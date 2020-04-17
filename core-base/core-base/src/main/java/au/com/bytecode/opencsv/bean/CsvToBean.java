@@ -22,7 +22,7 @@ public class CsvToBean<T> {
     }
 
 
-    public T processLine(MappingStrategy<T> mapper, List<ValueBase<?>> result) {
+    public synchronized T processLine(MappingStrategy<T> mapper, List<ValueBase<?>> result) {
         T bean = mapper.createBean();
         result.stream().forEach(sb -> {
         	try { 

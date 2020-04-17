@@ -8,7 +8,7 @@ import javax.validation.groups.Default;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCommentBaseEntity;
 import org.nanotek.entities.MutableCommentEntity;
-import org.nanotek.opencsv.CsvImportValidation;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @MappedSuperclass
 public class CommentBase<K extends CommentBase<K>> 
@@ -18,7 +18,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	
-	@NotBlank(groups = {Default.class,CsvImportValidation.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;
 

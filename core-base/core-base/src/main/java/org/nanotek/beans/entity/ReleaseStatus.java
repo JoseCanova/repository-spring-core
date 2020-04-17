@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -20,8 +20,8 @@ import org.nanotek.entities.MutableReleaseStatusNameEntity;
 
 @Entity
 @Table(name="release_status",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_status_id",columnNames={"release_status_id"})
+indexes= {
+@Index(name="idx_release_status_id",columnList="release_status_id")
 })
 public class ReleaseStatus
 <K extends ReleaseStatus<K>> extends 

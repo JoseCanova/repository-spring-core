@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableTypeNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
@@ -20,11 +21,11 @@ MutableGidEntity<UUID>,MutableTypeNameEntity<String>{
 	private static final long serialVersionUID = -5235727515178240574L;
 
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String typeName;
 

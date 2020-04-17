@@ -131,12 +131,12 @@
 			<!-- <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property> -->
 			<!-- <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property> -->
 			
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5434/musicbrainz"/> 
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/musicbrainz"/> 
 			<property name="javax.persistence.jdbc.user" value="postgres" /> 
 			<property  name="javax.persistence.jdbc.password" value="postgres123@" /> 
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<property name="hibernate.hikari.minimumIdle" value="5" />
-      		<property name="hibernate.hikari.maximumPoolSize" value="1500" />
+      		<property name="hibernate.hikari.maximumPoolSize" value="200" />
       		<property name="hibernate.hikari.idleTimeout" value="2" />
       		<property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
 			<property name="hibernate.connection.release_mode" value="after_transaction" />

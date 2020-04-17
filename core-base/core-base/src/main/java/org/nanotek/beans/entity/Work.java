@@ -6,12 +6,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
@@ -26,8 +26,8 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="work" , 
-uniqueConstraints= {
-		@UniqueConstraint(name="uk_work_id",columnNames={"work_id"})
+indexes= {
+		@Index(name="idx_work_id",columnList="work_id")
 		})
 public class Work<K extends Work<K>> extends  BrainzBaseEntity<K> 
 implements BaseWorkEntity<K>,

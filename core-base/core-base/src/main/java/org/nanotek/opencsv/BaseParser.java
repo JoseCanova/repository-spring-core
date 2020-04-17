@@ -70,6 +70,7 @@ extends CSVParser implements InitializingBean
 		String[] sArry = csvParser.parseLine(line);
 		for (pos = 0 ; pos < sArry.length ; pos++) {
 			ValueBase<?> base =    ValueBase.of(pos,sArry[pos]);
+			log.debug(base.toString());
 			al.add(base);
 		} 
 		}catch(Exception ex) { 

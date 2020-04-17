@@ -2,11 +2,11 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -20,8 +20,8 @@ import org.nanotek.entities.MutableRecordingEntity;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="isrc",
-uniqueConstraints = {
-		@UniqueConstraint(name="uk_isrc_id" , columnNames= {"isrc_id"})
+indexes = {
+		@Index(name="uk_isrc_id" , columnList= "isrc_id")
 })
 public class Isrc<K extends Isrc<K>> extends BrainzBaseEntity<K>
 implements 

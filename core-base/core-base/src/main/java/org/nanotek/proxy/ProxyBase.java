@@ -47,9 +47,8 @@ implements BaseBean<K,ID>
 		try {
 			semaphore.acquire();
 			if(childInterfaceMap.get(this.baseClass)!=null) {
-				isConfigured.set(true);
+				setConfigured(true);
 			}
-			semaphore.release();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -58,19 +57,24 @@ implements BaseBean<K,ID>
 	
 	public void setConfigured(boolean b) {
 		isConfigured.set(b);
-		semaphore.release();
 	}
 	
 	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
 
 	public ProxyBase(Class<? extends ID> class1) {
+		super();
 		baseClass = class1;
-		id =  class1.cast(ProxyBase.prepareBeanInstance(class1.asSubclass(IdBase.class)));
 		configureBaseBean();
-		prepareMap();
+		postConstruct();
 	}
 	
+	
+	private void postConstruct() {
+		id =  baseClass.cast(ProxyBase.prepareBeanInstance(baseClass.asSubclass(IdBase.class)));
+		prepareMap();	
+	}
+
 	private void prepareMap() {
 		mountInstanceMap();		
 	}
@@ -82,15 +86,10 @@ implements BaseBean<K,ID>
 
 	private void configureBaseBean() {
 		if(!isConfigured()) {
-			try {
-				semaphore.acquire();
 				System.out.println("configuring");
 				registryDynaBean();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				throw new BaseException(e);
-			}
 		}
+		semaphore.release();
 	}
 	
 	@Override
@@ -154,10 +153,10 @@ implements BaseBean<K,ID>
 				switch(mtype) {
 				case WRITE:
 					if(f.getName().equals(atributeName)){
-						mh = lookup.findSetter(classId.asSubclass(BaseEntity.class), f.getName(), f.getType());
+						mh = lookup.findSetter(classId, f.getName(), f.getType());
 						found = true;
 					}else if(Arrays.asList(classId.getDeclaredClasses()).contains(clazz)){
-						mh = lookup.findVirtual(classId.asSubclass(BaseEntity.class), method.getName(), mt);//my guess this is wrong.
+						mh = lookup.findVirtual(classId, method.getName(), mt);//my guess this is wrong.
 						found = true;
 					}
 					break;
@@ -173,8 +172,7 @@ implements BaseBean<K,ID>
 					break;
 				default:
 					mh = lookup.findVirtual(clazz, method.getName(), mt);
-					if (classId.getClass().equals(getId().getClass()) && mh !=null) {
-						mh.bindTo(getId());
+					if (classId.getClass().equals(getBaseClass()) && mh !=null) {
 						found = true;
 					}
 					break;

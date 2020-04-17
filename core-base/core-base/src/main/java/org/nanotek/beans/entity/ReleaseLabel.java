@@ -6,13 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
@@ -26,8 +26,8 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="release_label",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_label_id",columnNames={"release_label_id"})
+indexes= {
+@Index(name="idx_release_label_id",columnList="release_label_id")
 })
 public class ReleaseLabel<K extends ReleaseLabel<K>> 
 extends  BrainzBaseEntity<K>

@@ -38,7 +38,7 @@ M extends BaseBean<?,?>,
 R extends CsvResult<?,?>> 
 implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAware{
 
-	private static Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
+	private Logger log = LoggerFactory.getLogger(CsvBaseProcessor.class);
 
 	private int INIT_VALUE=10;
 	
@@ -149,6 +149,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 			List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
 				BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
+				log.debug(base.getId().toString());
 //				result =  of(applicationContext.getBean(CsvResult.class),base);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base),applicationContext).toArray() , BaseBean.class,ApplicationContext.class);
 			}

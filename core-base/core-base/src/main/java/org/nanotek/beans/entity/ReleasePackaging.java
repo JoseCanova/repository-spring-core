@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,8 +21,8 @@ import org.nanotek.entities.MutableReleaseSetEntity;
 
 @Entity
 @Table(name="release_packaging",
-uniqueConstraints= {
-@UniqueConstraint(name="uk_release_pack_id",columnNames={"release_packaging_id"})
+indexes= {
+@Index(name="idx_release_pack_id",columnList="release_packaging_id")
 })
 public class ReleasePackaging
 <K extends ReleasePackaging<K>> extends BrainzBaseEntity<K> 

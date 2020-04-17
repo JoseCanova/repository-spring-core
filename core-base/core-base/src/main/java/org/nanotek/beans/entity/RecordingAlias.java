@@ -4,12 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
@@ -22,8 +22,8 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name = "recording_alias",
-uniqueConstraints = {
-		@UniqueConstraint(name="uk_recording_alias_id",columnNames={"recording_alias_id"})
+indexes = {
+		@Index(name="idx_recording_alias_id",columnList="recording_alias_id")
 })
 @DiscriminatorValue(value = "RecordingAlias")
 public class RecordingAlias<K extends RecordingAlias<K>> extends BrainzBaseEntity<K> 

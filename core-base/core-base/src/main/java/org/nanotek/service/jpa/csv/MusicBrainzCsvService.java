@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.metamodel.Attribute;
 import javax.validation.Validator;
-import javax.validation.groups.Default;
 
 import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
@@ -18,7 +17,7 @@ import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaBuilder;
-import org.nanotek.opencsv.CsvImportValidation;
+import org.nanotek.opencsv.CsvValidationGroup;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.BaseEntityRepository;
 import org.nanotek.service.jpa.BrainzPersistenceService;
@@ -31,15 +30,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier(value="MusicBrainzCsvService")
-@Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON  , proxyMode = ScopedProxyMode.NO)
 public class MusicBrainzCsvService 
 <B extends BrainzBaseEntity<B>,X extends BaseEntity<X,?>,S extends X> 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(MusicBrainzCsvService.class);
+	private final Logger logger = LoggerFactory.getLogger(MusicBrainzCsvService.class);
 
 	@Autowired
 	BrainzPersistenceService<B> brainzPeristenceService;
@@ -61,6 +60,7 @@ public class MusicBrainzCsvService
 	}
 
 
+	@Transactional
 	public void  verifyBrainzBaseEntity(BaseEntity<?, ?> id) {
 		try {
 			Class<B> clazz = castClass(id);
@@ -117,7 +117,7 @@ public class MusicBrainzCsvService
 
 	private B save(B b) {
 		logger.debug(b.toString());
-		return validator.validate(b, PrePersistValidationGroup.class).size() == 0  ? brainzPeristenceService.save(b) : b;
+		return validator.validate(b, new Class[] {PrePersistValidationGroup.class}).size() == 0  ? brainzPeristenceService.save(b) : b;
 	}
 
 	public boolean notFoundByBrainzId(Class<B> clazz , BaseEntity<?, ?> id) { 
@@ -152,7 +152,7 @@ public class MusicBrainzCsvService
 
 	private boolean valid(Attribute<?, ?> a, ForwardMapBean<B> dm) {
 		Optional<?> optAttributeValue = dm.read(a.getName());
-		return optAttributeValue.map(value->validator.validate(value, CsvImportValidation.class).size() == 0).orElse(false);
+		return optAttributeValue.map(value->validator.validate(value, new Class[] {CsvValidationGroup.class}).size() == 0).orElse(false);
 	}
 
 	private Optional<?> findByBrainzId(Object brainzType , String typeName) {

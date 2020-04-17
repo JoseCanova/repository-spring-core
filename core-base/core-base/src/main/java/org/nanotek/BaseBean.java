@@ -97,10 +97,10 @@ public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?
 	
 	@PostConstruct
 	default void registryDynaBean() { 
-		List<Class<?>> intf =  getAllInterfaces(getId().getClass());
+		List<Class<?>> intf =  getAllInterfaces(getBaseClass());
 		System.out.println("Original Size"+intf.size());
 		registryProperties(getBaseClass(),intf);
-		processAttributesProperties(getId().getClass());
+		processAttributesProperties(getBaseClass());
 	}
 	
 	void mountInstanceMap();

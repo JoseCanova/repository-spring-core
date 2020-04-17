@@ -6,12 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -30,8 +31,8 @@ import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="area" , 
-uniqueConstraints= {
-		@UniqueConstraint(name="uk_area_id",columnNames={"area_id"})
+indexes =  {
+			@Index(name="idx_area_id", columnList = "area_id")
 		})
 public class Area
 <K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
@@ -53,8 +54,9 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-		
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class,PrePersistValidationGroup.class})
+	
+	@Valid
+	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
 	
@@ -80,7 +82,7 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public AreaComment<?> areaComment;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String areaName;
 
