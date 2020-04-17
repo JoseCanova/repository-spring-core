@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
@@ -52,7 +53,6 @@ extends CSVParser implements InitializingBean
 	}
 
 	public  <T extends ValueBase<?>, S extends T> List<?>  readNext() {
-		
 		try { 	
 			return Optional.ofNullable(
 					reader.readLine())
@@ -62,16 +62,14 @@ extends CSVParser implements InitializingBean
 		}
 	}
 
-	private List<? super ValueBase<?>> mountList(String line) {
+	private List<? super ValueBase<?>> mountList(final String line) {
 		log.debug("line read\t" + line);
-		int pos = 0;
-		ArrayList<? super ValueBase<?>> al = new ArrayList<>();
+		final ArrayList<? super ValueBase<?>> al = new ArrayList<>();
 		try { 
-		String[] sArry = csvParser.parseLine(line);
-		for (pos = 0 ; pos < sArry.length ; pos++) {
-			ValueBase<?> base =    ValueBase.of(pos,sArry[pos]);
-			log.debug(base.toString());
-			al.add(base);
+			final String[] sArry = Optional
+					.ofNullable(csvParser.parseLine(line)).get();
+		for (int pos = 0 ; pos < sArry.length ; pos++) {
+			al.add(ValueBase.of(pos,sArry[pos]));
 		} 
 		}catch(Exception ex) { 
 			throw new BaseException(ex);

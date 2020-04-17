@@ -186,8 +186,8 @@ public class CSVParser {
      * @return the comma-tokenized list of elements, or null if nextLine is null
      * @throws IOException if bad things happen during the read
      */
-    private String[] parseLine(String nextLine, boolean multi) throws IOException {
-
+    private  String[] parseLine(final String nextLine, boolean multi) throws IOException {
+    	
         if (!multi && pending != null) {
             pending = null;
         }
@@ -202,8 +202,8 @@ public class CSVParser {
             }
         }
 
-        List<String> tokensOnThisLine = new ArrayList<String>();
-        StringBuilder sb = new StringBuilder(INITIAL_READ_SIZE);
+        final List<String> tokensOnThisLine = new ArrayList<String>();
+        final StringBuilder sb = new StringBuilder(INITIAL_READ_SIZE);
         boolean inQuotes = false;
         if (pending != null) {
             sb.append(pending);
@@ -263,7 +263,8 @@ public class CSVParser {
                 // continuing a quoted section, re-append newline
                 sb.append("\n");
                 pending = sb.toString();
-                sb = null; // this partial content is not to be added to field list yet
+                sb.setLength(0);
+//                sb = null; // this partial content is not to be added to field list yet
             } else {
                 throw new IOException("Un-terminated quoted field at end of CSV line");
             }
