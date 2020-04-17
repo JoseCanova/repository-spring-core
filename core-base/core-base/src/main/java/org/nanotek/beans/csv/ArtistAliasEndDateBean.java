@@ -1,4 +1,4 @@
-package org.nanotek.opencsv;
+package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistAliasEndDate;
