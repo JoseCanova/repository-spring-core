@@ -8,10 +8,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
-import org.nanotek.opencsv.CsvValidationGroup;
+import org.nanotek.entities.validation.DateComposition;
 
 @Entity
 @Table(name="begin_dates",
@@ -21,6 +20,7 @@ import org.nanotek.opencsv.CsvValidationGroup;
 )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "class_name" ,  columnDefinition = "VARCHAR NOT NULL")
+@DateComposition(groups= {PrePersistValidationGroup.class})
 public abstract class BeginDateBase <K extends BeginDateBase<K>>
 extends BrainzBaseEntity<K> 
 {
@@ -28,15 +28,12 @@ extends BrainzBaseEntity<K>
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginYear;
 	
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginMonth;
 	
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer beginDay;
 
@@ -94,6 +91,11 @@ extends BrainzBaseEntity<K>
 
 	public void setBeginDay(Integer beginDay) {
 		this.beginDay = beginDay;
+	}
+
+	@Override
+	public String toString() {
+		return "BeginDateBase [beginYear=" + beginYear + ", beginMonth=" + beginMonth + ", beginDay=" + beginDay + "]";
 	}
 
 	

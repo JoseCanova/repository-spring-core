@@ -30,9 +30,6 @@ implements PredicateBase<K,ID>{
 	
 	EntityTypeSupport<?, ID> entityTypeSupport;
 	
-	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	
-	Validator validator = factory.getValidator(); 
 	
 	public CsvOnResultPredicate() {}
 	
@@ -76,10 +73,7 @@ implements PredicateBase<K,ID>{
 
 	private void writeValue(Field f  , BaseBean<?,?> b , ID i) {
 		try { 
-			    if (validator.validate(b.getId(), new Class[] {CsvValidationGroup.class}).size() == 0)
 			    	f.set(i, b.getId());
-			    else 
-			    	f.set(i, null);
 		}catch(Exception ex) { 
 			ex.printStackTrace();
 			throw new BaseException(ex);

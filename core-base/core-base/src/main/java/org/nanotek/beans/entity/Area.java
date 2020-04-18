@@ -61,12 +61,14 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public AreaType<?> areaType; 
 	
+	
 	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "area_begin_date_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id") )
 	public AreaBeginDate<?> areaBeginDate; 
+	
 	
 	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
@@ -75,13 +77,14 @@ MutableGidEntity<UUID>,MutableAreaNameEntity<String>
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id") )
 	public AreaEndDate<?> areaEndDate;
 	
-
+	
 	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "area_comment_join", 
 			  joinColumns = @JoinColumn(name = "area_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public AreaComment<?> areaComment;
+	
 	
 	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")

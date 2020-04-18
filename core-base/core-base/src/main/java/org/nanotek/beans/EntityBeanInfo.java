@@ -2,10 +2,13 @@ package org.nanotek.beans;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 import org.nanotek.BaseException;
+import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.sun.introspect.ClassInfo;
 
@@ -80,19 +83,19 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	}
 	
 	private void constructProperyDescriptorInfos() {
-		properties.forEach((k,v) -> {
-			try {
-				String normalized = toPropertyName(k);
-				PropertyDescriptor pd = new PropertyDescriptor(normalized , v.getReadMethod() , v.getWriteMethod());
-				propertyDescriptorInfo.put(normalized, pd);
-			} catch (IntrospectionException e) {
-				e.printStackTrace();
-			} 
-		});
-	}
-
-	private String toPropertyName(String k) {
-		return new StringBuilder().append(k.substring(0, 1).toLowerCase()).append(k.substring(1, k.length())).toString();
+		try {
+			BeanInfo binfo = Introspector.getBeanInfo(getEntityClass());
+			Optional
+						.ofNullable(binfo.getPropertyDescriptors())
+						.ifPresent(ps -> {
+							Stream
+								.of(ps)
+								.forEach(p->propertyDescriptorInfo.put(p.getName(), p));
+						});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			throw new BaseException(e1);
+		}
 	}
 
 	private EntityBeanInfo <?> contructPropertiesInfoList() {
@@ -116,6 +119,20 @@ public class EntityBeanInfo<E> extends ClassInfo {
 				public void run() {
 					System.out.println("started thread " + Thread.currentThread().getName());
 					EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(Artist.class);
+					entityBeanInfo
+						.getPropertyDescriptorInfo()
+						.forEach((k,v)-> System.out.println(v.getName() + "  " + Thread.currentThread().getName()));
+				} 
+				
+			});
+			t.start();
+		}
+		for (int i = 0 ; i < 100 ; i++) { 
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("started thread " + Thread.currentThread().getName());
+					EntityBeanInfo<?> entityBeanInfo = new EntityBeanInfo<>(ArtistBean.class);
 					entityBeanInfo
 						.getPropertyDescriptorInfo()
 						.forEach((k,v)-> System.out.println(v.getName() + "  " + Thread.currentThread().getName()));

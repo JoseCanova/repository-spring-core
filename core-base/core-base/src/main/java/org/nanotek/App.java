@@ -69,7 +69,6 @@ ApplicationRunner{
 	@Autowired 
 	CsvFileProcessingPriority priorityMaker;
 
-
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Autowired

@@ -2,12 +2,14 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.validation.Valid;
 
 import org.nanotek.entities.BaseAreaEndDateEntity;
 import org.nanotek.entities.MutableEndDayEntity;
 import org.nanotek.entities.MutableEndMonthEntity;
 import org.nanotek.entities.MutableEndYearEntity;
 
+@Valid
 @Entity
 @DiscriminatorValue("AreaEndDate")
 public class AreaEndDate<K extends AreaEndDate<K>> 

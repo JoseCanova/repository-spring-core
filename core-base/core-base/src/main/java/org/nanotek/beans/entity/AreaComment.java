@@ -3,6 +3,7 @@ package org.nanotek.beans.entity;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -10,6 +11,7 @@ import javax.validation.groups.Default;
 import org.nanotek.entities.BaseAreaCommentEntity;
 import org.nanotek.entities.MutableCommentEntity;
 
+@Valid
 @Entity
 @DiscriminatorValue(value = "AreaComment")
 public class AreaComment<K extends AreaComment<K>> 

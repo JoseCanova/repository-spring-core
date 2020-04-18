@@ -29,7 +29,7 @@ MutableYearEntity<Integer>{
 	private static final long serialVersionUID = 8104913204474210789L;
 	
 	@NotNull
-	@Column(name="mediumFormatId" , insertable=true,nullable=false)
+	@Column(name="medium_format_id" , insertable=true,nullable=false)
 	public Long mediumFormatId;
 	
 	@NotBlank

@@ -27,7 +27,7 @@ import org.nanotek.entities.MutableInstrumentTypeEntity;
 @Entity
 @Table(name="instrument", 
 indexes= {
-@Index(name="uk_instrument_id",columnList="instrument_id")
+@Index(name="idx_instrument_id",columnList="instrument_id")
 },
 uniqueConstraints = {@UniqueConstraint(name="uk_instrument_id",columnNames = {"instrument_id"})})
 public class Instrument
