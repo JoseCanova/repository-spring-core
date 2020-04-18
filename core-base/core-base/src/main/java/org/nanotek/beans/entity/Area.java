@@ -36,7 +36,8 @@ indexes =  {@Index(name="idx_area_id", columnList = "area_id")},
 uniqueConstraints = {@UniqueConstraint(columnNames = {"area_id"} , name = "uk_area_id")} 
 )
 public class Area
-<K extends Area<K>> extends BrainzBaseEntity<K> implements  BaseAreaEntity<K>,
+<K extends Area<K>> extends BrainzBaseEntity<K> 
+implements  BaseAreaEntity<K>,
 MutableAreaIdEntity<Long>,		
 MutableTypeEntity<AreaType<?>>,
 MutableAreaCommentEntity<AreaComment<?>>,

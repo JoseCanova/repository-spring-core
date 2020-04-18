@@ -48,6 +48,8 @@ implements BaseBean<K,ID>
 			semaphore.acquire();
 			if(childInterfaceMap.get(this.baseClass)!=null) {
 				setConfigured(true);
+			}else{
+				setConfigured(false);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -65,9 +65,6 @@ public class CsvToBean<T> {
 			return PropertyEditorManager.findEditor(cls);
 	}
 
-	/* TODO: change for other strategy
-	 * Attempt to find custom property editor on descriptor first, else try the propery editor manager.
-	 */
 	protected PropertyEditor getPropertyEditor(PropertyDescriptor desc) throws InstantiationException, IllegalAccessException {
 //		Class<?> cls = desc.getPropertyEditorClass();
 //		if (null != cls) return (PropertyEditor) cls.newInstance();

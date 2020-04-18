@@ -28,7 +28,8 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	
 	public boolean  isConfigured() {
 			acquire();
-			if((propertyDescriptorInfo =classDescriptorMap.get(this.entityClass))!=null) {
+			if((propertyDescriptorInfo =
+						classDescriptorMap.get(this.entityClass))!=null) {
 				isConfigured.set(true);
 			}
 			release();
@@ -76,7 +77,10 @@ public class EntityBeanInfo<E> extends ClassInfo {
 		if(!isConfigured()) { 
 			acquire();
 			propertyDescriptorInfo = new HashMap<String,PropertyDescriptor>();
-			prepareChache(entityClass).construcMethodInfoList().contructPropertiesInfoList().constructProperyDescriptorInfos();
+			prepareChache(entityClass)
+				.construcMethodInfoList()
+				.contructPropertiesInfoList()
+				.constructProperyDescriptorInfos();
 			classDescriptorMap.put(entityClass, propertyDescriptorInfo);
 			setConfigured(true);
 		}
