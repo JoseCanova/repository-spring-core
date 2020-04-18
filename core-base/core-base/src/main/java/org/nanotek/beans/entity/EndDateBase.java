@@ -1,7 +1,5 @@
 package org.nanotek.beans.entity;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -10,7 +8,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.validation.DateComposition;

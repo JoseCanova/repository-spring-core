@@ -28,7 +28,6 @@ import java.beans.JavaBean;
  */
 
 import java.lang.ref.Reference;
-import javax.swing.SwingContainer;
 
 /**
  * A BeanDescriptor provides global information about a "bean",
