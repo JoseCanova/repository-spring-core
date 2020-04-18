@@ -24,13 +24,15 @@ public class EntityBeanInfo<E> extends ClassInfo {
 	
     private static Semaphore semaphore = new Semaphore(1);
 	
-	private  AtomicBoolean isConfigured = new AtomicBoolean(false);
+	private static AtomicBoolean isConfigured = new AtomicBoolean(false);
 	
 	public boolean  isConfigured() {
 			acquire();
 			if((propertyDescriptorInfo =
 						classDescriptorMap.get(this.entityClass))!=null) {
 				isConfigured.set(true);
+			}else { 
+				isConfigured.set(false);
 			}
 			release();
 		return isConfigured.get();
