@@ -12,7 +12,6 @@ import org.nanotek.BaseException;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.SequenceLongBase;
-import org.nanotek.entities.BaseAreaEntity;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 
 public class ProxyBaseBean
