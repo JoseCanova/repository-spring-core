@@ -8,7 +8,6 @@ import javax.validation.groups.Default;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCommentBaseEntity;
 import org.nanotek.entities.MutableCommentEntity;
-import org.nanotek.opencsv.CsvValidationGroup;
 
 @MappedSuperclass
 public class CommentBase<K extends CommentBase<K>> 
@@ -36,5 +35,12 @@ MutableCommentEntity<String>{
 	public void setComment(String k) {
 		this.comment = k;
 	}
+
+	@Override
+	public String toString() {
+		return "CommentBase [comment=" + comment + "]";
+	}
+	
+	
 
 }

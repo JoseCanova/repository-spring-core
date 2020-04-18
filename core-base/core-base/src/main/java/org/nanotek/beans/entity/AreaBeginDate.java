@@ -2,12 +2,14 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.validation.Valid;
 
 import org.nanotek.entities.AreaBeginDateEntity;
 import org.nanotek.entities.MutableBeginDayEntity;
 import org.nanotek.entities.MutableBeginMonthEntity;
 import org.nanotek.entities.MutableBeginYearEntity;
 
+@Valid
 @Entity
 @DiscriminatorValue("AreaBeginDate")
 public class AreaBeginDate<K extends AreaBeginDate<K>> extends BeginDateBase<K> implements  

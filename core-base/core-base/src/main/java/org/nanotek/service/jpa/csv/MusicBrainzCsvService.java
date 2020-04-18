@@ -18,7 +18,6 @@ import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaBuilder;
-import org.nanotek.opencsv.CsvValidationGroup;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.BaseEntityRepository;
 import org.nanotek.service.jpa.BrainzPersistenceService;
@@ -155,7 +154,19 @@ public class MusicBrainzCsvService
 
 	private boolean valid(Attribute<?, ?> a, ForwardMapBean<B> dm) {
 		Optional<?> optAttributeValue = dm.read(a.getName());
-		return optAttributeValue.map(value->validator.validate(value, new Class[] {PrePersistValidationGroup.class}).size() == 0).orElse(false);
+		return optAttributeValue.map(value->{
+							
+							Set<?> constraints = validator.validate(value, new Class[] {PrePersistValidationGroup.class});
+							
+							if(constraints.size()>0) { 
+//								constraints.stream().forEach(c->logger.debug(c.toString()));
+								logger.debug(value.toString());
+								return false;
+							}
+						logger.debug("[entity passed]");
+						return true;
+							
+				}).orElse(false);
 	}
 
 	private Optional<?> findByBrainzId(Object brainzType , String typeName) {

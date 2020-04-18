@@ -1,5 +1,7 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
+import org.nanotek.entities.validation.DateComposition;
 
 @Entity
 @Table(name="end_dates",
@@ -20,21 +23,19 @@ import org.nanotek.PrePersistValidationGroup;
 )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "class_name" ,  columnDefinition = "VARCHAR NOT NULL")
+@DateComposition(groups= {PrePersistValidationGroup.class})
 public class EndDateBase <K extends EndDateBase<K>>
 extends BrainzBaseEntity<K>  {
 
 
 	private static final long serialVersionUID = -4544159118931690162L;
 
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="end_year", nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endYear;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="end_month" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endMonth;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="end_day" , nullable = false , columnDefinition = "SMALLINT NOT NULL")
 	public Integer endDay;
 
@@ -67,8 +68,8 @@ extends BrainzBaseEntity<K>  {
 	}
 
 	public void setEndYear(Integer endYear) {
-		verifyMonthDay();
 		this.endYear = endYear;
+		verifyMonthDay();
 	}
 
 	private void verifyMonthDay() {
@@ -84,6 +85,8 @@ extends BrainzBaseEntity<K>  {
 
 	public void setEndMonth(Integer endMonth) {
 		this.endMonth = endMonth;
+		if(this.endDay==null)
+			this.endDay=1;
 	}
 
 	public Integer getEndDay() {
@@ -94,4 +97,10 @@ extends BrainzBaseEntity<K>  {
 		this.endDay = endDay;
 	}
 
+	@Override
+	public String toString() {
+		return "EndDateBase [endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay + "]";
+	}
+
+	
 }

@@ -30,7 +30,6 @@ implements PredicateBase<K,ID>{
 	
 	EntityTypeSupport<?, ID> entityTypeSupport;
 	
-	Validator validator; 
 	
 	public CsvOnResultPredicate() {}
 	
@@ -51,7 +50,6 @@ implements PredicateBase<K,ID>{
 		BrainzMetaModelUtil brainzMetaModelUtil = applicationContext.getBean(BrainzMetaModelUtil.class);
 		baseClassMetaModel = brainzMetaModelUtil.getMetaModel(clazz);
 		entityTypeSupport = (EntityTypeSupport<?, ID>) baseClassMetaModel.getEntityTypeSupport();
-		validator = applicationContext.getBean(Validator.class);
 	}
 
 	private ID filterProperties(K immutable) {
@@ -75,10 +73,7 @@ implements PredicateBase<K,ID>{
 
 	private void writeValue(Field f  , BaseBean<?,?> b , ID i) {
 		try { 
-			    if (validator.validate(b.getId(), new Class[] {CsvValidationGroup.class}).size() == 0)
 			    	f.set(i, b.getId());
-			    else 
-			    	f.set(i, null);
 		}catch(Exception ex) { 
 			ex.printStackTrace();
 			throw new BaseException(ex);
