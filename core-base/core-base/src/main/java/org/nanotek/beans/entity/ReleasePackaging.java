@@ -18,7 +18,7 @@ import org.nanotek.ReleasePackagingBase;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleasePackagingEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableReleasePackagingId;
+import org.nanotek.entities.MutableReleasePackagingIdEntity;
 import org.nanotek.entities.MutableReleasePackagingNameEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
@@ -34,8 +34,7 @@ uniqueConstraints =
 public class ReleasePackaging
 <K extends ReleasePackaging<K>> extends BrainzBaseEntity<K> 
 implements BaseReleasePackagingEntity<K>,
-ReleasePackagingBase<Long>,
-MutableReleasePackagingId<Long>,
+MutableReleasePackagingIdEntity<Long>,
 MutableReleaseSetEntity<Release<?>>,
 MutableGidEntity<UUID>,
 MutableReleasePackagingNameEntity<String>{
@@ -48,12 +47,18 @@ MutableReleasePackagingNameEntity<String>{
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String releasePackagingName;
 	
+	@Override
+	public String toString() {
+		return "ReleasePackaging [releasePackagingId=" + releasePackagingId + ", gid=" + gid + ", releasePackagingName="
+				+ releasePackagingName + "]";
+	}
+
 	@OneToMany(mappedBy = "releasePackaging")
 	public Set<Release<?>> releases;
 	

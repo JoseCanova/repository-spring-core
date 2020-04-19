@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -33,8 +32,7 @@ import org.nanotek.opencsv.CsvValidationGroup;
 @Table(name="base_type",
 					indexes= {
 							@Index(unique = false , name = "base_type_id_idx" , columnList ="type_id")
-						},
-					uniqueConstraints = {@UniqueConstraint(name="uk_type_id" , columnNames = {"type_id"})})
+						})
 @DiscriminatorColumn(
 	    discriminatorType = DiscriminatorType.STRING,
 	    name = "table_id",

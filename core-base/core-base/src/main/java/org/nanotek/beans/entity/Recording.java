@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -65,7 +66,10 @@ MutableGidEntity<UUID>,MutableRecordingNameEntity<String>{
 	@OneToOne(fetch = FetchType.LAZY)
 	public RecordingLength<?> recordingLength;
 	
-	@OneToOne(fetch = FetchType.LAZY,mappedBy = "recording")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinTable(name = "isrc_recording_join",
+	joinColumns = {@JoinColumn(name="recording_id",referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name="isrc_id",referencedColumnName = "id")})
 	public Isrc<?> recordingIsrc;
 	
 	public Recording() {}

@@ -188,5 +188,29 @@ artistcreditedname:
     position: 1            
     artistId: 2              
     artistCreditedName: 3                
-    artistCreditedNameJoinPhrase: 4     
+    artistCreditedNameJoinPhrase: 4   
+    
+releasepackaging:
+  fileLocation: /opt/mbdump
+  fileName: release_packaging
+  immutable: org.nanotek.beans.csv.ReleasePackagingBean
+  baseMap:  
+      releasePackagingId: 0 
+      releasePackagingName: 1 
+      parent: 2 
+      childOrder: 3 
+      description: 4 
+      gid: 5       
+      
+releasegroupprimarytype:
+  fileLocation: /opt/mbdump
+  fileName: release_group_primary_type
+  immutable: org.nanotek.beans.csv.ReleaseGroupPrimaryTypeBean
+  baseMap:  
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5       
     

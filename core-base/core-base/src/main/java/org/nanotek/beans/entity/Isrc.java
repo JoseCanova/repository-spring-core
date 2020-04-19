@@ -9,14 +9,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseIsrcEntity;
 import org.nanotek.entities.MutableIsrcEntity;
 import org.nanotek.entities.MutableIsrcIdEntity;
 import org.nanotek.entities.MutableIsrcSourceEntity;
 import org.nanotek.entities.MutableRecordingEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @SuppressWarnings("serial")
 @Entity
@@ -35,22 +39,21 @@ MutableIsrcEntity<String>,
 MutableIsrcSourceEntity<Integer>
 {
 
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column (name="isrc_id" , insertable=true)
-	private Long isrcId; 
+	public Long isrcId; 
 	
-	@OneToOne (optional=false)
-	@JoinTable(name = "isrc_recording_join",
-	joinColumns = {@JoinColumn(name="isrc_id",referencedColumnName = "id")},
-	inverseJoinColumns = {@JoinColumn(name="recording_id",referencedColumnName = "id")})
-	private Recording<?> recording;
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@OneToOne (optional=false,mappedBy = "recordingIsrc")
+	public Recording<?> recording;
 	
 	@Column (name="source" , insertable=true )
-	private Integer isrcSource; 
+	public Integer isrcSource; 
 	
-	@NotBlank
+	@NotBlank(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Size(min=1,max=12)
 	@Column (name="isrc" , insertable=true,nullable = false , columnDefinition = " CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$')") 
-	private String isrc; 
+	public String isrc; 
 	
 	
 	public Isrc() {}
