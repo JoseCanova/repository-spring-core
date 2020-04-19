@@ -150,7 +150,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("org.nanotek");
 		factory.setPersistenceUnitName("spring-core-music-brainz");
-//		factory.setDataSource(dataSource());
+		factory.setDataSource(dataSource());
 		return factory;
 	}
 	
@@ -167,8 +167,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
-		executor.setMaxPoolSize(20);
-		executor.setQueueCapacity(1000000);
+		executor.setMaxPoolSize(1000);
+		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
 		executor.initialize();
 		return executor;
@@ -178,8 +178,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
-		executor.setMaxPoolSize(20);
-		executor.setQueueCapacity(10000000);
+		executor.setMaxPoolSize(200);
+		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("AsyncThreadPoolExecutor");
 		executor.initialize();
 		return executor;

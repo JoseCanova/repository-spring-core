@@ -14,13 +14,13 @@ spring:
   activemq:
    broker-url: tcp://localhost:61616
   datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5434/musicbrainz
-    url: jdbc:postgresql://127.0.0.1:5434/musicbrainz
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    url: jdbc:postgresql://127.0.0.1:5432/musicbrainz
     username: postgres 
     password: postgres123@   
   hikari:
-    connectionTimeout: 20000
-    maximumPoolSize: 10000
+    connectionTimeout: 30000
+    maximumPoolSize: 9900
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
@@ -102,7 +102,7 @@ artist:
 
 area: 
   fileLocation: /opt/mbdump
-  fileName: area_dump
+  fileName: area
   immutable: org.nanotek.beans.csv.AreaBean
   baseMap:     
     areaId: 0 

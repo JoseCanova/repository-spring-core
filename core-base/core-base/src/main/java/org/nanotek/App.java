@@ -6,9 +6,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.FutureTask;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm.SpanningTree;
 import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
-import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistCredit;
@@ -38,6 +36,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 //import org.springframework.integration.config.EnableIntegrationManagement;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.util.concurrent.ListenableFuture;
 
 @SpringBootApplication
 //@EnableIntegration
@@ -76,7 +75,7 @@ ApplicationRunner{
 
 	@Autowired
 	CsvProcessorCallBack<?,?> processor;
-	
+
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
 
@@ -86,17 +85,17 @@ ApplicationRunner{
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
-		
-//		SpringApplicationBuilder builder = new SpringApplicationBuilder(App.class);
-//
-//		builder.headless(false);
-//
-//		ConfigurableApplicationContext context = builder.run(args);
-		
-//		 ApplicationContext contexto = new SpringApplicationBuilder(App.class)
-//	                .web(WebApplicationType.NONE)
-//	                .headless(false)
-//	                .run(args);
+
+		//		SpringApplicationBuilder builder = new SpringApplicationBuilder(App.class);
+		//
+		//		builder.headless(false);
+		//
+		//		ConfigurableApplicationContext context = builder.run(args);
+
+		//		 ApplicationContext contexto = new SpringApplicationBuilder(App.class)
+		//	                .web(WebApplicationType.NONE)
+		//	                .headless(false)
+		//	                .run(args);
 	}
 
 	public  void running(ConfigurableApplicationContext context) {
@@ -105,26 +104,26 @@ ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		
+
 		Graph<?,?> modelGraph = brainzMetaModelUtil.getModelGraph();
-		
+
 		BrainzEntityMetaModel<?,?> r1 = brainzMetaModelUtil.getMetaModel(Artist.class);
-		
+
 		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
-		
+
 		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
-//		
-//		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
-//		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
-		
-//		GraphPath<?, ?> p =  bf.getPath(r1, r2);
-		
-//		System.out.println(p);
-		
-//		System.out.println(graphModel.getEntityDirectedGraph());
-//
+		//		
+		//		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
+		//		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
+
+		//		GraphPath<?, ?> p =  bf.getPath(r1, r2);
+
+		//		System.out.println(p);
+
+		//		System.out.println(graphModel.getEntityDirectedGraph());
+		//
 		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
-//
+		//
 		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
 
 		pList.forEach(p->{
@@ -139,26 +138,29 @@ ApplicationRunner{
 		}while(prior !=null);
 
 
-//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
-//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
-//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
-//		System.out.println(path);
-//		System.out.println(path1);
-				new Thread() {
-					@Override
-					public void run() {
-						CsvResult<?,?> result = null ; 
-						FutureTask <R>r;
-						log.debug("start time " + new Date());
-						do {
-							try {
-								   csvBaseProcessor.getNext();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}while(processor.isActive());
-					}
-				}.start();
+		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
+		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
+		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
+		//		System.out.println(path);
+		//		System.out.println(path1);
+		new Thread() {
+			@Override
+			public void run() {
+				CsvResult<?,?> result = null ; 
+				FutureTask <R>r;
+				log.debug("start time " + new Date());
+				try {
+					do {
+
+						r =  csvBaseProcessor.getNext();
+						currentThread().join(1);
+					}while(processor.isActive() && r.get() !=null);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BaseException(e);
+				}
+			}
+		}.start();
 		log.debug("end time " + new Date());
 	}
 

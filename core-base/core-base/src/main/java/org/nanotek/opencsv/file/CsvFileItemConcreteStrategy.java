@@ -94,7 +94,7 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 			.append(System.getProperty("file.separator")).append(getFileName().toString());
 			FileInputStream fin = new FileInputStream(new File(fileLocationStr.toString()));
 			InputStreamReader ir = new InputStreamReader(fin,Charset.forName("UTF-8"));
-			reader =  new BufferedReader(ir, 1638400);
+			reader =  new BufferedReader(ir, 8192);
 		} catch (Exception e) {
 			throw new BaseException("CSV File not found" , e);
 

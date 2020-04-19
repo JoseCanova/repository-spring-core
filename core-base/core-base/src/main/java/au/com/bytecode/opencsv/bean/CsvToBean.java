@@ -24,6 +24,7 @@ public class CsvToBean<T> {
 
 	public T processLine(MappingStrategy<T> mapper, final List<ValueBase<?>> result) {
 		final T bean = mapper.createBean();
+		log.debug("List to Process " + result.toString());
 		result.stream().forEach(sb -> {
 			try { 
 				final PropertyDescriptor prop = mapper.findDescriptor(sb.getId());
