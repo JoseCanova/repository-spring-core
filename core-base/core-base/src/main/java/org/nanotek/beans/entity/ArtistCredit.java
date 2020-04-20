@@ -22,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
@@ -62,11 +63,11 @@ MutableArtistCreditNameEntity<String>
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	@NotBlank(groups = {Default.class})
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditName;
 
@@ -81,14 +82,14 @@ MutableArtistCreditNameEntity<String>
 		this.artistCreditName = k;
 	}
 	
-	@NotNull
+	@NotNull(groups= {PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(name="artist_credit_count_join",
 		inverseJoinColumns={@JoinColumn(name="artist_count_id", referencedColumnName="id") },
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public ArtistCreditCount<?> artistCreditCount; 
 	
-	@NotNull
+	@NotNull(groups= {PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(name="artist_ref_count_join",
 		inverseJoinColumns={@JoinColumn(name="artist_refcount_id", referencedColumnName="id") },

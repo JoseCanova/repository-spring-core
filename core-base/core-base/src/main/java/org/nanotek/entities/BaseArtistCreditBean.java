@@ -46,11 +46,11 @@ MutableArtistCreditRefCountEntity<BaseArtistCreditRefCountBean<?>>
 	}
 	
 	default Long getRefCount() {
-		return getArtistCreditRefCount().getCount();
+		return getArtistCreditRefCount().getRefCount();
 	}
 	
 	default void setRefCount(Long l) {
-		getArtistCreditCount().setCount(l);
+		getArtistCreditRefCount().setRefCount(l);
 	}
 	
 	public static void main(String[] args) {

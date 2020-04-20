@@ -84,7 +84,7 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.hibernate" level="debug"
+    <logger name="org.hibernate" level="info"
             additivity="false">
         <appender-ref ref="STDOUT" />
          <appender-ref ref="FILE3" />
@@ -100,7 +100,7 @@
         <appender-ref ref="STDOUT" />
     </logger>
     
-    <logger name="org.springframework" level="debug"
+    <logger name="org.springframework" level="info"
             additivity="false">
         <appender-ref ref="STDOUT" />
          <appender-ref ref="FILE2" />
