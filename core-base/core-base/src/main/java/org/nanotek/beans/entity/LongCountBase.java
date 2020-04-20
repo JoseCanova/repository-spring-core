@@ -10,6 +10,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCountBaseEntity;
 import org.nanotek.entities.MutableCountEntity;
 
@@ -31,7 +32,7 @@ MutableCountEntity<Long>
 
 	private static final long serialVersionUID = 7485578978795549390L;
 	
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="count",nullable=false)
 	public Long count;
 

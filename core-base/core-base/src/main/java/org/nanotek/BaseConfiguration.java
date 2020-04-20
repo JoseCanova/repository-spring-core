@@ -9,8 +9,6 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hibernate.SessionFactory;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
@@ -150,7 +148,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("org.nanotek");
 		factory.setPersistenceUnitName("spring-core-music-brainz");
-//		factory.setDataSource(dataSource());
+		factory.setDataSource(dataSource());
 		return factory;
 	}
 	
@@ -167,8 +165,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
-		executor.setMaxPoolSize(20);
-		executor.setQueueCapacity(1000000);
+		executor.setMaxPoolSize(1000);
+		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
 		executor.initialize();
 		return executor;
@@ -178,8 +176,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
-		executor.setMaxPoolSize(20);
-		executor.setQueueCapacity(10000000);
+		executor.setMaxPoolSize(200);
+		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("AsyncThreadPoolExecutor");
 		executor.initialize();
 		return executor;
@@ -200,7 +198,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "area")
+	@ConfigurationProperties(value = "instrument")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

@@ -13,22 +13,6 @@ implements BaseTrackBeanBean<TrackBean<K>>{
 	private static final long serialVersionUID = 7327347644746001993L;
 
 
-	//	
-	//	public Long trackId; 
-	//	public String gid; 
-	//	public Long recordingId; 
-	//	public Long medium; 
-	//	public Integer position; 
-	//	public String number; 
-	//	public String name; 
-	//	public Long artistCreditId; 
-	//	public Long length; 
-	//	public Long editsPending; 
-	//	public String lastUpdate;
-	//	public String isDataTrack;
-
-
-
 	public TrackBean(Class<? extends Track<?>> class1) {
 		super(class1);
 	}

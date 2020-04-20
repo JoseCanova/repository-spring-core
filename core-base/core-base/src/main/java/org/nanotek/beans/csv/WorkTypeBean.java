@@ -1,7 +1,6 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.WorkType;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.entities.BaseWorkTypeBean;
@@ -28,7 +27,7 @@ implements BaseWorkTypeBean<WorkTypeBean<K>>{
 
 	@SuppressWarnings("unchecked")
 	private static Class<? extends WorkType<?>> castClass() {
-		return (Class<? extends WorkType<?>>) AreaType.class.asSubclass(WorkType.class);
+		return (Class<? extends WorkType<?>>) WorkType.class.asSubclass(WorkType.class);
 	}
 
 	private void postConstruct() {

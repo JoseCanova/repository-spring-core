@@ -8,13 +8,14 @@ import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.GenderBean;
 import org.nanotek.beans.entity.Gender;
 import org.nanotek.entities.immutables.ChildOrderEntity;
+import org.nanotek.entities.immutables.TypeNameEntity;
 
 public interface BaseGenderBean
 <K extends BaseBean<K,Gender<?>>> 
 extends Base<K>,
 BaseBean<K,Gender<?>>,
 MutableGidEntity<UUID>,
-MutableNameEntity<String>,
+MutableTypeNameEntity<String>,
 MutableTypeIdEntity<Long>,
 MutableParentEntity<Long>,
 MutableChildOrderEntity<Long>,
@@ -32,13 +33,13 @@ MutableDescriptionBaseEntity<String>{
 	}
 	
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setTypeName(String k) {
+		write(MutableTypeNameEntity.class,k);
 	}
 	
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(s->String.class.cast(s)).orElse("");
+	default String getTypeName() {
+		return read(TypeNameEntity.class).map(s->String.class.cast(s)).orElse("");
 	}
 	
 	@Override
@@ -90,8 +91,8 @@ MutableDescriptionBaseEntity<String>{
 	
 	public static void main(String[] args) {
 		GenderBean bean = new GenderBean();
-		bean.setName("this is a name");
-		System.out.println(bean.getName());
+		bean.setTypeName("this is a name");
+		System.out.println(bean.getTypeName());
 	}
 
 }

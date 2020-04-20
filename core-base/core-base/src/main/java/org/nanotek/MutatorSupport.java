@@ -10,7 +10,7 @@ import org.nanotek.beans.Introspector;
 import org.nanotek.beans.PropertyDescriptor;
 
 
-public interface MutatorSupport<T> {
+public interface MutatorSupport<T>{
 
 
 	public static boolean isInstanceOf(Object bean, Class<?> targetType) {

@@ -12,7 +12,7 @@ public class InstrumentDescription<K extends InstrumentDescription<K>> extends D
 	private static final long serialVersionUID = 8312961172730412162L;
 
 	@OneToOne(mappedBy = "instrumentDescription")
-	private Instrument<?> instrument;
+	public Instrument<?> instrument;
 
 	public InstrumentDescription() {
 		super();

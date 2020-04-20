@@ -6,7 +6,6 @@ import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.WorkTypeBean;
-import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.WorkType;
 import org.nanotek.entities.immutables.ChildOrderEntity;
 import org.nanotek.entities.immutables.TypeNameEntity;

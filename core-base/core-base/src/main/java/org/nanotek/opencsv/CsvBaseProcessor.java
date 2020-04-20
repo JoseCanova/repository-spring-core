@@ -1,11 +1,11 @@
 package org.nanotek.opencsv;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.IntUnaryOperator;
 
 import org.nanotek.AnyBase;
 import org.nanotek.Base;
@@ -101,12 +101,12 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 		mapColumnStrategy.reopen();
 	}
 	
-	public void getNext(){
+	public ListenableFutureTask<R> getNext(){
+		final Callable<R> call = new ResultCallable();
+		final ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
 		try {
-			final Callable<R> call = new ResultCallable();
-			final ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);
 			ar.addCallback(csvProcessorCallBack);
-			serviceTaskExecutor.createThread(ar).start();;
+			serviceTaskExecutor.submit(ar);
 //			t.setPriority(counter.getAndUpdate(new IntUnaryOperator() {
 //				@Override
 //				public int applyAsInt(int operand) {
@@ -121,6 +121,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return ar;
 	}
 
 	@Override
@@ -152,6 +153,9 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 				log.debug(base.getId().toString());
 //				result =  of(applicationContext.getBean(CsvResult.class),base);
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base),applicationContext).toArray() , BaseBean.class,ApplicationContext.class);
+			}else 
+			{ 
+				log.debug("Result is Null stopping file processing " + new Date());
 			}
 			return result.map(r->r).orElse(null);
 		}

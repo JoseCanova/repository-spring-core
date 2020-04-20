@@ -203,7 +203,7 @@ public class CSVParser {
         }
 
         final List<String> tokensOnThisLine = new ArrayList<String>();
-        final StringBuilder sb = new StringBuilder(INITIAL_READ_SIZE);
+        StringBuilder sb = new StringBuilder(INITIAL_READ_SIZE);
         boolean inQuotes = false;
         if (pending != null) {
             sb.append(pending);
@@ -263,8 +263,8 @@ public class CSVParser {
                 // continuing a quoted section, re-append newline
                 sb.append("\n");
                 pending = sb.toString();
-                sb.setLength(0);
-//                sb = null; // this partial content is not to be added to field list yet
+//                sb.setLength(0);
+                sb = null; // this partial content is not to be added to field list yet
             } else {
                 throw new IOException("Un-terminated quoted field at end of CSV line");
             }

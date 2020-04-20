@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -48,7 +49,7 @@ MutableLabelCodeEntity<Integer>{
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String labelName;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false , cascade = CascadeType.MERGE)
 	@JoinTable(name = "label_type_join",joinColumns = 
 	@JoinColumn(name = "label_id" , referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(name = "label_type_id" , referencedColumnName = "id"))
@@ -67,8 +68,6 @@ MutableLabelCodeEntity<Integer>{
 	
 	@ManyToOne
 	public Area<?> area;
-	
-	
 	
 	public Label(@NotBlank String sortName, Long labelId, @NotNull UUID gid, @NotNull String name,
 			LabelType<?> labelType) {

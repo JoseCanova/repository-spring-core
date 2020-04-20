@@ -24,6 +24,7 @@ public class CsvToBean<T> {
 
 	public T processLine(MappingStrategy<T> mapper, final List<ValueBase<?>> result) {
 		final T bean = mapper.createBean();
+		log.debug("List to Process " + result.toString());
 		result.stream().forEach(sb -> {
 			try { 
 				final PropertyDescriptor prop = mapper.findDescriptor(sb.getId());
@@ -65,9 +66,6 @@ public class CsvToBean<T> {
 			return PropertyEditorManager.findEditor(cls);
 	}
 
-	/* TODO: change for other strategy
-	 * Attempt to find custom property editor on descriptor first, else try the propery editor manager.
-	 */
 	protected PropertyEditor getPropertyEditor(PropertyDescriptor desc) throws InstantiationException, IllegalAccessException {
 //		Class<?> cls = desc.getPropertyEditorClass();
 //		if (null != cls) return (PropertyEditor) cls.newInstance();

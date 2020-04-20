@@ -13,6 +13,8 @@ extends ProxyBase<WorkBean<K>,Work<?>>
 implements BaseWorkBean<WorkBean<K>>
 {
 	
+	private static final long serialVersionUID = -7506936733635556154L;
+
 	public WorkComment<?> workComment;
 	
 	public WorkType<?> workType;

@@ -20,7 +20,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @MappedSuperclass
 @JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class)
-public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Serializable> implements  BaseSequenceLongBaseEntity<K, ID>{
+public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Serializable>
+implements  BaseSequenceLongBaseEntity<K, ID>{
 
 	private static final long serialVersionUID = 1932266128563675834L;
 	

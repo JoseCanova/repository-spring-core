@@ -3,6 +3,7 @@ package org.nanotek.beans.entity;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,10 +19,11 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditCountEntity;
@@ -33,6 +35,7 @@ import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(name="artist_credit", indexes= {
 		@Index(name="idx_artist_credit_id",columnList="artist_credit_id")
@@ -62,11 +65,11 @@ MutableArtistCreditNameEntity<String>
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	@NotBlank(groups = {Default.class})
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditName;
 
@@ -81,30 +84,30 @@ MutableArtistCreditNameEntity<String>
 		this.artistCreditName = k;
 	}
 	
-	@NotNull
-	@OneToOne(optional=false)
+	@NotNull(groups= {PrePersistValidationGroup.class})
+	@OneToOne(optional=false,cascade = CascadeType.ALL)
 	@JoinTable(name="artist_credit_count_join",
 		inverseJoinColumns={@JoinColumn(name="artist_count_id", referencedColumnName="id") },
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public ArtistCreditCount<?> artistCreditCount; 
 	
-	@NotNull
-	@OneToOne(optional=false)
+	@NotNull(groups= {PrePersistValidationGroup.class})
+	@OneToOne(optional=false , cascade = CascadeType.ALL)
 	@JoinTable(name="artist_ref_count_join",
 		inverseJoinColumns={@JoinColumn(name="artist_refcount_id", referencedColumnName="id") },
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public ArtistCreditRefCount<?> artistCreditRefCount;
 
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit",cascade = CascadeType.PERSIST)
 	public Set<Release<?>> releases; 
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
 	@JoinTable(name="artist_credit_name_rel",
 	inverseJoinColumns={@JoinColumn(name="artist_name_id", referencedColumnName="id") },
 	joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public List<Artist<?>> artists;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy = "artistCredit")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy = "artistCredit",cascade = CascadeType.PERSIST)
 	public Set<Recording<?>> recordings; 
 	
 	public ArtistCredit() {}

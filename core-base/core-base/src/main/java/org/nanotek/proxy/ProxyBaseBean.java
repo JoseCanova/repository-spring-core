@@ -6,17 +6,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.beans.entity.Area;
-import org.nanotek.beans.entity.AreaBeginDate;
+import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.SequenceLongBase;
-import org.nanotek.entities.BaseAreaEntity;
-
+import org.nanotek.proxy.map.bean.ForwardMapBean;
 
 public class ProxyBaseBean
 <K extends BaseBean<K,ID> , ID extends SequenceLongBase<?, Long>>
 extends ProxyBase<K,ID> implements InvocationHandler{
+
+	private static final long serialVersionUID = 6975012634371691413L;
 
 	public ProxyBaseBean() {
 		super((Class<? extends ID>) withAnyEntity(null));
@@ -30,20 +32,43 @@ extends ProxyBase<K,ID> implements InvocationHandler{
 	private static Class<? extends SequenceLongBase<?,?>> withAnyEntity(Class<?> clazz) {
 		return (Class<? extends SequenceLongBase<?, ?>>) Optional.ofNullable(clazz).orElseThrow(BaseException::new);
 	}
-
-	public static <K extends Area<K>>  void  main(String[] args) { 
-		ProxyBaseBean<?,Area<?>> pbb = new ProxyBaseBean<>(Area.class);
+	
+	private static <X> ForwardMapBean<?> asDynaMapBean(Class<X> clazz) { 
+		ProxyBaseBean<?,?> pbb = new ProxyBaseBean(clazz); 
 		List<? super Class<?>> insterf = pbb
-					.getChildInterfaceMap().get(Area.class)
-					.values().stream()
-					.map(h->h.getClazz())
-					.collect(Collectors.toList());
-		insterf.add(BaseAreaEntity.class);
+				.getChildInterfaceMap().get(clazz)
+				.values().stream()
+				.map(h->h.getClazz())
+				.collect(Collectors.toList());
+		insterf.add(Base.class);
 		Object sb1 = java.lang.reflect.Proxy.newProxyInstance(
-				Area.class.getClassLoader(),
+				clazz.getClassLoader(),
 				insterf.toArray(new Class[insterf.size()]),
 				pbb);
+		return new ForwardMapBean<>(sb1.getClass() ,  Base.class.cast(sb1));
+		
+	}
 
+	public static <K extends Area<K>>  void  main(String[] args) { 
+//		ProxyBaseBean<?,Area<?>> pbb = new ProxyBaseBean<>(Area.class);
+//		List<? super Class<?>> insterf = pbb
+//					.getChildInterfaceMap().get(Area.class)
+//					.values().stream()
+//					.map(h->h.getClazz())
+//					.collect(Collectors.toList());
+//		insterf.add(BaseAreaEntity.class);
+//		insterf.add(Base.class);
+//		Object sb1 = java.lang.reflect.Proxy.newProxyInstance(
+//				Area.class.getClassLoader(),
+//				insterf.toArray(new Class[insterf.size()]),
+//				pbb);
+//		Base sb2  = (Base)sb1;
+		ForwardMapBean<?> dm= asDynaMapBean(Area.class);
+		dm.write("areaName" , "this  is a name");
+		System.out.println(dm.read("areaName").toString());
+		ForwardMapBean<?> dm1= asDynaMapBean(Artist.class);
+		dm1.write("artistName" , "this  is an artist name");
+		System.out.println(dm1.read("artistName").toString());
 		//	   sb1.getId();
 //		BaseAreaEntity<K> slb = BaseAreaEntity.class.cast(sb1);
 //		slb.setAreaId(100L);

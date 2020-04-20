@@ -9,13 +9,14 @@ import org.nanotek.beans.csv.AreaTypeBean;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.entities.immutables.ChildOrderEntity;
+import org.nanotek.entities.immutables.TypeNameEntity;
 
 public interface BaseArtistTypeBean
 <K extends BaseBean<K,ArtistType<?>>> 
 extends Base<K>,
 BaseBean<K,ArtistType<?>>,
 MutableGidEntity<UUID>,
-MutableNameEntity<String>,
+MutableTypeNameEntity<String>,
 MutableTypeIdEntity<Long>,
 MutableParentEntity<Long>,
 MutableChildOrderEntity<Long>,
@@ -53,13 +54,13 @@ MutableDescriptionBaseEntity<String>{
 	}
 
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(s->String.class.cast(s)).orElse("");
+	default String getTypeName() {
+		return read(TypeNameEntity.class).map(s->String.class.cast(s)).orElse("");
 	}
 
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setTypeName(String k) {
+		write(MutableTypeNameEntity.class,k);
 	}
 
 	@Override

@@ -1,12 +1,10 @@
 package org.nanotek.beans.csv;
 
-import java.util.Set;
-
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Recording;
-import org.nanotek.beans.entity.Track;
 import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseRecordingBean;
+import org.nanotek.entities.BaseRecordingCommentBean;
 import org.nanotek.entities.BaseRecordingLengthBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -19,7 +17,7 @@ implements BaseRecordingBean<RecordingBean<K>>{
 
 	private BaseArtistCreditBean<?> artistCredit;
 	private BaseRecordingLengthBean<?> recordingLength;
-	
+	private BaseRecordingCommentBean<?> recordingComment;
 	
 	public RecordingBean(Class<? extends Recording<?>> class1) {
 		super(class1);
@@ -30,7 +28,7 @@ implements BaseRecordingBean<RecordingBean<K>>{
 	{
 		artistCredit = new ArtistCreditBean<>();
 		recordingLength = new RecordingLengthBean<>();
-		
+		recordingComment = new RecordingCommentBean<>();
 	}
 	
 	public RecordingBean() {
@@ -49,26 +47,12 @@ implements BaseRecordingBean<RecordingBean<K>>{
 
 	@Override
 	public BaseArtistCreditBean<?> getArtistCredit() {
-		
 		return artistCredit;
-	}
-
-	@Override
-	public void setTracks(Set<Track<?>> t) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Set<Track<?>> getTracks() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void setRecordingLength(BaseRecordingLengthBean<?> e) {
 		this.recordingLength=e;
-		
 	}
 
 	@Override
@@ -76,22 +60,12 @@ implements BaseRecordingBean<RecordingBean<K>>{
 		return recordingLength;
 	}
 
+	public BaseRecordingCommentBean<?> getRecordingComment() {
+		return recordingComment;
+	}
 
-	//	
-	//	@NotNull
-	//	private Long recordingId;
-	//	@NotNull
-	//	private String gid;
-	//	@NotNull
-	//	private String name;
-	//	@NotNull
-	//	private Long artistCredit;
-	//    private Long length;
-	//    private String comment;
-	//    private Long editsPending;
-	//    private String lastUpdated;
-	//    private String  video;
-
-
+	public void setRecordingComment(BaseRecordingCommentBean<?> recordingComment) {
+		this.recordingComment = recordingComment;
+	}
 
 }

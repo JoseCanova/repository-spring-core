@@ -1,5 +1,6 @@
 package org.nanotek.service.jpa.csv;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class MusicBrainzCsvService
 							prepareProperties(b);
 							b = save(b);
 //							saveProperties(b);
-						}
+				}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -84,8 +85,11 @@ public class MusicBrainzCsvService
 			if(a.getJavaType().getAnnotation(Entity.class) !=null) {
 				if(!brainzKeyAnnotationPresent(a.getJavaType())) {
 					Optional<X>  optProperty = dm.read(a.getName());
-					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
-					optProperty.ifPresent(p-> baseEntityRepository.save(p));
+//					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
+					optProperty.ifPresent(p-> { 
+						X p1 = baseEntityRepository.save(p);
+						dm.write(a.getName() , p1);
+					});
 				}
 			}
 		});
@@ -101,30 +105,33 @@ public class MusicBrainzCsvService
 		if(attributeEntityType
 			.getAttributes()
 			.stream()
-			.anyMatch(a1->a1.getJavaType().isAssignableFrom(b.getClass()))) {
+			.anyMatch(a1->a1.getJavaType().equals(b.getClass()))) {
 			Attribute<? super X,?> parentAttribute = attributeEntityType
 											.getAttributes()
 											.stream()
-											.filter(a1->a1.getJavaType().isAssignableFrom(b.getClass()))
+											.filter(a1->a1.getJavaType().equals(b.getClass()))
 											.findFirst().orElse(null);
 			String attributeName = parentAttribute.getName();
 			dmX.write(attributeName, b);
 		}
 	}
 
+	@Transactional
 	private B save(B b) {
 		Set<?> validationConstraints = validator.validate(b, new Class[] {PrePersistValidationGroup.class});
 		if(validationConstraints.size()>0) {
 			validationConstraints.stream().forEach(v->logger.debug(v.toString()));
 		}else { 
+			saveProperties(b);
 			brainzPeristenceService.save(b);
 		}
 		return b;
 	}
 
+	@Transactional
 	public boolean notFoundByBrainzId(Class<B> clazz , BaseEntity<?, ?> id) { 
-		Optional<?> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
-		return theStream.isPresent();
+		Optional<List<?>> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
+		return theStream.isPresent() && theStream.get().size()==0;
 	}
 
 	private void prepareProperties(B b) {
@@ -140,10 +147,11 @@ public class MusicBrainzCsvService
 				if(brainzKeyAnnotationPresent(a.getJavaType())) {
 					Optional<?> brainzType = dm.read(a.getName());
 					brainzType.ifPresent(t->{
-						findByBrainzId(t , a.getName())
-						.ifPresentOrElse(r ->{
-							dm.write(a.getName(), r);
-						},BaseException::new);
+						Optional<?>  retVal = findByBrainzId(t , a.getName());
+						if(retVal.isPresent())
+							dm.write(a.getName(), retVal.get());
+						else
+							dm.write(a.getName(), null);
 					});
 				}else if(!valid(a , dm )) { 
 					dm.write(a.getName(), null);

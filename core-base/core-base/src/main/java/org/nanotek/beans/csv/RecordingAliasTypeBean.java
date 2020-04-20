@@ -2,6 +2,7 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.RecordingAliasType;
+import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.entities.BaseRecordingAliasTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -12,14 +13,7 @@ implements BaseRecordingAliasTypeBean<RecordingAliasTypeBean<K>>{
 
 	private static final long serialVersionUID = 2632943505939712312L;
 	
-	
-//	public Long recordingAliasTypeId; 
-//	public String name; 
-//	public Long parent; 
-//	public Long childOrder; 
-//	public String description; 
-//	public String gid;
-//	
+	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
 
 	@SuppressWarnings("unchecked")
 	private static Class<? extends RecordingAliasType<?>> castClass() {
@@ -30,12 +24,27 @@ implements BaseRecordingAliasTypeBean<RecordingAliasTypeBean<K>>{
 	
 	public RecordingAliasTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 
 	public RecordingAliasTypeBean(Class<? extends RecordingAliasType<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 
+	private void postConstruct() {
+		baseTypeDescription = new  BaseTypeDescriptionBean<>();
+	}
+
+
+	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
+		return baseTypeDescription;
+	}
+
+
+	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> baseTypeDescription) {
+		this.baseTypeDescription = baseTypeDescription;
+	}
 
 }

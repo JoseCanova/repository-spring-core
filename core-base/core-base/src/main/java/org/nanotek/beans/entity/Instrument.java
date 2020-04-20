@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseInstrumentEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -23,6 +27,7 @@ import org.nanotek.entities.MutableInstrumentDescriptionEntity;
 import org.nanotek.entities.MutableInstrumentIdEntity;
 import org.nanotek.entities.MutableInstrumentNameEntity;
 import org.nanotek.entities.MutableInstrumentTypeEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="instrument", 
@@ -41,12 +46,15 @@ MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 
 	private static final long serialVersionUID = 1720965406197902687L;
 	
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="instrument_id" , nullable=false)
-	private Long instrumentId; 
+	public Long instrumentId; 
+	
+	
 
-	@NotNull
+	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	
 	public void setGid(UUID gid) {
@@ -59,7 +67,7 @@ MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 	}	
 
 	
-	@NotNull
+	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String instrumentName;
 
@@ -74,24 +82,25 @@ MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 		this.instrumentName = k;
 	}
 	
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY , optional = false )
-	private InstrumentType<?> instrumentType; 
+	@Valid
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@ManyToOne(fetch = FetchType.LAZY , optional = false ,cascade = CascadeType.ALL)
+	public InstrumentType<?> instrumentType; 
 	
 
-	@OneToOne(optional=true)
+	@OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "instrument_comment_join", 
 			  joinColumns = @JoinColumn(name = "instrument_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id"))
-	private InstrumentComment<?> instrumentComment;
+	public InstrumentComment<?> instrumentComment;
 	
-	@OneToOne(optional=true)
+	@OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "instrument_description_join", 
 			  joinColumns = @JoinColumn(name = "instrument_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	private InstrumentDescription<?> instrumentDescription;
+	public InstrumentDescription<?> instrumentDescription;
 	
 	public Instrument() {
 	}

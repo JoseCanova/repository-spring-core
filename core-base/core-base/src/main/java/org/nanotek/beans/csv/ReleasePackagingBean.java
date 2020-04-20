@@ -13,14 +13,6 @@ implements BaseReleasePackagingBean<ReleasePackagingBean<K>>{
 	private static final long serialVersionUID = -6068518463159348252L;
 
 
-	public Long releasePackagingId; 
-	public String name; 
-	public Long parent; 
-	public Long childOrder; 
-	public String description; 
-	public String gid;
-	
-
 	public ReleasePackagingBean(Class<? extends ReleasePackaging<?>> class1) {
 		super(class1);
 	}

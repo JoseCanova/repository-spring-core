@@ -12,14 +12,10 @@ import org.nanotek.entities.MutableArtistCreditEntity;
 @DiscriminatorValue(value = "ArtistCreditCount")
 public class ArtistCreditCount
 <K extends ArtistCreditCount<K>> extends LongCountBase<K> 
-implements BaseArtistCreditCountEntity<K> , 
-MutableArtistCreditEntity<ArtistCredit<?>>{
+implements BaseArtistCreditCountEntity<K>{
 
 	private static final long serialVersionUID = 2246716928420528795L;
 
-	@NotNull
-	@OneToOne(optional = false , mappedBy = "artistCreditCount")
-	private ArtistCredit<?> artistCredit;
 	
 	public ArtistCreditCount() {
 	}
@@ -28,12 +24,5 @@ MutableArtistCreditEntity<ArtistCredit<?>>{
 		super(count);
 	}
 
-	public ArtistCredit<?> getArtistCredit() {
-		return artistCredit;
-	}
-
-	public void setArtistCredit(ArtistCredit<?> artistCredit) {
-		this.artistCredit = artistCredit;
-	}
 	
 }

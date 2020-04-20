@@ -11,7 +11,8 @@ public interface BaseArtistCreditRefCountBean
 extends
 Base<K>,
 BaseBean<K,ArtistCreditRefCount<?>>,
-MutableCountEntity<Long>{
+MutableCountEntity<Long>,
+MutableRefCountEntity<Long>{
 
 	@Override
 	default Long getCount() {
@@ -21,6 +22,16 @@ MutableCountEntity<Long>{
 	@Override
 	default void setCount(Long k) {
 		write(MutableCountEntity.class,k);
+	}
+	
+	@Override
+	default void setRefCount(Long k) {
+		setCount(k);
+	}
+	
+	@Override
+	default Long getRefCount() {
+		return getCount();
 	}
 	
 	public static void main(String[] args) {

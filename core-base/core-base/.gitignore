@@ -2,3 +2,9 @@
 /.factorypath
 /.project
 /target/
+/log.git
+/file_csv.log
+/hibernate.log
+/instance.log
+/spring.log
+/validation_pre_persist.log

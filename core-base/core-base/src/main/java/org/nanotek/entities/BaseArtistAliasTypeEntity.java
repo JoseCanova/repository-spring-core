@@ -1,6 +1,7 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.TagInterface;
 
+@TagInterface
 public interface BaseArtistAliasTypeEntity<K>{
 }

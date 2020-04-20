@@ -12,6 +12,7 @@ import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.springframework.data.domain.Example;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<B>> {
 
@@ -19,6 +20,7 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<B>> {
 	
 	BrainzBaseEntityRepository<B> getBaseRepository();
 	
+	@Transactional
 	default Optional<List<?>> findByBrainzId(Class<B> clazz,Object instance) {
 		EntityBeanInfo<B> entityBeanInfo = new EntityBeanInfo<>(clazz);
 		return filterPropertyByClass(entityBeanInfo,instance);
