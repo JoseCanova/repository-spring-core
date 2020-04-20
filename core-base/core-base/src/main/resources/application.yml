@@ -14,13 +14,13 @@ spring:
   activemq:
    broker-url: tcp://localhost:61616
   datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/musicbrainz
-    url: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5434/musicbrainz
+    url: jdbc:postgresql://127.0.0.1:5434/musicbrainz
     username: postgres 
     password: postgres123@   
   hikari:
     connectionTimeout: 30000
-    maximumPoolSize: 9900
+    maximumPoolSize: 250
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
@@ -137,12 +137,12 @@ artistaliastype:
   fileName: artist_alias_type
   immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
   baseMap:     
-    artistAliasTypeId: 0
+    typeId: 0
     typeName: 1
     parent: 2
-    child_order: 3
+    childOrder: 3
     description: 4
-    gid: 5       
+    gid: 5      
     
     
 artistalias:
@@ -169,7 +169,7 @@ artistalias:
  
 artistcredit:
   fileLocation: /opt/mbdump
-  fileName: artist_credit_dump
+  fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
     artistCreditId: 0
@@ -213,4 +213,103 @@ releasegroupprimarytype:
     childOrder: 3
     description: 4
     gid: 5       
+    
+labeltype: 
+  fileLocation: /opt/mbdump
+  fileName: label_type
+  immutable: org.nanotek.beans.csv.LabelTypeBean  
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5
+    
+instrumenttype:
+  fileLocation: /opt/mbdump
+  fileName: instrument_type
+  immutable: org.nanotek.beans.csv.InstrumentTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5   
+    
+gendertype: 
+  fileLocation: /opt/mbdump
+  fileName: gender
+  immutable: org.nanotek.beans.csv.GenderBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5  
+        
+artisttype: 
+  fileLocation: /opt/mbdump
+  fileName: artist_type
+  immutable: org.nanotek.beans.csv.ArtistTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5 
+        
+recordingaliastype:
+  fileLocation: /opt/mbdump
+  fileName: recording_alias_type
+  immutable: org.nanotek.beans.csv.RecordingAliasTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5        
+
+releasealiastype: 
+  fileLocation: /opt/mbdump
+  fileName: release_alias_type
+  immutable: org.nanotek.beans.csv.ReleaseAliasTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5        
+        
+worktype: 
+  fileLocation: /opt/mbdump
+  fileName: work_type
+  immutable: org.nanotek.beans.csv.WorkTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5          
+        
+recordingbean: 
+  fileLocation: /opt/mbdump/recording_split
+  fileName: recaa
+  immutable: org.nanotek.beans.csv.RecordingBean
+  baseMap:   
+    recordingId: 0
+    gid: 1
+    name: 2
+    artistCredit: 3
+    length: 4
+    comment: 5
+    editsPending: 6
+    lastUpdated: 7
+    video: 8         
     

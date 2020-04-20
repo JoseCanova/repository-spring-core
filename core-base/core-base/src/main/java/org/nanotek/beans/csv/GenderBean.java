@@ -20,8 +20,6 @@ implements BaseGenderBean<GenderBean<K>>{
 		postConstruct();
 	}
 
-
-
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Gender<?>> castClass() {
 		return (Class<? extends Gender<?>>) Gender.class.asSubclass(Gender.class);
@@ -29,6 +27,7 @@ implements BaseGenderBean<GenderBean<K>>{
 
 	public GenderBean(Class<? extends Gender<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 
 	void postConstruct(){
@@ -42,11 +41,5 @@ implements BaseGenderBean<GenderBean<K>>{
 	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> k) {
 		this.baseBaseTypeDescription = k;
 	}
-
-	@Override
-	public int compareTo(GenderBean<K> o) {
-		return 0;
-	}
-
 
 }

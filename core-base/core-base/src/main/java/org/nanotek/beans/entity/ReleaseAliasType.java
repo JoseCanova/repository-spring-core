@@ -11,7 +11,9 @@ import org.nanotek.entities.BaseReleaseAliasTypeEntity;
 
 @Entity
 @DiscriminatorValue(value="ReleaseAliasType")
-public class ReleaseAliasType<K extends ReleaseAliasType<K>> extends BaseType<K> implements BaseReleaseAliasTypeEntity<K>{
+public class ReleaseAliasType<K extends ReleaseAliasType<K>> 
+extends BaseType<K> 
+implements BaseReleaseAliasTypeEntity<K>{
 
 	private static final long serialVersionUID = 6615127464602860751L;
 

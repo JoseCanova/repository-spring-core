@@ -1,39 +1,39 @@
 package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.WorkType;
+import org.nanotek.beans.entity.LabelType;
 import org.nanotek.entities.BaseBaseTypeDescriptionBean;
-import org.nanotek.entities.BaseWorkTypeBean;
+import org.nanotek.entities.BaseLabelTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
-public class WorkTypeBean 
-<K extends BaseBean<WorkTypeBean<K>,WorkType<?>>> 
-extends ProxyBase<WorkTypeBean<K>,WorkType<?>>
-implements BaseWorkTypeBean<WorkTypeBean<K>>{
-	
-	private static final long serialVersionUID = -6809769903803375286L;
-	
+public class LabelTypeBean 
+<K extends BaseBean<LabelTypeBean<K>, LabelType<?>>> 
+extends ProxyBase<LabelTypeBean<K>, LabelType<?>>
+implements BaseLabelTypeBean<LabelTypeBean<K>> {
+
+	private static final long serialVersionUID = 2469909007956199302L;
+
 	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
 	
-	public WorkTypeBean() {
+	public LabelTypeBean() {
 		super(castClass());
 		postConstruct();
 	}
-
-	public WorkTypeBean(Class<WorkType<?>> class1) {
+	
+	public LabelTypeBean(Class<LabelType<?>> class1) {
 		super(class1);
 		postConstruct();
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	private static Class<? extends WorkType<?>> castClass() {
-		return (Class<? extends WorkType<?>>) WorkType.class.asSubclass(WorkType.class);
+	private static Class<? extends LabelType<?>> castClass() {
+		return (Class<? extends LabelType<?>>) LabelType.class.asSubclass(LabelType.class);
 	}
 
 	private void postConstruct() {
 		baseTypeDescription = new  BaseTypeDescriptionBean<>();
 	}
-	
+
 	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
 		return baseTypeDescription;
 	}
@@ -41,6 +41,6 @@ implements BaseWorkTypeBean<WorkTypeBean<K>>{
 	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> baseTypeDescription) {
 		this.baseTypeDescription = baseTypeDescription;
 	}
-	
+
 
 }

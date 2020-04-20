@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.nanotek.BaseEntity;
+import org.nanotek.EntityTypeSupport;
 import org.nanotek.Priority;
+import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
+import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Service;
 public class CsvFileProcessingPriority<K extends BaseEntity<?,?>> 
 implements Priority<K,Integer>{
 
+	@Autowired 
+	BrainzMetaModelUtil brainzMetaModelUtil;
+	
 	@Autowired
 	BrainzGraphModel brainzGraphModel;
 
@@ -75,15 +81,16 @@ implements Priority<K,Integer>{
 					Priority<?,Integer> pnext=priorityMap.get(next); 
 					Priority<?,Integer> pparent=priorityMap.get(parent);
 					if(pparent.getPriority()>=pnext.getPriority()) { 
-						Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
-						Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
-						priorityMap.put(parent, pparentP);
-						priorityMap.put(next, pnextP);
+							Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
+							Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
+							priorityMap.put(parent, pparentP);
+							priorityMap.put(next, pnextP);
 					}
 				}
 
 			}});
 	}
+
 
 	public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){
 

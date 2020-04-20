@@ -8,12 +8,13 @@ import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.InstrumentTypeBean;
 import org.nanotek.beans.entity.InstrumentType;
 import org.nanotek.entities.immutables.ChildOrderEntity;
+import org.nanotek.entities.immutables.TypeNameEntity;
 
 public interface BaseInstrumentTypeBean<K extends BaseBean<K,InstrumentType<?>>> 
 extends Base<K>,
 BaseBean<K,InstrumentType<?>>,
 MutableGidEntity<UUID>,
-MutableNameEntity<String>,
+MutableTypeNameEntity<String>,
 MutableTypeIdEntity<Long>,
 MutableParentEntity<Long>,
 MutableChildOrderEntity<Long>,
@@ -51,13 +52,13 @@ MutableDescriptionBaseEntity<String>{
 	}
 
 	@Override
-	default String getName() {
-		return read(NameEntity.class).map(s->String.class.cast(s)).orElse("");
+	default String getTypeName() {
+		return read(TypeNameEntity.class).map(s->String.class.cast(s)).orElse("");
 	}
 
 	@Override
-	default void setName(String k) {
-		write(MutableNameEntity.class,k);
+	default void setTypeName(String k) {
+		write(MutableTypeNameEntity.class,k);
 	}
 
 	@Override
@@ -82,8 +83,8 @@ MutableDescriptionBaseEntity<String>{
 
 	public static  void main(String[] args) {
 		InstrumentTypeBean<?> bean = new InstrumentTypeBean(InstrumentType.class);
-		bean.setName("name");
-		System.out.println(bean.getName());
+		bean.setTypeName("name");
+		System.out.println(bean.getTypeName());
 		bean.setParent(1000L);
 		System.out.println(bean.getParent());
 		bean.setDescription("this is  a rescription");

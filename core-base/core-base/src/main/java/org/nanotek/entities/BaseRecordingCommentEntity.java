@@ -3,5 +3,6 @@ package org.nanotek.entities;
 import org.nanotek.TagInterface;
 
 @TagInterface
-public interface BaseArtistAliasTypeEntity<K>{
+public interface BaseRecordingCommentEntity<K> {
+
 }

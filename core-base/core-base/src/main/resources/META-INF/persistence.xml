@@ -70,6 +70,7 @@
 		<class>org.nanotek.beans.entity.NumberBase</class>
 		<class>org.nanotek.beans.entity.PositionBase</class>
 		<class>org.nanotek.beans.entity.Recording</class>
+		<class>org.nanotek.beans.entity.RecordingComment</class>
 		<class>org.nanotek.beans.entity.RecordingLength</class>
 		<class>org.nanotek.beans.entity.RecordingAlias</class>
 		<class>org.nanotek.beans.entity.RecordingAliasSortName</class>

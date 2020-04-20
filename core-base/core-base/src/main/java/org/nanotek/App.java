@@ -159,7 +159,7 @@ ApplicationRunner{
 				}
 			}
 		}.start();
-		log.debug("end time " + new Date());
+//		log.debug("end time " + new Date());
 	}
 
 

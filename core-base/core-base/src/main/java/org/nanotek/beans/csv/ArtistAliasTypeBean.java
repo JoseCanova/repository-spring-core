@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ArtistAliasType;
 import org.nanotek.entities.BaseArtistAliasTypeBean;
+import org.nanotek.entities.BaseBaseTypeDescriptionBean;
 import org.nanotek.proxy.ProxyBase;
 
 /*
@@ -19,9 +20,11 @@ implements  BaseArtistAliasTypeBean<ArtistAliasTypeBean<K>>{
 
 	private static final long serialVersionUID = 901207660901713562L;
 
+	BaseBaseTypeDescriptionBean<?> baseTypeDescription;
 	
 	public ArtistAliasTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 	
 	
@@ -32,8 +35,23 @@ implements  BaseArtistAliasTypeBean<ArtistAliasTypeBean<K>>{
 				asSubclass(ArtistAliasType.class);
 	}
 	
+	private void postConstruct() {
+		baseTypeDescription = new  BaseTypeDescriptionBean<>();
+	}
+	
+	public BaseBaseTypeDescriptionBean<?> getBaseTypeDescription() {
+		return baseTypeDescription;
+	}
+
+
+	public void setBaseTypeDescription(BaseBaseTypeDescriptionBean<?> baseTypeDescription) {
+		this.baseTypeDescription = baseTypeDescription;
+	}
+
+
 	public ArtistAliasTypeBean(Class<? extends ArtistAliasType<?>> class1) {
 		super(class1);
+		postConstruct();
 	}
 	
 	

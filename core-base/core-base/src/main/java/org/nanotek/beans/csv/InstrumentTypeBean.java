@@ -16,6 +16,7 @@ implements BaseInstrumentTypeBean<InstrumentTypeBean<K>> {
 	
 	public InstrumentTypeBean() {
 		super(castClass());
+		postConstruct();
 	}
 
 

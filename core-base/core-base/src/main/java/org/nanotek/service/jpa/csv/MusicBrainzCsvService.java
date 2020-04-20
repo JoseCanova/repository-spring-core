@@ -147,10 +147,11 @@ public class MusicBrainzCsvService
 				if(brainzKeyAnnotationPresent(a.getJavaType())) {
 					Optional<?> brainzType = dm.read(a.getName());
 					brainzType.ifPresent(t->{
-						findByBrainzId(t , a.getName())
-						.ifPresentOrElse(r ->{
-							dm.write(a.getName(), r);
-						},BaseException::new);
+						Optional<?>  retVal = findByBrainzId(t , a.getName());
+						if(retVal.isPresent())
+							dm.write(a.getName(), retVal.get());
+						else
+							dm.write(a.getName(), null);
 					});
 				}else if(!valid(a , dm )) { 
 					dm.write(a.getName(), null);

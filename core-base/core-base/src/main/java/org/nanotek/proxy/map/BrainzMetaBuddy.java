@@ -1,6 +1,5 @@
 package org.nanotek.proxy.map;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -66,7 +65,6 @@ public class BrainzMetaBuddy {
 	
 	public <K> K newInstance(EntityType<?> k) {
 		try {
-			 Constructor c = powerClass.getConstructor(EntityType.class);
 			 Object o =  powerClass.getConstructor(EntityType.class).newInstance(new Object[] {k});
 			 ((AttributeCopier)o).copy(k);
 			 return (K)o;

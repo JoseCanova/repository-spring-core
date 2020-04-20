@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -44,7 +45,10 @@ MutableIsrcSourceEntity<Integer>
 	public Long isrcId; 
 	
 	@NotNull(groups = {PrePersistValidationGroup.class})
-	@OneToOne (optional=false,mappedBy = "recordingIsrc")
+	@OneToOne (optional=false,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+	@JoinTable(name = "isrc_recording_join",
+	joinColumns = {@JoinColumn(name="isrc_id",referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name="recording_id",referencedColumnName = "id")})
 	public Recording<?> recording;
 	
 	@Column (name="source" , insertable=true )
@@ -54,7 +58,6 @@ MutableIsrcSourceEntity<Integer>
 	@Size(min=1,max=12)
 	@Column (name="isrc" , insertable=true,nullable = false , columnDefinition = " CHAR(12) NOT NULL CHECK (isrc ~ E'^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$')") 
 	public String isrc; 
-	
 	
 	public Isrc() {}
 

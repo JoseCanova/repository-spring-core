@@ -3,6 +3,7 @@ package org.nanotek.beans.entity;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,23 +15,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseRecordingEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableRecordingCommentEntity;
 import org.nanotek.entities.MutableRecordingIdEntity;
+import org.nanotek.entities.MutableRecordingIsrcEntity;
 import org.nanotek.entities.MutableRecordingLengthEntity;
 import org.nanotek.entities.MutableRecordingNameEntity;
 import org.nanotek.entities.MutableTrackEntitySet;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="recording" ,
 indexes= {
 @Index(name="idx_recording_id",columnList="recording_id")
 },
-uniqueConstraints = {@UniqueConstraint(name="uk_recording_id",columnNames = {"recording_id"})})
+uniqueConstraints = {@UniqueConstraint(name="uk_recording_id",columnNames = {"recording_id"})
+})
 public class Recording
 <E extends Recording<E>> extends BrainzBaseEntity<E> implements 
 MutableRecordingIdEntity<Long> , 
@@ -38,39 +45,45 @@ BaseRecordingEntity<E>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableTrackEntitySet<Track<?>>,
 MutableRecordingLengthEntity<RecordingLength<?>>,
-MutableGidEntity<UUID>,MutableRecordingNameEntity<String>{
+MutableGidEntity<UUID>,
+MutableRecordingNameEntity<String>,
+MutableRecordingCommentEntity<RecordingComment<?>>,
+MutableRecordingIsrcEntity<Isrc<?>>{
 
 	private static final long serialVersionUID = 1795844351898160253L;
 
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="recording_id" , nullable=false)
 	public Long recordingId;
 	
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-	@NotNull
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String recordingName;
 
-	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY,optional = false)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@ManyToOne(fetch=FetchType.LAZY,optional = false,cascade = CascadeType.PERSIST)
 	@JoinColumn(name="artist_credit_id" , referencedColumnName="id")
 	public ArtistCredit<?> artistCredit; 
 	
-	//TODO: implement proxy for collections.
 	@OneToMany(mappedBy="recording" , fetch=FetchType.LAZY)
-	private Set<Track<?>> tracks;
+	public Set<Track<?>> tracks;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	public RecordingLength<?> recordingLength;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinTable(name = "isrc_recording_join",
-	joinColumns = {@JoinColumn(name="recording_id",referencedColumnName = "id")},
-	inverseJoinColumns = {@JoinColumn(name="isrc_id",referencedColumnName = "id")})
+	@OneToOne(fetch = FetchType.LAZY , mappedBy = "recording")
 	public Isrc<?> recordingIsrc;
+	
+	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
+	@JoinTable(
+			  name = "recording_comment_join", 
+			  joinColumns = @JoinColumn(name = "recording_id" , referencedColumnName = "id"), 
+			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
+	public RecordingComment<?> recordingComment;
 	
 	public Recording() {}
 	
@@ -137,5 +150,20 @@ MutableGidEntity<UUID>,MutableRecordingNameEntity<String>{
 		this.recordingName = name;
 	}
 
+	public RecordingComment<?> getRecordingComment() {
+		return recordingComment;
+	}
 
+	public void setRecordingComment(RecordingComment<?> recordingComment) {
+		this.recordingComment = recordingComment;
+	}
+
+	public Isrc<?> getRecordingIsrc() {
+		return recordingIsrc;
+	}
+
+	public void setRecordingIsrc(Isrc<?> recordingIsrc) {
+		this.recordingIsrc = recordingIsrc;
+	}
+	
 }

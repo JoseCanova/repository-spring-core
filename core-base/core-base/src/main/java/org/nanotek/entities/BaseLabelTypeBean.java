@@ -5,15 +5,16 @@ import java.util.UUID;
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
-import org.nanotek.beans.csv.ReleaseAliasTypeBean;
-import org.nanotek.beans.entity.ReleaseAliasType;
+import org.nanotek.beans.csv.AreaTypeBean;
+import org.nanotek.beans.entity.AreaType;
+import org.nanotek.beans.entity.LabelType;
 import org.nanotek.entities.immutables.ChildOrderEntity;
 import org.nanotek.entities.immutables.TypeNameEntity;
 
-public interface BaseReleaseAliasTypeBean
-<K extends BaseBean<K,ReleaseAliasType<?>>> 
+public interface BaseLabelTypeBean
+<K extends BaseBean<K,LabelType<?>>> 
 extends Base<K>,
-BaseBean<K,ReleaseAliasType<?>>,
+BaseBean<K,LabelType<?>>,
 MutableGidEntity<UUID>,
 MutableTypeNameEntity<String>,
 MutableTypeIdEntity<Long>,
@@ -22,6 +23,7 @@ MutableChildOrderEntity<Long>,
 MutableBaseTypeDescriptionEntity<BaseBaseTypeDescriptionBean<?>>,
 MutableDescriptionBaseEntity<String>{
 
+	
 	@Override
 	default void setTypeId(Long k) {
 		write(MutableTypeIdEntity.class,k);
@@ -83,7 +85,22 @@ MutableDescriptionBaseEntity<String>{
 	}
 
 
-	public static void main(String[] args) { 
-		ReleaseAliasTypeBean<?> bean = new ReleaseAliasTypeBean<>();
+	public static  void main(String[] args) {
+		AreaTypeBean bean = new AreaTypeBean(AreaType.class);
+		bean.setTypeName("name");
+		System.out.println(bean.getTypeName());
+		bean.setParent(1000L);
+		System.out.println(bean.getParent());
+		bean.setDescription("this is  a rescription");
+		System.out.println(bean.getDescription());
+		bean.setChildOrder(100L);
+		System.out.println(bean.getChildOrder());
+		bean.setTypeId(1000l);
+		System.out.println(bean.getTypeId());
+		bean.setGid(UUID.randomUUID());
+		System.out.println(bean.getGid().toString());
+		
 	}
+	
+	
 }
