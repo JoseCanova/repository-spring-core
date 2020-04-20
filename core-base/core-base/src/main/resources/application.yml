@@ -298,6 +298,21 @@ worktype:
     description: 4
     gid: 5          
         
+instrument:
+  fileLocation: /opt/mbdump
+  fileName: instrument
+  immutable: org.nanotek.beans.csv.InstrumentBean
+  baseMap:     
+    instrumentId: 0
+    gid: 1
+    instrumentName: 2
+    typeId: 3
+    editsPending: 4
+    lastUpdatead: 5
+    comment: 6 
+    description: 7        
+        
+        
 recordingbean: 
   fileLocation: /opt/mbdump/recording_split
   fileName: recaa

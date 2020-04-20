@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,11 +48,13 @@ MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 	
 	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="instrument_id" , nullable=false)
-	private Long instrumentId; 
+	public Long instrumentId; 
+	
+	
 
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
 	
 	public void setGid(UUID gid) {
@@ -80,24 +83,24 @@ MutableGidEntity<UUID>,MutableInstrumentNameEntity<String>{
 	}
 	
 	@Valid
-	@NotNull(groups = {Default.class,CsvValidationGroup.class,PrePersistValidationGroup.class})
-	@ManyToOne(fetch = FetchType.LAZY , optional = false )
-	private InstrumentType<?> instrumentType; 
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
+	@ManyToOne(fetch = FetchType.LAZY , optional = false ,cascade = CascadeType.ALL)
+	public InstrumentType<?> instrumentType; 
 	
 
-	@OneToOne(optional=true)
+	@OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "instrument_comment_join", 
 			  joinColumns = @JoinColumn(name = "instrument_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id"))
-	private InstrumentComment<?> instrumentComment;
+	public InstrumentComment<?> instrumentComment;
 	
-	@OneToOne(optional=true)
+	@OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "instrument_description_join", 
 			  joinColumns = @JoinColumn(name = "instrument_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "description_id",referencedColumnName = "id"))
-	private InstrumentDescription<?> instrumentDescription;
+	public InstrumentDescription<?> instrumentDescription;
 	
 	public Instrument() {
 	}

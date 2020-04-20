@@ -7,15 +7,15 @@ import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.InstrumentBean;
 import org.nanotek.beans.entity.Instrument;
-import org.nanotek.beans.entity.InstrumentType;
 import org.nanotek.entities.immutables.InstrumentIdEntity;
 import org.nanotek.entities.immutables.InstrumentNameEntity;
 
-public interface BaseInstrumentBean<K extends BaseBean<K,Instrument<?>>> 
+public interface BaseInstrumentBean
+<K extends BaseBean<K,Instrument<?>>> 
 extends Base<K>,
-BaseBean<K,Instrument<?>>
-,MutableInstrumentNameEntity<String>
-,MutableGidEntity<UUID>,
+BaseBean<K,Instrument<?>>,
+MutableInstrumentNameEntity<String>,
+MutableGidEntity<UUID>,
 MutableInstrumentIdEntity<Long>,
 MutableInstrumentTypeEntity<BaseInstrumentTypeBean<?>>,
 MutableInstrumentCommentEntity<BaseInstrumentCommentBean<?>>,
