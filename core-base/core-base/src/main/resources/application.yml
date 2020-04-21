@@ -312,6 +312,19 @@ instrument:
     comment: 6 
     description: 7        
         
+mediumformat: 
+  fileLocation: /opt/mbdump
+  fileName: medium_format
+  immutable: org.nanotek.beans.csv.MediumFormatBean
+  baseMap:      
+    mediumFormatId: 0
+    mediumFormatName: 1
+    parent: 2
+    childOrder: 3
+    year: 4
+    discId: 5
+    description: 6
+    gid: 7       
         
 recordingbean: 
   fileLocation: /opt/mbdump/recording_split

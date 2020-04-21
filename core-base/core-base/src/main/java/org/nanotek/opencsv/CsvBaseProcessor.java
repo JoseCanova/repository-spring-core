@@ -149,6 +149,7 @@ implements ProcessorBase<R> , Base<R> , InitializingBean , ApplicationContextAwa
 			Optional<R> result = Optional.empty();
 			final List<ValueBase<?>> next = getBaseParser().readNext();
 			if (next !=null) {
+				log.debug("next line " + next.toString());
 				final BaseBean<?,?> base = csvToBean.processLine(mapColumnStrategy.getMapColumnStrategy(), next);
 				log.debug(base.getId().toString());
 //				result =  of(applicationContext.getBean(CsvResult.class),base);
