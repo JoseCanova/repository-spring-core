@@ -7,8 +7,11 @@ import org.nanotek.proxy.ProxyBase;
 
 public class MediumFormatBean 
 <K extends BaseBean<MediumFormatBean<K>,MediumFormat<?>>> 
-extends ProxyBase<MediumFormatBean<K>,MediumFormat<?>>
-implements BaseMediumFormatBean<MediumFormatBean<K>>{
+extends 
+ProxyBase<MediumFormatBean<K>,MediumFormat<?>>
+implements 
+BaseMediumFormatBean<MediumFormatBean<K>>
+{
 
 
 	private static final long serialVersionUID = 6169777855661430422L;

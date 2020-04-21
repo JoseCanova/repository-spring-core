@@ -53,6 +53,7 @@ implements BaseBean<K,ID>
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			throw new BaseException(e);
 		}
 		return isConfigured.get();
 	}
@@ -281,11 +282,6 @@ implements BaseBean<K,ID>
 
 	public HashMap<Class<?>, HashMap<Class<?>, BaseBean.ClassHandle<?>>> getChildInterfaceMap() {
 		return childInterfaceMap;
-	}
-
-
-	public void setChildInterfaceMap(HashMap<Class<?>, HashMap<Class<?>, BaseBean.ClassHandle<?>>> childInterfaceMap) {
-		this.childInterfaceMap = childInterfaceMap;
 	}
 
 

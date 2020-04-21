@@ -8,12 +8,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseMediumFormatEntity;
 import org.nanotek.entities.MutableDescriptionEntity;
+import org.nanotek.entities.MutableDiscIdEntity;
+import org.nanotek.entities.MutableGidEntity;
+import org.nanotek.entities.MutableMediumFormatIdEntity;
 import org.nanotek.entities.MutableMediumFormatNameEntity;
+import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableYearEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="medium_format",
@@ -24,33 +31,39 @@ extends BrainzBaseEntity<K> implements
 BaseMediumFormatEntity<K>,
 MutableDescriptionEntity<String>,
 MutableMediumFormatNameEntity<String>,
-MutableYearEntity<Integer>{
+MutableYearEntity<Integer>,
+MutableMediumFormatIdEntity<Long>,
+MutableDiscIdEntity<String>,
+MutableParentEntity<Long>,
+MutableGidEntity<UUID>
+{
 
 	private static final long serialVersionUID = 8104913204474210789L;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="medium_format_id" , insertable=true,nullable=false)
 	public Long mediumFormatId;
 	
-	@NotBlank
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name = "name" , insertable=true , nullable=false , updatable=true , columnDefinition = "VARCHAR NOT NULL")
 	public String mediumFormatName; 
 	
 	@Column(name = "parent")
-	private Long parent;
+	public Long parent;
 	
 	@Column(name = "year")
-	private Integer year; 
+	public Integer year; 
 	
+	@NotBlank(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name = "hasDiscId", length=6, nullable=false)
-	private String hasDiscId;
+	public String discId;
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name = "gid" , length=50 , insertable=true , nullable=false , updatable=true)
-	private UUID gid;
+	public UUID gid;
 	
 	@Column(name="description" , length=4000)
-	private String description;
+	public String description;
 	
 	public MediumFormat() { 
 		super();
@@ -63,7 +76,7 @@ MutableYearEntity<Integer>{
 		this.mediumFormatName = name;
 		this.parent = parent;
 		this.year = year;
-		this.hasDiscId = hasDiscId;
+		this.discId = hasDiscId;
 		this.gid = gid;
 		this.description = description;
 	}
@@ -93,12 +106,12 @@ MutableYearEntity<Integer>{
 		this.year = year;
 	}
 
-	public String getHasDiscId() {
-		return hasDiscId;
+	public String getDiscId() {
+		return discId;
 	}
 
-	public void setHasDiscId(String hasDiscId) {
-		this.hasDiscId = hasDiscId;
+	public void setDiscId(String hasDiscId) {
+		this.discId = hasDiscId;
 	}
 
 	public UUID getGid() {
@@ -126,4 +139,13 @@ MutableYearEntity<Integer>{
 		this.mediumFormatId = mediumFormatId;
 	}
 
+	@Override
+	public String toString() {
+		return "MediumFormat [mediumFormatId=" + mediumFormatId + ", mediumFormatName=" + mediumFormatName + ", parent="
+				+ parent + ", year=" + year + ", discId=" + discId + ", gid=" + gid + ", description=" + description
+				+ "]";
+	}
+
+	
+	
 }

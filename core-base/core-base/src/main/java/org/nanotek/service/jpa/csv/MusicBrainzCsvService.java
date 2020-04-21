@@ -9,7 +9,6 @@ import javax.persistence.metamodel.Attribute;
 import javax.validation.Validator;
 
 import org.nanotek.BaseEntity;
-import org.nanotek.BaseException;
 import org.nanotek.EntityTypeSupport;
 import org.nanotek.MutatorSupport;
 import org.nanotek.PrePersistValidationGroup;
@@ -73,48 +72,48 @@ public class MusicBrainzCsvService
 		}
 	}
 
-	private void saveProperties(B b) {
-		BrainzEntityMetaModel<?,B> brainzEntityMetaModel = brainzMetaModelUtil.getMetaModel(b.getClass());
-		EntityTypeSupport<?, ?> typeSupport = brainzEntityMetaModel.getEntityTypeSupport();
-		Class<?> bClass = b.getClass();
-		ForwardMapBean<B> dm = new ForwardMapBean<B>(bClass,b);
-		typeSupport
-		.getAttributes()
-		.stream()
-		.forEach(a ->{
-			if(a.getJavaType().getAnnotation(Entity.class) !=null) {
-				if(!brainzKeyAnnotationPresent(a.getJavaType())) {
-					Optional<X>  optProperty = dm.read(a.getName());
-//					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
-					optProperty.ifPresent(p-> { 
-						X p1 = baseEntityRepository.save(p);
-						dm.write(a.getName() , p1);
-					});
-				}
-			}
-		});
-	}
+//	private void saveProperties(B b) {
+//		BrainzEntityMetaModel<?,B> brainzEntityMetaModel = brainzMetaModelUtil.getMetaModel(b.getClass());
+//		EntityTypeSupport<?, ?> typeSupport = brainzEntityMetaModel.getEntityTypeSupport();
+//		Class<?> bClass = b.getClass();
+//		ForwardMapBean<B> dm = new ForwardMapBean<B>(bClass,b);
+//		typeSupport
+//		.getAttributes()
+//		.stream()
+//		.forEach(a ->{
+//			if(a.getJavaType().getAnnotation(Entity.class) !=null) {
+//				if(!brainzKeyAnnotationPresent(a.getJavaType())) {
+//					Optional<X>  optProperty = dm.read(a.getName());
+////					optProperty.ifPresent(p->populateParentRelationShipIfPresent(b,a,p));
+//					optProperty.ifPresent(p-> { 
+//						X p1 = baseEntityRepository.save(p);
+//						dm.write(a.getName() , p1);
+//					});
+//				}
+//			}
+//		});
+//	}
 
 
-	@SuppressWarnings("unchecked")
-	private void populateParentRelationShipIfPresent(B b, Attribute<?, ?> a, X p) {
-		ForwardMapBean<X> dmX = new ForwardMapBean<X>(p.getClass(),p);
-		Class<X> attributeClass = (Class<X>) p.getClass();
-		BrainzEntityMetaModel<X,?> attributeMetaModel = brainzMetaModelUtil.getMetaModel(attributeClass);
-		EntityTypeSupport<?,X> attributeEntityType = attributeMetaModel.getEntityTypeSupport();
-		if(attributeEntityType
-			.getAttributes()
-			.stream()
-			.anyMatch(a1->a1.getJavaType().equals(b.getClass()))) {
-			Attribute<? super X,?> parentAttribute = attributeEntityType
-											.getAttributes()
-											.stream()
-											.filter(a1->a1.getJavaType().equals(b.getClass()))
-											.findFirst().orElse(null);
-			String attributeName = parentAttribute.getName();
-			dmX.write(attributeName, b);
-		}
-	}
+//	@SuppressWarnings("unchecked")
+//	private void populateParentRelationShipIfPresent(B b, Attribute<?, ?> a, X p) {
+//		ForwardMapBean<X> dmX = new ForwardMapBean<X>(p.getClass(),p);
+//		Class<X> attributeClass = (Class<X>) p.getClass();
+//		BrainzEntityMetaModel<X,?> attributeMetaModel = brainzMetaModelUtil.getMetaModel(attributeClass);
+//		EntityTypeSupport<?,X> attributeEntityType = attributeMetaModel.getEntityTypeSupport();
+//		if(attributeEntityType
+//			.getAttributes()
+//			.stream()
+//			.anyMatch(a1->a1.getJavaType().equals(b.getClass()))) {
+//			Attribute<? super X,?> parentAttribute = attributeEntityType
+//											.getAttributes()
+//											.stream()
+//											.filter(a1->a1.getJavaType().equals(b.getClass()))
+//											.findFirst().orElse(null);
+//			String attributeName = parentAttribute.getName();
+//			dmX.write(attributeName, b);
+//		}
+//	}
 
 	@Transactional
 	private B save(B b) {
@@ -122,7 +121,7 @@ public class MusicBrainzCsvService
 		if(validationConstraints.size()>0) {
 			validationConstraints.stream().forEach(v->logger.debug(v.toString()));
 		}else { 
-			saveProperties(b);
+//			saveProperties(b);
 			brainzPeristenceService.save(b);
 		}
 		return b;
