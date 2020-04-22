@@ -8,14 +8,19 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.MutableFrequencyEntity;
+import org.nanotek.entities.MutableIsoCode1Entity;
 import org.nanotek.entities.MutableIsoCode2BEntity;
 import org.nanotek.entities.MutableIsoCode2TEntity;
 import org.nanotek.entities.MutableIsoCode3Entity;
 import org.nanotek.entities.MutableLanguageIdEntity;
+import org.nanotek.entities.MutableLanguageNameEntity;
 import org.nanotek.entities.immutables.BaseLanguageEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(name="language", 
@@ -29,26 +34,28 @@ MutableLanguageIdEntity<Long>,
 MutableIsoCode2TEntity<String>,
 MutableIsoCode2BEntity<String>,
 MutableFrequencyEntity<Long>,
-MutableIsoCode3Entity<String> {
+MutableIsoCode3Entity<String>,
+MutableLanguageNameEntity<String>,
+MutableIsoCode1Entity<String>{
 
 	private static final long serialVersionUID = 3416483640256915L;
 	
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="language_id")
 	public Long languageId;
 	
-	@NotBlank
+//	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode2T" , length=3)
 	public String isoCode2T; 
 	
-	@NotBlank
+//	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode2B" , length=3)
 	public String isoCode2B; 
 	
-	@NotBlank
+//	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Size(min = 2 , max = 2)
 	@Column(name="isoCode1" , length=2)
 	public String isoCode1; 
@@ -56,11 +63,16 @@ MutableIsoCode3Entity<String> {
 	@Column(name="frequency")
 	public Long frequency;
 	
-	@NotBlank
+//	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Size(min = 3 , max = 3)
 	@Column(name="isoCode3", length=3)
 	public String isoCode3;
 
+	@NotBlank(groups = {PrePersistValidationGroup.class})
+	@Size(min = 1 , max = 100)
+	@Column(name="name", length=100 , nullable=false)
+	public String languageName;
+	
 	
 	public Language() {}
 
@@ -125,6 +137,22 @@ MutableIsoCode3Entity<String> {
 	@Override
 	public String getIsoCode3() {
 		return isoCode3;
+	}
+
+	public String getLanguageName() {
+		return languageName;
+	}
+
+	public void setLanguageName(String languageName) {
+		this.languageName = languageName;
+	}
+
+	public String getIsoCode1() {
+		return isoCode1;
+	}
+
+	public void setIsoCode1(String isoCode1) {
+		this.isoCode1 = isoCode1;
 	}
 	
 

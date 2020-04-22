@@ -17,7 +17,7 @@ MutableReleaseAliasEntity<ReleaseAlias<?>>{
 	private static final long serialVersionUID = -5609249998157622354L;
 	
 	@OneToOne(mappedBy = "releaseAliasLocale")
-	private ReleaseAlias<?> releaseAlias;
+	public ReleaseAlias<?> releaseAlias;
 
 	public ReleaseAliasLocale() {
 	}

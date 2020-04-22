@@ -23,7 +23,7 @@ MutableCommentEntity<String>{
 	
 	@NotNull(groups = Default.class)
 	@OneToOne(mappedBy = "areaComment")
-	private Area<?> area;
+	public Area<?> area;
 
 	public AreaComment() {}
 	

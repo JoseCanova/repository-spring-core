@@ -10,8 +10,10 @@ import org.nanotek.BaseEntity;
 import org.nanotek.EntityTypeSupport;
 import org.nanotek.Priority;
 import org.nanotek.beans.EntityBeanInfo;
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
+import org.nanotek.entities.metamodel.MetaModelEdge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +82,12 @@ implements Priority<K,Integer>{
 				if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
 					Priority<?,Integer> pnext=priorityMap.get(next); 
 					Priority<?,Integer> pparent=priorityMap.get(parent);
-					if(pparent.getPriority()>=pnext.getPriority()) { 
+					BrainzEntityMetaModel<? extends BaseEntity, Object> parentMetaModel = brainzMetaModelUtil.getMetaModel(parent);
+					BrainzEntityMetaModel<? extends BaseEntity, Object> nextMetaModel  = brainzMetaModelUtil.getMetaModel(next);
+					MetaModelEdge me  = parentMetaModel.getModelGraph().getEdge(parentMetaModel, nextMetaModel);
+					Double weight = parentMetaModel.getModelGraph().getEdgeWeight(me);
+//					if(pparent.getPriority()>=pnext.getPriority()) { 
+					if (weight == 2.0d) {
 							Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
 							Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
 							priorityMap.put(parent, pparentP);
@@ -90,7 +97,6 @@ implements Priority<K,Integer>{
 
 			}});
 	}
-
 
 	public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){
 

@@ -17,7 +17,7 @@ MutableArtistEntity<Artist<?>> {
 	private static final long serialVersionUID = 2608408556126104972L;
 
 	@OneToOne(mappedBy = "artistComment")
-	private Artist<?> artist;
+	public Artist<?> artist;
 
 	public ArtistComment() {}
 	

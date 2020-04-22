@@ -139,7 +139,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 
 
 	@OneToMany(mappedBy = "artist")
-	List<ArtistAlias<?>> artistAlias;
+	public List<ArtistAlias<?>> artistAlias;
 
 	public Artist() {
 		prepare();

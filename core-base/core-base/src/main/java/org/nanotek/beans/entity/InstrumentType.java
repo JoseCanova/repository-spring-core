@@ -18,7 +18,7 @@ public class InstrumentType<K extends InstrumentType<K>> extends BaseType<K> {
 	private static final long serialVersionUID = 1526958848784766177L;
 
 	@OneToMany(fetch = FetchType.LAZY , mappedBy = "instrumentType")
-	private Set<Instrument<?>> instruments;
+	public Set<Instrument<?>> instruments;
 	
 	public InstrumentType() {
 	}

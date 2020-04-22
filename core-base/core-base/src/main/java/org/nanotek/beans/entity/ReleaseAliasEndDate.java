@@ -21,7 +21,7 @@ MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity
 	private static final long serialVersionUID = -2316725967469275402L;
 
 	@OneToOne(mappedBy="releaseAliasEndDate")
-	private ReleaseAlias releaseAlias;
+	public ReleaseAlias releaseAlias;
 	
 	public ReleaseAliasEndDate() {
 	}

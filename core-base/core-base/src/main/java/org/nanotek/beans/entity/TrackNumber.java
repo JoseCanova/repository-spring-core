@@ -13,7 +13,7 @@ public class TrackNumber extends StringNumberBase<TrackNumber>{
 	
 	@NotNull
 	@OneToOne(optional=false , mappedBy = "number")
-	private Track<?> track;
+	public Track<?> track;
 	
 	public TrackNumber() {
 	}
