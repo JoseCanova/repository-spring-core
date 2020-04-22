@@ -16,7 +16,7 @@ implements MutableArtistEntity<Artist<?>> {
 	private static final long serialVersionUID = 492175239931176224L;
 
 	@OneToOne(mappedBy = "artistSortName")
-	private Artist<?> artist;
+	public Artist<?> artist;
 	
 	
 	

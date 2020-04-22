@@ -14,14 +14,18 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.StaticMetamodel;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
+import org.nanotek.BaseException;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -69,19 +73,22 @@ public class BrainzMetaModelUtil implements InitializingBean{
 			BrainzEntityMetaModel <?,?> meta = e.getValue();
 			Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> 
 			metaModelGraph = meta.getModelGraph();
-			metaModelGraph
-			.edgeSet()
-			.forEach(es ->{
-				if(!graph.containsVertex(es.getSource())) {
-					graph.addVertex(es.getSource());
-				}
-				if(!graph.containsVertex(es.getTarget())) {
-					graph.addVertex(es.getTarget());
-				}
-				if(!graph.containsEdge(es)) {
-					graph.addEdge(es.getSource(),es.getTarget());
-				}
-			});
+			if(metaModelGraph.edgeSet() !=null)
+				metaModelGraph
+				.edgeSet()
+				.forEach(es ->{
+					if(es.getSource() !=null && es.getTarget()!=null) {
+						if(!graph.containsVertex(es.getSource())) {
+							graph.addVertex(es.getSource());
+						}
+						if(!graph.containsVertex(es.getTarget())) {
+							graph.addVertex(es.getTarget());
+						}
+						if(!graph.containsEdge(es)) {
+							graph.addEdge(es.getSource(),es.getTarget());
+						}
+					}
+				});
 
 		});
 
@@ -103,8 +110,16 @@ public class BrainzMetaModelUtil implements InitializingBean{
 			.forEach(a->{
 				BrainzEntityMetaModel<?,?> attributeEntity = tempMap.get(a.getAttributeClass());
 				if(attributeEntity!=null) {
-					graph.addVertex(attributeEntity);
-					graph.addEdge(theEntity, attributeEntity);
+					if(graph.addVertex(attributeEntity)) {;
+						MetaModelEdge emodel = graph.addEdge(theEntity, attributeEntity);
+						Field af  = getField(a.getName(),theEntity);
+						boolean isRequired = checkAnnotations(af);
+						if(isRequired) { 
+							graph.setEdgeWeight(emodel, 2d);
+						}else { 
+							graph.setEdgeWeight(emodel,1d);
+						}
+					}
 				}
 			});
 			theEntity.setModelGraph(graph);
@@ -116,10 +131,24 @@ public class BrainzMetaModelUtil implements InitializingBean{
 
 	}
 
+	private boolean checkAnnotations(Field af) {
+		return af.getAnnotation(NotNull.class) !=null || af.getAnnotation(NotBlank.class)!=null;
+	}
+
+	private Field getField(String name, BrainzEntityMetaModel<?, ?> theEntity) {
+		try {
+			System.out.println(name + "  " + theEntity.getEntityClass().getName());
+			return theEntity.getEntityClass().getField(name);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BaseException(e);
+		}
+	}
+
 	private  Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> buildDirectedSimpleGraph() {
 		return GraphTypeBuilder
 				.<BrainzEntityMetaModel<?,?>, MetaModelEdge>directed() .allowingMultipleEdges(true)
-				.allowingSelfLoops(true).edgeClass(MetaModelEdge.class).weighted(false).buildGraph();
+				.allowingSelfLoops(true).edgeClass(MetaModelEdge.class).weighted(true).buildGraph();
 	}
 
 	private  Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> buildUnDirectedSimpleGraph() {

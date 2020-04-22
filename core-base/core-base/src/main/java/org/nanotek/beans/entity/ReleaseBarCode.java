@@ -23,7 +23,7 @@ MutableBarCodeEntity<String>{
 
 	@NotNull
 	@OneToOne(mappedBy = "releaseBarCode" , optional = false , fetch = FetchType.LAZY)
-	private Release<?> release;
+	public Release<?> release;
 	
 	public ReleaseBarCode() {
 	}

@@ -339,5 +339,18 @@ recordingbean:
     comment: 5
     editsPending: 6
     lastUpdated: 7
-    video: 8         
+    video: 8 
+    
+language:
+  fileLocation: /opt/mbdump
+  fileName: language
+  immutable: org.nanotek.beans.csv.LanguageBean
+  baseMap:  
+      languageId: 0 
+      isoCode2T: 1 
+      isoCode2B: 2 
+      isoCode1: 3 
+      languageName: 4 
+      frequency: 5 
+      isoCode3: 6               
     

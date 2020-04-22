@@ -17,7 +17,7 @@ implements MutableTrackEntity<Track<?>>{
 	
 	@NotNull
 	@OneToOne(optional=false)
-	private Track<?> track;
+	public Track<?> track;
 	
 	public TrackLength() {
 	}

@@ -10,11 +10,9 @@ public class LanguageBean
 extends ProxyBase<LanguageBean<K>,Language<?>>
 implements BaseLanguageBean<LanguageBean<K>> {
 
-
 	public LanguageBean() {
 		super(castClass());
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Language<?>> castClass() {
@@ -26,17 +24,5 @@ implements BaseLanguageBean<LanguageBean<K>> {
 	}
 
 	private static final long serialVersionUID = 2997501833949969600L;
-
-
-//	
-//	public Long laguageId; 
-//	public String isoCode2t; 
-//	public String isoCode2b; 
-//	public String isoCode1; 
-//	public String name; 
-//	public Long frequency;
-//	public String isoCode3;
-//	
-	
 
 }

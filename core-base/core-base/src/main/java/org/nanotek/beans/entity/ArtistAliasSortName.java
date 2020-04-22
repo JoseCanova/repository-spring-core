@@ -15,7 +15,7 @@ implements BaseArtistAliasSortNameEntity<K> {
 	private static final long serialVersionUID = -7162854301861535960L;
 
 	@OneToOne(mappedBy="artistAliasSortName")
-	private ArtistAlias<?> artistAlias;
+	public ArtistAlias<?> artistAlias;
 	
 	public ArtistAliasSortName() {
 	}

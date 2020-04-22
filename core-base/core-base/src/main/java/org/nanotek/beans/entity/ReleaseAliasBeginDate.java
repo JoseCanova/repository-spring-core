@@ -15,7 +15,7 @@ implements BaseReleaseAliasBeginDateEntity<K>{
 	private static final long serialVersionUID = -3004596106076682952L;
 	
 	@OneToOne(mappedBy="releaseAliasBeginDate")
-	private ReleaseAlias<?> releaseAlias;
+	public ReleaseAlias<?> releaseAlias;
 	
 	public ReleaseAliasBeginDate() {
 	}

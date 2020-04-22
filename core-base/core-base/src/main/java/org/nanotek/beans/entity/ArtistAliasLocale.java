@@ -17,7 +17,7 @@ public class ArtistAliasLocale<K extends ArtistAliasLocale<K>> extends LocaleBas
 
 	@NotNull
 	@OneToOne(mappedBy="artistAliasLocale")
-	private ArtistAlias<?> artistAlias;
+	public ArtistAlias<?> artistAlias;
 	
 	public ArtistAliasLocale() {
 	}

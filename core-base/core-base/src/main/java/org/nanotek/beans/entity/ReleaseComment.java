@@ -22,7 +22,7 @@ MutableReleaseEntity<Release<?>> {
 	
 	@NotNull
 	@OneToOne(mappedBy = "releaseComment" , optional = false , fetch = FetchType.LAZY)
-	private Release<?> release;
+	public Release<?> release;
 	
 	public ReleaseComment() {
 	}

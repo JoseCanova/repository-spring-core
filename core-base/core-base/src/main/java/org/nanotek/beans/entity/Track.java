@@ -28,11 +28,11 @@ implements BaseTrackEntity<K>{
 
 	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@Column(name="track_id")
-	private Long trackId;
+	public Long trackId;
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
-	private Medium<?> medium; 
+	public Medium<?> medium; 
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
@@ -40,7 +40,7 @@ implements BaseTrackEntity<K>{
 			  name = "track_position_join", 
 			  joinColumns = @JoinColumn(name = "track_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
-	private TrackPosition<?> position;
+	public TrackPosition<?> position;
 	
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
@@ -49,11 +49,11 @@ implements BaseTrackEntity<K>{
 			  name = "track_number_join", 
 			  joinColumns = @JoinColumn(name = "track_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "number_id",referencedColumnName = "id"))
-	private TrackNumber number; 
+	public TrackNumber number; 
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
-	private ArtistCredit<?> artistCredit; 
+	public ArtistCredit<?> artistCredit; 
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
@@ -61,12 +61,12 @@ implements BaseTrackEntity<K>{
 			  name = "track_length_join", 
 			  joinColumns = @JoinColumn(name = "track_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "length_id",referencedColumnName = "id"))
-	private TrackLength length;
+	public TrackLength length;
 	
 	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
 	@ManyToOne(fetch=FetchType.LAZY , optional = false)
 	@JoinColumn(name="recordingId" , referencedColumnName="id")
-	private Recording<?> recording;
+	public Recording<?> recording;
 	
 	public Medium<?> getMedium() {
 		return medium;

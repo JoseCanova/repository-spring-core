@@ -35,7 +35,7 @@ MutableRecordingEntity<Recording<?>>{
 	
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY , mappedBy = "recordingLength")
-	private Recording<?> recording;
+	public Recording<?> recording;
 	
 	public RecordingLength() {}
 	
