@@ -18,6 +18,7 @@ import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
+import org.nanotek.service.search.BaseSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,10 @@ ApplicationRunner{
 
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
+	
+	/*
+	 * @Autowired BaseSearchService<?> searchService;
+	 */
 
 
 	public App() {
@@ -136,30 +141,31 @@ ApplicationRunner{
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
 		}while(prior !=null);
 
+//		searchService.indexArtistCreditEntities();
 
 		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
 		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
 		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 		//		System.out.println(path);
 		//		System.out.println(path1);
-		new Thread() {
-			@Override
-			public void run() {
-				CsvResult<?,?> result = null ; 
-				FutureTask <R>r;
-				log.debug("start time " + new Date());
-				try {
-					do {
-						r =  csvBaseProcessor.getNext();
-						currentThread().join(1);
-					}while(processor.isActive() && r.get() !=null);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new BaseException(e);
-				}
-			}
-		}.start();
-//		log.debug("end time " + new Date());
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				CsvResult<?,?> result = null ; 
+//				FutureTask <R>r;
+//				log.debug("start time " + new Date());
+//				try {
+//					do {
+//						r =  csvBaseProcessor.getNext();
+//						currentThread().join(1);
+//					}while(processor.isActive() && r.get() !=null);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					throw new BaseException(e);
+//				}
+//			}
+//		}.start();
+		log.debug("end time " + new Date());
 	}
 
 

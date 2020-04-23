@@ -2,6 +2,7 @@ package org.nanotek;
 
 import java.beans.beancontext.BeanContextSupport;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 
 import javax.persistence.EntityManagerFactory;
@@ -38,6 +39,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -54,6 +56,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationInterceptor;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 //import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.google.gson.Gson;
 import com.zaxxer.hikari.HikariConfig;
@@ -78,6 +81,12 @@ public class BaseConfiguration implements ApplicationContextAware{
 		return new PropertyUtils();
 	}
 	
+	
+	@Bean
+	public Jackson2ObjectMapperBuilder configureObjectMapper() {
+	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
+	}
+
 //	@Bean
 //	ManagementService ehCacheJmx(
 //							@Autowired @Qualifier("ehCacheManager")CacheManager cacheManager , 
@@ -198,7 +207,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "language")
+	@ConfigurationProperties(value = "recordingbean")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
