@@ -1,12 +1,17 @@
 package org.nanotek.service.http;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
+import org.nanotek.service.http.response.CollectionResponseEntity;
 import org.nanotek.service.http.response.ResponseBase;
 import org.nanotek.service.jpa.BrainzPersistenceService;
+import org.nanotek.service.search.BaseSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Example;
@@ -18,14 +23,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @Qualifier(value = "BrainzController")
 @RequestMapping(path={"/brainz"})
 public class BrainzController<B extends BrainzBaseEntity<B>> 
 extends BrainzPersistenceService<B>
 {
+	
+	@Autowired
+	@Qualifier("BaseSearchService")
+	public  BaseSearchService<B> baseSearchService;
 
 	public BrainzController(@Autowired
 			BrainzBaseEntityRepository<B> repository) {
@@ -41,7 +48,18 @@ extends BrainzPersistenceService<B>
 		return returnResponse(example);
 	}
 
-
+	@GetMapping(path = "/artist_credit/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findArtistCreditName(@PathVariable(value="name") String name) {
+		return  CollectionResponseEntity.fromCollection(
+							baseSearchService.findByEntityName(toClass(ArtistCredit.class), name), HttpStatus.OK);
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static <B extends BrainzBaseEntity<B>> Class<B> toClass(Class clazz){ 
+		return clazz;
+	}
+	
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {

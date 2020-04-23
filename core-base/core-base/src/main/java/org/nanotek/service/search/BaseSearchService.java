@@ -13,11 +13,14 @@ import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.nanotek.BaseException;
 import org.nanotek.beans.entity.BrainzBaseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Service
+@Service
+@Qualifier(value = "BaseSearchService")
 public class BaseSearchService<B extends BrainzBaseEntity<B>>{
 
 
@@ -41,7 +44,7 @@ public class BaseSearchService<B extends BrainzBaseEntity<B>>{
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED , propagation = Propagation.REQUIRES_NEW)
-    public <S extends B> List<?> findByEntityName(Class<B> entityClass,String searchQuery) { 
+    public <S extends B> List<B> findByEntityName(Class<B> entityClass,String searchQuery) { 
     	FullTextEntityManager indexer = createIndexer(entityManagerFactory.createEntityManager());
     	QueryBuilder qb = indexer.getSearchFactory()
     									.buildQueryBuilder()
