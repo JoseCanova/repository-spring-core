@@ -7,9 +7,9 @@ import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
+import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
-import org.nanotek.service.http.response.ResponseBase;
 import org.nanotek.service.jpa.BrainzPersistenceService;
 import org.nanotek.service.search.BaseSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Qualifier(value = "BrainzController")
 @RequestMapping(path={"/brainz"})
+@SuppressWarnings("rawtypes")
 public class BrainzController<B extends BrainzBaseEntity<B>> 
 extends BrainzPersistenceService<B>
 {
@@ -41,11 +42,10 @@ extends BrainzPersistenceService<B>
 
 	@GetMapping(path = "/artist_credit/id/{id}")
 	@Transactional
-	public <S extends B> ResponseBase<S> findArtistCredit(@PathVariable(value="id") Long  id) {
-		ArtistCredit<?> ac = new ArtistCredit<>(); 
-		ac.setArtistCreditId(id);
-		Example<S> example = Example.of(to(ac));
-		return returnResponse(example);
+	public <S extends B> ResponseEntity<?> findArtistCredit(@PathVariable(value="id") Long  id) {
+		ForwardMapBean<S> fm = new ForwardMapBean<>(ArtistCredit.class);
+		fm.write("artistCreditId", id);
+		return returnResponse(Example.of(fm.to()));
 	}
 
 	@GetMapping(path = "/artist_credit/name/{name}")
@@ -55,7 +55,7 @@ extends BrainzPersistenceService<B>
 							baseSearchService.findByEntityName(toClass(ArtistCredit.class), name), HttpStatus.OK);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked"})
 	private static <B extends BrainzBaseEntity<B>> Class<B> toClass(Class clazz){ 
 		return clazz;
 	}
@@ -63,31 +63,30 @@ extends BrainzPersistenceService<B>
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {
-		AreaType<?> type = new AreaType<>(); 
-		type.setTypeId(id);
-		Example<S> example = Example.of(to(type));
-		return returnResponse(example);
+		ForwardMapBean<S> fm = new ForwardMapBean<>(AreaType.class);
+		fm.write("typeId", id);
+		return returnResponse(Example.of(fm.to()));
 	}
 	
 	@GetMapping(path = "/area/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findArea(@PathVariable(value="id") Long  id) {
-		Area<?> area = new Area<>(); 
-		area.setAreaId(id);
-		Example<S> example = Example.of(to(area));
+		ForwardMapBean<S> fm = new ForwardMapBean<>(Area.class);
+		fm.write("areaId", id);
+		Example<S> example = Example.of(fm.to());
 		return returnResponse(example);
 	}
 	
-	private <S extends B> ResponseBase<S> returnResponse(Example<S> example) {
+	private  <S extends B> ResponseEntity<?> returnResponse(Example<S> example) {
 		Optional<S> opt = findOne(example);
 		HttpStatus status =  opt.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return ResponseBase.fromEntity(opt,status);
+		return new ResponseEntity<>(opt,status);
 	}
+
 	
-	@SuppressWarnings("unchecked")
-	private static <S extends B, B> S to(B instance){ 
-		return (S)instance;
+	private ResponseEntity<?> returnResponse(Optional<?> opt) {
+		HttpStatus status =  opt.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+		return new ResponseEntity<>(opt,status);
 	}
-	
 
 }
