@@ -50,6 +50,14 @@ MutableRecordingCommentEntity<BaseRecordingCommentBean<?>>
 		write(MutableRecordingNameEntity.class,k);
 	}
 	
+	default void setArtistCreditId(Long id) { 
+		 getArtistCredit().setArtistCreditId(id);
+	}
+	
+	default Long getArtistCreditId() { 
+		return getArtistCredit().getArtistCreditId();
+	}
+	
 	default void setLength(Long l) {
 		getRecordingLength().setLength(l);
 	}

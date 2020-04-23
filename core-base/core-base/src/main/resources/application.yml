@@ -337,8 +337,8 @@ recordingbean:
   baseMap:   
     recordingId: 0
     gid: 1
-    name: 2
-    artistCredit: 3
+    recordingName: 2
+    artistCreditId: 3
     length: 4
     comment: 5
     editsPending: 6
