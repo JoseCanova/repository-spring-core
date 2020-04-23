@@ -16,10 +16,13 @@ import org.nanotek.Base;
 import org.nanotek.entities.BaseSequenceLongBaseEntity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @MappedSuperclass
 @JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class)
+@JsonInclude(Include.NON_EMPTY)
 public class SequenceLongBase<K extends SequenceLongBase<K,ID>, ID extends Serializable>
 implements  BaseSequenceLongBaseEntity<K, ID>{
 

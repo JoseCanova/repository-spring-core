@@ -3,14 +3,13 @@ package org.nanotek.service.jpa;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 public class BasePersistenceService<B extends BrainzBaseEntity<B>, C extends BrainzBaseEntityRepository<B>>{
 
@@ -123,6 +122,12 @@ public class BasePersistenceService<B extends BrainzBaseEntity<B>, C extends Bra
 	}
 
 
+	@Transactional
+	public <S extends B> S findByExample(Example<S> example) {
+		return baseRepository.findOne(example).map(s->s).orElse(null);
+	}
+	
+	@Transactional
 	public <S extends B> Optional<S> findOne(Example<S> example) {
 		return baseRepository.findOne(example);
 	}
