@@ -5,6 +5,7 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
+import org.nanotek.service.http.response.ResponseBase;
 import org.nanotek.service.jpa.BrainzPersistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @Qualifier(value = "BrainzController")
@@ -31,24 +34,21 @@ extends BrainzPersistenceService<B>
 
 	@GetMapping(path = "/artist_credit/id/{id}")
 	@Transactional
-	public <S extends B> ResponseEntity<?> findArtistCredit(@PathVariable(value="id") Long  id) {
+	public <S extends B> ResponseBase<S> findArtistCredit(@PathVariable(value="id") Long  id) {
 		ArtistCredit<?> ac = new ArtistCredit<>(); 
 		ac.setArtistCreditId(id);
-		Example<S> example = (Example<S>) Example.of(ac);
-		S opt = findByExample(example);
-		HttpStatus status =  opt !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(opt,status);
+		Example<S> example = Example.of(to(ac));
+		return returnResponse(example);
 	}
-	
+
+
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {
 		AreaType<?> type = new AreaType<>(); 
 		type.setTypeId(id);
-		Example<S> example = (Example<S>) Example.of(type);
-		S opt = findByExample(example);
-		HttpStatus status =  opt !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(opt,status);
+		Example<S> example = Example.of(to(type));
+		return returnResponse(example);
 	}
 	
 	@GetMapping(path = "/area/id/{id}")
@@ -56,13 +56,20 @@ extends BrainzPersistenceService<B>
 	public <S extends B> ResponseEntity<?> findArea(@PathVariable(value="id") Long  id) {
 		Area<?> area = new Area<>(); 
 		area.setAreaId(id);
-		Example<S> example = (Example<S>) Example.of(area);
-		S opt = findByExample(example);
-		HttpStatus status =  opt !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(opt,status);
+		Example<S> example = Example.of(to(area));
+		return returnResponse(example);
 	}
 	
+	private <S extends B> ResponseBase<S> returnResponse(Example<S> example) {
+		Optional<S> opt = findOne(example);
+		HttpStatus status =  opt.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+		return ResponseBase.fromEntity(opt,status);
+	}
 	
+	@SuppressWarnings("unchecked")
+	private static <S extends B, B> S to(B instance){ 
+		return (S)instance;
+	}
 	
 
 }
