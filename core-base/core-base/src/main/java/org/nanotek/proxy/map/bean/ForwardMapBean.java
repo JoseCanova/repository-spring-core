@@ -76,7 +76,6 @@ implements DataTransferMutator<String>
 		}else {
 			descriptorMap.put(displayName, verifyValue(pTye,forMap));
 		}
-
 	}
 
 	private PropertyDescriptorType verifyValue(PropertyDescriptorType v, PropertyDescriptor forMap) {
