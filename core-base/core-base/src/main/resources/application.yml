@@ -23,9 +23,13 @@ spring:
     maximumPoolSize: 250
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
+        search:
+         default:
+          directory_provider: filesystem
+          indexBase: /var/lucene/indexes
         format_sql: true
         ddl-auto: create-drop
         javax:

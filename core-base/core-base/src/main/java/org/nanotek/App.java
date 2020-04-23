@@ -18,6 +18,7 @@ import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
+import org.nanotek.service.search.BaseSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,10 @@ ApplicationRunner{
 
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
+	
+	/*
+	 * @Autowired BaseSearchService<?> searchService;
+	 */
 
 
 	public App() {
@@ -136,6 +141,7 @@ ApplicationRunner{
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
 		}while(prior !=null);
 
+//		searchService.indexArtistCreditEntities();
 
 		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
 		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
@@ -159,7 +165,7 @@ ApplicationRunner{
 				}
 			}
 		}.start();
-//		log.debug("end time " + new Date());
+		log.debug("end time " + new Date());
 	}
 
 
