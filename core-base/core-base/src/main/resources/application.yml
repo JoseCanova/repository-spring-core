@@ -331,8 +331,8 @@ mediumformat:
     gid: 7       
         
 recordingbean: 
-  fileLocation: /opt/mbdump
-  fileName: recording_dump
+  fileLocation: /opt/mbdump/recording_split
+  fileName: recaa
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
     recordingId: 0

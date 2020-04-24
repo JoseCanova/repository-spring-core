@@ -18,6 +18,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseRecordingEntity;
@@ -31,6 +35,7 @@ import org.nanotek.entities.MutableRecordingNameEntity;
 import org.nanotek.entities.MutableTrackEntitySet;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Indexed
 @Entity
 @Table(name="recording" ,
 indexes= {
@@ -60,6 +65,7 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String recordingName;
