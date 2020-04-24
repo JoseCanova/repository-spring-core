@@ -7,6 +7,7 @@ import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
+import org.nanotek.beans.entity.Recording;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
@@ -54,6 +55,13 @@ extends BrainzPersistenceService<B>
 							baseSearchService.findByEntityName(toClass(ArtistCredit.class), name), HttpStatus.OK);
 	}
 	
+	@GetMapping(path = "/recording/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findRecording(@PathVariable(value="name") String name) {
+		return  CollectionResponseEntity.fromCollection(
+							baseSearchService.findByEntityName(toClass(Recording.class), name), HttpStatus.OK);
+	}
+	
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {
@@ -64,6 +72,13 @@ extends BrainzPersistenceService<B>
 	@Transactional
 	public <S extends B> ResponseEntity<?> findArea(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.AREA , id);
+	}
+	
+	
+	@GetMapping(path = "/recording/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findRecording(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.RECORDING, id);
 	}
 	
 	private  <S extends B>  ResponseEntity<?> prepareResponse(BaseFieldClassEnum fieldEnum , Long id) {
@@ -88,7 +103,8 @@ extends BrainzPersistenceService<B>
 		
 		ARTIST_CREDIT("artistCreditId" , ArtistCredit.class),
 		AREA_TYPE("typeId" , AreaType.class),
-		AREA ("areaId" , Area.class);
+		AREA ("areaId" , Area.class),
+		RECORDING("recordingId" , Recording.class);
 		
 		
 		private String fieldId;
