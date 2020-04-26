@@ -3,6 +3,7 @@ package org.nanotek.service.http;
 import java.util.List;
 import java.util.Optional;
 
+import org.nanotek.QueryBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
@@ -12,6 +13,7 @@ import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
 import org.nanotek.service.jpa.BrainzPersistenceService;
+import org.nanotek.service.mq.AsyncBaseSender;
 import org.nanotek.service.search.BaseSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,13 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Qualifier(value = "BrainzController")
 @RequestMapping(path={"/brainz"},produces = MediaType.APPLICATION_JSON_VALUE)
 @SuppressWarnings("rawtypes")
-public class BrainzController<B extends BrainzBaseEntity<B>> 
+public class BrainzController<B extends BrainzBaseEntity<B>,K extends QueryBase<K>> 
 extends BrainzPersistenceService<B>
 {
 	
 	@Autowired
 	@Qualifier("BaseSearchService")
 	public  BaseSearchService<B> baseSearchService;
+	
+	@Autowired
+	@Qualifier("AsyncBaseSender")
+	public AsyncBaseSender<K,?> baseSender;
 
 	public BrainzController(@Autowired
 			BrainzBaseEntityRepository<B> repository) {
@@ -51,15 +57,15 @@ extends BrainzPersistenceService<B>
 	@GetMapping(path = "/artist_credit/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findArtistCreditName(@PathVariable(value="name") String name) {
-		return  CollectionResponseEntity.fromCollection(
-							baseSearchService.findByEntityName(toClass(ArtistCredit.class), name), HttpStatus.OK);
+		List<B> results = baseSearchService.findByEntityName(toClass(ArtistCredit.class), name);
+		return processResult(name,results);
 	}
 	
 	@GetMapping(path = "/recording/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findRecording(@PathVariable(value="name") String name) {
-		return  CollectionResponseEntity.fromCollection(
-							baseSearchService.findByEntityName(toClass(Recording.class), name), HttpStatus.OK);
+		List<B> results = baseSearchService.findByEntityName(toClass(Recording.class), name);
+		return processResult(name,results);
 	}
 	
 	@GetMapping(path = "/area_type/id/{id}")
@@ -98,6 +104,22 @@ extends BrainzPersistenceService<B>
 	private static <B extends BrainzBaseEntity<B>> Class<B> toClass(Class clazz){ 
 		return clazz;
 	}
+	
+	private void processQueryResults(String query , List<?> queryResults) { 
+		baseSender.sendAsync(toQueryBase(query,queryResults));
+	}
+	
+	private K toQueryBase(String query , List<?> queryResults) { 
+		return (K) new QueryBase<>(query,queryResults);  
+	}
+	
+	
+	private CollectionResponseEntity<List<B>,B> processResult(String name,List<B> results) { 
+		processQueryResults(name,results);
+		return  CollectionResponseEntity.fromCollection(
+							results , HttpStatus.OK);
+	}
+	
 	
 	enum BaseFieldClassEnum{ 
 		
