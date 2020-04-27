@@ -31,14 +31,15 @@ public class ApacheMqConfiguration {
 	@Bean
 	public MappingJackson2MessageConverter jsonConverter() {
 		MappingJackson2MessageConverter mc = new MappingJackson2MessageConverter();
-		mc.setPrettyPrint(true);
+//		mc.setPrettyPrint(true);
 		return mc;
 	}
 
 	@Bean
-	public JmsMessagingTemplate jmsMessagingTemplate(@Autowired ConnectionFactory connectionFactory) {
+	public JmsMessagingTemplate jmsMessagingTemplate(@Autowired ConnectionFactory connectionFactory
+					,@Autowired MappingJackson2MessageConverter jsonConverter) {
 		JmsMessagingTemplate jmsMessagingTemplate = new JmsMessagingTemplate(connectionFactory);
-		jmsMessagingTemplate.setMessageConverter(jsonConverter());
+		jmsMessagingTemplate.setMessageConverter(jsonConverter);
 		return jmsMessagingTemplate;
 	}
 

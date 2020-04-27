@@ -332,7 +332,7 @@ mediumformat:
         
 recordingbean: 
   fileLocation: /opt/mbdump/recording_split
-  fileName: recab
+  fileName: recaf
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
     recordingId: 0

@@ -58,14 +58,14 @@ extends BrainzPersistenceService<B>
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findArtistCreditName(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(ArtistCredit.class), name);
-		return processResult(name,results);
+		return processResult(name,results,ArtistCredit.class);
 	}
 	
 	@GetMapping(path = "/recording/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findRecording(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(Recording.class), name);
-		return processResult(name,results);
+		return processResult(name,results,Recording.class);
 	}
 	
 	@GetMapping(path = "/area_type/id/{id}")
@@ -105,17 +105,17 @@ extends BrainzPersistenceService<B>
 		return clazz;
 	}
 	
-	private void processQueryResults(String query , List<?> queryResults) { 
-		baseSender.sendAsync(toQueryBase(query,queryResults));
+	private void processQueryResults(String query , List<?> queryResults, Class<?> class1) { 
+		baseSender.sendAsync(toQueryBase(query,queryResults,class1));
 	}
 	
-	private K toQueryBase(String query , List<?> queryResults) { 
-		return (K) new QueryBase<>(query,queryResults);  
+	private K toQueryBase(String query , List<?> queryResults,Class<?> class1) { 
+		return (K) new QueryBase<>(query,queryResults,class1.getName());  
 	}
 	
 	
-	private CollectionResponseEntity<List<B>,B> processResult(String name,List<B> results) { 
-		processQueryResults(name,results);
+	private CollectionResponseEntity<List<B>,B> processResult(String name,List<B> results, Class<?> class1) { 
+		processQueryResults(name,results,class1);
 		return  CollectionResponseEntity.fromCollection(
 							results , HttpStatus.OK);
 	}

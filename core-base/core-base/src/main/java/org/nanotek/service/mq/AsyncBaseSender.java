@@ -24,9 +24,4 @@ extends JmsMessageSender<K,ID> {
 	public Future<?> sendAsync(K rb) { 
 		return new AsyncResult<> (send(rb));
 	}
-	
-	@Override
-	public Stream<?> send (K message) { 
-		return super.send(message);
-	}
 }
