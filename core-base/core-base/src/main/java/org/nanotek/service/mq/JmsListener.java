@@ -16,16 +16,15 @@ import org.springframework.stereotype.Service;
 @Qualifier(value = "JmsListener")
 public class JmsListener implements SessionAwareMessageListener<ActiveMQBytesMessage>{
 
-	public Logger logger = LoggerFactory.getLogger(JmsListener.class);
+	private Logger logger = LoggerFactory.getLogger(JmsListener.class);
 	
 	@Override
 	public void onMessage(ActiveMQBytesMessage message, Session session) throws JMSException {
-		System.out.println("Received JMSTYPE: "+ message.getJMSType());		
-		System.out.println("Received JMSTYPE: "+ message.getJMSXMimeType());
+		logger.debug("Received JMSTYPE: "+ message.getJMSType());		
+		logger.debug("Received JMSTYPE: "+ message.getJMSXMimeType());
 		Message innerMessage = message.getMessage();
 		ByteSequence sequence = innerMessage.getContent();
 		String payLoad = new String (sequence.data);
-		logger.debug(payLoad);
 	}
 
 }

@@ -53,7 +53,7 @@ public class ApacheMqConfiguration {
 	
 	@Bean
 	public DefaultMessageListenerContainer listenerContainer(@Autowired ConnectionFactory connectionFactory 
-															, @Autowired @Qualifier("JmsListener") JmsListener jmsListener ) {
+															, @Autowired @Qualifier("QueryResultJmsListener") QueryResultJmsListener jmsListener ) {
 		DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setMaxConcurrentConsumers(10);

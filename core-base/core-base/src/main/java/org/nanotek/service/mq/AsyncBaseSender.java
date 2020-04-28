@@ -20,7 +20,7 @@ extends JmsMessageSender<K,ID> {
 		super(jmsTemplate,queue);
 	}
 	
-	@Async("threadPoolTaskExecutor")
+	@Async("serviceTaskExecutor")
 	public Future<?> sendAsync(K rb) { 
 		return new AsyncResult<> (send(rb));
 	}
