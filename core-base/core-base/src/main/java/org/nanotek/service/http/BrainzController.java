@@ -1,8 +1,15 @@
 package org.nanotek.service.http;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.assertj.core.util.Objects;
+import org.nanotek.Base;
+import org.nanotek.IdBase;
+import org.nanotek.MapBase;
 import org.nanotek.QueryBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
@@ -31,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Qualifier(value = "BrainzController")
 @RequestMapping(path={"/brainz"},produces = MediaType.APPLICATION_JSON_VALUE)
 @SuppressWarnings("rawtypes")
-public class BrainzController<B extends BrainzBaseEntity<B>,K extends QueryBase<K>> 
+public class BrainzController<B extends BrainzBaseEntity<B>,K extends MapBase<K>> 
 extends BrainzPersistenceService<B>
 {
 	
@@ -105,14 +112,51 @@ extends BrainzPersistenceService<B>
 		return clazz;
 	}
 	
-	private void processQueryResults(String query , List<?> queryResults, Class<?> class1) { 
-		baseSender.sendAsync(toQueryBase(query,queryResults,class1));
+	private  void processQueryResults(String query , List<?> queryResults, Class<?> class1) { 
+		List<Map<String,Object>> lResult = new ArrayList<>();
+		queryResults
+		.forEach(
+				r-> {
+					IdBase<?,Long> idBase = toIdBase(r);
+					Float rankResult = toRankResult(r);
+					Map<String,Object> result = new HashMap<String,Object>();
+					result.put("id", idBase.getId());
+					result.put("rank", rankResult);
+					lResult.add(result);
+					System.out.println(idBase.getId() + " " + rankResult);
+					}
+		);
+		K queryBase = toMapBase(Base.newInstance(MapBase.class).get());
+		queryBase.put("query",query);
+		queryBase.put("className", class1.getName());
+		queryBase.put("results", lResult);
+		baseSender.sendAsync(queryBase);
 	}
 	
-	private K toQueryBase(String query , List<?> queryResults,Class<?> class1) { 
-		return (K) new QueryBase<>(query,queryResults,class1.getName());  
+	private K toMapBase(MapBase mapBase) {
+		return (K)mapBase;
 	}
-	
+
+	private Float toRankResult(Object r) {
+		Float resultItem = null;
+		Object[] ary = null;
+		ary = Objects.castIfBelongsToType(r, Object[].class);
+		if(ary !=null) {
+			resultItem = (Float) ary[1];
+		}
+		return resultItem;
+	}
+
+	private <R extends IdBase<R,Long>> R toIdBase(Object r) {
+		R resultItem = null;
+		Object[] ary = null;
+		ary = Objects.castIfBelongsToType(r, Object[].class);
+		if(ary !=null) {
+			resultItem = (R) ary[0];
+		}
+		return resultItem;
+	}
+
 	
 	private CollectionResponseEntity<List<B>,B> processResult(String name,List<B> results, Class<?> class1) { 
 		processQueryResults(name,results,class1);
