@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -45,7 +45,7 @@ MutableIsrcSourceEntity<Integer>
 	public Long isrcId; 
 	
 	@NotNull(groups = {PrePersistValidationGroup.class})
-	@OneToOne (optional=false,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+	@ManyToOne (optional=false,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
 	@JoinTable(name = "isrc_recording_join",
 	joinColumns = {@JoinColumn(name="isrc_id",referencedColumnName = "id")},
 	inverseJoinColumns = {@JoinColumn(name="recording_id",referencedColumnName = "id")})

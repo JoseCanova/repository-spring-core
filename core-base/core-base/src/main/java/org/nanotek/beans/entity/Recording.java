@@ -29,7 +29,7 @@ import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableRecordingCommentEntity;
 import org.nanotek.entities.MutableRecordingIdEntity;
-import org.nanotek.entities.MutableRecordingIsrcEntity;
+import org.nanotek.entities.MutableRecordingIsrcSetEntity;
 import org.nanotek.entities.MutableRecordingLengthEntity;
 import org.nanotek.entities.MutableRecordingNameEntity;
 import org.nanotek.entities.MutableTrackEntitySet;
@@ -53,7 +53,7 @@ MutableRecordingLengthEntity<RecordingLength<?>>,
 MutableGidEntity<UUID>,
 MutableRecordingNameEntity<String>,
 MutableRecordingCommentEntity<RecordingComment<?>>,
-MutableRecordingIsrcEntity<Isrc<?>>{
+MutableRecordingIsrcSetEntity<Set<Isrc<?>>>{
 
 	private static final long serialVersionUID = 1795844351898160253L;
 
@@ -81,8 +81,8 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	public RecordingLength<?> recordingLength;
 	
-	@OneToOne(fetch = FetchType.LAZY , mappedBy = "recording")
-	public Isrc<?> recordingIsrc;
+	@OneToMany(fetch = FetchType.LAZY , mappedBy = "recording")
+	public Set<Isrc<?>> recordingIsrcs;
 	
 	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
@@ -164,12 +164,12 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 		this.recordingComment = recordingComment;
 	}
 
-	public Isrc<?> getRecordingIsrc() {
-		return recordingIsrc;
+	public Set<Isrc<?>> getRecordingIsrcs() {
+		return recordingIsrcs;
 	}
 
-	public void setRecordingIsrc(Isrc<?> recordingIsrc) {
-		this.recordingIsrc = recordingIsrc;
+	public void setRecordingIsrcs(Set<Isrc<?>> recordingIsrc) {
+		this.recordingIsrcs = recordingIsrc;
 	}
 	
 }

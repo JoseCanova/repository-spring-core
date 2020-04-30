@@ -13,7 +13,6 @@ import org.nanotek.beans.entity.ArtistEndDate;
 import org.nanotek.beans.entity.ArtistSortName;
 import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.beans.entity.Gender;
-import org.nanotek.entities.immutables.MutableArtistNameEntity;
 
 @TagInterface
 public interface BaseArtistEntity<K> extends MutatorSupport<K>,
