@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseLabelEntity;
 import org.nanotek.entities.MutableAreaEntity;
@@ -23,6 +24,7 @@ import org.nanotek.entities.MutableLabelCodeEntity;
 import org.nanotek.entities.MutableLabelEndDateEntity;
 import org.nanotek.entities.MutableLabelNameEntity;
 import org.nanotek.entities.MutableLabelTypeEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @SuppressWarnings("serial")
 @Entity
@@ -38,17 +40,19 @@ MutableLabelTypeEntity<LabelType<?>>,
 MutableAreaEntity<Area<?>>,
 MutableLabelCodeEntity<Integer>{
 	
+	@NotNull(groups =  {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="label_id")
 	private Long labelId;
 
-	@NotNull
+	@NotNull(groups =  {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	protected UUID gid;
 	
-	@NotNull
+	@NotNull(groups =  {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String labelName;
 
+	@NotNull(groups =  {PrePersistValidationGroup.class})
 	@ManyToOne(optional = false , cascade = CascadeType.MERGE)
 	@JoinTable(name = "label_type_join",joinColumns = 
 	@JoinColumn(name = "label_id" , referencedColumnName = "id"),

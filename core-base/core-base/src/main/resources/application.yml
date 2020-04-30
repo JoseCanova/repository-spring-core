@@ -332,7 +332,7 @@ mediumformat:
         
 recordingbean: 
   fileLocation: /opt/mbdump/recording_split
-  fileName: recah
+  fileName: recaj
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
     recordingId: 0
@@ -356,5 +356,17 @@ language:
       isoCode1: 3 
       languageName: 4 
       frequency: 5 
-      isoCode3: 6               
-    
+      isoCode3: 6   
+      
+
+isrcbean:
+  fileLocation: /opt/mbdump
+  fileName: isrc
+  immutable: org.nanotek.beans.csv.IsrcBean
+  baseMap:  
+      isrcId: 0 
+      recordingId: 1 
+      isrc: 2 
+      isrcSource: 3 
+      editsPending: 4 
+      created: 5 
