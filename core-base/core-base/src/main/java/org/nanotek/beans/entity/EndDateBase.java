@@ -98,6 +98,5 @@ extends BrainzBaseEntity<K>  {
 	public String toString() {
 		return "EndDateBase [endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay + "]";
 	}
-
 	
 }

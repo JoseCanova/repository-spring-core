@@ -331,14 +331,14 @@ mediumformat:
     gid: 7       
         
 recordingbean: 
-  fileLocation: /opt/mbdump
-  fileName: recording_dump
+  fileLocation: /opt/mbdump/recording_split
+  fileName: recaj
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
     recordingId: 0
     gid: 1
-    name: 2
-    artistCredit: 3
+    recordingName: 2
+    artistCreditId: 3
     length: 4
     comment: 5
     editsPending: 6
@@ -356,5 +356,36 @@ language:
       isoCode1: 3 
       languageName: 4 
       frequency: 5 
-      isoCode3: 6               
-    
+      isoCode3: 6   
+      
+
+isrcbean:
+  fileLocation: /opt/mbdump
+  fileName: isrc
+  immutable: org.nanotek.beans.csv.IsrcBean
+  baseMap:  
+      isrcId: 0 
+      recordingId: 1 
+      isrc: 2 
+      isrcSource: 3 
+      editsPending: 4 
+      created: 5 
+      
+
+labelbean:
+  fileLocation: /opt/mbdump
+  fileName: label
+  immutable: org.nanotek.beans.csv.LabelBean
+  baseMap:  
+      labelId: 0 
+      gid: 1 
+      labelName: 2 
+      beginYear: 3 
+      beginMonth: 4 
+      beginDay: 5  
+      endYear: 6
+      endMonth: 7
+      endDay: 8
+      labelCode: 9
+      labelTypeId: 10
+      areaId: 11     

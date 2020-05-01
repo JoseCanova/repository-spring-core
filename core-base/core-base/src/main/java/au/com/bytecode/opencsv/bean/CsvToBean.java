@@ -2,9 +2,7 @@ package au.com.bytecode.opencsv.bean;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
@@ -16,7 +14,6 @@ public class CsvToBean<T> {
 
 	Logger log = LoggerFactory.getLogger(CsvToBean.class);
 
-	private Map<Class<?>, PropertyEditor> editorMap = null;
 
 	public CsvToBean() {
 	}

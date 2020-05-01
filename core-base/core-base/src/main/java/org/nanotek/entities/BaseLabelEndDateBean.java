@@ -2,16 +2,16 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.AreaEndDate;
+import org.nanotek.beans.entity.LabelEndDate;
 import org.nanotek.entities.immutables.EndDayEntity;
 import org.nanotek.entities.immutables.EndMonthEntity;
 import org.nanotek.entities.immutables.EndYearEntity;
 
-public interface BaseAreaEndDateBean
-<K extends BaseBean<K,AreaEndDate<?>>>
+public interface BaseLabelEndDateBean
+<K extends BaseBean<K,LabelEndDate<?>>>
 extends  
 Base<K>,
-BaseBean<K,AreaEndDate<?>>,
+BaseBean<K,LabelEndDate<?>>,
 MutableEndDateEntity<Integer>,
 MutableEndYearEntity<Integer>,
 MutableEndMonthEntity<Integer>,

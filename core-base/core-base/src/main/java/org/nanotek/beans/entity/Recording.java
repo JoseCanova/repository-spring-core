@@ -18,6 +18,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseRecordingEntity;
@@ -25,12 +29,13 @@ import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableRecordingCommentEntity;
 import org.nanotek.entities.MutableRecordingIdEntity;
-import org.nanotek.entities.MutableRecordingIsrcEntity;
+import org.nanotek.entities.MutableRecordingIsrcSetEntity;
 import org.nanotek.entities.MutableRecordingLengthEntity;
 import org.nanotek.entities.MutableRecordingNameEntity;
 import org.nanotek.entities.MutableTrackEntitySet;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Indexed
 @Entity
 @Table(name="recording" ,
 indexes= {
@@ -48,7 +53,7 @@ MutableRecordingLengthEntity<RecordingLength<?>>,
 MutableGidEntity<UUID>,
 MutableRecordingNameEntity<String>,
 MutableRecordingCommentEntity<RecordingComment<?>>,
-MutableRecordingIsrcEntity<Isrc<?>>{
+MutableRecordingIsrcSetEntity<Set<Isrc<?>>>{
 
 	private static final long serialVersionUID = 1795844351898160253L;
 
@@ -60,6 +65,7 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String recordingName;
@@ -75,8 +81,8 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	public RecordingLength<?> recordingLength;
 	
-	@OneToOne(fetch = FetchType.LAZY , mappedBy = "recording")
-	public Isrc<?> recordingIsrc;
+	@OneToMany(fetch = FetchType.LAZY , mappedBy = "recording")
+	public Set<Isrc<?>> recordingIsrcs;
 	
 	@OneToOne(cascade = CascadeType.ALL , optional = true , fetch = FetchType.LAZY)
 	@JoinTable(
@@ -158,12 +164,12 @@ MutableRecordingIsrcEntity<Isrc<?>>{
 		this.recordingComment = recordingComment;
 	}
 
-	public Isrc<?> getRecordingIsrc() {
-		return recordingIsrc;
+	public Set<Isrc<?>> getRecordingIsrcs() {
+		return recordingIsrcs;
 	}
 
-	public void setRecordingIsrc(Isrc<?> recordingIsrc) {
-		this.recordingIsrc = recordingIsrc;
+	public void setRecordingIsrcs(Set<Isrc<?>> recordingIsrc) {
+		this.recordingIsrcs = recordingIsrc;
 	}
 	
 }

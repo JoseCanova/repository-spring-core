@@ -18,7 +18,7 @@ import org.springframework.util.ClassUtils;
 
 @SuppressWarnings("unchecked")
 public class ForwardMapBean<B extends Base<?>>
-extends ForwardBean<Map<String, PropertyDescriptorType>,B>
+extends ForwardBean<Map<String, PropertyDescriptor>,B>
 implements DataTransferMutator<String>
 {
 	private static final long serialVersionUID = 963493750343411962L;
@@ -28,7 +28,7 @@ implements DataTransferMutator<String>
 	@SuppressWarnings("unused")
 	private  List<Field> allClassFieldList;
 
-	private Map <String,PropertyDescriptorType> descriptorMap;
+	private Map <String,PropertyDescriptor> descriptorMap;
 
 	public Class<?> powerClass;
 
@@ -70,37 +70,28 @@ implements DataTransferMutator<String>
 	}
 
 	private void addDescriptorOnMap(String displayName, PropertyDescriptor forMap) {
-		PropertyDescriptorType pTye = descriptorMap.get(displayName);
-		if(pTye ==null) { 
-			descriptorMap.put(displayName, new PropertyDescriptorType(forMap));
-		}else {
-			descriptorMap.put(displayName, verifyValue(pTye,forMap));
-		}
-
+			descriptorMap.put(displayName, forMap);
 	}
 
-	private PropertyDescriptorType verifyValue(PropertyDescriptorType v, PropertyDescriptor forMap) {
-		return v.addPropertyDescriptor(forMap);
-	}
 
 	@Override
 	public <V> V read(String t) {
 		return (V) Optional.ofNullable(descriptorMap.get(t)).map(pd -> {
 			try {
-				return pd.getPropertyDescriptorRead().getReadMethod().invoke(bean, new Object[] {});
+				return pd.getReadMethod() !=null?pd.getReadMethod().invoke(bean, new Object[] {}):null;
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new BaseException(e);
 			}
 		});
-
 	}
 
 	@Override
 	public <V> void write(String t, V v) {
 		Optional.ofNullable(descriptorMap.get(t)).ifPresent(pd -> {
 			try {
-				pd.getPropertyDescriptorWrite().getWriteMethod().invoke(bean, new Object[] {v});
+				 if (pd.getWriteMethod()!=null)
+					 	pd.getWriteMethod().invoke(bean, new Object[] {v});
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new BaseException(e);
@@ -110,7 +101,7 @@ implements DataTransferMutator<String>
 
 
 	@Override
-	Map<String, PropertyDescriptorType> from() {
+	Map<String, PropertyDescriptor> from() {
 		return descriptorMap;
 	}
 
@@ -120,8 +111,8 @@ implements DataTransferMutator<String>
 	}
 
 	public PropertyDescriptor toWhere(String propertyName){
-		PropertyDescriptorType pa = from().get(propertyName);
-		return Optional.ofNullable(pa).map(pt ->pt.getPropertyDescriptorWrite()).orElse(null);
+		PropertyDescriptor pa = from().get(propertyName);
+		return Optional.ofNullable(pa).map(pt ->pt).orElse(null);
 	}
 
 
@@ -144,53 +135,6 @@ implements DataTransferMutator<String>
 		System.out.println("");
 		Object vv = dm.read("areaName");
 		System.out.println(vv);
-	}
-
-}
-
-enum TYPE{
-	READ,
-	WRITE;
-}
-
-class PropertyDescriptorType{
-
-
-	private PropertyDescriptor propertyDescriptorRead;
-	private PropertyDescriptor propertyDescriptorWrite;
-
-	public PropertyDescriptorType(PropertyDescriptor old , PropertyDescriptor thenew) {
-		if (old.getReadMethod()!=null)
-			propertyDescriptorRead =old;
-		if(old.getWriteMethod()!=null)
-			propertyDescriptorWrite = old;
-		if (old.getReadMethod()!=null)
-			propertyDescriptorRead =thenew;
-		if(old.getWriteMethod()!=null)
-			propertyDescriptorWrite = thenew;
-	}
-
-	public PropertyDescriptorType(PropertyDescriptor propertyDescriptor) {
-		if (propertyDescriptor.getReadMethod()!=null)
-			propertyDescriptorRead =propertyDescriptor;
-		if(propertyDescriptor.getWriteMethod()!=null)
-			propertyDescriptorWrite = propertyDescriptor;		
-	}
-
-	public PropertyDescriptor getPropertyDescriptorRead() {
-		return propertyDescriptorRead;
-	}
-
-	public PropertyDescriptor getPropertyDescriptorWrite() {
-		return propertyDescriptorWrite;
-	}
-
-	public PropertyDescriptorType addPropertyDescriptor(PropertyDescriptor forMap) {
-		if (forMap.getReadMethod()!=null)
-			propertyDescriptorRead =forMap;
-		if(forMap.getWriteMethod()!=null)
-			propertyDescriptorWrite = forMap;
-		return this;
 	}
 
 }

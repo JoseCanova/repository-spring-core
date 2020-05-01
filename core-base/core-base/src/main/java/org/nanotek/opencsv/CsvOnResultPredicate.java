@@ -5,9 +5,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.metamodel.Attribute;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;

@@ -1,6 +1,7 @@
 package org.nanotek;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -82,6 +83,16 @@ public interface MutatorSupport<T>{
 		return Optional.empty();
 	}
 
+	static Optional<Collection<PropertyDescriptor>> getPropertyDescriptorsCollection(Class<?> type) { 
+		try {
+			EntityBeanInfo<?> beanInfo = new EntityBeanInfo<>(type);
+			return Optional.ofNullable(beanInfo.getPropertyDescriptorInfo().values());
+		}catch (Exception ex) { 
+			ex.printStackTrace();
+		}
+		return Optional.empty();
+	}
+	
 	/**
 	 * use just for acessor/mutator interfaces.
 	 * @param type

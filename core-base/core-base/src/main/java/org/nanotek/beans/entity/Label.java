@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseLabelEntity;
 import org.nanotek.entities.MutableAreaEntity;
@@ -21,8 +22,10 @@ import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.entities.MutableLabelBeginDateEntity;
 import org.nanotek.entities.MutableLabelCodeEntity;
 import org.nanotek.entities.MutableLabelEndDateEntity;
+import org.nanotek.entities.MutableLabelIdEntity;
 import org.nanotek.entities.MutableLabelNameEntity;
 import org.nanotek.entities.MutableLabelTypeEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @SuppressWarnings("serial")
 @Entity
@@ -31,42 +34,45 @@ uniqueConstraints = {@UniqueConstraint(name="uk_label_id" , columnNames = {"labe
 public class Label<K extends Label<K>> 
 extends BrainzBaseEntity<K>
 implements BaseLabelEntity<K>,
-MutableGidEntity<UUID>,MutableLabelNameEntity<String>,
+MutableLabelIdEntity<Long>,
+MutableGidEntity<UUID>,
+MutableLabelNameEntity<String>,
 MutableLabelBeginDateEntity<LabelBeginDate<?>>,
 MutableLabelEndDateEntity<LabelEndDate<?>>,
 MutableLabelTypeEntity<LabelType<?>>,
 MutableAreaEntity<Area<?>>,
 MutableLabelCodeEntity<Integer>{
 	
+	@NotNull(groups =  {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="label_id")
-	private Long labelId;
+	public Long labelId;
 
-	@NotNull
+	@NotNull(groups =  {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
-	@NotNull
+	@NotNull(groups =  {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String labelName;
 
-	@ManyToOne(optional = false , cascade = CascadeType.MERGE)
+	@ManyToOne(optional = true , cascade = {CascadeType.MERGE,CascadeType.PERSIST})
 	@JoinTable(name = "label_type_join",joinColumns = 
 	@JoinColumn(name = "label_id" , referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(name = "label_type_id" , referencedColumnName = "id"))
 	public LabelType<?> labelType;
 	
 	@Column
-	private Integer labelCode; 
+	public Integer labelCode; 
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "label_begin_date_id",referencedColumnName = "id")
 	public LabelBeginDate<?> labelBeginDate;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "label_end_date_id" , referencedColumnName = "id")
 	public LabelEndDate<?> labelEndDate;
 	
-	@ManyToOne
+	@ManyToOne(optional = true , cascade = {CascadeType.MERGE,CascadeType.PERSIST})
 	public Area<?> area;
 	
 	public Label(@NotBlank String sortName, Long labelId, @NotNull UUID gid, @NotNull String name,

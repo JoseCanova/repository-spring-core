@@ -9,7 +9,6 @@ import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.entities.immutables.ArtistIdEntity;
 import org.nanotek.entities.immutables.ArtistNameEntity;
-import org.nanotek.entities.immutables.MutableArtistNameEntity;
 
 public interface BaseArtistBean
 <K extends BaseBean<K,Artist<?>>> extends 
