@@ -4,6 +4,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ReleaseGroup;
 import org.nanotek.entities.BaseArtistCreditBean;
 import org.nanotek.entities.BaseReleaseGroupBean;
+import org.nanotek.entities.BaseReleaseGroupCommentBean;
 import org.nanotek.entities.BaseReleaseGroupPrimaryTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
@@ -20,6 +21,8 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 	
 	private BaseReleaseGroupPrimaryTypeBean<?> releaseGroupPrimaryType;
 	
+	private BaseReleaseGroupCommentBean<?> releaseGroupComment;
+	
 	public ReleaseGroupBean() { 
 		super(castClass());
 		postConstruct();
@@ -29,6 +32,7 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 	private void postConstruct() {
 		artistCredit = new ArtistCreditBean<>();
 		releaseGroupPrimaryType = new ReleaseGroupPrimaryTypeBean<>();
+		releaseGroupComment = new ReleaseGroupCommentBean<>() ;
 	}
 
 
@@ -61,6 +65,16 @@ implements BaseReleaseGroupBean<ReleaseGroupBean<K>>{
 	@Override
 	public BaseReleaseGroupPrimaryTypeBean<?> getReleaseGroupPrimaryType() {
 		return releaseGroupPrimaryType;
+	}
+
+
+	public BaseReleaseGroupCommentBean<?> getReleaseGroupComment() {
+		return releaseGroupComment;
+	}
+
+
+	public void setReleaseGroupComment(BaseReleaseGroupCommentBean<?> releaseGroupComment) {
+		this.releaseGroupComment = releaseGroupComment;
 	}
 	
 }

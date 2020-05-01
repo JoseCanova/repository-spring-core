@@ -82,6 +82,7 @@
 		<class>org.nanotek.beans.entity.ReleaseBarCode</class>
 		<class>org.nanotek.beans.entity.ReleaseComment</class>
 		<class>org.nanotek.beans.entity.ReleaseGroup</class>
+		<class>org.nanotek.beans.entity.ReleaseGroupComment</class>
 		<class>org.nanotek.beans.entity.ReleaseStatus</class>
 		<class>org.nanotek.beans.entity.ReleaseAlias</class>
 		<class>org.nanotek.beans.entity.ReleaseAliasLocale</class>
