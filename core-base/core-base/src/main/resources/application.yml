@@ -371,7 +371,6 @@ isrcbean:
       editsPending: 4 
       created: 5 
       
-
 labelbean:
   fileLocation: /opt/mbdump
   fileName: label
@@ -388,4 +387,18 @@ labelbean:
       endDay: 8
       labelCode: 9
       labelTypeId: 10
-      areaId: 11     
+      areaId: 11  
+      
+releasegroup: 
+  fileLocation: /opt/mbdump
+  fileName: release_group
+  immutable: org.nanotek.beans.csv.ReleaseGroupBean
+  baseMap:   
+    releaseGroupId: 0 
+    gid: 1 
+    releaseGroupName: 2 
+    artistCreditId: 3 
+    typeId: 4
+    comment: 5 
+    editsPending: 6
+    lastUpdated: 7         

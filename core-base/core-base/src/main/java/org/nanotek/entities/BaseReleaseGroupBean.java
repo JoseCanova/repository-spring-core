@@ -18,7 +18,8 @@ MutableReleaseGroupIdEntity<Long>,
 MutableArtistCreditEntity<BaseArtistCreditBean<?>>,
 MutableReleaseGroupPrimaryTypeEntity<BaseReleaseGroupPrimaryTypeBean<?>>,
 MutableGidEntity<UUID>,
-MutableReleaseGroupNameEntity<String>{
+MutableReleaseGroupNameEntity<String>,
+MutableReleaseGroupCommentEntity<BaseReleaseGroupCommentBean<?>>{
 
 	@Override
 	default void setReleaseGroupId(Long k) {
@@ -58,6 +59,21 @@ MutableReleaseGroupNameEntity<String>{
 		write(MutableReleaseGroupNameEntity.class,k);
 	}
 	
+	default void setTypeId(Long id) { 
+		getReleaseGroupPrimaryType().setTypeId(id);
+	}
+	
+	default Long getTyeId() { 
+		return getReleaseGroupPrimaryType().getTypeId();
+	}
+	
+	default String getComment() { 
+		return getReleaseGroupComment().getComment();
+	}
+	
+	default void setComment(String k) { 
+		getReleaseGroupComment().setComment(k);
+	}
 
 	public static void main(String[] args) { 
 		ReleaseGroupBean<?> bean = new ReleaseGroupBean<>();
