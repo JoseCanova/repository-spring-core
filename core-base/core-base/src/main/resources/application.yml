@@ -370,3 +370,22 @@ isrcbean:
       isrcSource: 3 
       editsPending: 4 
       created: 5 
+      
+
+labelbean:
+  fileLocation: /opt/mbdump
+  fileName: label
+  immutable: org.nanotek.beans.csv.LabelBean
+  baseMap:  
+      labelId: 0 
+      gid: 1 
+      labelName: 2 
+      beginYear: 3 
+      beginMonth: 4 
+      beginDay: 5  
+      endYear: 6
+      endMonth: 7
+      endDay: 8
+      labelCode: 9
+      labelTypeId: 10
+      areaId: 11     
