@@ -8,10 +8,16 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseBarCodeBaseEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(name="bar_code_base", 
 indexes= {
@@ -29,7 +35,7 @@ implements BaseBarCodeBaseEntity<K>{
 
 	private static final long serialVersionUID = 3988946185099694426L;
 
-	@NotBlank
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="bar_code" , length=255 , nullable=false)
 	protected String barCode;
 	

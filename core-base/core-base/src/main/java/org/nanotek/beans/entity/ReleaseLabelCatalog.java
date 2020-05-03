@@ -32,7 +32,6 @@ MutableReleaseLabelEntity<ReleaseLabel<?>>{
 	@Column(name="catalog_number" , nullable = false , columnDefinition = "VARCHAR NOT NULL")
 	public String releaseLabelNumber;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
 	@OneToOne(optional = false , mappedBy = "releaseLabelCatalog")
 	public ReleaseLabel<?> releaseLabel;
 	

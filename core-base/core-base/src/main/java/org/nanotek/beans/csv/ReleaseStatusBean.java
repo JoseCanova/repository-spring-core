@@ -11,31 +11,14 @@ extends ProxyBase<ReleaseStatusBean<K>,ReleaseStatus<?>>
 implements BaseReleaseStatusBean<ReleaseStatusBean<K>>{
 
 	private static final long serialVersionUID = -1032984444131323024L;
-	
-
-	
-	
-//	public Long releaseStatusId; 
-//	public String name; 
-//	public Long parent; 
-//	public Long childOrder; 
-//	public String description; 
-//	public String gid; 
-//	
-//	
-
 
 	public ReleaseStatusBean(Class<? extends ReleaseStatus<?>> class1) {
 		super(class1);
 	}
 
-
-
-
 	public ReleaseStatusBean() {
 		super(castClass());
 	}
-
 	
 	@SuppressWarnings("unchecked")
 	private static Class<? extends ReleaseStatus<?>>castClass() {
@@ -44,5 +27,4 @@ implements BaseReleaseStatusBean<ReleaseStatusBean<K>>{
 				asSubclass(ReleaseStatus.class);
 	}
 
- 
 }

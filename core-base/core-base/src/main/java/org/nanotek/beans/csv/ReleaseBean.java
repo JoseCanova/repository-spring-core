@@ -3,9 +3,13 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Release;
 import org.nanotek.entities.BaseArtistCreditBean;
+import org.nanotek.entities.BaseLanguageBean;
+import org.nanotek.entities.BaseReleaseBarCodeBean;
 import org.nanotek.entities.BaseReleaseBean;
 import org.nanotek.entities.BaseReleaseCommentBean;
 import org.nanotek.entities.BaseReleaseGroupBean;
+import org.nanotek.entities.BaseReleasePackagingBean;
+import org.nanotek.entities.BaseReleaseStatusBean;
 import org.nanotek.proxy.ProxyBase;
 
 /**
@@ -25,6 +29,16 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 	BaseReleaseGroupBean<?> releaseGroup;
 	
 	BaseReleaseCommentBean<?> releaseComment;
+	
+	BaseReleasePackagingBean<?> releasePackaging;
+	
+	BaseLanguageBean<?> language;
+	
+	BaseReleaseBarCodeBean<?> releaseBarCode;
+	
+	BaseReleaseStatusBean<?> releaseStatus;
+	
+	
 	
 	
 //	public Long releaseId; 
@@ -64,6 +78,10 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 		 artistCredit = new ArtistCreditBean<>();
 		 releaseGroup = new ReleaseGroupBean<>();
 		 releaseComment = new ReleaseCommentBean<>(); 
+		 releasePackaging = new ReleasePackagingBean<> ();
+		 language = new LanguageBean<>();
+		 releaseBarCode = new ReleaseBarCodeBean<> ();
+		 releaseStatus = new ReleaseStatusBean<> ();
 	}
 
 
@@ -96,6 +114,47 @@ implements BaseReleaseBean<ReleaseBean<K>>{
 		this.releaseComment = releaseComment;
 	}
 
+
+	public BaseReleasePackagingBean<?> getReleasePackaging() {
+		return releasePackaging;
+	}
+
+
+	public void setReleasePackaging(BaseReleasePackagingBean<?> releasePackaging) {
+		this.releasePackaging = releasePackaging;
+	}
+
+
+	public BaseLanguageBean<?> getLanguage() {
+		return language;
+	}
+
+
+	public void setLanguage(BaseLanguageBean<?> language) {
+		this.language = language;
+	}
+
+
+	public BaseReleaseBarCodeBean<?> getReleaseBarCode() {
+		return releaseBarCode;
+	}
+
+
+	public void setReleaseBarCode(BaseReleaseBarCodeBean<?> releaseBarCode) {
+		this.releaseBarCode = releaseBarCode;
+	}
+
+
+	public BaseReleaseStatusBean<?> getReleaseStatus() {
+		return releaseStatus;
+	}
+
+
+	public void setReleaseStatus(BaseReleaseStatusBean<?> releaseStatus) {
+		this.releaseStatus = releaseStatus;
+	}
+	
+	
 	
 	
 }
