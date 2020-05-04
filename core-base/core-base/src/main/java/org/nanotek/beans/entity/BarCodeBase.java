@@ -37,7 +37,7 @@ implements BaseBarCodeBaseEntity<K>{
 
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="bar_code" , length=255 , nullable=false)
-	protected String barCode;
+	public String barCode;
 	
 	public BarCodeBase() {
 	}

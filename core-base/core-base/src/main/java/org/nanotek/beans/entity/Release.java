@@ -105,7 +105,7 @@ MutableReleaseStatusEntity<ReleaseStatus<?>>
 			  inverseJoinColumns = @JoinColumn(name = "barcode_id",referencedColumnName = "id"))
 	public ReleaseComment<?> releaseComment; 
 
-	@ManyToOne(fetch=FetchType.LAZY,optional = false ,  cascade = CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY,optional = true ,  cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "release_status_join", 
 			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
