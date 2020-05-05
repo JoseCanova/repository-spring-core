@@ -10,12 +10,13 @@ import org.assertj.core.util.Objects;
 import org.nanotek.Base;
 import org.nanotek.IdBase;
 import org.nanotek.MapBase;
-import org.nanotek.QueryBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
+import org.nanotek.beans.entity.Label;
 import org.nanotek.beans.entity.Recording;
+import org.nanotek.beans.entity.Release;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
@@ -75,6 +76,13 @@ extends BrainzPersistenceService<B>
 		return processResult(name,results,Recording.class);
 	}
 	
+	@GetMapping(path = "/recording/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findRelease(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(Release.class), name);
+		return processResult(name,results,Release.class);
+	}
+	
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {
@@ -92,6 +100,18 @@ extends BrainzPersistenceService<B>
 	@Transactional
 	public <S extends B> ResponseEntity<?> findRecording(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.RECORDING, id);
+	}
+	
+	@GetMapping(path = "/label/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findLabel(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.LABEL, id);
+	}
+	
+	@GetMapping(path = "/release/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findRelease(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.RELEASE, id);
 	}
 	
 	private  <S extends B>  ResponseEntity<?> prepareResponse(BaseFieldClassEnum fieldEnum , Long id) {
@@ -170,7 +190,9 @@ extends BrainzPersistenceService<B>
 		ARTIST_CREDIT("artistCreditId" , ArtistCredit.class),
 		AREA_TYPE("typeId" , AreaType.class),
 		AREA ("areaId" , Area.class),
-		RECORDING("recordingId" , Recording.class);
+		RECORDING("recordingId" , Recording.class),
+		LABEL("labelId" , Label.class ),
+		RELEASE("releaseId" , Release.class );
 		
 		
 		private String fieldId;
