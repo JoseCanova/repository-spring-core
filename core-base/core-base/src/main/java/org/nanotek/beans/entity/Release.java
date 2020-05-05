@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -33,6 +35,7 @@ import org.nanotek.entities.MutableReleaseCommentEntity;
 import org.nanotek.entities.MutableReleaseGroupEntity;
 import org.nanotek.entities.MutableReleaseIdEntity;
 import org.nanotek.entities.MutableReleaseLabelEntity;
+import org.nanotek.entities.MutableReleaseLabelSetEntity;
 import org.nanotek.entities.MutableReleaseNameEntity;
 import org.nanotek.entities.MutableReleasePackagingEntity;
 import org.nanotek.entities.MutableReleaseStatusEntity;
@@ -61,7 +64,7 @@ MutableReleaseGroupEntity<ReleaseGroup<?>>,
 MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableGidEntity<UUID>,
 MutableReleaseNameEntity<String>,
-MutableReleaseLabelEntity<ReleaseLabel<?>>,
+MutableReleaseLabelSetEntity<Set<ReleaseLabel<?>>>,
 MutableReleaseStatusEntity<ReleaseStatus<?>>
 {
 
@@ -126,12 +129,8 @@ MutableReleaseStatusEntity<ReleaseStatus<?>>
 			  inverseJoinColumns = @JoinColumn(name = "release_group_id",referencedColumnName = "id"))
 	public ReleaseGroup<?> releaseGroup; 
 
-	@OneToOne(optional = true ,  fetch = FetchType.LAZY )
-	@JoinTable(
-			  name = "release_relabel_join", 
-			  joinColumns = @JoinColumn(name = "release_id" , referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "release_label_id",referencedColumnName = "id"))
-	public ReleaseLabel<?> releaseLabel;
+	@OneToMany( fetch = FetchType.LAZY , mappedBy = "release")
+	public Set<ReleaseLabel<?>> releaseLabels;
 
 	public Release() { 
 	}
@@ -248,12 +247,13 @@ MutableReleaseStatusEntity<ReleaseStatus<?>>
 		this.gid = gid;
 	}
 
-	public ReleaseLabel<?> getReleaseLabel() {
-		return releaseLabel;
+	public Set<ReleaseLabel<?>> getReleaseLabels() {
+		return releaseLabels;
 	}
 
-	public void setReleaseLabel(ReleaseLabel<?> releaseLabel) {
-		this.releaseLabel = releaseLabel;
+	public void setReleaseLabels(Set<ReleaseLabel<?>> releaseLabels) {
+		this.releaseLabels = releaseLabels;
 	}
+
 	
 }

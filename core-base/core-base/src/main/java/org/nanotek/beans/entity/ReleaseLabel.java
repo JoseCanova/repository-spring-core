@@ -46,10 +46,12 @@ MutableReleaseEntity<Release<?>>{
 	@Column(name="release_label_id",nullable = false)
 	public Long releaseLabelId;
 	
-	@OneToOne(mappedBy = "releaseLabel",fetch = FetchType.LAZY,optional = true)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@ManyToOne(fetch = FetchType.LAZY,optional = false , cascade = {CascadeType.MERGE})
 	public Release<?> release; 
 			
-	@ManyToOne(optional = true)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@ManyToOne(optional = false)
 	@JoinTable(
 			  name = "releaselable_label_join", 
 			  joinColumns = @JoinColumn(name = "release_label_id" , referencedColumnName = "id"), 
