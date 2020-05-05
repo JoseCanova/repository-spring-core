@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +29,7 @@ import org.nanotek.entities.MutableLabelTypeEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @SuppressWarnings("serial")
+@Valid
 @Entity
 @Table(name="label",
 uniqueConstraints = {@UniqueConstraint(name="uk_label_id" , columnNames = {"label_id"})})

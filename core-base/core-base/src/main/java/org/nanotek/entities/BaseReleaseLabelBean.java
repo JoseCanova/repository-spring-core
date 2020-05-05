@@ -12,7 +12,8 @@ extends Base<K>,
 BaseBean<K,ReleaseLabel<?>>,
 MutableReleaseLabelIdEntity<Long>,
 MutableLabelReleaseEntity<BaseLabelBean<?>>,
-MutableReleaseLabelCatalogEntity<BaseReleaseLabelCatalogBean<?>>
+MutableReleaseLabelCatalogEntity<BaseReleaseLabelCatalogBean<?>>,
+MutableReleaseEntity<BaseReleaseBean<?>>
 {
 
 	@Override
@@ -33,6 +34,20 @@ MutableReleaseLabelCatalogEntity<BaseReleaseLabelCatalogBean<?>>
 		return getReleaseLabelCatalog().getReleaseLabelNumber();
 	}
 	
+	default void setLabelId(Long id) {
+		getLabelRelease().setLabelId(id);
+	}
 	
+	default Long getLableId() { 
+		return getLabelRelease().getLabelId();
+	}
+	
+	default void setReleaseId(Long id) { 
+		getRelease().setReleaseId(id);
+	}
+	
+	default Long getReleaseId() { 
+		return getRelease().getReleaseId();
+	}
 	
 }

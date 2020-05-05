@@ -42,7 +42,7 @@ MutableReleaseEntity<Release<?>>{
 
 	private static final long serialVersionUID = -4336246677898584112L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="release_label_id",nullable = false)
 	public Long releaseLabelId;
 	

@@ -3,6 +3,7 @@ package org.nanotek.beans.csv;
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.ReleaseLabel;
 import org.nanotek.entities.BaseLabelBean;
+import org.nanotek.entities.BaseReleaseBean;
 import org.nanotek.entities.BaseReleaseLabelBean;
 import org.nanotek.entities.BaseReleaseLabelCatalogBean;
 import org.nanotek.proxy.ProxyBase;
@@ -17,6 +18,8 @@ implements BaseReleaseLabelBean<ReleaseLabelBean<K>>{
 	private BaseReleaseLabelCatalogBean<?> releaseLabelCatalog;
 	
 	private BaseLabelBean<?> labelRelease;
+	
+	private BaseReleaseBean<?> release;
 	
 	public ReleaseLabelBean() {
 		super(castClass());
@@ -37,6 +40,7 @@ implements BaseReleaseLabelBean<ReleaseLabelBean<K>>{
 	private void postConstructReleaseLabel() {
 		releaseLabelCatalog = new ReleaseLabelCatalogBean<>();
 		labelRelease = new LabelBean<>();
+		release = new ReleaseBean<>();
 	}
 
 	public BaseReleaseLabelCatalogBean<?> getReleaseLabelCatalog() {
@@ -55,4 +59,14 @@ implements BaseReleaseLabelBean<ReleaseLabelBean<K>>{
 		this.labelRelease = labelRelease;
 	}
 
+	public BaseReleaseBean<?> getRelease() {
+		return release;
+	}
+
+	public void setRelease(BaseReleaseBean<?> release) {
+		this.release = release;
+	}
+
+	
+	
 }
