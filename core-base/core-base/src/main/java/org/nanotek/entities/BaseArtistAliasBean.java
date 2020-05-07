@@ -58,7 +58,8 @@ MutableArtistAliasEndDateEntity<BaseArtistAliasEndDateBean<?>>
 	
 	@Override
 	default void setTypeId(Long k) {
-		getArtistAliasType().setTypeId(k);
+		Long typeId = k == null ? 3L : k;
+		getArtistAliasType().setTypeId(typeId);
 	}
 
 	@Override

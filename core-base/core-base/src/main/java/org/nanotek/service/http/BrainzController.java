@@ -12,8 +12,9 @@ import org.nanotek.IdBase;
 import org.nanotek.MapBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
-import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.Artist;
+import org.nanotek.beans.entity.ArtistAlias;
+import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.beans.entity.Label;
 import org.nanotek.beans.entity.Recording;
@@ -69,6 +70,12 @@ extends BrainzPersistenceService<B>
 	public <S extends B> ResponseEntity<?> findArtist(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.ARTIST , id);
 	}
+	
+	@GetMapping(path = "/artist_alias/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findArtistAlias(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.ARTIST_ALIAS , id);
+	}
 
 	@GetMapping(path = "/artist_credit/name/{name}")
 	@Transactional
@@ -82,6 +89,13 @@ extends BrainzPersistenceService<B>
 	public CollectionResponseEntity<List<B>,B> findArtistName(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(Artist.class), name);
 		return processResult(name,results,Artist.class);
+	}
+	
+	@GetMapping(path = "/artist_alias/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findArtistAliasName(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(ArtistAlias.class), name);
+		return processResult(name,results,ArtistAlias.class);
 	}
 	
 	@GetMapping(path = "/recording/name/{name}")
@@ -210,6 +224,7 @@ extends BrainzPersistenceService<B>
 		
 		ARTIST_CREDIT("artistCreditId" , ArtistCredit.class),
 		ARTIST("artistId" , Artist.class),
+		ARTIST_ALIAS("artistId" , ArtistAlias.class),
 		AREA_TYPE("typeId" , AreaType.class),
 		AREA ("areaId" , Area.class),
 		RECORDING("recordingId" , Recording.class),

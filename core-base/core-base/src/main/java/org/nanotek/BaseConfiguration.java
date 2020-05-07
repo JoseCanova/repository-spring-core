@@ -2,7 +2,6 @@ package org.nanotek;
 
 import java.beans.beancontext.BeanContextSupport;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.concurrent.Executor;
 
 import javax.persistence.EntityManagerFactory;
@@ -207,7 +206,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "artist")
+	@ConfigurationProperties(value = "artistalias")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

@@ -151,7 +151,7 @@ artistaliastype:
     
 artistalias:
   fileLocation: /opt/mbdump
-  fileName: artist_alias_dump
+  fileName: artist_alias
   immutable: org.nanotek.beans.csv.ArtistAliasBean
   baseMap:  
     aliasId: 0

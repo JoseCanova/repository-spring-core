@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,9 +10,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistAliasEntity;
 import org.nanotek.entities.MutableAliasIdEntity;
@@ -22,7 +29,10 @@ import org.nanotek.entities.MutableArtistAliasNameEntity;
 import org.nanotek.entities.MutableArtistAliasSortNameEntity;
 import org.nanotek.entities.MutableArtistAliasTypeEntity;
 import org.nanotek.entities.MutableArtistEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
+@Indexed
 @Entity
 @Table(name="artist_alias", 
 indexes= {
@@ -43,7 +53,8 @@ MutableArtistAliasNameEntity<String>{
 	private static final long serialVersionUID = -6829974720983757034L;
 
 			
-	@NotNull
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistAliasName;
 
@@ -58,19 +69,19 @@ MutableArtistAliasNameEntity<String>{
 		this.artistAliasName = k;
 	}
 	
-	@NotNull
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="artist_alias_id"  , nullable = false)
 	public Long aliasId; 
 	
-	@NotNull
-	@OneToOne(optional = false)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@OneToOne(optional = false , cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "artist_alias_sortname_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "sort_name_id",referencedColumnName = "id") )
 	public ArtistAliasSortName<?> artistAliasSortName;
 	
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(optional = false)
 	@JoinTable(
 			name = "artist_alias_join", 
@@ -78,13 +89,14 @@ MutableArtistAliasNameEntity<String>{
 			joinColumns  = @JoinColumn(name = "artist_id",referencedColumnName = "id") )
 	public Artist<?> artist;
 
-	@OneToOne(optional = true)
+	@OneToOne(optional = true , cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "artist_alias_locale_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "locale_id",referencedColumnName = "id") )
 	public ArtistAliasLocale<?> artistAliasLocale;
 	
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(optional = false)
 	@JoinTable(
 			  name = "artist_alias_type_join", 
@@ -92,14 +104,14 @@ MutableArtistAliasNameEntity<String>{
 			  inverseJoinColumns = @JoinColumn(name = "alias_type_id",referencedColumnName = "id") )
 	public ArtistAliasType<?> artistAliasType;
 	
-	@OneToOne(optional = true, fetch = FetchType.LAZY)
+	@OneToOne(optional = true, fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "artist_alias_begin_date_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id") )
 	public ArtistAliasBeginDate<?> artistAliasBeginDate;
 	
-	@OneToOne(optional = true, fetch = FetchType.LAZY)
+	@OneToOne(optional = true, fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "artist_alias_end_date_join", 
 			  joinColumns = @JoinColumn(name = "artist_alias_id" , referencedColumnName = "id"), 
