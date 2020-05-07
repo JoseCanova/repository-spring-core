@@ -13,10 +13,12 @@ import org.nanotek.MapBase;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.ArtistCredit;
+import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.beans.entity.Label;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.Release;
+import org.nanotek.beans.entity.ReleaseLabel;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
@@ -61,12 +63,25 @@ extends BrainzPersistenceService<B>
 	public <S extends B> ResponseEntity<?> findArtistCredit(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.ARTIST_CREDIT , id);
 	}
+	
+	@GetMapping(path = "/artist/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findArtist(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.ARTIST , id);
+	}
 
 	@GetMapping(path = "/artist_credit/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findArtistCreditName(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(ArtistCredit.class), name);
 		return processResult(name,results,ArtistCredit.class);
+	}
+	
+	@GetMapping(path = "/artist/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findArtistName(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(Artist.class), name);
+		return processResult(name,results,Artist.class);
 	}
 	
 	@GetMapping(path = "/recording/name/{name}")
@@ -76,7 +91,7 @@ extends BrainzPersistenceService<B>
 		return processResult(name,results,Recording.class);
 	}
 	
-	@GetMapping(path = "/recording/name/{name}")
+	@GetMapping(path = "/release/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findRelease(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(Release.class), name);
@@ -112,6 +127,12 @@ extends BrainzPersistenceService<B>
 	@Transactional
 	public <S extends B> ResponseEntity<?> findRelease(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.RELEASE, id);
+	}
+	
+	@GetMapping(path = "/release_label/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findReleaseLabel(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.RELEASE_LABEL, id);
 	}
 	
 	private  <S extends B>  ResponseEntity<?> prepareResponse(BaseFieldClassEnum fieldEnum , Long id) {
@@ -188,11 +209,13 @@ extends BrainzPersistenceService<B>
 	enum BaseFieldClassEnum{ 
 		
 		ARTIST_CREDIT("artistCreditId" , ArtistCredit.class),
+		ARTIST("artistId" , Artist.class),
 		AREA_TYPE("typeId" , AreaType.class),
 		AREA ("areaId" , Area.class),
 		RECORDING("recordingId" , Recording.class),
 		LABEL("labelId" , Label.class ),
-		RELEASE("releaseId" , Release.class );
+		RELEASE("releaseId" , Release.class ),
+		RELEASE_LABEL("releaseLabelId" , ReleaseLabel.class);
 		
 		
 		private String fieldId;

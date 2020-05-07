@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.groups.Default;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseSortNameEntity;
 import org.nanotek.entities.MutableSortNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
@@ -33,7 +34,7 @@ MutableSortNameEntity<String>{
 
 	private static final long serialVersionUID = -950822256693332353L;
 
-	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
+	@NotBlank(groups= {PrePersistValidationGroup.class})
 	@Column(name="sort_name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String sortName;
 	

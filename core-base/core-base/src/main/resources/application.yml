@@ -81,7 +81,7 @@ config:
     
 artist:
   fileLocation: /opt/mbdump
-  fileName: artist_head_dump
+  fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
