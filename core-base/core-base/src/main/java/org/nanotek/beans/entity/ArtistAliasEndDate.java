@@ -16,7 +16,9 @@ public class ArtistAliasEndDate
 extends EndDateBase<K>
 implements BaseArtistAliasEndDateEntity<K>,
 MutableEndDateEntity<Integer>,
-MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity<Integer>
+MutableEndYearEntity<Integer>,
+MutableEndMonthEntity<Integer>,
+MutableEndDayEntity<Integer>
 {
 
 	private static final long serialVersionUID = 7987268027913627678L;

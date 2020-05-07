@@ -137,7 +137,8 @@ MutableGidEntity<UUID>,MutableArtistNameEntity<String>
 	}
 	
 	default void setTypeId(Long id) {
-		getArtistType().setTypeId(id);
+		Long tId = id == null? 3L : id;
+		getArtistType().setTypeId(tId);
 	}
 	
 	default Long getTypeId() {

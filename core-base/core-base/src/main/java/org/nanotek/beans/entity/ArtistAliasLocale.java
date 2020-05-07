@@ -7,15 +7,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.BaseArtistAliasLocaleEntity;
+import org.nanotek.entities.MutableArtistAliasEntity;
 
 @Entity
 @DiscriminatorValue(value="ArtistAliasLocale")
-public class ArtistAliasLocale<K extends ArtistAliasLocale<K>> extends LocaleBase<K> implements 
-															 BaseArtistAliasLocaleEntity<K> {
+public class ArtistAliasLocale<K extends ArtistAliasLocale<K>> 
+extends LocaleBase<K> implements 
+BaseArtistAliasLocaleEntity<K>,
+MutableArtistAliasEntity<ArtistAlias<?>>{
 
 	private static final long serialVersionUID = -6819342630275200151L;
 
-	@NotNull
 	@OneToOne(mappedBy="artistAliasLocale")
 	public ArtistAlias<?> artistAlias;
 	

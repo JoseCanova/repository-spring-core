@@ -81,7 +81,7 @@ config:
     
 artist:
   fileLocation: /opt/mbdump
-  fileName: artist_head_dump
+  fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
@@ -151,7 +151,7 @@ artistaliastype:
     
 artistalias:
   fileLocation: /opt/mbdump
-  fileName: artist_alias_dump
+  fileName: artist_alias
   immutable: org.nanotek.beans.csv.ArtistAliasBean
   baseMap:  
     aliasId: 0
@@ -402,3 +402,51 @@ releasegroup:
     comment: 5 
     editsPending: 6
     lastUpdated: 7         
+    
+    
+    
+releasestatus: 
+  fileLocation: /opt/mbdump
+  fileName: release_status
+  immutable: org.nanotek.beans.csv.ReleaseStatusBean
+  baseMap:     
+    releaseStatusId: 0
+    releaseStatusName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5     
+    
+
+releasebean: 
+  fileLocation: /opt/mbdump
+  fileName: release
+  immutable: org.nanotek.beans.csv.ReleaseBean
+  baseMap: 
+    releaseId: 0 
+    gid: 1 
+    releaseName: 2
+    artistCreditId: 3 
+    releaseGroupId: 4 
+    releaseStatusId: 5 
+    releasePackagingId: 6 
+    languageId: 7 
+    script: 8
+    barCode: 9 
+    comment: 10 
+    editsPending: 11 
+    quality: 12 
+    lastUpdated: 13   
+
+releaselabelbean: 
+  fileLocation: /opt/mbdump
+  fileName: release_label
+  immutable: org.nanotek.beans.csv.ReleaseLabelBean
+  baseMap:     
+    releaseLabelId: 0
+    releaseId: 1
+    labelId: 2
+    releaseLabelNumber: 3
+    lastUpdated: 4
+    
+    

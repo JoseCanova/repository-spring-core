@@ -1,7 +1,5 @@
 package org.nanotek.beans.entity;
 
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +8,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -21,9 +18,9 @@ import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseLabelEntity;
 import org.nanotek.entities.MutableLabelReleaseEntity;
+import org.nanotek.entities.MutableReleaseEntity;
 import org.nanotek.entities.MutableReleaseLabelCatalogEntity;
 import org.nanotek.entities.MutableReleaseLabelIdEntity;
-import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
@@ -39,20 +36,22 @@ extends  BrainzBaseEntity<K>
 implements 
 BaseReleaseLabelEntity<K>,
 MutableReleaseLabelIdEntity<Long>,
-MutableReleaseSetEntity<Release<?>>,
 MutableLabelReleaseEntity<Label<?>>,
-MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>{
+MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>,
+MutableReleaseEntity<Release<?>>{
 
 	private static final long serialVersionUID = -4336246677898584112L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="release_label_id",nullable = false)
 	public Long releaseLabelId;
 	
-	@OneToMany(mappedBy = "releaseLabel",fetch = FetchType.LAZY)
-	public Set<Release<?>> releases; 
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@ManyToOne(fetch = FetchType.LAZY,optional = false , cascade = {CascadeType.MERGE})
+	public Release<?> release; 
 			
-	@ManyToOne(optional = true)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@ManyToOne(optional = false)
 	@JoinTable(
 			  name = "releaselable_label_join", 
 			  joinColumns = @JoinColumn(name = "release_label_id" , referencedColumnName = "id"), 
@@ -84,14 +83,6 @@ MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>{
 		this.releaseLabelId = releaseLabelId;
 	}
 
-	public Set<Release<?>> getReleases() {
-		return releases;
-	}
-
-	public void setReleases(Set<Release<?>> releases) {
-		this.releases = releases;
-	}
-
 	public Label<?> getLabelRelease() {
 		return labelRelease;
 	}
@@ -106,6 +97,14 @@ MutableReleaseLabelCatalogEntity<ReleaseLabelCatalog<?>>{
 
 	public void setReleaseLabelCatalog(ReleaseLabelCatalog<?> releaseLabelCatalog) {
 		this.releaseLabelCatalog = releaseLabelCatalog;
+	}
+
+	public Release<?> getRelease() {
+		return release;
+	}
+
+	public void setRelease(Release<?> release) {
+		this.release = release;
 	} 
 	
 }

@@ -20,8 +20,7 @@ MutableReleaseEntity<Release<?>> {
 
 	private static final long serialVersionUID = 4978743759627354208L;
 	
-	@NotNull
-	@OneToOne(mappedBy = "releaseComment" , optional = false , fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "releaseComment" , optional = true , fetch = FetchType.LAZY)
 	public Release<?> release;
 	
 	public ReleaseComment() {

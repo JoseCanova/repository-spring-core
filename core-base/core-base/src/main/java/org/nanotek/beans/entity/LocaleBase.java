@@ -8,11 +8,14 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseLocaleBaseEntity;
 import org.nanotek.entities.MutableLocaleEntity;
 
+@Valid
 @Entity
 @Table(name="locale_base",
 					indexes= {
@@ -31,7 +34,7 @@ MutableLocaleEntity<String> {
 
 	private static final long serialVersionUID = -6664969453930737424L;
 
-	@NotBlank
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="locale", columnDefinition="VARCHAR NOT NULL")
 	protected String locale; 
 	

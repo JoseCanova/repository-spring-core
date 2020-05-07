@@ -9,12 +9,12 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
-import org.nanotek.ReleasePackagingBase;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleasePackagingEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -23,6 +23,7 @@ import org.nanotek.entities.MutableReleasePackagingNameEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(name="release_packaging",
 indexes= {

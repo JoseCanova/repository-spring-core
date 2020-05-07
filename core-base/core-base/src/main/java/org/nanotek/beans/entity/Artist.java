@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,12 +18,17 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Indexed
 @Entity
 @Table(name="artist" , 
 indexes= {
@@ -35,12 +41,12 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 
 	private static final long serialVersionUID = -932806802235346847L;
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="artist_id" , nullable = false , insertable = true , updatable = false)
 	public Long artistId;
 
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups= {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 
@@ -55,7 +61,8 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	}	
 
 
-	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@NotBlank(groups= {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistName;
 
@@ -74,8 +81,8 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	@ManyToMany(mappedBy = "artists",fetch=FetchType.LAZY , targetEntity=org.nanotek.beans.entity.ArtistCredit.class)
 	public List<ArtistCredit<?>> artistCredits;
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
-	@OneToOne(optional=false)
+	@NotNull(groups= {PrePersistValidationGroup.class})
+	@OneToOne(optional=false , cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "artist_sortname_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
@@ -83,28 +90,28 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	public ArtistSortName<?> artistSortName;
 
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "artist_comment_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
 			inverseJoinColumns = @JoinColumn(name = "comment_id",referencedColumnName = "id") )
 	public ArtistComment<?> artistComment;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "artist_begin_date_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
 			inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id") )
 	public ArtistBeginDate<?> artistBeginDate; 
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "artist_end_date_join", 
 			joinColumns = @JoinColumn(name = "artist_id" , referencedColumnName = "id"), 
 			inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id"))
 	public ArtistEndDate<?> artistEndDate;
 
-	@NotNull
+	@NotNull(groups= {PrePersistValidationGroup.class})
 	@ManyToOne(optional = false)
 	public ArtistType<?> artistType; 
 
@@ -115,6 +122,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 			inverseJoinColumns = @JoinColumn(name = "gender_id",referencedColumnName = "id"))
 	public Gender<?> gender; 
 
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "artist_area_join", 
@@ -142,21 +150,7 @@ BrainzBaseEntity<K> implements BaseArtistEntity<K>
 	public List<ArtistAlias<?>> artistAlias;
 
 	public Artist() {
-		prepare();
-
-	}
-
-	private void prepare() { 
-		artistSortName = new ArtistSortName<>(this);
-		artistComment = new ArtistComment<>(this);
-		artistBeginDate = new ArtistBeginDate<>();
-		artistEndDate = new ArtistEndDate<>();
-		artistType = new ArtistType<>();
-		gender = new Gender<>();
-		area = new Area<>();
-		artistCredits = new ArrayList<ArtistCredit<?>>();
-		beginArea = new Area<>();
-		endArea=new Area<>();
+//		prepare();
 	}
 
 	public Artist(

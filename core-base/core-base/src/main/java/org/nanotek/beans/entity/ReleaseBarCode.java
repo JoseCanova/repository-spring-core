@@ -21,8 +21,7 @@ MutableBarCodeEntity<String>{
 
 	private static final long serialVersionUID = 2946106607354210235L;
 
-	@NotNull
-	@OneToOne(mappedBy = "releaseBarCode" , optional = false , fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "releaseBarCode" , optional = true , fetch = FetchType.LAZY)
 	public Release<?> release;
 	
 	public ReleaseBarCode() {
@@ -46,6 +45,11 @@ MutableBarCodeEntity<String>{
 	@Override
 	public void setRelease(Release<?> k) {
 		this.release = k;
+	}
+
+	@Override
+	public String toString() {
+		return "ReleaseBarCode [release=" + release + ", barCode=" + barCode + "]";
 	}
 
 

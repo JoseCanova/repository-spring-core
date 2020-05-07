@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue(value="ArtistType")
-public class ArtistType<K extends ArtistType<K>> extends BaseType<K> {
+public class ArtistType<K extends ArtistType<K>> 
+extends BaseType<K> {
 
 	private static final long serialVersionUID = 962190613873549033L;
 	

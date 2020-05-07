@@ -9,9 +9,9 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
@@ -22,6 +22,7 @@ import org.nanotek.entities.MutableReleaseStatusIdEntity;
 import org.nanotek.entities.MutableReleaseStatusNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(name="release_status",
 indexes= {
@@ -44,15 +45,15 @@ MutableReleaseStatusNameEntity<String>
 
 	private static final long serialVersionUID = 4793056857806342212L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="release_status_id",nullable=false)
 	public Long releaseStatusId;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
-	protected UUID gid;
+	public UUID gid;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String releaseStatusName;
 	
