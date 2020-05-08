@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +29,7 @@ import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Indexed
 @Entity
 @Table(name="artist" , 

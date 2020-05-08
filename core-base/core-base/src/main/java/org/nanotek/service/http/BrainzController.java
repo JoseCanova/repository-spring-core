@@ -15,8 +15,10 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistAlias;
 import org.nanotek.beans.entity.ArtistCredit;
+import org.nanotek.beans.entity.ArtistCreditedName;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.beans.entity.Label;
+import org.nanotek.beans.entity.Medium;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.Release;
 import org.nanotek.beans.entity.ReleaseLabel;
@@ -42,7 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Qualifier(value = "BrainzController")
 @RequestMapping(path={"/brainz"},produces = MediaType.APPLICATION_JSON_VALUE)
 @SuppressWarnings("rawtypes")
-public class BrainzController<B extends BrainzBaseEntity<B>,K extends MapBase<K>> 
+public class BrainzController
+<B extends BrainzBaseEntity<B>,K extends MapBase<K>> 
 extends BrainzPersistenceService<B>
 {
 	
@@ -76,12 +79,31 @@ extends BrainzPersistenceService<B>
 	public <S extends B> ResponseEntity<?> findArtistAlias(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.ARTIST_ALIAS , id);
 	}
+	
+	@GetMapping(path = "/artist_credited_name/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findArtistCreditedName(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.ARTIST_CREDITED_NAME , id);
+	}
+	
+	@GetMapping(path = "/medium/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findMedium(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.MEDIUM , id);
+	}
 
 	@GetMapping(path = "/artist_credit/name/{name}")
 	@Transactional
 	public CollectionResponseEntity<List<B>,B> findArtistCreditName(@PathVariable(value="name") String name) {
 		List<B> results = baseSearchService.findByEntityName(toClass(ArtistCredit.class), name);
 		return processResult(name,results,ArtistCredit.class);
+	}
+	
+	@GetMapping(path = "/artist_credited_name/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findArtistCreditedName(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(ArtistCreditedName.class), name);
+		return processResult(name,results,ArtistCreditedName.class);
 	}
 	
 	@GetMapping(path = "/artist/name/{name}")
@@ -225,10 +247,12 @@ extends BrainzPersistenceService<B>
 		ARTIST_CREDIT("artistCreditId" , ArtistCredit.class),
 		ARTIST("artistId" , Artist.class),
 		ARTIST_ALIAS("artistId" , ArtistAlias.class),
+		ARTIST_CREDITED_NAME("id" , ArtistCreditedName.class),
 		AREA_TYPE("typeId" , AreaType.class),
 		AREA ("areaId" , Area.class),
 		RECORDING("recordingId" , Recording.class),
 		LABEL("labelId" , Label.class ),
+		MEDIUM("mediumId" , Medium.class ),
 		RELEASE("releaseId" , Release.class ),
 		RELEASE_LABEL("releaseLabelId" , ReleaseLabel.class);
 		

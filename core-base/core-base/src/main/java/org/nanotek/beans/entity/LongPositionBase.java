@@ -8,10 +8,13 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.MutablePositionEntity;
 
+@Valid
 @Entity
 @Table(name="long_position_base",
 indexes= {
@@ -29,7 +32,7 @@ implements MutablePositionEntity<Long>{
 
 	private static final long serialVersionUID = 2610811597922933992L;
 
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="position" , nullable=false)
 	public Long position;
 	

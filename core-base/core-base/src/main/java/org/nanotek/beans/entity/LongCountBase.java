@@ -8,12 +8,14 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCountBaseEntity;
 import org.nanotek.entities.MutableCountEntity;
 
+@Valid
 @Entity
 @Table(name="long_count_base",
 				indexes= {
@@ -26,7 +28,8 @@ import org.nanotek.entities.MutableCountEntity;
 	    columnDefinition = "VARCHAR NOT NULL"
 	)
 public class LongCountBase<K extends LongCountBase<K>> 
-extends CountBase<K> implements BaseCountBaseEntity<K>,
+extends CountBase<K> 
+implements BaseCountBaseEntity<K>,
 MutableCountEntity<Long>
 {
 

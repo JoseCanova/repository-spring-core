@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -22,6 +23,7 @@ import org.nanotek.entities.MutableParentEntity;
 import org.nanotek.entities.MutableYearEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(name="medium_format",
 uniqueConstraints = 
@@ -40,11 +42,11 @@ MutableGidEntity<UUID>
 
 	private static final long serialVersionUID = 8104913204474210789L;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="medium_format_id" , insertable=true,nullable=false)
 	public Long mediumFormatId;
 	
-	@NotBlank(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name = "name" , insertable=true , nullable=false , updatable=true , columnDefinition = "VARCHAR NOT NULL")
 	public String mediumFormatName; 
 	
@@ -54,11 +56,11 @@ MutableGidEntity<UUID>
 	@Column(name = "year")
 	public Integer year; 
 	
-	@NotBlank(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name = "hasDiscId", length=6, nullable=false)
 	public String discId;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name = "gid" , length=50 , insertable=true , nullable=false , updatable=true)
 	public UUID gid;
 	

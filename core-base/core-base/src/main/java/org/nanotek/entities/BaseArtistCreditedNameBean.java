@@ -66,7 +66,12 @@ MutablePositionEntity<Long>
 	
 	@Override
 	default void setArtistCreditNameJoinPhrase(String k) {
-		write(MutableArtistCreditNameJoinPhraseEntity.class,k);
+		String joinPhrase = isEmpty(k)? "" : k;
+		write(MutableArtistCreditNameJoinPhraseEntity.class,joinPhrase);
+	}
+	
+	default boolean isEmpty(String k) { 
+		return k == null || k.isEmpty();
 	}
 	
 	default Long getPosition() {

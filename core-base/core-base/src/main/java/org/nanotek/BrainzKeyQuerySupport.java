@@ -1,5 +1,7 @@
 package org.nanotek;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<B>> {
 	
 	default  <X extends B> Optional<List<?>> filterPropertyByClass(EntityBeanInfo<X> entityBeanInfo,Object instance) {
 	    
+		List<X> emptyList = new ArrayList<X>();
+		
 		Optional<PropertyDescriptor> optPropertyDescriptorInfo = 
 			entityBeanInfo
 			.getPropertyDescriptorInfo()
@@ -43,7 +47,7 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<B>> {
 				return false;
 			}).findFirst();
 			
-		return optPropertyDescriptorInfo.map(p ->{
+		Optional<List<?>> optResult =  optPropertyDescriptorInfo.map(p ->{
 			try {
 				
 				Class<X> clzz = entityBeanInfo.getEntityClass();
@@ -63,7 +67,7 @@ public interface BrainzKeyQuerySupport<B extends BrainzBaseEntity<B>> {
 	        	throw new BaseException (ex);
 	        }
 		});
-				
+		return optResult.isEmpty() ? Optional.of(emptyList):optResult;		
 	}
 	
 }

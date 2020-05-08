@@ -3,10 +3,12 @@ package org.nanotek.beans.entity;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.nanotek.entities.MutableMediumEntity;
 
+@Valid
 @Entity
 @DiscriminatorValue(value="MediumCount")
 public class MediumCount<K extends MediumCount<K>> 
@@ -16,8 +18,7 @@ implements MutableMediumEntity<Medium<?>>
 
 	private static final long serialVersionUID = 4332038107455870423L;
 	
-	@NotNull
-	@OneToOne(optional=false, mappedBy="mediumCount")
+	@OneToOne(mappedBy="mediumCount")
 	public Medium<?> medium;
 
 	public MediumCount() {

@@ -185,8 +185,8 @@ artistcredit:
     
 artistcreditedname:
   fileLocation: /opt/mbdump
-  fileName: artist_credit_name_dump
-  immutable: org.nanotek.beans.csv.ArtistCreditNameBean
+  fileName: artist_credit_name
+  immutable: org.nanotek.beans.csv.ArtistCreditedNameBean
   baseMap:  
     artistCreditId: 0
     position: 1            
@@ -329,6 +329,20 @@ mediumformat:
     discId: 5
     description: 6
     gid: 7       
+    
+mediumbean: 
+  fileLocation: /opt/mbdump
+  fileName: medium_dump
+  immutable: org.nanotek.beans.csv.MediumBean
+  baseMap:     
+    mediumId: 0
+    releaseId: 1 
+    position: 2
+    mediumFormatId: 3 
+    mediumName: 4 
+    editsPending: 5 
+    lastUpdated: 6 
+    count: 7     
         
 recordingbean: 
   fileLocation: /opt/mbdump/recording_split
