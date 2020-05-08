@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -7,19 +8,25 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.MutableArtistCreditNamePositionEntity;
 import org.nanotek.entities.MutableArtistCreditedNameEntity;
 import org.nanotek.entities.MutableArtistEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
+@Indexed
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditedName<K extends ArtistCreditedName<K>> 
@@ -41,7 +48,8 @@ MutableArtistCreditedNameEntity<String>{
 	 */
 
 
-	@NotBlank(groups = {CsvValidationGroup.class,Default.class})
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditedName;
 
@@ -56,24 +64,26 @@ MutableArtistCreditedNameEntity<String>{
 		this.artistCreditedName = k;
 	}
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_credit_id" , insertable = true , nullable = true, referencedColumnName = "id")
 	public  ArtistCredit<?> artistCredit;
 	
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "artistid" , insertable = true , nullable = true, referencedColumnName = "id")
 	public  Artist<?> artist;
 	
-	@OneToOne
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "artist_credit_name_position_join", 
 			  joinColumns = @JoinColumn(name = "artist_credit_name" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
 	public ArtistCreditedNamePosition<?> artistCreditNamePosition; 
 	
-	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true,columnDefinition = "TEXT NOT NULL DEFAULT ''")
+	
+	@Column(name="artist_credit_name_join_phrase" ,nullable=true,insertable=true,columnDefinition = "TEXT DEFAULT ''")
 	public String artistCreditNameJoinPhrase;
 
 	

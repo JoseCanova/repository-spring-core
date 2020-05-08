@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +14,20 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
+import org.nanotek.entities.BaseMediumEntity;
 import org.nanotek.entities.MutableMediumCountEntity;
 import org.nanotek.entities.MutableMediumFormatEntity;
+import org.nanotek.entities.MutableMediumIdEntity;
 import org.nanotek.entities.MutableMediumNameEntity;
 import org.nanotek.entities.MutableMediumPositionEntity;
+import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
 @Entity
 @Table(indexes= {
@@ -28,45 +38,48 @@ uniqueConstraints = {@UniqueConstraint(name="uk_medium_id",columnNames = {"mediu
 public class Medium<K extends Medium<K>> 
 extends BrainzBaseEntity<K> 
 implements 
+BaseMediumEntity<Medium<?>>,
 MutableMediumNameEntity<String>,
 MutableMediumCountEntity<MediumCount<?>>,
 MutableMediumPositionEntity<MediumPosition>,
-MutableMediumFormatEntity<MediumFormat<?>>
+MutableMediumFormatEntity<MediumFormat<?>>,
+MutableMediumIdEntity<Long>,
+MutableReleaseEntity<Release<?>>
 {
 
 	private static final long serialVersionUID = 6669274101742169443L;
 	
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="medium_id")
 	public Long mediumId;
 
 	
-	@NotNull
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String mediumName;
 
 	
-	@NotNull
-	@OneToOne(optional=false)
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "medium_count_join", 
 			  joinColumns = @JoinColumn(name = "medium_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "count_id",referencedColumnName = "id"))
 	public MediumCount<?> mediumCount; 
 
-	@NotNull
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "medium_position_join", 
 			  joinColumns = @JoinColumn(name = "medium_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "position_id",referencedColumnName = "id"))
 	public MediumPosition mediumPosition;
 
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY , optional = false)
 	@JoinColumn(name="release_id")
 	public Release<?> release;
 	
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne
 	@JoinColumn(name="medium_format_id")
 	public MediumFormat<?> mediumFormat;

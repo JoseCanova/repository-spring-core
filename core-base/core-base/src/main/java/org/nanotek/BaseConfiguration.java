@@ -172,7 +172,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Qualifier(value = "serviceTaskExecutor")
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(10);
+		executor.setCorePoolSize(50);
 		executor.setMaxPoolSize(1000);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
@@ -183,7 +183,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Bean(name = "threadPoolTaskExecutor")
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(10);
+		executor.setCorePoolSize(50);
 		executor.setMaxPoolSize(200);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("AsyncThreadPoolExecutor");
@@ -206,7 +206,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "artistalias")
+	@ConfigurationProperties(value = "mediumbean")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
