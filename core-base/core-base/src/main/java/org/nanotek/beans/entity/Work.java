@@ -13,9 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseWorkEntity;
 import org.nanotek.entities.MutableGidEntity;
@@ -25,6 +31,8 @@ import org.nanotek.entities.MutableWorkNameEntity;
 import org.nanotek.entities.MutableWorkTypeEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
+@Indexed
 @Entity
 @Table(name="work" , 
 indexes= {
@@ -43,19 +51,21 @@ MutableWorkCommentEntity<WorkComment<?>>{
 	
 	private static final long serialVersionUID = 1277515257816058032L;
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="work_id",nullable=false)
 	public Long workId;
 	
-	@NotNull(groups = {Default.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid; 
 	
-	@NotNull(groups = {Default.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(optional=false, fetch = FetchType.LAZY )
 	public WorkType<?> workType; 
 
-	@NotNull(groups = {Default.class})
+
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String workName;
 	

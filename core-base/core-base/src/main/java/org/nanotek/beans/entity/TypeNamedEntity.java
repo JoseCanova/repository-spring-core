@@ -21,11 +21,11 @@ MutableGidEntity<UUID>,MutableTypeNameEntity<String>{
 	private static final long serialVersionUID = -5235727515178240574L;
 
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="gid", nullable=false , columnDefinition = "UUID NOT NULL")
 	public UUID gid;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String typeName;
 
