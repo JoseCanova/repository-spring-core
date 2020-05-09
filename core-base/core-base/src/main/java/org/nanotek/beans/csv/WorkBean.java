@@ -2,9 +2,9 @@ package org.nanotek.beans.csv;
 
 import org.nanotek.BaseBean;
 import org.nanotek.beans.entity.Work;
-import org.nanotek.beans.entity.WorkComment;
-import org.nanotek.beans.entity.WorkType;
 import org.nanotek.entities.BaseWorkBean;
+import org.nanotek.entities.BaseWorkCommentBean;
+import org.nanotek.entities.BaseWorkTypeBean;
 import org.nanotek.proxy.ProxyBase;
 
 public class WorkBean 
@@ -15,9 +15,9 @@ implements BaseWorkBean<WorkBean<K>>
 	
 	private static final long serialVersionUID = -7506936733635556154L;
 
-	public WorkComment<?> workComment;
+	public BaseWorkCommentBean<?> workComment;
 	
-	public WorkType<?> workType;
+	public BaseWorkTypeBean<?> workType;
 	
 	public WorkBean() {
 		super(castClass());
@@ -36,24 +36,24 @@ implements BaseWorkBean<WorkBean<K>>
 
 	private void postConstruct() {
 		
-		workComment = new WorkComment<>();
+		workComment = new WorkCommentBean<>();
 		
-		workType = new WorkType<>();
+		workType = new WorkTypeBean<>();
 	}
 
-	public WorkComment<?> getWorkComment() {
+	public BaseWorkCommentBean<?> getWorkComment() {
 		return workComment;
 	}
 
-	public void setWorkComment(WorkComment<?> workComment) {
+	public void setWorkComment(BaseWorkCommentBean<?> workComment) {
 		this.workComment = workComment;
 	}
 
-	public WorkType<?> getWorkType() {
+	public BaseWorkTypeBean<?> getWorkType() {
 		return workType;
 	}
 
-	public void setWorkType(WorkType<?> workType) {
+	public void setWorkType(BaseWorkTypeBean<?> workType) {
 		this.workType = workType;
 	}
 

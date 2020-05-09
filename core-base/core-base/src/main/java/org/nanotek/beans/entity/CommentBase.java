@@ -21,7 +21,7 @@ MutableCommentEntity<String>{
 	private static final long serialVersionUID = -3239637365262870832L;
 	
 	@Field(name = "comment" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@NotBlank(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;
 

@@ -332,7 +332,7 @@ mediumformat:
     
 mediumbean: 
   fileLocation: /opt/mbdump
-  fileName: medium_dump
+  fileName: medium
   immutable: org.nanotek.beans.csv.MediumBean
   baseMap:     
     mediumId: 0
@@ -463,4 +463,15 @@ releaselabelbean:
     releaseLabelNumber: 3
     lastUpdated: 4
     
-    
+workbean: 
+  fileLocation: /opt/mbdump
+  fileName: work_dump
+  immutable: org.nanotek.beans.csv.WorkBean
+  baseMap:     
+    workId: 0
+    gid: 1
+    workName: 2
+    typeId: 3
+    comment: 4    
+    pending: 5
+    updated: 6  

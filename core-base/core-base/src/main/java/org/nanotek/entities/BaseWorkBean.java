@@ -7,8 +7,6 @@ import org.nanotek.BaseBean;
 import org.nanotek.GidEntity;
 import org.nanotek.beans.csv.WorkBean;
 import org.nanotek.beans.entity.Work;
-import org.nanotek.beans.entity.WorkComment;
-import org.nanotek.beans.entity.WorkType;
 import org.nanotek.entities.immutables.WorkNameEntity;
 
 public interface BaseWorkBean
@@ -18,8 +16,8 @@ BaseBean<K,Work<?>>,
 MutableWorkIdEntity<Long>,
 MutableGidEntity<UUID>,
 MutableWorkNameEntity<String>,
-MutableWorkTypeEntity<WorkType<?>>,
-MutableWorkCommentEntity<WorkComment<?>>
+MutableWorkTypeEntity<BaseWorkTypeBean<?>>,
+MutableWorkCommentEntity<BaseWorkCommentBean<?>>
 {
 
 	@Override
@@ -52,6 +50,15 @@ MutableWorkCommentEntity<WorkComment<?>>
 		write(MutableGidEntity.class,k);
 	}
 	
+	default void setTypeId(Long id) { 
+		Long theId = id == null? 28l : id;
+		getWorkType().setTypeId(theId);
+	}
+	
+	default Long getTypeId() { 
+		return getWorkType().getTypeId();
+	}
+	
 	default String getComment() { 
 		return getWorkComment().getComment();
 	}
@@ -65,9 +72,11 @@ MutableWorkCommentEntity<WorkComment<?>>
 		bean.setComment("this is a comment");
 		bean.setWorkName("this is a work name");
 		bean.setWorkId(100l);
+		bean.setTypeId(1001l);
 		System.out.println(bean.getWorkId());
 		System.out.println(bean.getWorkName());
 		System.out.println(bean.getComment());
+		System.out.println(bean.getTypeId());
 	}
 	
 }
