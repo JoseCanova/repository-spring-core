@@ -332,7 +332,7 @@ mediumformat:
     
 mediumbean: 
   fileLocation: /opt/mbdump
-  fileName: medium_dump
+  fileName: medium
   immutable: org.nanotek.beans.csv.MediumBean
   baseMap:     
     mediumId: 0
