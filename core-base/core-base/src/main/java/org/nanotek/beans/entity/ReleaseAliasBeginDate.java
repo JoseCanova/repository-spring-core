@@ -5,12 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 import org.nanotek.entities.BaseReleaseAliasBeginDateEntity;
+import org.nanotek.entities.MutableBeginDateEntity;
+import org.nanotek.entities.MutableBeginDayEntity;
+import org.nanotek.entities.MutableBeginMonthEntity;
+import org.nanotek.entities.MutableBeginYearEntity;
 
 @Entity
 @DiscriminatorValue(value = "ReleaseAliasBeginDate")
 public class ReleaseAliasBeginDate<K extends ReleaseAliasBeginDate<K>> 
 extends BeginDateBase<K> 
-implements BaseReleaseAliasBeginDateEntity<K>{
+implements BaseReleaseAliasBeginDateEntity<K>,
+MutableBeginDateEntity<Integer>,
+MutableBeginYearEntity<Integer>,
+MutableBeginMonthEntity<Integer>,
+MutableBeginDayEntity<Integer>{
 
 	private static final long serialVersionUID = -3004596106076682952L;
 	

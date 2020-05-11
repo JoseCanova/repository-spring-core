@@ -2,11 +2,12 @@ package org.nanotek.entities;
 
 import org.nanotek.Base;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.ArtistAliasLocale;
+import org.nanotek.beans.entity.ReleaseAliasLocale;
 import org.nanotek.entities.immutables.LocaleEntity;
 
-public interface BaseArtistAliasLocaleBean<K extends BaseBean<K,ArtistAliasLocale<?>>>
-extends Base<K>,BaseBean<K,ArtistAliasLocale<?>>,
+public interface BaseReleaseAliasLocaleBean
+<K extends BaseBean<K,ReleaseAliasLocale<?>>>
+extends Base<K>,BaseBean<K,ReleaseAliasLocale<?>>,
 MutableLocaleEntity<String>{
 
 	

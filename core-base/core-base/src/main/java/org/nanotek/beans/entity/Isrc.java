@@ -40,7 +40,7 @@ MutableIsrcEntity<String>,
 MutableIsrcSourceEntity<Integer>
 {
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column (name="isrc_id" , insertable=true)
 	public Long isrcId; 
 	

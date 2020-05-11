@@ -1,5 +1,6 @@
 package org.nanotek.beans.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,20 +10,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseAliasEntity;
-import org.nanotek.entities.MutableNameEntity;
 import org.nanotek.entities.MutableReleaseAliasBeginDateEntity;
 import org.nanotek.entities.MutableReleaseAliasEndDateEntity;
 import org.nanotek.entities.MutableReleaseAliasIdEntity;
 import org.nanotek.entities.MutableReleaseAliasLocaleEntity;
+import org.nanotek.entities.MutableReleaseAliasNameEntity;
 import org.nanotek.entities.MutableReleaseAliasSortNameEntity;
 import org.nanotek.entities.MutableReleaseAliasTypeEntity;
 import org.nanotek.entities.MutableReleaseEntity;
+import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
+@Indexed
 @Entity
 @Table(name = "release_alias",
 uniqueConstraints = {@UniqueConstraint(name="uk_release_alias_id", columnNames = {"relase_alias_id"})})
@@ -35,50 +45,54 @@ MutableReleaseEntity<Release<?>>,
 MutableReleaseAliasTypeEntity<ReleaseAliasType<?>>,
 MutableReleaseAliasBeginDateEntity<ReleaseAliasBeginDate<?>>,
 MutableReleaseAliasEndDateEntity<ReleaseAliasEndDate<?>>,
-MutableNameEntity<String>
+MutableReleaseAliasNameEntity<String>
 {
 
 	private static final long serialVersionUID = -4420910201637029585L;
 	
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="relase_alias_id" , nullable=false)
 	public Long releaseAliasId;
 	
-	@NotNull
+	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
-	public String name;
+	public String releaseAliasName;
 	
-	@OneToOne(optional=true)
+	
+	@OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "release_alias_locale_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "locale_id",referencedColumnName = "id"))
 	public ReleaseAliasLocale<?> releaseAliasLocale;
 	
-	@NotNull
-	@OneToOne
+	@NotNull(groups = {PrePersistValidationGroup.class})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "release_alias_sortname_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "sortname_id",referencedColumnName = "id"))
 	public ReleaseAliasSortName<?> releaseAliasSortName;
 	
-	@NotNull
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY,optional=false)
 	@JoinColumn(name = "release_id")
 	public Release<?> release; 
 	
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY,optional=false)
 	@JoinColumn(name="type_id")
 	public ReleaseAliasType<?> releaseAliasType;
 
-    @OneToOne(optional=true)
+    @OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "release_alias_begin_date_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "date_id",referencedColumnName = "id"))
     public ReleaseAliasBeginDate<?> releaseAliasBeginDate;
     
-    @OneToOne(optional=true)
+    @OneToOne(optional=true,cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "release_alias_end_date_join", 
 			  joinColumns = @JoinColumn(name = "release_alias_id" , referencedColumnName = "id"), 
@@ -89,12 +103,12 @@ MutableNameEntity<String>
 	}
 	
 	public ReleaseAlias(@NotNull Long id , @NotBlank String name) {
-		this.name=name;
+		this.releaseAliasName=name;
 		this.releaseAliasId = id;
 	}
 	
 	public ReleaseAlias(@NotNull Long id , @NotBlank String name, @NotNull ReleaseAliasSortName<?> sortName) {
-		this.name=name;
+		this.releaseAliasName=name;
 		this.releaseAliasId = id;
 		this.releaseAliasSortName = sortName;
 	}
@@ -109,7 +123,7 @@ MutableNameEntity<String>
 			ReleaseAliasBeginDate<?> beginDate,
 			ReleaseAliasEndDate<?> endDate) {
 		this.releaseAliasId = id;
-		this.name = name;
+		this.releaseAliasName = name;
 		this.releaseAliasLocale = locale;
 		this.release = release;
 		this.releaseAliasType = type;
@@ -124,77 +138,44 @@ MutableNameEntity<String>
 		return releaseAliasId;
 	}
 
-	@Override
+	public String getReleaseAliasName() {
+		return releaseAliasName;
+	}
+
+	public void setReleaseAliasName(String releaseAliasName) {
+		this.releaseAliasName = releaseAliasName;
+	}
+
 	public ReleaseAliasLocale<?> getReleaseAliasLocale() {
 		return releaseAliasLocale;
 	}
 
-	@Override
+	public void setReleaseAliasLocale(ReleaseAliasLocale<?> releaseAliasLocale) {
+		this.releaseAliasLocale = releaseAliasLocale;
+	}
+
 	public ReleaseAliasSortName<?> getReleaseAliasSortName() {
 		return releaseAliasSortName;
 	}
 
-	@Override
-	public Release<?> getRelease() {
-		return release;
-	}
-
-	@Override
-	public ReleaseAliasType<?> getReleaseAliasType() {
-		return releaseAliasType;
-	}
-
-	@Override
-	public ReleaseAliasBeginDate<?> getReleaseAliasBeginDateEntity(ReleaseAliasBeginDate<?> k) {
-		return releaseAliasBeginDate;
-	}
-
-	@Override
-	public ReleaseAliasEndDate<?> getReleaseAliasEndDate() {
-		return releaseAliasEndDate;
-	}
-
-	@Override
-	public void setReleaseAliasEndDate(ReleaseAliasEndDate<?> k) {
-		this.releaseAliasEndDate = k;
-	}
-
-	@Override
-	public void setReleaseAliasBeginDateEntity(ReleaseAliasBeginDate<?> k) {
-		this.releaseAliasBeginDate = k;
-	}
-
-	@Override
-	public void setReleaseAliasType(ReleaseAliasType<?> releaseAliasType) {
-		this.releaseAliasType = releaseAliasType;
-	}
-
-	@Override
-	public void setRelease(Release<?> k) {
-		this.release = k;
-	}
-
-	@Override
 	public void setReleaseAliasSortName(ReleaseAliasSortName<?> releaseAliasSortName) {
 		this.releaseAliasSortName = releaseAliasSortName;
 	}
 
-	@Override
-	public void setReleaseAliasLocale(ReleaseAliasLocale<?> k) {
-		this.releaseAliasLocale = k;
+	public Release<?> getRelease() {
+		return release;
 	}
 
-	@Override
-	public void setReleaseAliasId(Long k) {
-			this.releaseAliasId = k;
+	public void setRelease(Release<?> release) {
+		this.release = release;
 	}
 
-	public String getName() {
-		return name;
+	public ReleaseAliasType<?> getReleaseAliasType() {
+		return releaseAliasType;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReleaseAliasType(ReleaseAliasType<?> releaseAliasType) {
+		this.releaseAliasType = releaseAliasType;
 	}
 
 	public ReleaseAliasBeginDate<?> getReleaseAliasBeginDate() {
@@ -204,5 +185,19 @@ MutableNameEntity<String>
 	public void setReleaseAliasBeginDate(ReleaseAliasBeginDate<?> releaseAliasBeginDate) {
 		this.releaseAliasBeginDate = releaseAliasBeginDate;
 	}
+
+	public ReleaseAliasEndDate<?> getReleaseAliasEndDate() {
+		return releaseAliasEndDate;
+	}
+
+	public void setReleaseAliasEndDate(ReleaseAliasEndDate<?> releaseAliasEndDate) {
+		this.releaseAliasEndDate = releaseAliasEndDate;
+	}
+
+	public void setReleaseAliasId(Long releaseAliasId) {
+		this.releaseAliasId = releaseAliasId;
+	}
+
+
 
 }

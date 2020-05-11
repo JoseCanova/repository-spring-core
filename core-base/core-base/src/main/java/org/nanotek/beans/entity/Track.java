@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
@@ -26,15 +25,15 @@ implements BaseTrackEntity<K>{
 
 	private static final long serialVersionUID = 8642862162010029043L;
 
-	@NotNull(groups = {CsvValidationGroup.class,Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="track_id")
 	public Long trackId;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
 	public Medium<?> medium; 
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_position_join", 
@@ -43,7 +42,7 @@ implements BaseTrackEntity<K>{
 	public TrackPosition<?> position;
 	
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_number_join", 
@@ -51,11 +50,11 @@ implements BaseTrackEntity<K>{
 			  inverseJoinColumns = @JoinColumn(name = "number_id",referencedColumnName = "id"))
 	public TrackNumber number; 
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(optional=false)
 	public ArtistCredit<?> artistCredit; 
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(optional=false)
 	@JoinTable(
 			  name = "track_length_join", 
@@ -63,7 +62,7 @@ implements BaseTrackEntity<K>{
 			  inverseJoinColumns = @JoinColumn(name = "length_id",referencedColumnName = "id"))
 	public TrackLength length;
 	
-	@NotNull(groups = {Default.class,PrePersistValidationGroup.class})
+	@NotNull(groups = {PrePersistValidationGroup.class})
 	@ManyToOne(fetch=FetchType.LAZY , optional = false)
 	@JoinColumn(name="recordingId" , referencedColumnName="id")
 	public Recording<?> recording;

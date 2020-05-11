@@ -465,7 +465,7 @@ releaselabelbean:
     
 workbean: 
   fileLocation: /opt/mbdump
-  fileName: work_dump
+  fileName: work
   immutable: org.nanotek.beans.csv.WorkBean
   baseMap:     
     workId: 0
@@ -475,3 +475,26 @@ workbean:
     comment: 4    
     pending: 5
     updated: 6  
+    
+releasealiasbean: 
+  fileLocation: /opt/mbdump
+  fileName: release_alias
+  immutable: org.nanotek.beans.csv.ReleaseAliasBean
+  baseMap:     
+   releaseAliasId: 0
+   releaseId: 1
+   releaseAliasName: 2
+   locale: 3    
+   pending: 4
+   updated: 5	
+   typeId: 6
+   sortName: 7
+   beginYear: 8
+   beginMonth: 9
+   beginDay: 10
+   endYear: 11
+   endMonth: 12
+   endDay: 13
+   primaryLocale: 14
+   ended: 15
+    
