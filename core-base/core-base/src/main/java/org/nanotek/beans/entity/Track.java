@@ -23,9 +23,7 @@ import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseTrackEntity;
-import org.nanotek.entities.MutableArtistCreditEntity;
 import org.nanotek.entities.MutableGidEntity;
-import org.nanotek.entities.MutableMediumEntity;
 import org.nanotek.entities.MutableRecordingEntity;
 import org.nanotek.entities.MutableTrackIdEntity;
 import org.nanotek.entities.MutableTrackLengthEntity;
@@ -43,8 +41,8 @@ public class Track<K extends Track<K>>
 extends BrainzBaseEntity<K>
 implements BaseTrackEntity<K>,
 MutableTrackIdEntity<Long>, 
-MutableMediumEntity<Medium<?>>,
-MutableArtistCreditEntity<ArtistCredit<?>>,
+//MutableMediumEntity<Medium<?>>,
+//MutableArtistCreditEntity<ArtistCredit<?>>,
 MutableRecordingEntity<Recording<?>>,
 MutableTrackPositionEntity<TrackPosition<?>>,
 MutableTrackNumberEntity<TrackNumber>,
@@ -69,9 +67,9 @@ MutableTrackNameEntity<String>{
 	public String trackName;
 	
 	
-	@NotNull(groups = {PrePersistValidationGroup.class})
-	@ManyToOne(optional=false)
-	public Medium<?> medium; 
+//	@NotNull(groups = {PrePersistValidationGroup.class})
+//	@ManyToOne(optional=false)
+//	public Medium<?> medium; 
 	
 	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(cascade = CascadeType.ALL)
@@ -90,9 +88,9 @@ MutableTrackNameEntity<String>{
 			  inverseJoinColumns = @JoinColumn(name = "number_id",referencedColumnName = "id"))
 	public TrackNumber trackNumber; 
 	
-	@NotNull(groups = {PrePersistValidationGroup.class})
-	@ManyToOne(optional=false)
-	public ArtistCredit<?> artistCredit; 
+//	@NotNull(groups = {PrePersistValidationGroup.class})
+//	@ManyToOne(optional=false)
+//	public ArtistCredit<?> artistCredit; 
 	
 	@NotNull(groups = {PrePersistValidationGroup.class})
 	@OneToOne(cascade = CascadeType.ALL)
@@ -107,19 +105,19 @@ MutableTrackNameEntity<String>{
 	@JoinColumn(name="recordingId" , referencedColumnName="id")
 	public Recording<?> recording;
 	
-	public Medium<?> getMedium() {
-		return medium;
-	}
-	public void setMedium(Medium<?> medium) {
-		this.medium = medium;
-	}
-	
-	public ArtistCredit<?> getArtistCredit() {
-		return artistCredit;
-	}
-	public void setArtistCredit(ArtistCredit<?> artistCredit) {
-		this.artistCredit = artistCredit;
-	}
+//	public Medium<?> getMedium() {
+//		return medium;
+//	}
+//	public void setMedium(Medium<?> medium) {
+//		this.medium = medium;
+//	}
+//	
+//	public ArtistCredit<?> getArtistCredit() {
+//		return artistCredit;
+//	}
+//	public void setArtistCredit(ArtistCredit<?> artistCredit) {
+//		this.artistCredit = artistCredit;
+//	}
 	
 	@BrainzKey(entityClass = Track.class, pathName = "trackId")
 	public Long getTrackId() {
@@ -164,8 +162,5 @@ MutableTrackNameEntity<String>{
 	public void setTrackName(String trackName) {
 		this.trackName = trackName;
 	}
-	
-	
-	
 	
 }

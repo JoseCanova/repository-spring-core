@@ -172,7 +172,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Qualifier(value = "serviceTaskExecutor")
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(50);
+		executor.setCorePoolSize(20);
 		executor.setMaxPoolSize(1000);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
@@ -183,7 +183,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Bean(name = "threadPoolTaskExecutor")
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(50);
+		executor.setCorePoolSize(20);
 		executor.setMaxPoolSize(200);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("AsyncThreadPoolExecutor");

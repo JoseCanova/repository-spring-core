@@ -3,6 +3,7 @@ package org.nanotek.beans.entity;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
