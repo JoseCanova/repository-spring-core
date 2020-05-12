@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.groups.Default;
 
 import org.nanotek.PrePersistValidationGroup;
+import org.nanotek.entities.MutableNumberEntity;
 
 @Entity
 @Table(name="string_number_base",
@@ -24,11 +25,14 @@ import org.nanotek.PrePersistValidationGroup;
 	    name = "table_id",
 	    columnDefinition = "VARCHAR NOT NULL"
 	)
-public class StringNumberBase<K extends StringNumberBase<K>> extends NumberBase<K,String> {
+public class StringNumberBase
+<K extends StringNumberBase<K>> 
+extends NumberBase<K,String> 
+{
 
 	private static final long serialVersionUID = -773476453892134913L;
 
-	@NotBlank(groups= {Default.class,PrePersistValidationGroup.class})
+	@NotBlank(groups= {PrePersistValidationGroup.class})
 	@Column(name="number" , columnDefinition = "VARCHAR NOT NULL")
 	public String number;
 	

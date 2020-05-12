@@ -11,13 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseMediumEntity;
@@ -29,6 +26,7 @@ import org.nanotek.entities.MutableMediumPositionEntity;
 import org.nanotek.entities.MutableReleaseEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
+@Valid
 @Entity
 @Table(indexes= {
 		@Index(name="idx_medium_id",columnList="medium_id")
