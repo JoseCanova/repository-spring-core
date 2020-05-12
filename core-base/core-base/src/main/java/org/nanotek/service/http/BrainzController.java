@@ -297,7 +297,7 @@ extends BrainzPersistenceService<B>
 		RELEASE("releaseId" , Release.class ),
 		RELEASE_ALIAS("releaseLabelId" , ReleaseAlias.class),
 		RELEASE_LABEL("releaseLabelId" , ReleaseLabel.class),
-		TRACK("releaseLabelId" , Track.class),
+		TRACK("trackId" , Track.class),
 		WORK("workId" , Work.class);
 		
 		
