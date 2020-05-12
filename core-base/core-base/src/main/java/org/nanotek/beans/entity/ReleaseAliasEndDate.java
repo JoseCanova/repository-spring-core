@@ -9,19 +9,24 @@ import org.nanotek.entities.MutableEndDateEntity;
 import org.nanotek.entities.MutableEndDayEntity;
 import org.nanotek.entities.MutableEndMonthEntity;
 import org.nanotek.entities.MutableEndYearEntity;
+import org.nanotek.entities.MutableReleaseAliasEntity;
 
 @Entity
 @DiscriminatorValue(value="ReleaseAliasEndDate")
-public class ReleaseAliasEndDate<K extends ReleaseAliasEndDate<K>> 
+public class ReleaseAliasEndDate
+<K extends ReleaseAliasEndDate<K>> 
 extends EndDateBase<K> 
 implements BaseReleaseAliasEndDateEntity<K>,
 MutableEndDateEntity<Integer>,
-MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity<Integer>{
+MutableEndYearEntity<Integer>,
+MutableEndMonthEntity<Integer>,
+MutableEndDayEntity<Integer>,
+MutableReleaseAliasEntity<ReleaseAlias<?>>{
 
 	private static final long serialVersionUID = -2316725967469275402L;
 
 	@OneToOne(mappedBy="releaseAliasEndDate")
-	public ReleaseAlias releaseAlias;
+	public ReleaseAlias<?> releaseAlias;
 	
 	public ReleaseAliasEndDate() {
 	}
@@ -38,11 +43,11 @@ MutableEndYearEntity<Integer>,MutableEndMonthEntity<Integer>,MutableEndDayEntity
 		super(year, month, day);
 	}
 
-	public ReleaseAlias getReleaseAlias() {
+	public ReleaseAlias<?> getReleaseAlias() {
 		return releaseAlias;
 	}
 
-	public void setReleaseAlias(ReleaseAlias releaseAlias) {
+	public void setReleaseAlias(ReleaseAlias<?> releaseAlias) {
 		this.releaseAlias = releaseAlias;
 	}
 	

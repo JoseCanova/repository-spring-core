@@ -17,7 +17,7 @@ MutableLocaleEntity<String>{
 	
 	@Override
 	default void setLocale(String k) {
-		write(MutableLanguageEntity.class,k);
+		write(MutableLocaleEntity.class,k);
 	}
 	
 }

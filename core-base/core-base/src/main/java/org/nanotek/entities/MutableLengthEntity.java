@@ -1,10 +1,8 @@
 package org.nanotek.entities;
 
-import java.io.Serializable;
+import org.nanotek.entities.immutables.LengthEntity;
 
-import org.nanotek.entities.immutables.LengthtEntity;
-
-public interface MutableLengthEntity<K> extends LengthtEntity<K>{
+public interface MutableLengthEntity<K> extends LengthEntity<K>{
 
 	void setLength(K k);
 	

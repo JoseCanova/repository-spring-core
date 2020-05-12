@@ -21,7 +21,10 @@ import org.nanotek.beans.entity.Label;
 import org.nanotek.beans.entity.Medium;
 import org.nanotek.beans.entity.Recording;
 import org.nanotek.beans.entity.Release;
+import org.nanotek.beans.entity.ReleaseAlias;
 import org.nanotek.beans.entity.ReleaseLabel;
+import org.nanotek.beans.entity.Track;
+import org.nanotek.beans.entity.Work;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.jpa.BrainzBaseEntityRepository;
 import org.nanotek.service.http.response.CollectionResponseEntity;
@@ -80,6 +83,12 @@ extends BrainzPersistenceService<B>
 		return prepareResponse(BaseFieldClassEnum.ARTIST_ALIAS , id);
 	}
 	
+	@GetMapping(path = "/release_alias/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findReleaseAlias(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.RELEASE_ALIAS , id);
+	}
+	
 	@GetMapping(path = "/artist_credited_name/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findArtistCreditedName(@PathVariable(value="id") Long  id) {
@@ -90,6 +99,12 @@ extends BrainzPersistenceService<B>
 	@Transactional
 	public <S extends B> ResponseEntity<?> findMedium(@PathVariable(value="id") Long  id) {
 		return prepareResponse(BaseFieldClassEnum.MEDIUM , id);
+	}
+	
+	@GetMapping(path = "/track/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findTrack(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.TRACK, id);
 	}
 
 	@GetMapping(path = "/artist_credit/name/{name}")
@@ -134,6 +149,27 @@ extends BrainzPersistenceService<B>
 		return processResult(name,results,Release.class);
 	}
 	
+	@GetMapping(path = "/release_alias/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findReleaseAlias(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(ReleaseAlias.class), name);
+		return processResult(name,results,ReleaseAlias.class);
+	}
+	
+	@GetMapping(path = "/track/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findTrack(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(Track.class), name);
+		return processResult(name,results,Track.class);
+	}
+	
+	@GetMapping(path = "/work/name/{name}")
+	@Transactional
+	public CollectionResponseEntity<List<B>,B> findWork(@PathVariable(value="name") String name) {
+		List<B> results = baseSearchService.findByEntityName(toClass(Work.class), name);
+		return processResult(name,results,Work.class);
+	}
+	
 	@GetMapping(path = "/area_type/id/{id}")
 	@Transactional
 	public <S extends B> ResponseEntity<?> findAreaType(@PathVariable(value="id") Long  id) {
@@ -171,6 +207,12 @@ extends BrainzPersistenceService<B>
 		return prepareResponse(BaseFieldClassEnum.RELEASE_LABEL, id);
 	}
 	
+	@GetMapping(path = "/work/id/{id}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findWork(@PathVariable(value="id") Long  id) {
+		return prepareResponse(BaseFieldClassEnum.WORK, id);
+	}
+	
 	private  <S extends B>  ResponseEntity<?> prepareResponse(BaseFieldClassEnum fieldEnum , Long id) {
 		ForwardMapBean<S> fm = new ForwardMapBean<>(fieldEnum.getClazz());
 		fm.write(fieldEnum.getFieldId(), id);
@@ -200,7 +242,6 @@ extends BrainzPersistenceService<B>
 					result.put("id", idBase.getId());
 					result.put("rank", rankResult);
 					lResult.add(result);
-					System.out.println(idBase.getId() + " " + rankResult);
 					}
 		);
 		K queryBase = toMapBase(Base.newInstance(MapBase.class).get());
@@ -254,7 +295,10 @@ extends BrainzPersistenceService<B>
 		LABEL("labelId" , Label.class ),
 		MEDIUM("mediumId" , Medium.class ),
 		RELEASE("releaseId" , Release.class ),
-		RELEASE_LABEL("releaseLabelId" , ReleaseLabel.class);
+		RELEASE_ALIAS("releaseLabelId" , ReleaseAlias.class),
+		RELEASE_LABEL("releaseLabelId" , ReleaseLabel.class),
+		TRACK("releaseLabelId" , Track.class),
+		WORK("workId" , Work.class);
 		
 		
 		private String fieldId;

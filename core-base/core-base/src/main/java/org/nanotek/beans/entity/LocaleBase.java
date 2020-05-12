@@ -36,7 +36,7 @@ MutableLocaleEntity<String> {
 
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="locale", columnDefinition="VARCHAR NOT NULL")
-	protected String locale; 
+	public String locale; 
 	
 	public LocaleBase() {
 	}

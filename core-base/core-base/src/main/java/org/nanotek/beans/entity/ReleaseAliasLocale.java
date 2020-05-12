@@ -3,14 +3,17 @@ package org.nanotek.beans.entity;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import org.nanotek.entities.BaseReleaseAliasLocaleEntity;
 import org.nanotek.entities.MutableReleaseAliasEntity;
 
+@Valid
 @Entity
 @DiscriminatorValue("ReleaseAliasLocale")
-public class ReleaseAliasLocale<K extends ReleaseAliasLocale<K>> extends LocaleBase<K> implements 
+public class ReleaseAliasLocale<K extends ReleaseAliasLocale<K>>
+extends LocaleBase<K> implements 
 BaseReleaseAliasLocaleEntity<K>,
 MutableReleaseAliasEntity<ReleaseAlias<?>>{
 
