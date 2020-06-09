@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-amqp</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -228,16 +228,36 @@
 			<artifactId>hibernate-search-orm</artifactId>
 			<version>5.11.5.Final</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-cache</artifactId> 
-			<version>2.1.1.RELEASE</version> </dependency> <dependency> <groupId>org.hibernate</groupId> 
-			<artifactId>hibernate-ehcache</artifactId> <version>5.4.12.Final</version> 
-			</dependency> -->
-		<!-- <dependency> <groupId>net.sf.ehcache.internal</groupId> <artifactId>ehcache-rest-agent</artifactId> 
-			<version>2.10.6</version> </dependency> -->
-		<!-- <dependency> <groupId>org.ehcache</groupId> <artifactId>ehcache</artifactId><version>3.6.2</version> 
-			</dependency> -->
-		<!-- <dependency> <groupId>javax.cache</groupId> <artifactId>cache-api</artifactId> 
-			<version>1.1.1</version> </dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>5.4.14.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jcache</artifactId>
+			<version>5.4.14.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache.internal</groupId>
+			<artifactId>ehcache-rest-agent</artifactId>
+			<version>2.10.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.6.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
@@ -321,6 +341,16 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-hibernate5</artifactId>
 			<version>2.9.8</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.solr</groupId>
+		    <artifactId>solr-solrj</artifactId>
+		    <version>8.5.2</version>
+		</dependency>
+		<!-- SOLR -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-solr</artifactId>
 		</dependency>
 	</dependencies>
 

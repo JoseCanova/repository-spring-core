@@ -500,7 +500,7 @@ releasealiasbean:
    
 trackbean: 
   fileLocation: /opt/mbdump/track_split
-  fileName: xaa
+  fileName: xad
   immutable: org.nanotek.beans.csv.TrackBean
   baseMap:    
     trackId: 0 

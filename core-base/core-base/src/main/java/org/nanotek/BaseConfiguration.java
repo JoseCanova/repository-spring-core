@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import javax.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
@@ -38,6 +40,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.solr.core.SolrOperations;
+import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
@@ -63,6 +68,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
+
+
 @Configuration
 @ComponentScan("org.nanotek")
 //@EnableCaching(proxyTargetClass=true)
@@ -70,58 +77,59 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableJpaRepositories(basePackages = {"org.nanotek.repository.jpa"})
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+@EnableSolrRepositories(basePackages = "org.nanotek.repository.solr")
 public class BaseConfiguration implements ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
-	
+
 	@Bean
 	@Qualifier(value = "ApachePropertyUtils")
 	PropertyUtils getPropertyUtils() {
 		return new PropertyUtils();
 	}
-	
-	
+
+
 	@Bean
 	public Jackson2ObjectMapperBuilder configureObjectMapper() {
-	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
+		return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
 	}
 
-//	@Bean
-//	ManagementService ehCacheJmx(
-//							@Autowired @Qualifier("ehCacheManager")CacheManager cacheManager , 
-//							@Autowired @Qualifier("mBeanServer") MBeanServer mBeanServer ) { 
-//		ManagementService service =  new ManagementService(cacheManager , mBeanServer , true , true , true,true);
-//		service.init();
-//		return service;
-//	}
-	
+	//	@Bean
+	//	ManagementService ehCacheJmx(
+	//							@Autowired @Qualifier("ehCacheManager")CacheManager cacheManager , 
+	//							@Autowired @Qualifier("mBeanServer") MBeanServer mBeanServer ) { 
+	//		ManagementService service =  new ManagementService(cacheManager , mBeanServer , true , true , true,true);
+	//		service.init();
+	//		return service;
+	//	}
+
 	@Bean
 	@Qualifier(value="mBeanServer")
 	MBeanServerFactoryBean getMBeanServerFactoryBean() { 
 		return new  MBeanServerFactoryBean();
 	}
-	
-//	@Bean
-//	@Qualifier(value="ehCacheManager")
-//	EhCacheManagerFactoryBean ehCacheFactoryBean() { 
-//		EhCacheManagerFactoryBean eh =  new EhCacheManagerFactoryBean();
-//		eh.setShared(true);
-//		return eh;
-//	}
-//		
+
+	//	@Bean
+	//	@Qualifier(value="ehCacheManager")
+	//	EhCacheManagerFactoryBean ehCacheFactoryBean() { 
+	//		EhCacheManagerFactoryBean eh =  new EhCacheManagerFactoryBean();
+	//		eh.setShared(true);
+	//		return eh;
+	//	}
+	//		
 	@Bean
 	@Primary
 	@ConfigurationProperties(prefix = "spring.datasource")
 	public HikariConfig hikariConfig() {
 		return new HikariConfig();
 	}
-	
-//	@Bean
-//	public Jackson2ObjectMapperBuilder configureObjectMapper() {
-//	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Arrays.array(Hibernate5Module.class));
-//	}
 
-	
+	//	@Bean
+	//	public Jackson2ObjectMapperBuilder configureObjectMapper() {
+	//	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Arrays.array(Hibernate5Module.class));
+	//	}
+
+
 	@Bean
 	public DataSource dataSource() {
 		return new HikariDataSource(hikariConfig());
@@ -131,22 +139,22 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public LocalValidatorFactoryBean getLocalValidatorFactoryBean() { 
 		return new LocalValidatorFactoryBean();
 	}
-		
+
 	@Bean(name = "MethodValidationInterceptor")
 	@Qualifier(value="MethodValidationInterceptor")
 	MethodValidationInterceptor getMethodValidationInterceptor(@Autowired Validator validator) { 
 		return new MethodValidationInterceptor(validator);
 	}
-	
-    @Bean
-    public MethodValidationPostProcessor getMethodValidationPostProcessor(@Autowired LocalValidatorFactoryBean validatorFactoryBean){
-        MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-         processor.setValidator(validatorFactoryBean.getValidator());
-         processor.setValidatorFactory(validatorFactoryBean);
-         processor.setBeanFactory(applicationContext);
-         return processor;
-     }
-	
+
+	@Bean
+	public MethodValidationPostProcessor getMethodValidationPostProcessor(@Autowired LocalValidatorFactoryBean validatorFactoryBean){
+		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+		processor.setValidator(validatorFactoryBean.getValidator());
+		processor.setValidatorFactory(validatorFactoryBean);
+		processor.setBeanFactory(applicationContext);
+		return processor;
+	}
+
 	@Bean
 	@Primary
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -159,8 +167,8 @@ public class BaseConfiguration implements ApplicationContextAware{
 		factory.setDataSource(dataSource());
 		return factory;
 	}
-	
-//
+
+	//
 	@Bean
 	public PlatformTransactionManager transactionManager(@Autowired EntityManagerFactory entityManagerFactory) { 
 		JpaTransactionManager txManager = new JpaTransactionManager();
@@ -172,7 +180,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Qualifier(value = "serviceTaskExecutor")
 	public ThreadPoolTaskExecutor getServiceTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(20);
+		executor.setCorePoolSize(10);
 		executor.setMaxPoolSize(1000);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("ServiceThreadPoolExecutor");
@@ -183,7 +191,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	@Bean(name = "threadPoolTaskExecutor")
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(20);
+		executor.setCorePoolSize(10);
 		executor.setMaxPoolSize(200);
 		executor.setQueueCapacity(100000);
 		executor.setThreadNamePrefix("AsyncThreadPoolExecutor");
@@ -196,15 +204,15 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public BeanContextSupport getBeanContextSupport() {
 		return new BeanContextSupport();
 	}
-	
+
 	@Bean(name="Registry")
 	@Qualifier(value="Registry")
 	@Primary
 	public Registry<?> getRegistry(@Autowired BeanContextSupport beanContextSupport){
 		return  new Registry<>(beanContextSupport).registar();
 	}
-	
-	
+
+
 	@Bean
 	@ConfigurationProperties(value = "trackbean")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
@@ -215,7 +223,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	CsvFileItemConcreteStrategy<T,S,P,M> getCsvFileItemConfigMappingStrategy() { 
 		return new CsvFileItemConcreteStrategy<T,S,P,M>();
 	}
-	
+
 	@Bean(name="BaseParser")
 	@Qualifier(value="BaseParser")
 	public
@@ -223,16 +231,16 @@ public class BaseConfiguration implements ApplicationContextAware{
 	S  extends AnyBase<S,String> , 
 	P   extends AnyBase<P,Integer> , 
 	M extends BaseBean<?,?>>
-	 BaseParser<T,S,P,M> getBaseParser(@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) { 
+	BaseParser<T,S,P,M> getBaseParser(@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) { 
 		return new BaseParser<T,S,P,M>(strategy);
 	}
-	
+
 	@Bean(name = "CsvToBean")
 	@Qualifier(value="CsvToBean")
 	public <M extends BaseBean<?,?>> CsvToBean<M> getCsvToBean(){
 		return new CsvToBean<M>();
 	}
-	
+
 	@Bean(name = "CsvBaseProcessor")
 	@Qualifier(value="CsvBaseProcessor")
 	public
@@ -247,28 +255,46 @@ public class BaseConfiguration implements ApplicationContextAware{
 			@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) {
 		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
 	}
-	
+
 	@Bean(name = "CsvProcessorCallBack")
 	@Qualifier(value = "CsvProcessorCallBack")
 	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
 		return new CsvProcessorCallBack<R,B>();
 	}
-	
+
 	@Bean(name="Reflections")
 	@Qualifier(value="Reflections")
 	public Reflections getReflections() {
 		return new Reflections(new ConfigurationBuilder()
-			     .setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
-			     .setScanners(new SubTypesScanner(), 
-		                  new TypeAnnotationsScanner()));
+				.setUrls(ClasspathHelper.forPackage("org.nanotek.beans.entity"))
+				.setScanners(new SubTypesScanner(), 
+						new TypeAnnotationsScanner()));
 	}
-	
-	
+
+
 	@Bean
 	public Gson gson() {
 		return new Gson();
 	}
 
+
+	private String baseSolrUrl;
+	
+	@Bean
+	public SolrClient solrClient() {
+		HttpSolrClient.Builder builder =   new HttpSolrClient.Builder();
+		return builder.withBaseSolrUrl(baseSolrUrl).build();
+	}
+
+    @Bean
+    public SolrTemplate solrTemplate(@Autowired SolrClient solrClient) {
+        return new SolrTemplate(solrClient);
+    }
+    
+	@Bean
+	public SolrOperations solrTemplate() {
+		return new SolrTemplate(solrClient());
+	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -318,5 +344,5 @@ public class BaseConfiguration implements ApplicationContextAware{
 	public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
 		return applicationContext.getBeanNamesForAnnotation(annotationType);
 	}
-	
+
 }
