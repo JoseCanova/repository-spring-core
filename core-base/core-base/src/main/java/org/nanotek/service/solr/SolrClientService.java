@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.nanotek.beans.SolrDocumentBase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class SolrClientService<K extends SolrDocumentBase<K>> {
 		return solrOperations.getById(collectionName, entity.getArtistId(), entity.getClass());
 	}
 	
-	public void findBy(Query query , Class<K> clazz) {
-		solrOperations.query(collectionName, query, clazz);
+	public Page<K> findBy(Query query , Class<K> clazz) {
+		return solrOperations.query(collectionName, query, clazz);
 	}
 }

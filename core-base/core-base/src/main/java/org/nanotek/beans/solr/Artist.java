@@ -4,7 +4,7 @@ import org.nanotek.beans.SolrDocumentBase;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
-@SolrDocument
+@SolrDocument(collection="brainz_core")
 public class Artist extends SolrDocumentBase<Artist> {
 
 	private static final long serialVersionUID = -2918232114013519078L;

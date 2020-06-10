@@ -1,5 +1,6 @@
 package org.nanotek.service.http;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nanotek.beans.SolrDocumentBase;
@@ -7,10 +8,13 @@ import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.solr.SolrBaseRepository;
+import org.nanotek.service.http.response.CollectionResponseEntity;
 import org.nanotek.service.jpa.BrainzPersistenceService;
 import org.nanotek.service.solr.SolrClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +42,14 @@ public class SolrBrainzController
 	@Transactional
 	public <S extends B> ResponseEntity<?> findArtist(@PathVariable(value="id") Long  id) {
 		return indexAndMountResponse(id);
+	}
+	
+	@GetMapping(path = "/artist/name/{name}")
+	@Transactional
+	public <S extends B> ResponseEntity<?> findArtist(@PathVariable(value="name") String name) {
+//		Page<B> results =  solrClientService.findBy(new SimpleQuery("name"), (Class<B>) org.nanotek.beans.solr.Artist.class);
+		List<?> results = solrBaseRepository.findByName(name);
+		return new ResponseEntity(results , HttpStatus.OK);
 	}
 
 	@Transactional
