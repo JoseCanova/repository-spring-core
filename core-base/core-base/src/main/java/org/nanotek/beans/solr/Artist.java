@@ -1,5 +1,6 @@
 package org.nanotek.beans.solr;
 
+import org.nanotek.beans.SolrDocumentBase;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
@@ -9,20 +10,17 @@ public class Artist extends SolrDocumentBase<Artist> {
 	private static final long serialVersionUID = -2918232114013519078L;
 
 	@Indexed(name = "name" , type = "string")
-	public String artistName;
-	
+	public String name;
 	
 	public Artist() {
 	}
 
-
-	public String getArtistName() {
-		return artistName;
+	public String getName() {
+		return name;
 	}
 
-
-	public void setArtistName(String artistName) {
-		this.artistName = artistName;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
 }

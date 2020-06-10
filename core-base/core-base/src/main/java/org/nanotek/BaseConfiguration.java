@@ -278,7 +278,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 	}
 
 
-	private String baseSolrUrl;
+	private String baseSolrUrl = "http://localhost:8983/solr/";
 	
 	@Bean
 	public SolrClient solrClient() {
