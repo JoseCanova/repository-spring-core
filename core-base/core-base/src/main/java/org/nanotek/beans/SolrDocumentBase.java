@@ -1,10 +1,13 @@
 package org.nanotek.beans;
 
 import org.nanotek.SolrBase;
+import org.nanotek.entities.MutableArtistIdEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 
-public abstract class SolrDocumentBase<K extends SolrBase<K>> implements SolrBase<K> {
+public abstract class SolrDocumentBase<K extends SolrBase<K>>
+implements SolrBase<K> , 
+MutableArtistIdEntity<Long>{
 
 	private static final long serialVersionUID = 1798347613053387449L;
 

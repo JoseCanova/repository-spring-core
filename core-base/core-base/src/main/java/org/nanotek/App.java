@@ -148,24 +148,23 @@ ApplicationRunner{
 		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 		//		System.out.println(path);
 		//		System.out.println(path1);
-//		new Thread() {
-//			@Override
-//			public void run() {
-//				CsvResult<?,?> result = null ; 
-//				FutureTask <R>r;
-//				log.debug("start time " + new Date());
-//				try {
-//					do {
-//						r =  csvBaseProcessor.getNext();
-//						currentThread().join(1);
-//					}while(processor.isActive() && r.get() !=null);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					throw new BaseException(e);
-//				}
-//			}
-//		}.start();
-		log.debug("end time " + new Date());
+		new Thread() {
+			@Override
+			public void run() {
+				CsvResult<?,?> result = null ; 
+				FutureTask <R>r;
+				log.debug("start time " + new Date());
+				try {
+					do {
+						r =  csvBaseProcessor.getNext();
+						currentThread().join(1);
+					}while(processor.isActive() && r.get() !=null);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BaseException(e);
+				}
+			}
+		}.start();
 	}
 
 

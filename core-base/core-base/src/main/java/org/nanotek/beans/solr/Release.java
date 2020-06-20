@@ -6,17 +6,18 @@ import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 @SolrDocument(collection="brainz_core")
-public class Artist 
-extends SolrDocumentBase<Artist> 
+public class Release 
+extends SolrDocumentBase<Release>
 implements 
 MutableNameEntity<String>{
 
-	private static final long serialVersionUID = -2918232114013519078L;
-
+	private static final long serialVersionUID = -6672601341315269078L;
+	
 	@Indexed(name = "name" , type = "string")
 	public String name;
-	
-	public Artist() {
+
+	public Release() {
+		super();
 	}
 
 	public String getName() {
@@ -26,5 +27,7 @@ MutableNameEntity<String>{
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	
+	
 }
