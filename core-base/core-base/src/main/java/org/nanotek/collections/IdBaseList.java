@@ -17,6 +17,8 @@ import org.nanotek.IdBase;
 
 public class IdBaseList<K extends IdBase<?, ?>> implements BaseList<K>{
 
+	private static final long serialVersionUID = -6844026773791742444L;
+	
 	private ArrayList<K> list;
 	
 	public IdBaseList() {

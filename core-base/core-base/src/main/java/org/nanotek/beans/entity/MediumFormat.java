@@ -2,6 +2,7 @@ package org.nanotek.beans.entity;
 
 import java.util.UUID;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;

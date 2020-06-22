@@ -165,7 +165,6 @@ ApplicationRunner{
 				}
 			}
 		}.start();
-		log.debug("end time " + new Date());
 	}
 
 

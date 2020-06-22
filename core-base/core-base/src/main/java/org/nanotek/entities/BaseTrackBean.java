@@ -54,21 +54,21 @@ MutableTrackNameEntity<String>{
 		return read(GidEntity.class).map(g->UUID.class.cast(g)).orElse(UUID.randomUUID());
 	}
 	
-	default void setMediumId(Long id) {
-		getMedium().setMediumId(id);
-	}
-	
-	default Long getMediumId() { 
-		return getMedium().getMediumId();
-	}
-	
-	default void setArtistCreditId(Long id) { 
-		getArtistCredit().setArtistCreditId(id);
-	}
-	
-	default Long getArtistCreditId() { 
-		return getArtistCredit().getArtistCreditId();
-	}
+//	default void setMediumId(Long id) {
+//		getMedium().setMediumId(id);
+//	}
+//	
+//	default Long getMediumId() { 
+//		return getMedium().getMediumId();
+//	}
+//	
+//	default void setArtistCreditId(Long id) { 
+//		getArtistCredit().setArtistCreditId(id);
+//	}
+//	
+//	default Long getArtistCreditId() { 
+//		return getArtistCredit().getArtistCreditId();
+//	}
 	
 	default void setRecordingId(Long id) { 
 		getRecording().setRecordingId(id);
@@ -94,9 +94,9 @@ MutableTrackNameEntity<String>{
 		return getTrackPosition().getPosition();
 	}
 	
-
 	default void setLength(Long l) {
-		getTrackLength().setLength(l);
+		Long theLength = l==null?0l:l;
+		getTrackLength().setLength(theLength);
 	}
 	
 	default Long getLength() {
