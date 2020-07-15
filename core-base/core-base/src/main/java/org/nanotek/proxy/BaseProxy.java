@@ -27,8 +27,7 @@ implements InvocationHandler , Base<K>{
 	
 	private Object instance;
 	
-
-	public BaseProxy(InvocationHandler h , boolean bo) {
+	private BaseProxy(InvocationHandler h , boolean bo) {
 		super(h);
 	}
 
