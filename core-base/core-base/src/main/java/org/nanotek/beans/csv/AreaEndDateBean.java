@@ -35,7 +35,7 @@ implements BaseAreaEndDateBean<AreaEndDateBean<K>>{
 		bean.setEndMonth(2000);
 		bean.getEndYear();
 		bean.getEndMonth();
-		bean.getEndDay();
+		System.err.println(bean.getEndDay());
 	}
 
 }

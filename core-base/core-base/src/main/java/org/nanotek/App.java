@@ -106,16 +106,19 @@ ApplicationRunner{
 		System.out.println("RUNNING");
 	}
 
+//	@Override
+//	public void run(ApplicationArguments args) throws Exception{}
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		Graph<?,?> modelGraph = brainzMetaModelUtil.getModelGraph();
-
-		BrainzEntityMetaModel<?,?> r1 = brainzMetaModelUtil.getMetaModel(Artist.class);
-
-		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
-
-		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
+//		Graph<?,?> modelGraph = brainzMetaModelUtil.getModelGraph();
+//
+//		BrainzEntityMetaModel<?,?> r1 = brainzMetaModelUtil.getMetaModel(Artist.class);
+//
+//		BrainzEntityMetaModel<?,?> r2 = brainzMetaModelUtil.getMetaModel(ArtistCredit.class);
+//
+//		BellmanFordShortestPath bf = new BellmanFordShortestPath(modelGraph);
 		//		
 		//		SpanningTree <?> spanningTree = new KruskalMinimumSpanningTree(modelGraph).getSpanningTree();
 		//		spanningTree.getEdges().stream().forEach(e ->System.out.println(e));
