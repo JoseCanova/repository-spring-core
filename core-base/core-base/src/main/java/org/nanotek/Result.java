@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.validation.annotation.Validated;
-
-public abstract class Result<K extends IdBase<K,ID> , ID extends IdBase<?,?>> implements BooleanBase<K,ID> {
+public abstract class Result
+<K extends IdBase<K,ID> , ID extends IdBase<?,?>> 
+implements BooleanBase<K,ID> {
 
 	private static final long serialVersionUID = -307344888633306177L;
  

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.nanotek.Base;
@@ -64,7 +65,6 @@ implements BaseBean<K,ID>
 	
 	private HashMap<Class<?> , BaseEntity<?,?>> instanceMap;
 
-
 	public ProxyBase(Class<? extends ID> class1) {
 		super();
 		baseClass = class1;
@@ -100,7 +100,11 @@ implements BaseBean<K,ID>
 		getInstanceMap().put(getBaseClass(),getId());
 		getFields(getBaseClass())
 					.stream()
-					.filter(f->BaseEntity.class.isAssignableFrom(f.getType()))
+					.filter(f->
+								{
+									f.getType().toGenericString();
+									return BaseEntity.class.isAssignableFrom(f.getType());}
+							)
 					.forEach(f -> {
 						try { 
 								BaseEntity<?,?> entity ;
@@ -119,6 +123,7 @@ implements BaseBean<K,ID>
 	
 
 	private List<Field> getFields(Class<? extends ID> baseClass2) {
+		System.out.println(Arrays.asList(baseClass2.getClasses()));
 		return Arrays.asList(baseClass2.getClasses())
 					.stream()
 					.filter(c ->!c.isInterface())

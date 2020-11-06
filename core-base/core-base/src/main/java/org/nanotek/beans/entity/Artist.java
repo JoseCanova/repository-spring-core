@@ -27,6 +27,19 @@ import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistEntity;
+import org.nanotek.entities.MutableAreaEntity;
+import org.nanotek.entities.MutableArtistBeginAreaEntity;
+import org.nanotek.entities.MutableArtistBeginDateEntity;
+import org.nanotek.entities.MutableArtistCommentEntity;
+import org.nanotek.entities.MutableArtistCreditCollection;
+import org.nanotek.entities.MutableArtistEndAreaEntity;
+import org.nanotek.entities.MutableArtistEndDateEntity;
+import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.entities.MutableArtistNameEntity;
+import org.nanotek.entities.MutableArtistSortNameEntity;
+import org.nanotek.entities.MutableArtistTypeEntity;
+import org.nanotek.entities.MutableGenderEntity;
+import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
@@ -38,7 +51,19 @@ indexes= {
 })
 public class Artist
 <K extends Artist<K>> extends 
-BrainzBaseEntity<K> implements BaseArtistEntity<K>
+BrainzBaseEntity<K> implements BaseArtistEntity<K>,
+MutableArtistIdEntity<Long>,
+MutableArtistSortNameEntity<ArtistSortName<?>>,
+MutableArtistCommentEntity<ArtistComment<?>>,
+MutableArtistBeginDateEntity<ArtistBeginDate<?>>,
+MutableArtistEndDateEntity<ArtistEndDate<?>>,
+MutableArtistTypeEntity<ArtistType<?>>,
+MutableGenderEntity<Gender<?>>,
+MutableAreaEntity<Area<?>>,
+MutableArtistBeginAreaEntity<Area<?>>,
+MutableArtistEndAreaEntity<Area<?>>,
+MutableGidEntity<UUID>,MutableArtistNameEntity<String>,
+MutableArtistCreditCollection<List<ArtistCredit<?>>>
 {
 
 	private static final long serialVersionUID = -932806802235346847L;

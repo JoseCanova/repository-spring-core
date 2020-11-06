@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+	    <file>file_csv.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern>%msg%n</pattern>
+	    </encoder>
+	  </appender>
+
+	<appender name="FILE1" class="ch.qos.logback.core.FileAppender">
+	    <file>instance.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern>%msg%n</pattern>
+	    </encoder>
+	  </appender>
+	  
+	  <appender name="FILE2" class="ch.qos.logback.core.FileAppender">
+	    <file>spring.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern> [%thread] - %msg%n</pattern>
+	    </encoder>
+	  </appender>
+	  
+	   <appender name="FILE3" class="ch.qos.logback.core.FileAppender">
+	    <file>hibernate.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern>  [%thread] - %msg%n</pattern>
+	    </encoder>
+	  </appender>
+	  
+	<appender name="FILE4" class="ch.qos.logback.core.FileAppender">
+	    <file>validation_pre_persist.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern>  [%thread] - %msg%n</pattern>
+	    </encoder>
+	  </appender>
+	  
+	  
+	  	<appender name="FILE5" class="ch.qos.logback.core.FileAppender">
+	    <file>query_result.log</file>
+	    <append>true</append>
+	    <!-- set immediateFlush to false for much higher logging throughput -->
+	    <immediateFlush>true</immediateFlush>
+	    <!-- encoders are assigned the type
+	         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default 
+	         %-4relative [%thread] %-5level %logger{35} - -->
+	    <encoder>
+	      <pattern>  [%thread] - %msg%n</pattern>
+	    </encoder>
+	  </appender>
+	  
+	  
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <logger name="reactor" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.ehcache" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.hibernate" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+         <appender-ref ref="FILE3" />
+    </logger>
+    
+    <logger name="org.hibernate.cache" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    
+    <logger name="net.sf.ehcache" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    
+    <logger name="org.springframework" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+         <appender-ref ref="FILE2" />
+    </logger>
+    
+   <logger name="org.springframework.integration" level="info"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.nanotek" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.nanotek.opencsv" level="debug"
+            additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+    
+    <logger name=" au.com.bytecode.opencsv.bean" level="debug"
+            additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+   
+
+    <logger name="org.nanotek.configuration.csv" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.nanotek.service.jpa.csv" level="debug"
+            additivity="false">
+        <appender-ref ref="FILE4" />
+    </logger>
+    
+   <logger name=" org.nanotek.service.mq" level="debug"
+            additivity="false">
+        <appender-ref ref="FILE5" />
+    </logger>
+    
+	<!-- <logger name="org.springframework.data" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger> -->
+    
+<!-- 	<logger name="org.apache.http" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger> -->
+    
+<!--     <logger name="org.springframework.integration" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+ -->
+    <!-- <logger name="org.springframework.integration.core" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger> -->
+
+    <root level="error">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

@@ -1,0 +1,17 @@
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://www.ehcache.org/v3'
+    xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+  <cache alias="foo"> 
+    <key-type>org.nanotek.beans.ArtistCredit</key-type> 
+    <value-type>org.nanotek.beans.ArtistCredit</value-type> 
+    <resources>
+      <heap unit="entries">20000</heap> 
+      <offheap unit="MB">500</offheap> 
+    </resources>
+  </cache>
+
+  <cache alias="simpleCache" uses-template="myDefaults" /> 
+
+</config>

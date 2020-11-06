@@ -31,7 +31,5 @@ implements EntityBaseTransformer<K, ID> {
 	public Optional<ID> evaluate(K immutable) {
 		return predicate.evaluate(immutable);
 	}
-	
-	
 
 }

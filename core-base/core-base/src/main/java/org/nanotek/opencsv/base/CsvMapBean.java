@@ -40,6 +40,7 @@ extends BaseMap<K,D,ID> implements InitializingBean  {
 	public static void main (String[] args) {
 			CsvMapBean mapBean = new CsvMapBean(new ArtistBean () , new Artist());
 			mapBean.afterPropertiesSet();
+			System.out.println(mapBean);
 			System.out.println("");
 	}
 }	

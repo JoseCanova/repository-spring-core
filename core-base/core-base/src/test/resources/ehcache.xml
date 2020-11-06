@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+ <diskStore path="/opt/ehcache"/>
+ <defaultCache
+     maxEntriesLocalHeap="100000"
+     eternal="false"
+     timeToIdleSeconds="120"
+     timeToLiveSeconds="120"
+     maxEntriesLocalDisk="10000000"
+     diskExpiryThreadIntervalSeconds="120"
+     memoryStoreEvictionPolicy="LRU">
+     <persistence strategy="localTempSwap"/>
+  </defaultCache>
+  <cache
+	name="org.nanotek.beans.entity.ArtistCredit"
+	maxEntriesLocalHeap="100000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+   </cache>
+   <cache
+	name="org.nanotek.beans.entity.Recording"
+	maxEntriesLocalHeap="100000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+   </cache> 
+   <cache
+	name="org.nanotek.beans.entity.Medium"
+	maxEntriesLocalHeap="100000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+   </cache>   
+   <cache
+	name="org.nanotek.beans.entity.MediumFormat"
+	maxEntriesLocalHeap="1000"
+	eternal="false"
+	timeToIdleSeconds="30000"
+	timeToLiveSeconds="60000">
+    <persistence strategy="localTempSwap"/>
+   </cache>      
+  <cache
+	name="credits"
+	maxEntriesLocalHeap="50000"
+	eternal="false"
+	timeToIdleSeconds="3000"
+	timeToLiveSeconds="6000">
+    <persistence strategy="localTempSwap"/>
+    </cache>   
+</ehcache>

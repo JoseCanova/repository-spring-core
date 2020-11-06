@@ -11,7 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-public class BasePersistenceService<B extends BrainzBaseEntity<B>, C extends BrainzBaseEntityRepository<B>>{
+public class BasePersistenceService
+<B extends BrainzBaseEntity<B>, C extends BrainzBaseEntityRepository<B>>{
 
 	public C  baseRepository;
 
