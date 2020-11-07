@@ -86,7 +86,6 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 		}
 	}
 
-	//TODO adjust in configuration the delimiter.
 	private BufferedReader prepareFileReader(){
 		try {
 			StringBuffer fileLocationStr = new StringBuffer();
