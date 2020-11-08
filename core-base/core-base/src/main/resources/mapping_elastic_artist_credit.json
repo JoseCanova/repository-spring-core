@@ -1,0 +1,15 @@
+{
+"mappings": {
+    "properties": {
+      "artistCreditId": {
+        "type": "long"
+      },
+       "artistCreditName": {
+        "type": "text",
+        "analyzer":"simple_analyzer", 
+        "search_analyzer":"simple_stop_analyzer", 
+        "search_quote_analyzer":"simple_analyzer" 
+      }
+    }
+  }
+}  

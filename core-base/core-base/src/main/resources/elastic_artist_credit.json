@@ -25,24 +25,5 @@
             }
          }
       }
-   },  
-  "mappings": {
-    "properties": {
-      "artistCreditId": {
-        "type": "long"
-      },
-       "artistCreditName": {
-        "type": "text",
-        "analyzer":"my_analyzer", 
-        "search_analyzer":"my_stop_analyzer", 
-        "search_quote_analyzer":"my_analyzer" 
-      },
-       "count": {
-        "type": "integer"
-      },
-       "refCount": {
-        "type": "integer"
-      }
-    }
-  }
+   }
 }

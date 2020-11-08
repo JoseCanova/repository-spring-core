@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 public class ElasticBaseService<B extends BrainzBaseEntity<B>> {
 
 	@Autowired
-	ElasticsearchRestTemplate elasticsearchRestTemplate;
+	private ElasticsearchRestTemplate elasticsearchRestTemplate;
+	
 	static Map<Class<?> ,String> analyzerCache = new HashMap<Class<?> , String>();
 	
 	public B save(B b) {

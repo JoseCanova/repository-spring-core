@@ -171,7 +171,6 @@ artistcredit:
   fileLocation: C:/java/mb/mbdump.tar/mbdump
   fileName: artist_credit_a
   immutable: org.nanotek.beans.csv.ArtistCreditBean
-  elasticref: org.nanotek.spring.data.elastic.model.ElasticArtistCredit
   baseMap:  
     artistCreditId: 0
     artistCreditName: 1

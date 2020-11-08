@@ -33,9 +33,9 @@
       },
        "artistCreditName": {
         "type": "text",
-        "analyzer":"my_analyzer", 
-        "search_analyzer":"my_stop_analyzer", 
-        "search_quote_analyzer":"my_analyzer" 
+        "analyzer":"simple_analyzer", 
+        "search_analyzer":"simple_stop_analyzer", 
+        "search_quote_analyzer":"simple_analyzer" 
       },
        "count": {
         "type": "integer"
