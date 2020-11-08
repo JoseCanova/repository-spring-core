@@ -2,16 +2,13 @@ package org.nanotek.beans.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.search.annotations.Indexed;
 import org.nanotek.entities.BaseArtistCommentEntity;
-import org.nanotek.entities.MutableArtistEntity;
 
 @Valid
-@Indexed
+
 @Entity
 @DiscriminatorValue(value = "ArtistComment")
 public class ArtistComment<E extends ArtistComment<E>> 

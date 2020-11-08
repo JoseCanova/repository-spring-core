@@ -20,10 +20,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseEntity;
@@ -34,7 +30,6 @@ import org.nanotek.entities.MutableReleaseBarCodeEntity;
 import org.nanotek.entities.MutableReleaseCommentEntity;
 import org.nanotek.entities.MutableReleaseGroupEntity;
 import org.nanotek.entities.MutableReleaseIdEntity;
-import org.nanotek.entities.MutableReleaseLabelEntity;
 import org.nanotek.entities.MutableReleaseLabelSetEntity;
 import org.nanotek.entities.MutableReleaseNameEntity;
 import org.nanotek.entities.MutableReleasePackagingEntity;
@@ -42,7 +37,7 @@ import org.nanotek.entities.MutableReleaseStatusEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
-@Indexed
+
 @Entity
 @Table(name="release",
 indexes= {
@@ -74,7 +69,7 @@ MutableReleaseStatusEntity<ReleaseStatus<?>>
 	@Column(name="release_id" , nullable=false)
 	public Long releaseId;
 
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String releaseName;

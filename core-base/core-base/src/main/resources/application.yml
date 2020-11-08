@@ -26,10 +26,6 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        search:
-         default:
-          directory_provider: filesystem
-          indexBase: C:/var/lucene/indexes
         format_sql: true
         ddl-auto: create-drop
         javax:
@@ -175,6 +171,7 @@ artistcredit:
   fileLocation: C:/java/mb/mbdump.tar/mbdump
   fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
+  elasticref: org.nanotek.spring.data.elastic.model.ElasticArtistCredit
   baseMap:  
     artistCreditId: 0
     artistCreditName: 1

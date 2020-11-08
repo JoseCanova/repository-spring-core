@@ -15,9 +15,19 @@ extends CsvBaseConfig implements InitializingBean{
 	private static Logger log = LoggerFactory.getLogger(CsvFileItem.class.getName());
  
     public  Class<M> immutable; 
+    
+    public  Class<?> elasticref;
 
 	public CsvFileItem(){}
 	
+	public Class<?> getElasticref() {
+		return elasticref;
+	}
+
+	public void setElasticref(Class<?> elasticref) {
+		this.elasticref = elasticref;
+	}
+
 	public void afterPropertiesSet() {
 		log.debug("VERIFYING IMMUTABLE CONFIGURATION");
 		log.debug(immutable.toGenericString());

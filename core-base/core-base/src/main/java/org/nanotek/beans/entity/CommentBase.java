@@ -3,11 +3,7 @@ package org.nanotek.beans.entity;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
-import javax.validation.groups.Default;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseCommentBaseEntity;
 import org.nanotek.entities.MutableCommentEntity;
@@ -20,7 +16,7 @@ MutableCommentEntity<String>{
 
 	private static final long serialVersionUID = -3239637365262870832L;
 	
-	@Field(name = "comment" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="comment", columnDefinition = "VARCHAR NOT NULL"  , nullable=false)
 	public String comment;

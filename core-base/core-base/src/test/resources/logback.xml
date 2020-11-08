@@ -157,6 +157,41 @@
         <appender-ref ref="FILE5" />
     </logger>
     
+     <logger name="org.springframework.data" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger> 
+    
+     <logger name="org.springframework.data.elasticsearch" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </logger> 
+    
+     <logger name="org.springframework.data.elasticsearch.repository.query" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </logger> 
+    
+     <logger name="io.netty" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </logger> 
+    
+    <logger name="org.elasticsearch" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </logger>
+    
+     <logger name="org.apache.httpcomponents" level="debug"
+            additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </logger> 
+    
 	<!-- <logger name="org.springframework.data" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />

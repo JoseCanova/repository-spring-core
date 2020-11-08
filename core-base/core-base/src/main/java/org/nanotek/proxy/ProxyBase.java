@@ -123,7 +123,6 @@ implements BaseBean<K,ID>
 	
 
 	private List<Field> getFields(Class<? extends ID> baseClass2) {
-		System.out.println(Arrays.asList(baseClass2.getClasses()));
 		return Arrays.asList(baseClass2.getClasses())
 					.stream()
 					.filter(c ->!c.isInterface())

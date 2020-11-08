@@ -3,7 +3,6 @@ package org.nanotek.beans.entity;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,10 +23,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistCreditEntity;
@@ -39,9 +34,15 @@ import org.nanotek.entities.MutableArtistListEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Valid
-@Indexed
+@Document(indexName = "brainz_artist_credit_index" , createIndex=true)
+@Setting(settingPath = "/elastic_artist_credit.json")
 @Entity
 @Table(name="artist_credit", indexes= {
 		@Index(name="idx_artist_credit_id",columnList="artist_credit_id")
@@ -75,7 +76,7 @@ MutableArtistCreditNameEntity<String>
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(name="name" , analyzer="simple_analyzer" , type = FieldType.Text)
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditName;

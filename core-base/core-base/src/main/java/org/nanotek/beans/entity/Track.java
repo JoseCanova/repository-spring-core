@@ -16,10 +16,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseTrackEntity;
@@ -33,7 +29,7 @@ import org.nanotek.entities.MutableTrackPositionEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
-@Indexed
+
 @Entity
 @Table(name="track",
 uniqueConstraints = {@UniqueConstraint(name="uk_track_id",columnNames = {"track_id"})})
@@ -61,7 +57,7 @@ MutableTrackNameEntity<String>{
 	public UUID gid; 
 	
 	
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , columnDefinition = "VARCHAR NOT NULL")
 	public String trackName;

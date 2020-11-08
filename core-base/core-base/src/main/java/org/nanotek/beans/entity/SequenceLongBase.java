@@ -29,6 +29,7 @@ implements  BaseSequenceLongBaseEntity<K, ID>{
 	private static final long serialVersionUID = 1932266128563675834L;
 	
 	@Id
+	@org.springframework.data.annotation.Id
 	@NotNull(groups = {Default.class})
 	@Column(name="id",nullable=false,unique=true)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sequence_id_seq")

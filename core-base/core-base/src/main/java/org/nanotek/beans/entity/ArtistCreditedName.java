@@ -12,10 +12,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.entities.BaseArtistCreditNameEntity;
 import org.nanotek.entities.MutableArtistCreditEntity;
@@ -23,10 +19,9 @@ import org.nanotek.entities.MutableArtistCreditNameJoinPhraseEntity;
 import org.nanotek.entities.MutableArtistCreditNamePositionEntity;
 import org.nanotek.entities.MutableArtistCreditedNameEntity;
 import org.nanotek.entities.MutableArtistEntity;
-import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
-@Indexed
+
 @Entity
 @DiscriminatorValue(value="ArtistCreditName")
 public class ArtistCreditedName<K extends ArtistCreditedName<K>> 
@@ -48,7 +43,7 @@ MutableArtistCreditedNameEntity<String>{
 	 */
 
 
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditedName;

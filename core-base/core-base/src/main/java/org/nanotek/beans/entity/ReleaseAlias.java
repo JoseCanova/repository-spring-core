@@ -14,10 +14,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseReleaseAliasEntity;
@@ -32,7 +28,7 @@ import org.nanotek.entities.MutableReleaseEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
-@Indexed
+
 @Entity
 @Table(name = "release_alias",
 uniqueConstraints = {@UniqueConstraint(name="uk_release_alias_id", columnNames = {"relase_alias_id"})})
@@ -54,7 +50,7 @@ MutableReleaseAliasNameEntity<String>
 	@Column(name="relase_alias_id" , nullable=false)
 	public Long releaseAliasId;
 	
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String releaseAliasName;

@@ -20,10 +20,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 import org.nanotek.PrePersistValidationGroup;
 import org.nanotek.annotations.BrainzKey;
 import org.nanotek.entities.BaseArtistEntity;
@@ -43,7 +39,7 @@ import org.nanotek.entities.MutableGidEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
 
 @Valid
-@Indexed
+
 @Entity
 @Table(name="artist" , 
 indexes= {
@@ -88,7 +84,7 @@ MutableArtistCreditCollection<List<ArtistCredit<?>>>
 	}	
 
 
-	@Field(name = "name" , index=org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+	
 	@NotBlank(groups= {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistName;
