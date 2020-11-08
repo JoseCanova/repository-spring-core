@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.nanotek.spring.data.elastic.repository.ElasticArtistCreditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
@@ -37,7 +39,7 @@ class ApplicationStartTest {
 	@Test
     @Order(1)    
 	void testSave() {
-		IndexCoordinates ic = IndexCoordinates.of(new String[]{"brainz_artist_credit_index"});
+		IndexCoordinates ic = IndexCoordinates.of(new String[]{hasCoordinates(ArtistCredit.class)});
 		ArtistCredit<?> artistCredit = new ArtistCredit<>();
 		artistCredit.setId(1L);
 		artistCredit.setArtistCreditId(1L);
@@ -50,6 +52,11 @@ class ApplicationStartTest {
 			    System.err.println(documentId);
 			    ArtistCredit<?> imHere = elasticsearchRestTemplate.get(documentId, ArtistCredit.class , ic);
 		assertNotNull(imHere);
+	}
+
+	private String hasCoordinates(Class<?> class1) {
+		Document document = class1.getAnnotation(Document.class);
+		return Optional.ofNullable(document).map(v -> v.indexName()).orElseThrow(RuntimeException::new);
 	}
 
 	@SuppressWarnings({ "rawtypes", "deprecation" })

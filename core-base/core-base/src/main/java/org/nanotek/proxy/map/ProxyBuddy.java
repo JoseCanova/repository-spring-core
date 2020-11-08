@@ -5,13 +5,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
 import org.assertj.core.util.introspection.ClassUtils;
 import org.nanotek.Base;
 import org.nanotek.BaseEntity;
+import org.nanotek.beans.csv.ArtistBean;
+import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.Artist_;
+import org.nanotek.entities.MutableArtistIdEntity;
+import org.nanotek.proxy.map.bean.ForwardMapBean;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
@@ -47,9 +52,8 @@ public class ProxyBuddy {
 		buddy = new ByteBuddy(ClassFileVersion.JAVA_V8)
 				.subclass(baseClass)
 				.name("org.nanotek.proxy.buddy.BuddyProxy");
-		fields.forEach(f->{buddy = buddy.defineProperty(f.getName(), f.getType());});
+//		fields.forEach(f->{f.setAccessible(true);buddy = buddy.defineProperty(f.getName(), f.getType());});
 		intf.forEach(i->{buddy = buddy.implement(i);});
-		
 		powerClass = buddy.make()
 				  .load(
 						    getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
@@ -67,14 +71,20 @@ public class ProxyBuddy {
 	}
 	
 	public List<Field> getFields(Class<?> classId) {
+		Field[] fields =  classId.getDeclaredFields();
 		return Arrays.asList(classId.getFields());
 	}
 	
 
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException { 
-		ProxyBuddy a = new ProxyBuddy(Artist_.class);
+		ProxyBuddy a = new ProxyBuddy(Artist.class);
 		Class<?> ab =a.powerClass;
-		
+		ab.getDeclaredConstructor().newInstance();
+		ForwardMapBean<Base<?>> av = new ForwardMapBean<Base<?>>(ab);
+		av.write("artistId", 1000L);
+		System.out.println(av.read("artistId").toString());
+		av.from()
+				.keySet().stream().forEach(k -> System.out.println(k));
 //		Class<?> ab =a.powerClass;
 //		Artist<?> object = (Artist<?>) a.powerClass
 //                .getDeclaredConstructor()

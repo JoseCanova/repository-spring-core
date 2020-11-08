@@ -34,15 +34,17 @@ import org.nanotek.entities.MutableArtistListEntity;
 import org.nanotek.entities.MutableRecordingSetEntity;
 import org.nanotek.entities.MutableReleaseSetEntity;
 import org.nanotek.opencsv.CsvValidationGroup;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Mapping;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Valid
-@Document(indexName = "brainz_artist_credit_index" , createIndex=true)
-@Setting(settingPath = "/elastic_artist_credit.json")
+@Document(indexName = "brainz_artist_credit_index" , createIndex=true , useServerConfiguration = true)
+//@Mapping(mappingPath = "/mapping_elastic_artist_credit.json")
+//@Setting(settingPath = "/elastic_artist_credit.json")
 @Entity
 @Table(name="artist_credit", indexes= {
 		@Index(name="idx_artist_credit_id",columnList="artist_credit_id")
@@ -72,11 +74,12 @@ MutableArtistCreditNameEntity<String>
 	
 	private static final long serialVersionUID = -3086006757943654550L;
 	
+	@Field(name="artist_credit_id" , type = FieldType.Long , store = true)
 	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="artist_credit_id" , nullable=false)
 	public Long artistCreditId;
 	
-	@Field(name="name" , analyzer="simple_analyzer" , type = FieldType.Text)
+	@Field(name="name" , analyzer="standard" , type = FieldType.Text , searchAnalyzer="standard")
 	@NotBlank(groups = {PrePersistValidationGroup.class})
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String artistCreditName;
@@ -91,7 +94,8 @@ MutableArtistCreditNameEntity<String>
 	public void setArtistCreditName(String k) {
 		this.artistCreditName = k;
 	}
-	
+
+	@Transient
 	@NotNull(groups= {PrePersistValidationGroup.class})
 	@OneToOne(optional=false,cascade = CascadeType.ALL)
 	@JoinTable(name="artist_credit_count_join",
@@ -99,6 +103,7 @@ MutableArtistCreditNameEntity<String>
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public ArtistCreditCount<?> artistCreditCount; 
 	
+	@Transient
 	@NotNull(groups= {PrePersistValidationGroup.class})
 	@OneToOne(optional=false , cascade = CascadeType.ALL)
 	@JoinTable(name="artist_ref_count_join",
@@ -106,15 +111,18 @@ MutableArtistCreditNameEntity<String>
 		joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public ArtistCreditRefCount<?> artistCreditRefCount;
 
+	@Transient
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="artistCredit",cascade = CascadeType.PERSIST)
 	public Set<Release<?>> releases; 
 
+	@Transient
 	@ManyToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
 	@JoinTable(name="artist_credit_name_rel",
 	inverseJoinColumns={@JoinColumn(name="artist_name_id", referencedColumnName="id") },
 	joinColumns={ @JoinColumn(name="artist_credit_id", referencedColumnName="id") })
 	public List<Artist<?>> artists;
 	
+	@Transient
 	@OneToMany(fetch=FetchType.LAZY,mappedBy = "artistCredit",cascade = CascadeType.PERSIST)
 	public Set<Recording<?>> recordings; 
 	

@@ -3,10 +3,14 @@ package org.nanotek.spring.data.elastic.repository;
 import java.util.List;
 
 import org.nanotek.beans.entity.ArtistCredit;
-import org.springframework.data.repository.Repository;
 
-public interface ElasticArtistCreditRepository extends Repository<ArtistCredit<?>,Long>{
-	   List<ArtistCredit<?>> findByArtistCreditName(String artistCreditName);
+public interface ElasticArtistCreditRepository<A extends ArtistCredit<A>> extends ElasticBrainzBaseRepository<A>{
+	
+	List<A> findByArtistCreditName(String artistCreditName);
+	List<A> findByArtistCreditNameLike(String artistCreditName);
 
-	   List<ArtistCredit<?>> findByArtistCreditNameLike(String artistCreditName);
+	@Override
+	default Class<?> getBrainzClass() {
+		return ArtistCredit.class;
+	}
 }

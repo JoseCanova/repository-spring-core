@@ -185,20 +185,20 @@
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.data</groupId>
-		    <artifactId>spring-data-elasticsearch</artifactId>
-		    <version>4.1.0</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>4.1.0</version>
 		</dependency>
 		<dependency>
-		  <groupId>org.elasticsearch</groupId>
-  			<artifactId>elasticsearch</artifactId>
-  			<version>${elasticsearch}</version>
-  		</dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${elasticsearch}</version>
+		</dependency>
 		<dependency>
-		 <groupId>org.elasticsearch</groupId>
-  			<artifactId>elasticsearch-core</artifactId>
-  			<version>${elasticsearch}</version>
-  		</dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch-core</artifactId>
+			<version>${elasticsearch}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -215,7 +215,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			
+
 			<exclusions>
 				<exclusion>
 					<groupId>net.bytebuddy</groupId>
@@ -226,7 +226,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			
+
 			<exclusions>
 				<exclusion>
 					<groupId>net.bytebuddy</groupId>
@@ -237,19 +237,16 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			
+
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-hikaricp</artifactId>
-			
+
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search-orm</artifactId>
-			<version>5.11.5.Final</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-search-orm</artifactId> 
+			<version>5.11.5.Final</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
@@ -257,12 +254,12 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
-			
+
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jcache</artifactId>
-			
+
 		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache.internal</groupId>
@@ -285,14 +282,14 @@
 			<artifactId>javax.persistence-api</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-validator</artifactId>
-		    <version>6.1.6.Final</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.6.Final</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-validator-annotation-processor</artifactId>
-		    <version>6.1.6.Final</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>6.1.6.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -365,8 +362,8 @@
 			<version>2.9.8</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.solr</groupId>
-		    <artifactId>solr-solrj</artifactId>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
 		</dependency>
 		<!-- SOLR -->
 		<dependency>
@@ -451,16 +448,16 @@
 							<artifactId>hibernate-validator-annotation-processor</artifactId>
 							<version>6.1.6.Final</version>
 						</path>
-						<!-- <path>
-							<groupId>org.hibernate</groupId>
-							<artifactId>hibernate-jpamodelgen</artifactId>
-							<version>5.4.23.Final</version>
-						</path> -->
+						<!-- <path> <groupId>org.hibernate</groupId> <artifactId>hibernate-jpamodelgen</artifactId> 
+							<version>5.4.23.Final</version> </path> -->
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.junit.platform</groupId>

@@ -21,6 +21,7 @@ import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaBuilder;
 import org.nanotek.proxy.map.bean.ForwardMapBean;
 import org.nanotek.repository.BaseEntityRepository;
 import org.nanotek.service.jpa.BrainzPersistenceService;
+import org.nanotek.spring.data.elastic.service.ElasticBaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,12 @@ public class MusicBrainzCsvService
 
 	@Autowired
 	Validator validator;
+	
+	@Autowired
+	ElasticBaseService<B> elasticBaseService;
 
 	public MusicBrainzCsvService() {
 	}
-
 
 	@Transactional
 	public void  verifyBrainzBaseEntity(BaseEntity<?, ?> id) {
@@ -123,6 +126,7 @@ public class MusicBrainzCsvService
 		}else { 
 //			saveProperties(b);
 			brainzPeristenceService.save(b);
+			elasticBaseService.save(b);
 		}
 		return b;
 	}

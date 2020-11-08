@@ -101,7 +101,7 @@ implements DataTransferMutator<String>
 
 
 	@Override
-	Map<String, PropertyDescriptor> from() {
+	public Map<String, PropertyDescriptor> from() {
 		return descriptorMap;
 	}
 
