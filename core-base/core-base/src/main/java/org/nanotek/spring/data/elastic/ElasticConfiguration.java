@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = {"org.nanotek.spring.data.elastic.repository"})

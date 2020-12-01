@@ -24,7 +24,7 @@
  */
 package org.nanotek.beans.sun.finder;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import static org.nanotek.beans.ReflectUtil.isPackageAccessible;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

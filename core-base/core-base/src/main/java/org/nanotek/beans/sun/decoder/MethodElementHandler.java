@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 
 import org.nanotek.beans.sun.finder.MethodFinder;
 
-import sun.reflect.misc.MethodUtil;
+import org.nanotek.beans.MethodUtil;
 
 /**
  * This class is intended to handle &lt;method&gt; element.

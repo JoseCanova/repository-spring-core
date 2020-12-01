@@ -33,8 +33,8 @@ import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
 
-import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+import org.nanotek.beans.GenericArrayTypeImpl;
+import org.nanotek.beans.ParameterizedTypeImpl;
 
 /**
  * This is utility class to resolve types.

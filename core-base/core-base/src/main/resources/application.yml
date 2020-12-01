@@ -169,7 +169,7 @@ artistalias:
  
 artistcredit:
   fileLocation: C:/java/mb/mbdump.tar/mbdump
-  fileName: artist_credit_a
+  fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
     artistCreditId: 0

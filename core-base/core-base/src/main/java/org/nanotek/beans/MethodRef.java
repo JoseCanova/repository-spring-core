@@ -29,7 +29,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import static org.nanotek.beans.ReflectUtil.isPackageAccessible;
 
 public class MethodRef {
     private String signature;

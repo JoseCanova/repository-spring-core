@@ -25,7 +25,7 @@
 package org.nanotek.beans.sun.finder;
 
 import static org.nanotek.beans.sun.util.Cache.Kind.SOFT;
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import static org.nanotek.beans.ReflectUtil.isPackageAccessible;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;

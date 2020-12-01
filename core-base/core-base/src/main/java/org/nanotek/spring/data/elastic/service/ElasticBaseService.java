@@ -19,10 +19,10 @@ public class ElasticBaseService<B extends BrainzBaseEntity<B>> {
 	@Autowired
 	private ElasticsearchRestTemplate elasticsearchRestTemplate;
 	
-	static Map<Class<?> ,String> analyzerCache = new HashMap<Class<?> , String>();
+	static Map<Class<?> ,String> coordinatesCache = new HashMap<Class<?> , String>();
 	
 	public B save(B b) {
-		String coordinates = Optional.ofNullable(analyzerCache.get(b.getClass())).orElse(withCoordinates(b.getClass()));
+		String coordinates = Optional.ofNullable(coordinatesCache.get(b.getClass())).orElse(withCoordinates(b.getClass()));
 		if(!coordinates.isEmpty()) {
 			IndexCoordinates ic = IndexCoordinates.of(new String[]{coordinates});
 			IndexQuery indexQuery = new IndexQueryBuilder()
@@ -36,6 +36,6 @@ public class ElasticBaseService<B extends BrainzBaseEntity<B>> {
 
 	private String withCoordinates(Class<?> class1) {
 		Document document = class1.getAnnotation(Document.class);
-		return Optional.ofNullable(document).map(v -> {analyzerCache.put(class1, v.indexName())  ; return v.indexName();}).orElse("");
+		return Optional.ofNullable(document).map(v -> {coordinatesCache.put(class1, v.indexName())  ; return v.indexName();}).orElse("");
 	}
 }
