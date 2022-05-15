@@ -22,8 +22,7 @@
 		<org.springframework.integration.version>4.3.2.RELEASE</org.springframework.integration.version>
 		<org.hibernate.version>5.4.12.Final</org.hibernate.version>
 		<org.lucene.version>4.8.0</org.lucene.version>
-		<!-- <maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target> -->
+		<!-- <maven.compiler.source>1.8</maven.compiler.source> <maven.compiler.target>1.8</maven.compiler.target> -->
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<junit.platform.version>1.2.0</junit.platform.version>
@@ -47,6 +46,12 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient -->
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>10.15.2.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>
@@ -271,13 +276,11 @@
 		<dependency>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.6.3</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.cache</groupId>
 			<artifactId>cache-api</artifactId>
-			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
