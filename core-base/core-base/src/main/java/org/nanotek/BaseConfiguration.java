@@ -39,11 +39,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
+import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.relational.core.dialect.Dialect;
+import org.springframework.data.relational.core.dialect.PostgresDialect;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 //import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -78,7 +82,12 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @EnableSolrRepositories(basePackages = "org.nanotek.repository.solr")
-public class BaseConfiguration implements ApplicationContextAware{
+public class BaseConfiguration extends AbstractJdbcConfiguration implements ApplicationContextAware{ 
+    
+    @Override
+    public Dialect jdbcDialect(NamedParameterJdbcOperations operations) {
+        return PostgresDialect.INSTANCE;
+    }
 
 	private ApplicationContext applicationContext;
 
@@ -214,7 +223,7 @@ public class BaseConfiguration implements ApplicationContextAware{
 
 
 	@Bean
-	@ConfigurationProperties(value = "artistcredit")
+	@ConfigurationProperties(value = "area")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 

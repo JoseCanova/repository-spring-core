@@ -43,14 +43,19 @@
 		<version>2.3.5.RELEASE</version>
 	</parent>
 	<dependencies>
-		<dependency>
+	<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient -->
+		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient --><!--  -->
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
+			<version>10.15.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyshared</artifactId>
 			<version>10.15.2.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->

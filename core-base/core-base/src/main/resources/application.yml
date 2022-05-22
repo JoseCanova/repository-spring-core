@@ -14,10 +14,10 @@ spring:
   activemq:
    broker-url: tcp://localhost:61616
   datasource:
-    jdbcUrl: jdbc:derby://127.0.0.1:1527/mb
-    url: jdbc:postgresql://127.0.0.1:1527/mb
-    username: mbuser 
-    password: 1234*   
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    url: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    username: postgres 
+    password: postgres123   
   hikari:
     connectionTimeout: 30000
     maximumPoolSize: 250
@@ -50,7 +50,7 @@ entitymanager:
 
 config:
   fileLocation: C:/softwares/mbdump/mbdump
-  fileName: artist_head_dump
+  fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0

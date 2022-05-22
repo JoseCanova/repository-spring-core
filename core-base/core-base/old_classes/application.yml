@@ -22,7 +22,7 @@ spring:
     connectionTimeout: 30000
     maximumPoolSize: 250
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.DerbyDialect
     show-sql: false
     properties:
       hibernate:
