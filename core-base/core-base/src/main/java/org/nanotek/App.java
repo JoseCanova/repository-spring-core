@@ -137,12 +137,12 @@ ApplicationRunner{
 			pq.add(p);
 		});
 
-		Priority<?,Integer> prior = null;
+		/**Priority<?,Integer> prior = null;
 		do {
 			prior = pq.poll();
 			if (prior !=null)
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
-		}while(prior !=null);
+		}while(prior !=null);**/
 
 //		searchService.indexArtistCreditEntities();
 
@@ -151,7 +151,7 @@ ApplicationRunner{
 		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 		//		System.out.println(path);
 		//		System.out.println(path1);
-		new Thread() {
+		/**new Thread() {
 			@Override
 			public void run() {
 				CsvResult<?,?> result = null ; 
@@ -167,7 +167,7 @@ ApplicationRunner{
 					throw new BaseException(e);
 				}
 			}
-		}.start();
+		}.start();**/
 	}
 
 
