@@ -53,7 +53,7 @@ entitymanager:
   packagesToScan: org.nanotek
 
 config:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_head_dump
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
@@ -80,7 +80,7 @@ config:
     
     
 artist:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
@@ -105,7 +105,7 @@ artist:
     endAreaId: 18
 
 area: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: area
   immutable: org.nanotek.beans.csv.AreaBean
   baseMap:     
@@ -125,7 +125,7 @@ area:
     comment: 13   
     
 areatype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: area_type
   immutable: org.nanotek.beans.csv.AreaTypeBean  
   baseMap:     
@@ -137,7 +137,7 @@ areatype:
     gid: 5 
     
 artistaliastype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_alias_type
   immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
   baseMap:     
@@ -150,7 +150,7 @@ artistaliastype:
     
     
 artistalias:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_alias
   immutable: org.nanotek.beans.csv.ArtistAliasBean
   baseMap:  
@@ -172,7 +172,7 @@ artistalias:
     ended: 15    
  
 artistcredit:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
@@ -184,7 +184,7 @@ artistcredit:
     editsPending: 5   
     
 artistcreditedname:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_credit_name
   immutable: org.nanotek.beans.csv.ArtistCreditedNameBean
   baseMap:  
@@ -195,7 +195,7 @@ artistcreditedname:
     artistCreditedNameJoinPhrase: 4   
     
 releasepackaging:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_packaging
   immutable: org.nanotek.beans.csv.ReleasePackagingBean
   baseMap:  
@@ -207,7 +207,7 @@ releasepackaging:
       gid: 5       
       
 releasegroupprimarytype:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_group_primary_type
   immutable: org.nanotek.beans.csv.ReleaseGroupPrimaryTypeBean
   baseMap:  
@@ -219,7 +219,7 @@ releasegroupprimarytype:
     gid: 5       
     
 labeltype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: label_type
   immutable: org.nanotek.beans.csv.LabelTypeBean  
   baseMap:     
@@ -231,7 +231,7 @@ labeltype:
     gid: 5
     
 instrumenttype:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: instrument_type
   immutable: org.nanotek.beans.csv.InstrumentTypeBean
   baseMap:     
@@ -243,7 +243,7 @@ instrumenttype:
     gid: 5   
     
 gendertype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: gender
   immutable: org.nanotek.beans.csv.GenderBean
   baseMap:     
@@ -255,7 +255,7 @@ gendertype:
     gid: 5  
         
 artisttype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: artist_type
   immutable: org.nanotek.beans.csv.ArtistTypeBean
   baseMap:     
@@ -267,7 +267,7 @@ artisttype:
     gid: 5 
         
 recordingaliastype:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: recording_alias_type
   immutable: org.nanotek.beans.csv.RecordingAliasTypeBean
   baseMap:     
@@ -279,7 +279,7 @@ recordingaliastype:
     gid: 5        
 
 releasealiastype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_alias_type
   immutable: org.nanotek.beans.csv.ReleaseAliasTypeBean
   baseMap:     
@@ -291,7 +291,7 @@ releasealiastype:
     gid: 5        
         
 worktype: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: work_type
   immutable: org.nanotek.beans.csv.WorkTypeBean
   baseMap:     
@@ -303,7 +303,7 @@ worktype:
     gid: 5          
         
 instrument:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: instrument
   immutable: org.nanotek.beans.csv.InstrumentBean
   baseMap:     
@@ -317,7 +317,7 @@ instrument:
     description: 7        
         
 mediumformat: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: medium_format
   immutable: org.nanotek.beans.csv.MediumFormatBean
   baseMap:      
@@ -331,7 +331,7 @@ mediumformat:
     gid: 7       
     
 mediumbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: medium
   immutable: org.nanotek.beans.csv.MediumBean
   baseMap:     
@@ -345,7 +345,7 @@ mediumbean:
     count: 7     
         
 recordingbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump/recording_split
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump/recording_split
   fileName: recaj
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
@@ -360,7 +360,7 @@ recordingbean:
     video: 8 
     
 language:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: language
   immutable: org.nanotek.beans.csv.LanguageBean
   baseMap:  
@@ -374,7 +374,7 @@ language:
       
 
 isrcbean:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: isrc
   immutable: org.nanotek.beans.csv.IsrcBean
   baseMap:  
@@ -386,7 +386,7 @@ isrcbean:
       created: 5 
       
 labelbean:
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: label
   immutable: org.nanotek.beans.csv.LabelBean
   baseMap:  
@@ -404,7 +404,7 @@ labelbean:
       areaId: 11  
       
 releasegroup: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_group
   immutable: org.nanotek.beans.csv.ReleaseGroupBean
   baseMap:   
@@ -420,7 +420,7 @@ releasegroup:
     
     
 releasestatus: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_status
   immutable: org.nanotek.beans.csv.ReleaseStatusBean
   baseMap:     
@@ -433,7 +433,7 @@ releasestatus:
     
 
 releasebean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release
   immutable: org.nanotek.beans.csv.ReleaseBean
   baseMap: 
@@ -453,7 +453,7 @@ releasebean:
     lastUpdated: 13   
 
 releaselabelbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_label
   immutable: org.nanotek.beans.csv.ReleaseLabelBean
   baseMap:     
@@ -464,7 +464,7 @@ releaselabelbean:
     lastUpdated: 4
     
 workbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: work
   immutable: org.nanotek.beans.csv.WorkBean
   baseMap:     
@@ -477,7 +477,7 @@ workbean:
     updated: 6  
     
 releasealiasbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: release_alias
   immutable: org.nanotek.beans.csv.ReleaseAliasBean
   baseMap:     
@@ -499,7 +499,7 @@ releasealiasbean:
    ended: 15
    
 trackbean: 
-  fileLocation: C:/java/mb/mbdump.tar/mbdump
+  fileLocation: c:/Users/110000/AppData/Local/Microsoft/WindowsApps/mbdump.tar/mbdump/mbdump
   fileName: track
   immutable: org.nanotek.beans.csv.TrackBean
   baseMap:    

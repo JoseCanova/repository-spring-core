@@ -151,7 +151,7 @@ ApplicationRunner{
 		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
 		//		System.out.println(path);
 		//		System.out.println(path1);
-		/**new Thread() {
+		new Thread() {
 			@Override
 			public void run() {
 				CsvResult<?,?> result = null ; 
@@ -167,7 +167,7 @@ ApplicationRunner{
 					throw new BaseException(e);
 				}
 			}
-		}.start();**/
+		}.start();
 	}
 
 
