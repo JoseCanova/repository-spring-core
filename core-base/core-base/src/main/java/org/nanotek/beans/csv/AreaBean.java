@@ -109,7 +109,7 @@ implements BaseAreaBean<AreaBean<K>>{
 		a.setBeginYear(100);
 		a.setBeginDay(100);
 		a.getBeginDay();
-		System.out.println(a.getComment() + "  " + a.getAreaId());
+		System.out.println(a.getComment() + "  " + a.getAreaId() + "  " + a.getBeginDay());
 	}
 
 

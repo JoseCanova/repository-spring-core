@@ -13,7 +13,9 @@ import org.hibernate.query.criteria.internal.predicate.AbstractSimplePredicate;
 import org.hibernate.query.criteria.internal.predicate.PredicateImplementor;
 import org.nanotek.entities.metamodel.query.criteria.BrainzCriteriaBuilder;
 
-public abstract class AbstractBrainzPredicate<X extends PredicateImplementor> extends AbstractSimplePredicate  {
+public abstract class AbstractBrainzPredicate
+<X extends PredicateImplementor> 
+extends AbstractSimplePredicate  {
 
 	private static final long serialVersionUID = -9145232851862512379L;
 

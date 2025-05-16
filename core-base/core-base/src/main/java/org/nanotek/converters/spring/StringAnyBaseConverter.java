@@ -13,7 +13,7 @@ implements Converter<String, AnyBase<S,K>> {
 
 	@Override
 	public AnyBase<S, K> convert(String source) {
-		return AnyBase.class.cast(new AnyBase<>(source));
+		return AnyBase.class.cast(AnyBase.of(source));
 	}
 
 }

@@ -10,7 +10,8 @@ import static org.nanotek.entities.validation.DateCompositionValidator.FieldEnum
 
 import java.util.Optional;
 
-public class DateCompositionValidator implements ConstraintValidator<DateComposition,BaseEntity<?,?>>{
+public class DateCompositionValidator 
+implements ConstraintValidator<DateComposition,BaseEntity<?,?>>{
 
 	enum FieldEnum { 
 		BEGIN_YEAR("beginYear"),

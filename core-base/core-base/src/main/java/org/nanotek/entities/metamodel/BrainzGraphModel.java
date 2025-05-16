@@ -35,7 +35,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @SuppressWarnings("rawtypes")
-public class BrainzGraphModel implements InitializingBean{
+public class BrainzGraphModel 
+implements InitializingBean{
 
 	@PersistenceContext
 	EntityManager entityManager;
