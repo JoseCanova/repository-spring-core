@@ -123,7 +123,7 @@ public class MusicBrainzCsvService
 		}else { 
 //			saveProperties(b);
 			brainzPeristenceService.save(b);
-			elasticBaseService.save(b);
+//			elasticBaseService.save(b); comment for now since new versions elastic are using https for rest requests.
 		}
 		return b;
 	}
