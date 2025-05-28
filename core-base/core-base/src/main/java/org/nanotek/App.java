@@ -137,13 +137,13 @@ ApplicationRunner{
 			pq.add(p);
 		});
 
-		/**Priority<?,Integer> prior = null;
+		Priority<?,Integer> prior = null;
 		do {
 			prior = pq.poll();
 			if (prior !=null)
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
-		}while(prior !=null);**/
-
+		}while(prior !=null);
+//		System.exit(-1);
 //		searchService.indexArtistCreditEntities();
 
 		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());

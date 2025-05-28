@@ -48,9 +48,6 @@ public class MusicBrainzCsvService
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
 
-	@Autowired 
-	BrainzCriteriaBuilder brainzCriteriaBuilder;
-
 	@Autowired
 	Validator validator;
 	
@@ -136,7 +133,12 @@ public class MusicBrainzCsvService
 		Optional<List<?>> theStream = brainzPeristenceService.findByBrainzId(clazz, id);
 		return theStream.isPresent() && theStream.get().size()==0;
 	}
-
+    /**
+     *  A simple method that scans all attributes of an Entity verifying which attributes belongs to the persistence model, 
+     *  if present perform executes a findByBrainzId to verify if the entity (child entity is present), if the entity 
+     *  is not a valid brainz entity class verify if its valid to be inserted in the persistence provider (Postgresql usually).
+     * @param b - the entity about to be persisted in the persistence server (ElasticSearch - Postgresql)
+     */
 	private void prepareProperties(B b) {
 		BrainzEntityMetaModel<?,B> brainzEntityMetaModel = brainzMetaModelUtil.getMetaModel(b.getClass());
 		EntityTypeSupport<?, ?> typeSupport = brainzEntityMetaModel.getEntityTypeSupport();

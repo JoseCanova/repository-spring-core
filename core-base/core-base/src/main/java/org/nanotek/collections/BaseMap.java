@@ -64,6 +64,7 @@ extends  TreeMap<K,V> implements InitializingBean {
 		BaseMap n = new BaseMap(new ArtistBean());
 		Base a = AnyBase.of("id").asBase();
 		Base b = AnyBase.of("id").asBase();
+		System.out.println(AnyBase.of("id").getValue());
 		System.out.println(a.equals(b));
 		System.out.println(a.compareTo(b));
 		System.out.println(AnyBase.of("id").asBase().withUUID());
@@ -71,6 +72,8 @@ extends  TreeMap<K,V> implements InitializingBean {
 		n.afterPropertiesSet();
 		Artist<?> ar = new Artist<>();
 		ar.setId(100L);
+		System.out.println("id " + ar.getId());
+		
 	}
     
 	

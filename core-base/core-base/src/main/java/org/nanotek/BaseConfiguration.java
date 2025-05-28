@@ -37,6 +37,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
@@ -73,7 +74,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 
-
 @Configuration
 @ComponentScan("org.nanotek")
 //@EnableCaching(proxyTargetClass=true)
@@ -82,6 +82,7 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @EnableSolrRepositories(basePackages = "org.nanotek.repository.solr")
+//@EnableAspectJAutoProxy(proxyTargetClass = false)
 public class BaseConfiguration extends AbstractJdbcConfiguration implements ApplicationContextAware{ 
     
     @Override
@@ -223,7 +224,7 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 
 
 	@Bean
-	@ConfigurationProperties(value = "area")
+	@ConfigurationProperties(value = "artistcredit")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
