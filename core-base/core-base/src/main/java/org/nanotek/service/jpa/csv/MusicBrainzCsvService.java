@@ -136,7 +136,8 @@ public class MusicBrainzCsvService
     /**
      *  A simple method that scans all attributes of an Entity verifying which attributes belongs to the persistence model, 
      *  if present perform executes a findByBrainzId to verify if the entity (child entity is present), if the entity 
-     *  is not a valid brainz entity class verify if its valid to be inserted in the persistence provider (Postgresql usually).
+     *  is a valid brainz entity (has the @Brainz.. annotation present) class verify and if its valid to be inserted in the persistence provider (Postgresql usually).
+     *  if it`s not a brainz entity but belongs to the persistence model , executes the validation to verify it it's appropriate for database (insertion / update).
      * @param b - the entity about to be persisted in the persistence server (ElasticSearch - Postgresql)
      */
 	private void prepareProperties(B b) {
