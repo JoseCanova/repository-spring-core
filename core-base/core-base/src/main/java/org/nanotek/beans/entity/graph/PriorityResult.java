@@ -1,7 +1,9 @@
 package org.nanotek.beans.entity.graph;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.nanotek.beans.entity.SequenceLongBase;
 
@@ -12,8 +14,13 @@ extends SequenceLongBase<PriorityResult, Long> {
 
 	private static final long serialVersionUID = 5175849489258900153L;
 
-	private Integer priority;
+	@NotNull	
+	@javax.persistence.Column(name="priority", nullable=false, unique=false)
+	public Integer priority;
 	
+	@NotNull	
+	@ManyToOne
+	public EntityName entityName;
 	/**
 	 * Default constructor for JPA
 	 */
@@ -39,6 +46,15 @@ extends SequenceLongBase<PriorityResult, Long> {
 		this.priority = priority;
 	}
 
+	
+	public EntityName getEntityName() {
+		return entityName;
+	}
+	
+	public void setEntityName(EntityName entityName) {
+		this.entityName = entityName;
+	}
+	
 	@Override
 	public String toString() {
 		return "PriorityResult [id=" + getId() + "]";
