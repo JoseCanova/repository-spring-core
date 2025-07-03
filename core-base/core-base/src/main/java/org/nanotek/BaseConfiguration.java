@@ -16,6 +16,7 @@ import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.BaseParser;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.opencsv.file.CsvBaseConfig;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.reflections.Reflections;
@@ -37,7 +38,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
@@ -224,7 +224,7 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 
 
 	@Bean
-	@ConfigurationProperties(value = "artistcredit")
+	@ConfigurationProperties(value = "areatype")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
@@ -354,5 +354,210 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 	public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
 		return applicationContext.getBeanNamesForAnnotation(annotationType);
 	}
+	
+	
+	@Bean
+	@ConfigurationProperties(value = "artist")
+	@Qualifier(value="ArtistCsvFileItemConcreteStrategy")
+	CsvBaseConfig getArtistsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "area")
+	@Qualifier(value="AreaTypeCsvFileItemConcreteStrategy")
+	CsvBaseConfig getAreaCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
 
+	@Bean
+	@ConfigurationProperties(value = "areatype")
+	@Qualifier(value="AreaTypeCsvFileItemConcreteStrategy")
+	CsvBaseConfig getAreaTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "artistaliastype")
+	@Qualifier(value="ArtisAliasTypeCsvFileItemConcreteStrategy")
+	CsvBaseConfig getArtisAliasTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "artistalias")
+	@Qualifier(value="ArtisAliasCsvFileItemConcreteStrategy")
+	CsvBaseConfig getArtisAliasCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "artistcredit")
+	@Qualifier(value="ArtisCreditCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getArtisCreditCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "artistcreditedname")
+	@Qualifier(value="ArtisCreditNameCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getArtisCreditNameCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasepackaging")
+	@Qualifier(value="ReleasePackagingCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getReleasePackagingCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasegroupprimarytype")
+	@Qualifier(value="ReleaseGroupPrimaryTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getReleaseGroupPrimaryTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "labeltype")
+	@Qualifier(value="LabelTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getLabelTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "instrumenttype")
+	@Qualifier(value="InstrumentTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getInstrumentTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "gendertype")
+	@Qualifier(value="GenderTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getGenderTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "artisttype")
+	@Qualifier(value="ArtistTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getArtistTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "recordingaliastype")
+	@Qualifier(value="RecordAliasTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getRecordAliasTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasealiastype")
+	@Qualifier(value="ReleaseAliasTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getReleaseAliasTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "worktype")
+	@Qualifier(value="WorkTypeCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getWorkTypeCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "instrument")
+	@Qualifier(value="InstrumentCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getInstrumentCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	
+	@Bean
+	@ConfigurationProperties(value = "mediumbean")
+	@Qualifier(value="MediumCsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getMediumCsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "recordingbean")
+	@Qualifier(value="RecordingsvFileItemConfigMappingStrategy")
+	CsvBaseConfig getRecordingsvFileItemConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "language")
+	@Qualifier(value="LanguageConfigMappingStrategy")
+	CsvBaseConfig getLanguageConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "isrcbean")
+	@Qualifier(value="IsrcbeanConfigMappingStrategy")
+	CsvBaseConfig getIsrcbeanConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "labelbean")
+	@Qualifier(value="LabelBeanConfigMappingStrategy")
+	CsvBaseConfig getLabelBeanConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasegroup")
+	@Qualifier(value="ReleaseGroupConfigMappingStrategy")
+	CsvBaseConfig getReleaseGroupConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	
+	@Bean
+	@ConfigurationProperties(value = "releasestatus")
+	@Qualifier(value="ReleaseStatusGroupConfigMappingStrategy")
+	CsvBaseConfig getReleaseStatusGroupConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasebean")
+	@Qualifier(value="ReleaseConfigMappingStrategy")
+	CsvBaseConfig getReleaseConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releaselabelbean")
+	@Qualifier(value="ReleaseLabelConfigMappingStrategy")
+	CsvBaseConfig getReleaseLabelConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "workbean")
+	@Qualifier(value="WorkConfigMappingStrategy")
+	CsvBaseConfig getWorkConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "releasealiasbean")
+	@Qualifier(value="ReleaseAliasConfigMappingStrategy")
+	CsvBaseConfig getReleaseAliasConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
+	
+	@Bean
+	@ConfigurationProperties(value = "trackbean")
+	@Qualifier(value="TrackConfigMappingStrategy")
+	CsvBaseConfig getTrackConfigMappingStrategy() { 
+		return new CsvBaseConfig();
+	}
 }

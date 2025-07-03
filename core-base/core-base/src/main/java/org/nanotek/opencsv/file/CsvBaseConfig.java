@@ -1,7 +1,7 @@
 package org.nanotek.opencsv.file;
 
 
-public abstract class CsvBaseConfig {
+public class CsvBaseConfig {
 	
 	protected String fileLocation;
 	

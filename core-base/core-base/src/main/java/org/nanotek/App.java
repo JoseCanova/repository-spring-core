@@ -2,25 +2,23 @@ package org.nanotek;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.concurrent.FutureTask;
 
-import org.jgrapht.Graph;
-import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
+import org.apache.catalina.core.ApplicationContext;
 import org.nanotek.Priority.PriorityComparator;
-import org.nanotek.beans.entity.Artist;
-import org.nanotek.beans.entity.ArtistCredit;
 import org.nanotek.collections.BaseMap;
-import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.opencsv.file.CsvBaseConfig;
 import org.nanotek.opencsv.task.CsvProcessorCallBack;
-import org.nanotek.service.search.BaseSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
@@ -30,6 +28,7 @@ import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.context.ApplicationContextAware;
 //import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.integration.annotation.IntegrationComponentScan;
@@ -55,7 +54,8 @@ ID extends BaseEntity<?,?>>  extends
 SpringApplication 
 implements 
 SpringApplicationRunListener , 
-ApplicationRunner{
+ApplicationRunner,
+ApplicationContextAware{
 
 
 	@Autowired
@@ -79,6 +79,8 @@ ApplicationRunner{
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
 	
+	@Autowired
+	org.springframework.context.ApplicationContext applicationContext;
 	/*
 	 * @Autowired BaseSearchService<?> searchService;
 	 */
@@ -143,7 +145,9 @@ ApplicationRunner{
 			if (prior !=null)
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
 		}while(prior !=null);
-//		System.exit(-1);
+		Map<String, CsvBaseConfig> types = applicationContext.getBeansOfType(CsvBaseConfig.class);
+		System.exit(-1);
+		
 //		searchService.indexArtistCreditEntities();
 
 		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
@@ -168,6 +172,13 @@ ApplicationRunner{
 				}
 			}
 		}.start();
+	}
+
+	@Override
+	public void setApplicationContext(org.springframework.context.ApplicationContext applicationContext)
+			throws BeansException {
+		this.applicationContext = applicationContext;
+		
 	}
 
 
