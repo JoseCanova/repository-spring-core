@@ -22,7 +22,5 @@ extends CsvFileItem<S,P,M>{
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 	}
-
-	public abstract BufferedReader getCSVReader();
 	
 }

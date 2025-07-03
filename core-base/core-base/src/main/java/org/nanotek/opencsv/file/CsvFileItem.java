@@ -2,7 +2,6 @@ package org.nanotek.opencsv.file;
 
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
-import org.nanotek.collections.BaseMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -41,5 +40,4 @@ extends CsvBaseConfig implements InitializingBean{
 		this.immutable = immutable;
 	}
 
-	public  abstract  <T extends BaseMap<S, P, M>> T  getBaseMap();
 }

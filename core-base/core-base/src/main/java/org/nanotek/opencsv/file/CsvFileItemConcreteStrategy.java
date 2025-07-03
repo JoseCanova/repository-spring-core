@@ -31,7 +31,7 @@ public class CsvFileItemConcreteStrategy
 S  extends AnyBase<S,String> , 
 P   extends AnyBase<P,Integer> , 
 M extends BaseBean<?,?>>
-extends CsvFileItemConfigMappingStrategy<T,S,P,M> 
+extends CsvFileItem<S,P,M> 
 implements MappingStrategy<M>, InitializingBean , Closeable {
 
 	private static Logger log = LoggerFactory.getLogger(CsvFileItemConfigMappingStrategy.class.getName());
@@ -68,7 +68,6 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 	public void captureHeader(CSVReader reader) throws IOException {
 	}
 
-	@Override
 	public BaseMap<S, P, M> getBaseMap() {
 		return baseMap;
 	}
@@ -135,7 +134,6 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 		return  immutable.cast(Base.newInstance(immutable).get());
 	}
 
-	@Override
 	public BufferedReader getCSVReader() {
 		return reopen();
 	}

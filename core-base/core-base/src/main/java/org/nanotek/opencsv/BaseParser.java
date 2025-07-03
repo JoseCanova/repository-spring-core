@@ -11,6 +11,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.BaseException;
 import org.nanotek.ValueBase;
 import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.file.CsvFileItemConfigMappingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +35,12 @@ extends CSVParser implements InitializingBean
 	protected CSVParser csvParser;
 
 	@Autowired
-	protected  CsvFileItemConfigMappingStrategy<M,K,I,B> mapColumnStrategy;
+	protected  CsvFileItemConcreteStrategy<M,K,I,B> mapColumnStrategy;
 
 	public BaseParser() {this.csvParser = new CSVParser('\t');}
 
-	public   BaseParser(CsvFileItemConfigMappingStrategy<?,?,?,?> mapColumnStrategy) { 
-		this.mapColumnStrategy = CsvFileItemConfigMappingStrategy.class.cast(mapColumnStrategy);
+	public   BaseParser(CsvFileItemConcreteStrategy<?,?,?,?> mapColumnStrategy) { 
+		this.mapColumnStrategy = CsvFileItemConcreteStrategy.class.cast(mapColumnStrategy);
 		reader = mapColumnStrategy.getCSVReader();
 		this.csvParser = new CSVParser('\t');
 	}
@@ -77,7 +78,7 @@ extends CSVParser implements InitializingBean
 		return al;
 	}
 
-	public 	CsvFileItemConfigMappingStrategy<M,K,I,B> getBaseMapColumnStrategy(){
+	public 	CsvFileItemConcreteStrategy<M,K,I,B> getBaseMapColumnStrategy(){
 		return mapColumnStrategy;
 	}
 
