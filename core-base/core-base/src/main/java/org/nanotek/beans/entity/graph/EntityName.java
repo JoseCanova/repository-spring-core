@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,10 +20,10 @@ extends SequenceLongBase<EntityName, Long>{
 
 	private static final long serialVersionUID = -2157607773399578200L;
 
-	@Column(name="entity_name",columnDefinition = "VARCHAR NOT NULL" , nullable=false , updatable = true)	
+	@Column(name="entity_name", nullable=false , updatable = true)	
 	public String name;
 	
-	@OneToMany(mappedBy = "entityName")
+	@OneToMany(mappedBy = "entityName" , fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<PriorityResult> priorityResults;
 	
 	

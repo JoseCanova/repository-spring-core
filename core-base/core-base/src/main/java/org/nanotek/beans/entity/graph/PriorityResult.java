@@ -1,6 +1,8 @@
 package org.nanotek.beans.entity.graph;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -19,7 +21,8 @@ extends SequenceLongBase<PriorityResult, Long> {
 	public Integer priority;
 	
 	@NotNull	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="entity_name_id", nullable=false)
 	public EntityName entityName;
 	/**
 	 * Default constructor for JPA
