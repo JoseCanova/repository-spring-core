@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
 public class BrainzMetaModelUtil implements InitializingBean{
 
@@ -241,4 +240,12 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		this.reflections = reflections;
 	}
 
+	public MetamodelImpl getMetaModel() {
+		return metaModel;
+	}
+
+    public  Map<Class<?> , BrainzEntityMetaModel<?,?>>  getMetaModelMap() {
+    	 return metaModelMap;
+
+    }
 }

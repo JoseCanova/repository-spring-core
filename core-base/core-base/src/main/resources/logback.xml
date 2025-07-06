@@ -115,7 +115,7 @@
         <appender-ref ref="STDOUT" />
     </logger>
     
-    <logger name="org.springframework" level="info"
+    <logger name="org.springframework" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />
          <appender-ref ref="FILE2" />
@@ -133,12 +133,12 @@
 
     <logger name="org.nanotek.opencsv" level="debug"
             additivity="false">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
     </logger>
     
     <logger name=" au.com.bytecode.opencsv.bean" level="debug"
             additivity="false">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
     </logger>
    
 
@@ -149,12 +149,12 @@
 
     <logger name="org.nanotek.service.jpa.csv" level="debug"
             additivity="false">
-        <appender-ref ref="FILE4" />
+        <appender-ref ref="STDOUT" />
     </logger>
     
    <logger name=" org.nanotek.service.mq" level="debug"
             additivity="false">
-        <appender-ref ref="FILE5" />
+        <appender-ref ref="STDOUT" />
     </logger>
     
      <logger name="org.springframework.data" level="debug"
@@ -206,7 +206,7 @@
         <appender-ref ref="STDOUT" />
     </logger> -->
 
-    <root level="error">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
 

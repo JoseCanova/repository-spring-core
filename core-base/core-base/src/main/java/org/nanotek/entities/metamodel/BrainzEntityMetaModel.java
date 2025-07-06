@@ -102,7 +102,11 @@ public class BrainzEntityMetaModel<X,Y>{
 	public void setEntityType(EntityType<X> entityType) {
 		this.entityType = entityType;
 	}
-
+	
+	public String getEntityClassName() {
+		return entityClass.getSimpleName();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

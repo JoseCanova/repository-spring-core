@@ -1,8 +1,8 @@
 package org.nanotek.entities.metamodel;
 
-import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
-public class MetaModelEdge extends DefaultEdge{
+public class MetaModelEdge extends DefaultWeightedEdge{
 
 	/**
 	 * 
@@ -27,5 +27,8 @@ public class MetaModelEdge extends DefaultEdge{
 		return (BrainzEntityMetaModel<?, ?>) super.getTarget();
 	}
 
+	public <X> String getWeighted(X x) {
+		return String.valueOf(super.getWeight());
+	}
 
 }

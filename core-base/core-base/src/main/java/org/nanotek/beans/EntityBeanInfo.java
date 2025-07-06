@@ -47,7 +47,7 @@ public class EntityBeanInfo<E> extends ClassInfo {
 		release();
 	}
 	
-	public void acquire() {
+	public static void acquire() {
 		try { 
 			semaphore.acquire();
 		}catch (Exception ex) { 
@@ -56,7 +56,7 @@ public class EntityBeanInfo<E> extends ClassInfo {
 		}
 	}
 	
-	public void release() { 
+	public static void release() { 
 		try { 
 			semaphore.release();
 		}catch (Exception ex) { 

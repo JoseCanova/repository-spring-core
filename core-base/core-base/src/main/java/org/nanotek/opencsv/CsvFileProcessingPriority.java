@@ -1,15 +1,15 @@
 package org.nanotek.opencsv;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.nanotek.BaseEntity;
-import org.nanotek.EntityTypeSupport;
 import org.nanotek.Priority;
-import org.nanotek.beans.EntityBeanInfo;
 import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
@@ -28,6 +28,12 @@ implements Priority<K,Integer>{
 	@Autowired
 	BrainzGraphModel brainzGraphModel;
 
+	Map<Class<?>, Integer> visitFrequency = new HashMap<>();
+	
+	public Map<Class<?>, Integer> getVisitFrequency() {
+		return visitFrequency;
+	}
+	
 	public CsvFileProcessingPriority() {
 	}
 
@@ -44,6 +50,8 @@ implements Priority<K,Integer>{
 		//		
 
 		processGraphByBreadthFirst(priorityMap);
+		
+		printVisitFrequency();
 
 		return priorityMap.values().stream().collect(Collectors.toList());
 	}
@@ -61,25 +69,55 @@ implements Priority<K,Integer>{
 		//		
 
 		processGraphByBreadthFirstUndirected(priorityMap);
-
+		
 		return priorityMap.values().stream().collect(Collectors.toList());
 	}
 
 
+	private void printVisitFrequency() {
+		visitFrequency.entrySet().stream()
+		.sorted((e1,e2)->e2.getValue().compareTo(e1.getValue()))
+		.forEach(e->{
+			System.err.println(e.getKey() + " : " + e.getValue());
+		});
+		
+		System.err.println("Total number of visited elements: " + visitFrequency.size());
+		System.err.println("Total number of elements in graph: " + brainzGraphModel.getEntityDirectedGraph().vertexSet().size());
+		
+		System.err.println("Total number of edges in graph: " + brainzGraphModel.getEntityDirectedGraph().edgeSet().size());		
+	}
+
 	private Class<K> castV(Class<? extends BaseEntity> v) {
 		return (Class<K>) v;
 	}
+	
+	
 
 	public void processGraphByBreadthFirst(Map<Class<?>,Priority<?,Integer>> priorityMap){
 
-		brainzGraphModel.getEntityDirectedGraph().vertexSet().forEach(v->{
+		brainzGraphModel.getEntityDirectedGraph().vertexSet().forEach(
+		v->{
+			Set <Object> visited = new HashSet<>();
 
 			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 			iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
+
 			while (iterator.hasNext()) { 
+				
 				Class<? extends BaseEntity> next = iterator.next();
 				Class<? extends BaseEntity> parent = iterator.getParent(next);
+				if(next != null && parent != null) {
+					System.err.print (next.toString());		
+						System.err.println("\t" + parent.toString());		
+				}
+				if(parent != null) {
 				if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
+					if(visited.contains(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next)))
+						continue;
+					else {
+						visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
+						visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
+					}
 					Priority<?,Integer> pnext=priorityMap.get(next); 
 					Priority<?,Integer> pparent=priorityMap.get(parent);
 					BrainzEntityMetaModel<? extends BaseEntity, Object> parentMetaModel = brainzMetaModelUtil.getMetaModel(parent);
@@ -93,8 +131,8 @@ implements Priority<K,Integer>{
 							priorityMap.put(parent, pparentP);
 							priorityMap.put(next, pnextP);
 					}
+				   }
 				}
-
 			}});
 	}
 

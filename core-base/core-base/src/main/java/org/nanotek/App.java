@@ -146,7 +146,6 @@ ApplicationContextAware{
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
 		}while(prior !=null);
 		Map<String, CsvBaseConfig> types = applicationContext.getBeansOfType(CsvBaseConfig.class);
-		System.exit(-1);
 		
 //		searchService.indexArtistCreditEntities();
 

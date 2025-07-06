@@ -21,6 +21,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
+import org.jgrapht.traverse.TopologicalOrderIterator;
 import org.nanotek.BaseEntity;
 import org.nanotek.NotImplementedException;
 import org.nanotek.annotations.BrainzKey;
@@ -213,6 +214,10 @@ implements InitializingBean{
 		return entityDirectedGraph;
 	}
 
+	public Graph<Class<? extends BaseEntity>, PriorityEdge> getDirectedGraph() {
+		return entityDirectedGraph;
+	}
+	
 	public Reflections getReflections() {
 		return reflections;
 	}
@@ -229,6 +234,11 @@ implements InitializingBean{
 	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 	getBreadthFirstIterator(Class<? extends BaseEntity> class1){
 		return new BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph,class1);
+	}
+	
+	public TopologicalOrderIterator<Class<? extends BaseEntity>,PriorityEdge>
+	getTopologicalIterator(Class<? extends BaseEntity> class1){
+		return new TopologicalOrderIterator<Class<? extends BaseEntity>,PriorityEdge> (entityDirectedGraph);
 	}
 
 	public BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
