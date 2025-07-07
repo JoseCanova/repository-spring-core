@@ -118,8 +118,6 @@ implements Priority<K,Integer> {
 			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 			iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
 			
-
-			
 			while (iterator.hasNext()) { 
 				
 				Class<? extends BaseEntity> next = iterator.next();
