@@ -23,5 +23,19 @@ implements Base<VertexDistance<X, Y> >
 		return distance;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof VertexDistance) {
+			VertexDistance<X,Y> vp = VertexDistance.class.cast(obj);
+			return this.compareTo(vp) == 0;
+		}
+		return false;
+		
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.withUUID().toString().hashCode();
+	}
 
 }

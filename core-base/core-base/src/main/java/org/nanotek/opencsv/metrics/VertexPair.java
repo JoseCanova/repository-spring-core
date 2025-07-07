@@ -30,6 +30,21 @@ implements Base<VertexPair<X,Y>> {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof VertexPair) {
+			VertexPair<X,Y> vp = VertexPair.class.cast(obj);
+			return this.compareTo(vp) == 0;
+		}
+		return false;
+		
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.withUUID().toString().hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return "VertexPair [source=" + source + ", target=" + target + "]";
 	}
