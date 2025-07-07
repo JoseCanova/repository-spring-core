@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.elasticsearch.common.recycler.Recycler.V;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.nanotek.BaseEntity;
 import org.nanotek.Priority;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @SuppressWarnings({"rawtypes","unchecked"})
 public class CsvFileProcessingPriority<K extends BaseEntity<?,?>> 
-implements Priority<K,Integer>{
+implements Priority<K,Integer> {
 
 	@Autowired 
 	BrainzMetaModelUtil brainzMetaModelUtil;
@@ -29,6 +32,8 @@ implements Priority<K,Integer>{
 	BrainzGraphModel brainzGraphModel;
 
 	Map<Class<?>, Integer> visitFrequency = new HashMap<>();
+	
+	Map<Class<? extends BaseEntity>,Integer> distances = new HashMap<>();
 	
 	public Map<Class<?>, Integer> getVisitFrequency() {
 		return visitFrequency;
@@ -94,14 +99,23 @@ implements Priority<K,Integer>{
 	
 
 	public void processGraphByBreadthFirst(Map<Class<?>,Priority<?,Integer>> priorityMap){
-
-		brainzGraphModel.getEntityDirectedGraph().vertexSet().forEach(
+		
+		
+		Graph<Class<? extends BaseEntity> , PriorityEdge>  theGraph = brainzGraphModel.getDirectedGraph();
+		
+		DijkstraShortestPath<Class<? extends BaseEntity>,PriorityEdge> dijkstraShortestPath = 
+				new DijkstraShortestPath<>(theGraph);
+		
+		theGraph.vertexSet().forEach(
 		v->{
 			Set <Object> visited = new HashSet<>();
-
+			Map<Class<? extends BaseEntity>,Integer> distances = new HashMap<>();
+			
 			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 			iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
+			
 
+			
 			while (iterator.hasNext()) { 
 				
 				Class<? extends BaseEntity> next = iterator.next();
@@ -112,12 +126,15 @@ implements Priority<K,Integer>{
 				}
 				if(parent != null) {
 				if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
+					
 					if(visited.contains(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next)))
 						continue;
 					else {
 						visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
 						visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
+						System.err.println(dijkstraShortestPath.getPathWeight(v, next));
 					}
+					
 					Priority<?,Integer> pnext=priorityMap.get(next); 
 					Priority<?,Integer> pparent=priorityMap.get(parent);
 					BrainzEntityMetaModel<? extends BaseEntity, Object> parentMetaModel = brainzMetaModelUtil.getMetaModel(parent);
@@ -216,5 +233,4 @@ implements Priority<K,Integer>{
 
 		};
 	}
-
 }
