@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.elasticsearch.common.recycler.Recycler.V;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.traverse.BreadthFirstIterator;
@@ -17,6 +16,8 @@ import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.entities.metamodel.MetaModelEdge;
+import org.nanotek.opencsv.metrics.VertexDistance;
+import org.nanotek.opencsv.metrics.VertexPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,8 +107,11 @@ implements Priority<K,Integer> {
 		DijkstraShortestPath<Class<? extends BaseEntity>,PriorityEdge> dijkstraShortestPath = 
 				new DijkstraShortestPath<>(theGraph);
 		
+		HashSet<VertexDistance<?,?>> vertexDistances = new HashSet<>();
+		
 		theGraph.vertexSet().forEach(
 		v->{
+			
 			Set <Object> visited = new HashSet<>();
 			Map<Class<? extends BaseEntity>,Integer> distances = new HashMap<>();
 			
@@ -132,7 +136,13 @@ implements Priority<K,Integer> {
 					else {
 						visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
 						visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
-						System.err.println(dijkstraShortestPath.getPathWeight(v, next));
+						double distanceNextFromRoot = dijkstraShortestPath.getPathWeight(v, next);
+						VertexPair<?,?> rootNextVertexPair = new VertexPair<>(v, next);
+						VertexDistance<?,?> vertexDistance = new VertexDistance<>(distanceNextFromRoot,rootNextVertexPair);
+						if(vertexDistances.add(vertexDistance))
+						{
+							printVertexDistance(vertexDistance);
+						}					 
 					}
 					
 					Priority<?,Integer> pnext=priorityMap.get(next); 
@@ -151,6 +161,12 @@ implements Priority<K,Integer> {
 				   }
 				}
 			}});
+	}
+
+	private void printVertexDistance(VertexDistance<?, ?> vertexDistance) {
+		System.err.println("Vertex Distance: " + vertexDistance.getDistance() + 
+				" between " + vertexDistance.getVertexPair().getSource() + 
+				" and " + vertexDistance.getVertexPair().getTarget());
 	}
 
 	public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){

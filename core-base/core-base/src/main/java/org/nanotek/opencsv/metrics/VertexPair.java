@@ -1,6 +1,9 @@
 package org.nanotek.opencsv.metrics;
 
-public class VertexPair<X,Y> {
+import org.nanotek.Base;
+
+public class VertexPair<X,Y> 
+implements Base<VertexPair<X,Y>> {
 
 	private X source;
 	private Y target;

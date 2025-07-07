@@ -1,45 +1,27 @@
 package org.nanotek.opencsv.metrics;
 
-import java.io.Serializable;
+import org.nanotek.Base;
 
-import org.nanotek.BaseEntity;
-
-public class VertexDistance<K extends BaseEntity<K,ID>, ID extends Serializable> implements BaseEntity<K, ID> {
+public class VertexDistance<X, Y> 
+implements Base<VertexDistance<X, Y> >
+{
     
-	ID id; 
+	VertexPair<X, Y> vertexPair;
 	
-	VertexPair<K, ID> vertexPair;
+	Double distance;
 	
-	Integer distance;
-	
-	VertexDistance(ID id) {
-		this.id = id;
-	}
-	
-	
-	public VertexDistance(ID id, VertexPair<K, ID> vertexPair) {
-		this.id = id;
+	public VertexDistance(Double distance2, VertexPair<X, Y> vertexPair) {
+		this.distance = distance2;
 		this.vertexPair = vertexPair;
 	}
 	
-	public VertexDistance(ID id, VertexPair<K, ID> vertexPair, Integer distance) {
-		this.id = id;
-		this.vertexPair = vertexPair;
-		this.distance = distance;
-	}
-	
-	public VertexPair<K, ID> getVertexPair() {
+	public VertexPair<X,Y> getVertexPair() {
 		return vertexPair;
 	}
 	
-	@Override
-	public ID getId() {
-		return id;
-	}
-	
-
-	public Integer getDistance() {
+	public Double getDistance() {
 		return distance;
 	}
+	
 
 }
