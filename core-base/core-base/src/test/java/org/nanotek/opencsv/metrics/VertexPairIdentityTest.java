@@ -1,5 +1,6 @@
 package org.nanotek.opencsv.metrics;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.ArtistCredit;
+import org.nanotek.beans.entity.Release;
 
 class VertexPairIdentityTest {
 
@@ -35,4 +37,10 @@ class VertexPairIdentityTest {
 		assertTrue(vertexPairSet.size()==1);
 	}
 
+	@Test
+	void testInequality() {
+		VertexPair<Class<?>,Class<?>> vp = new VertexPair<Class<?>,Class<?>>(Area.class, ArtistCredit.class);
+		VertexPair<Class<?>,Class<?>> vp1 = new VertexPair<Class<?>,Class<?>>(Area.class, Release.class);
+		assertFalse(vp.equals(vp1));
+	}
 }

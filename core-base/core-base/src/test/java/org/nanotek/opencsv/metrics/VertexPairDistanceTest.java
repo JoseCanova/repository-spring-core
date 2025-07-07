@@ -1,5 +1,6 @@
 package org.nanotek.opencsv.metrics;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -37,5 +38,20 @@ public class VertexPairDistanceTest {
 	void test() {
 		assertTrue(vertexDistanceSet.size()==1);
 	}
+	
+	@Test
+	void testInequalityOnDistance() {
+		
+		VertexPair<Class<?>,Class<?>> vp = new VertexPair<Class<?>,Class<?>>(Area.class, ArtistCredit.class);
+		VertexPair<Class<?>,Class<?>> vp1 = new VertexPair<Class<?>,Class<?>>(Area.class, ArtistCredit.class);
+		
+		VertexDistance<Class<?>,Class<?>> vd = new VertexDistance<Class<?>,Class<?>>(Double.valueOf(3.0) , vp);
+		VertexDistance<Class<?>,Class<?>> vd1 = new VertexDistance<Class<?>,Class<?>>(Double.valueOf(3.2) , vp1);
+		
+		assertFalse(vd.equals(vd1));
+		
+	}
+	
+	
 
 }
