@@ -3,11 +3,12 @@ package org.nanotek;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.Artist;
 
-public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
+public interface Priority<E,P extends Comparable<P>> extends Comparator<P> {
 
 	default E getElement()
 	{ 
@@ -46,7 +47,7 @@ public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
 		};
 	}
 
-	class PriorityComparator<C extends Comparable<C>> implements Comparator<Priority<?,C>>{
+	public class PriorityComparator<C extends Comparable<C>> implements Comparator<Priority<?,C>>{
 
 		@Override
 		public int compare(Priority<?, C> o1, Priority<?, C> o2) {
@@ -55,7 +56,11 @@ public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
 
 	}
 	
-	public static <V extends Priority<K,P>,K extends Base<?>,P extends Comparable<?>>   void main(String[] args) { 
+}
+
+class MainClass {
+	
+	public static <V extends Priority<K,P>,K extends Base<?>,P extends Comparable<P>>   void main(String[] args) { 
 		Priority<?, Integer> artistPriority = Priority.createPriorityElement(Base.newInstance(Artist.class).get(), 10);
 		Priority<?, Integer>  areaPriority = Priority.createPriorityElement(Base.newInstance(Area.class).get(), 80);
 		Priority<?, Integer>  areaTypePriority = Priority.createPriorityElement(Base.newInstance(AreaType.class).get(), 39);
@@ -68,4 +73,6 @@ public interface Priority<E,P extends Comparable<?>> extends Comparator<P> {
 		System.out.println(result);
 		System.out.println(pq.peek().getElement().toString());
 	}
+	
+	
 }
