@@ -25,7 +25,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @param <T>
  */
 @SuppressWarnings("serial")
-//@Component(value = "BaseMap")S
+//@Component(value = "BaseMap")
 public class BaseMap<K  extends AnyBase<K,?> , V   extends Base<V>, D extends Base<?>>
 extends  TreeMap<K,V> implements InitializingBean {
 	

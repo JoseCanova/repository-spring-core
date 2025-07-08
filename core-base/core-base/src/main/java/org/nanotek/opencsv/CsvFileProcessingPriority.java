@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -113,58 +114,77 @@ implements Priority<K,Integer> {
 		v->{
 			
 			Set <Object> visited = new HashSet<>();
-			Map<Class<? extends BaseEntity>,Integer> distances = new HashMap<>();
 			
 			BreadthFirstIterator<Class<? extends BaseEntity>,PriorityEdge>
 			iterator = brainzGraphModel.getBreadthFirstIterator((Class<? extends BaseEntity>)v);
-			
 			while (iterator.hasNext()) { 
 				
 				Class<? extends BaseEntity> next = iterator.next();
 				Class<? extends BaseEntity> parent = iterator.getParent(next);
-				if(next != null && parent != null) {
-					System.err.print (next.toString());		
-						System.err.println("\t" + parent.toString());		
-				}
 				if(parent != null) {
-				if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
-					
-					if(visited.contains(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next)))
-						continue;
-					else {
-						visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
-						visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
-						double distanceNextFromRoot = dijkstraShortestPath.getPathWeight(v, next);
-						VertexPair<?,?> rootNextVertexPair = new VertexPair<>(v, next);
-						VertexDistance<?,?> vertexDistance = new VertexDistance<>(distanceNextFromRoot,rootNextVertexPair);
-						if(vertexDistances.add(vertexDistance))
-						{
-							printVertexDistance(vertexDistance);
-						}					 
+					if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
+						
+						if(visited.contains(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next)))
+							continue;
+						else {
+							visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
+							visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
+							double distanceNextFromRoot = dijkstraShortestPath.getPathWeight(v, next);
+							VertexPair<?,?> rootNextVertexPair = new VertexPair<>(v, next);
+							VertexDistance<?,?> vertexDistance = new VertexDistance<>(distanceNextFromRoot,rootNextVertexPair);
+							if(vertexDistances.add(vertexDistance))
+							{
+								printVertexDistance(vertexDistance);
+							}					 
+						}
+						
+						Priority<?,Integer> pnext=priorityMap.get(next); 
+						Priority<?,Integer> pparent=priorityMap.get(parent);
+						BrainzEntityMetaModel<? extends BaseEntity, Object> parentMetaModel = brainzMetaModelUtil.getMetaModel(parent);
+						BrainzEntityMetaModel<? extends BaseEntity, Object> nextMetaModel  = brainzMetaModelUtil.getMetaModel(next);
+						MetaModelEdge me  = parentMetaModel.getModelGraph().getEdge(parentMetaModel, nextMetaModel);
+						Double weight = parentMetaModel.getModelGraph().getEdgeWeight(me);
+	//					if(pparent.getPriority()>=pnext.getPriority()) { 
+						if (weight == 2.0d) {
+								Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
+								Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
+								priorityMap.put(parent, pparentP);
+								priorityMap.put(next, pnextP);
+						}
+					   }
 					}
-					
-					Priority<?,Integer> pnext=priorityMap.get(next); 
-					Priority<?,Integer> pparent=priorityMap.get(parent);
-					BrainzEntityMetaModel<? extends BaseEntity, Object> parentMetaModel = brainzMetaModelUtil.getMetaModel(parent);
-					BrainzEntityMetaModel<? extends BaseEntity, Object> nextMetaModel  = brainzMetaModelUtil.getMetaModel(next);
-					MetaModelEdge me  = parentMetaModel.getModelGraph().getEdge(parentMetaModel, nextMetaModel);
-					Double weight = parentMetaModel.getModelGraph().getEdgeWeight(me);
-//					if(pparent.getPriority()>=pnext.getPriority()) { 
-					if (weight == 2.0d) {
-							Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
-							Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
-							priorityMap.put(parent, pparentP);
-							priorityMap.put(next, pnextP);
-					}
-				   }
-				}
 			}});
+		
+		applyInverseFrequencyScalling(priorityMap,visitFrequency);
+	}
+
+	//TODO: use this method as a use case to understand "missing relations" check the report at https://github.com/JoseCanova/brainz/wiki/Recommendations-for-Scoring-Adjustments
+	private void applyInverseFrequencyScalling(Map<Class<?>, Priority<?, Integer>> priorityMap, Map<Class<?>, Integer> visitFrequency2) {
+		// TODO Auto-generated method stub
+		
+		priorityMap
+		.keySet()
+		.forEach(k -> {
+			Integer frequency= visitFrequency.get(k);	
+					if (frequency !=null) {
+					Priority<?, Integer> priority = priorityMap.get(k);
+					Optional
+					.ofNullable(priority)
+					.filter(p -> p.getPriority()!=null)
+					.map(p -> p.getPriority())
+					.ifPresent(prior->{
+						double newPriority = prior / Math.log(frequency + Math.E);
+						System.err.println(k.getSimpleName() + " " + newPriority);
+					});
+					}
+		});
+		
 	}
 
 	private void printVertexDistance(VertexDistance<?, ?> vertexDistance) {
 		System.err.println("Vertex Distance: " + vertexDistance.getDistance() + 
-				" between " + vertexDistance.getVertexPair().getSource() + 
-				" and " + vertexDistance.getVertexPair().getTarget());
+				" between " + Class.class.cast (vertexDistance.getVertexPair().getSource()).getSimpleName() +
+				" and " + Class.class.cast (vertexDistance.getVertexPair().getTarget()).getSimpleName());
 	}
 
 	public void processGraphByBreadthFirstUndirected(Map<Class<?>,Priority<?,Integer>> priorityMap){

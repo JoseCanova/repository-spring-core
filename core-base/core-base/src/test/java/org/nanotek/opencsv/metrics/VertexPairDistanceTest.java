@@ -33,7 +33,6 @@ public class VertexPairDistanceTest {
 	vertexDistanceSet.add(vd2);
 	}
 	
-
 	@Test
 	void test() {
 		assertTrue(vertexDistanceSet.size()==1);

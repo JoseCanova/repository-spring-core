@@ -23,7 +23,7 @@ public class BrainzGraphModelTest {
 
 	@Autowired
 	BrainzGraphModel brainzGraphModel;
-	DOTExporter <Class<? extends BaseEntity>, PriorityEdge>dotExporter;
+	DOTExporter <Class<? extends BaseEntity>, PriorityEdge> dotExporter;
 	private String targetDirectory;
 
 	
@@ -35,7 +35,6 @@ public class BrainzGraphModelTest {
 	        try {
 				Files.createDirectories(directoryPath);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Create directory if it doesn't exist
 	}

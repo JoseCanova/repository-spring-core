@@ -124,8 +124,6 @@ implements DataTransferMutator<String>
 		return Arrays.asList(classId.getFields());
 	}
 
-
-
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException { 
 
 		ForwardMapBean<?> dm = new ForwardMapBean<>(Area.class);

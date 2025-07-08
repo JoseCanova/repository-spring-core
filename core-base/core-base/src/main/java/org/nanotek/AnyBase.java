@@ -25,7 +25,8 @@ public  class AnyBase<S extends Base<S> , K extends Comparable<K>> implements Ba
 		},BaseException::new);
 	}
 	
-	public static <S extends Base<S>,K extends Comparable<K>,A extends AnyBase<S,K>> A of(K s) { 
+	public static <S extends Base<S>,K extends Comparable<K>,
+	A extends AnyBase<S,K>> A of(K s) { 
 		return    (A) new AnyBase<S, K>(s);
 	}
 	
