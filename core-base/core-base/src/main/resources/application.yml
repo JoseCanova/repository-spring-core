@@ -53,7 +53,7 @@ entitymanager:
   packagesToScan: org.nanotek
 
 config:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
@@ -80,7 +80,7 @@ config:
     
     
 artist:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
@@ -105,7 +105,7 @@ artist:
     endAreaId: 18
 
 area: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: area
   immutable: org.nanotek.beans.csv.AreaBean
   baseMap:     
@@ -124,7 +124,7 @@ area:
     ended: 12
     
 areatype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: area_type
   immutable: org.nanotek.beans.csv.AreaTypeBean  
   baseMap:     
@@ -136,7 +136,7 @@ areatype:
     gid: 5 
 
 artistaliastype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_alias_type
   immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
   baseMap:
@@ -149,7 +149,7 @@ artistaliastype:
     
     
 artistalias:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_alias
   immutable: org.nanotek.beans.csv.ArtistAliasBean
   baseMap:  
@@ -171,7 +171,7 @@ artistalias:
     ended: 15    
  
 artistcredit:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump/artistcredit
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/artistcredit
   fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
@@ -183,7 +183,7 @@ artistcredit:
     editsPending: 5   
     
 artistcreditedname:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_credit_name
   immutable: org.nanotek.beans.csv.ArtistCreditedNameBean
   baseMap:  
@@ -194,7 +194,7 @@ artistcreditedname:
     artistCreditedNameJoinPhrase: 4   
     
 releasepackaging:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_packaging
   immutable: org.nanotek.beans.csv.ReleasePackagingBean
   baseMap:  
@@ -206,7 +206,7 @@ releasepackaging:
       gid: 5       
       
 releasegroupprimarytype:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_group_primary_type
   immutable: org.nanotek.beans.csv.ReleaseGroupPrimaryTypeBean
   baseMap:  
@@ -218,7 +218,7 @@ releasegroupprimarytype:
     gid: 5       
     
 labeltype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: label_type
   immutable: org.nanotek.beans.csv.LabelTypeBean  
   baseMap:     
@@ -230,7 +230,7 @@ labeltype:
     gid: 5
     
 instrumenttype:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: instrument_type
   immutable: org.nanotek.beans.csv.InstrumentTypeBean
   baseMap:     
@@ -242,7 +242,7 @@ instrumenttype:
     gid: 5   
     
 gendertype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: gender
   immutable: org.nanotek.beans.csv.GenderBean
   baseMap:     
@@ -254,7 +254,7 @@ gendertype:
     gid: 5  
         
 artisttype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_type
   immutable: org.nanotek.beans.csv.ArtistTypeBean
   baseMap:     
@@ -266,7 +266,7 @@ artisttype:
     gid: 5 
         
 recordingaliastype:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: recording_alias_type
   immutable: org.nanotek.beans.csv.RecordingAliasTypeBean
   baseMap:     
@@ -278,7 +278,7 @@ recordingaliastype:
     gid: 5        
 
 releasealiastype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_alias_type
   immutable: org.nanotek.beans.csv.ReleaseAliasTypeBean
   baseMap:     
@@ -290,7 +290,7 @@ releasealiastype:
     gid: 5        
         
 worktype: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: work_type
   immutable: org.nanotek.beans.csv.WorkTypeBean
   baseMap:     
@@ -302,7 +302,7 @@ worktype:
     gid: 5          
         
 instrument:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: instrument
   immutable: org.nanotek.beans.csv.InstrumentBean
   baseMap:     
@@ -316,7 +316,7 @@ instrument:
     description: 7        
         
 mediumformat: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: medium_format
   immutable: org.nanotek.beans.csv.MediumFormatBean
   baseMap:      
@@ -330,7 +330,7 @@ mediumformat:
     gid: 7       
     
 mediumbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: medium
   immutable: org.nanotek.beans.csv.MediumBean
   baseMap:     
@@ -344,7 +344,7 @@ mediumbean:
     count: 7     
         
 recordingbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump/recording_split
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/recording_split
   fileName: recaj
   immutable: org.nanotek.beans.csv.RecordingBean
   baseMap:   
@@ -359,7 +359,7 @@ recordingbean:
     video: 8 
     
 language:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: language
   immutable: org.nanotek.beans.csv.LanguageBean
   baseMap:  
@@ -373,7 +373,7 @@ language:
       
 
 isrcbean:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: isrc
   immutable: org.nanotek.beans.csv.IsrcBean
   baseMap:  
@@ -385,7 +385,7 @@ isrcbean:
       created: 5 
       
 labelbean:
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: label
   immutable: org.nanotek.beans.csv.LabelBean
   baseMap:  
@@ -403,7 +403,7 @@ labelbean:
       areaId: 11  
       
 releasegroup: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_group
   immutable: org.nanotek.beans.csv.ReleaseGroupBean
   baseMap:   
@@ -419,7 +419,7 @@ releasegroup:
     
     
 releasestatus: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_status
   immutable: org.nanotek.beans.csv.ReleaseStatusBean
   baseMap:     
@@ -432,7 +432,7 @@ releasestatus:
     
 
 releasebean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release
   immutable: org.nanotek.beans.csv.ReleaseBean
   baseMap: 
@@ -452,7 +452,7 @@ releasebean:
     lastUpdated: 13   
 
 releaselabelbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_label
   immutable: org.nanotek.beans.csv.ReleaseLabelBean
   baseMap:     
@@ -463,7 +463,7 @@ releaselabelbean:
     lastUpdated: 4
     
 workbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: work
   immutable: org.nanotek.beans.csv.WorkBean
   baseMap:     
@@ -476,7 +476,7 @@ workbean:
     updated: 6  
     
 releasealiasbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: release_alias
   immutable: org.nanotek.beans.csv.ReleaseAliasBean
   baseMap:     
@@ -498,7 +498,7 @@ releasealiasbean:
    ended: 15
    
 trackbean: 
-  fileLocation: /home/jose/Downloads/mbdump/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: track
   immutable: org.nanotek.beans.csv.TrackBean
   baseMap:    

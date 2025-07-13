@@ -13,6 +13,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.nio.dot.DOTExporter;
+import org.jgrapht.nio.graphml.GraphMLExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,9 @@ public class BrainzMetaModelUtilTest {
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;
 	DOTExporter<BrainzEntityMetaModel<?,?>, MetaModelEdge> dotExporter;
+	
+	GraphMLExporter<BrainzEntityMetaModel<?,?>, MetaModelEdge> graphMLExporter;
+	
 	String targetDirectory ;
 	@BeforeEach
 	void setUp() {
@@ -52,6 +56,9 @@ public class BrainzMetaModelUtilTest {
 		Map<Class<?> , BrainzEntityMetaModel<?,?>> metaModelMap = brainzMetaModelUtil.getMetaModelMap();
 
 	   DOTExporter<BrainzEntityMetaModel<?,?>, MetaModelEdge> exporter = new DOTExporter<>(vertex -> vertex.getEntityClassName()); // Simple vertex ID provider
+		graphMLExporter = new GraphMLExporter<BrainzEntityMetaModel<?,?>, MetaModelEdge>(vertex -> vertex.getEntityClassName()); 
+		graphMLExporter.setExportEdgeWeights(true);
+	   
 	   System.err.println(metaModelMap);
 		metaModelMap
 		.values()
@@ -75,6 +82,16 @@ public class BrainzMetaModelUtilTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
+		String gfilePath = targetDirectory + "big-graph.gml";
+		try (FileWriter fileWriter = new FileWriter(gfilePath)) {
+			graphMLExporter.exportGraph(simpleGraph, fileWriter);
+            System.out.println("Graph exported successfully to " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+	
 	}
 	
 	private  Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> buildDirectedSimpleGraph() {
