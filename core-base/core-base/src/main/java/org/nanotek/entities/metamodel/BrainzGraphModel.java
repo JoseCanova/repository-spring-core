@@ -125,12 +125,12 @@ implements InitializingBean{
 				return verifyBrainzKey(a.getJavaType());
 			return false;
 		}
-		//		else if (a.getPersistentAttributeType().equals(PersistentAttributeType.ONE_TO_MANY)
-		//				||  a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_MANY)){
-		//			PluralAttribute<?, ?,?> sa = PluralAttribute.class.cast(a);
-		//			Class<?> cls =  sa.getElementType().getJavaType();
-		//			return verifyBrainzKey(cls);
-		//		}
+//				else if (a.getPersistentAttributeType().equals(PersistentAttributeType.ONE_TO_MANY)
+//						||  a.getPersistentAttributeType().equals(PersistentAttributeType.MANY_TO_MANY)){
+//					PluralAttribute<?, ?,?> sa = PluralAttribute.class.cast(a);
+//					Class<?> cls =  sa.getElementType().getJavaType();
+//					return verifyBrainzKey(cls);
+//				}
 		return false;
 	}
 

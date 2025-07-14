@@ -3,6 +3,7 @@ package org.nanotek.entities.metamodel;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +21,11 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
+import org.nanotek.BaseEntity;
 import org.nanotek.BaseException;
+import org.nanotek.annotations.BrainzKey;
+import org.nanotek.beans.EntityBeanInfo;
+import org.nanotek.beans.sun.introspect.PropertyInfo;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,11 +99,29 @@ public class BrainzMetaModelUtil implements InitializingBean{
 		return graph;
 	}
 
+	private Class<BaseEntity<?, ?>> converToBaseEntityClass(Class<?> javaType) {
+		return (Class<BaseEntity<?, ?>>) javaType.asSubclass(BaseEntity.class);
+	}
+	
+	private Boolean verifyBrainzKey(Class<?> cls) {
+		EntityBeanInfo<?>  entityBeanInfo = new EntityBeanInfo<>(converToBaseEntityClass(cls));
+		Collection<PropertyInfo> values = entityBeanInfo.getProperties().values();
+		return  values.stream().filter(p ->{
+			if ( p.getReadMethod() !=null) {
+				if(p.getReadMethod().getAnnotation(BrainzKey.class)!=null) {
+					return true;
+				}
+			}
+			return false;
+		}).findFirst().isPresent();
+	}
 
 	private Map<Class<?> , BrainzEntityMetaModel<?,?>>  prepareEntityGraph(Map<Class<?>, BrainzEntityMetaModel<?, ?>> tempMap) {
 		Map<Class<?> , BrainzEntityMetaModel<?,?>> shallowMap = new HashMap<>();
+//		System.err.println(tempMap);
 		tempMap.entrySet()
 		.stream()
+		.filter(e -> verifyBrainzKey(e.getKey()))
 		.map(e ->{
 			Graph<BrainzEntityMetaModel<?,?>, MetaModelEdge> graph = buildDirectedSimpleGraph();
 			BrainzEntityMetaModel<?,?> theEntity = e.getValue();

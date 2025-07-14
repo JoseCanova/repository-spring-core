@@ -103,14 +103,14 @@ implements Priority<K,Integer> {
 	public void processGraphByBreadthFirst(Map<Class<?>,Priority<?,Integer>> priorityMap){
 		
 		
-		Graph<Class<? extends BaseEntity> , PriorityEdge>  theGraph = brainzGraphModel.getDirectedGraph();
+		Graph<Class<? extends BaseEntity> , PriorityEdge>  graphDomainModel = brainzGraphModel.getDirectedGraph();
 		
 		DijkstraShortestPath<Class<? extends BaseEntity>,PriorityEdge> dijkstraShortestPath = 
-				new DijkstraShortestPath<>(theGraph);
+				new DijkstraShortestPath<>(graphDomainModel);
 		
 		HashSet<VertexDistance<?,?>> vertexDistances = new HashSet<>();
 		
-		theGraph.vertexSet().forEach(
+		graphDomainModel.vertexSet().forEach(
 		v->{
 			
 			Set <Object> visited = new HashSet<>();
@@ -122,12 +122,12 @@ implements Priority<K,Integer> {
 				Class<? extends BaseEntity> next = iterator.next();
 				Class<? extends BaseEntity> parent = iterator.getParent(next);
 				if(parent != null) {
-					if(brainzGraphModel.getEntityDirectedGraph().containsEdge(parent , next)) {
+					if(graphDomainModel.containsEdge(parent , next)) {
 						
-						if(visited.contains(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next)))
+						if(visited.contains(graphDomainModel.getEdge(parent, next)))
 							continue;
 						else {
-							visited.add(brainzGraphModel.getEntityDirectedGraph().getEdge(parent, next));
+							visited.add(graphDomainModel.getEdge(parent, next));
 							visitFrequency.put(next, visitFrequency.getOrDefault(next, 0) + 1);
 							double distanceNextFromRoot = dijkstraShortestPath.getPathWeight(v, next);
 							VertexPair<?,?> rootNextVertexPair = new VertexPair<>(v, next);
@@ -145,7 +145,8 @@ implements Priority<K,Integer> {
 						MetaModelEdge me  = parentMetaModel.getModelGraph().getEdge(parentMetaModel, nextMetaModel);
 						Double weight = parentMetaModel.getModelGraph().getEdgeWeight(me);
 	//					if(pparent.getPriority()>=pnext.getPriority()) { 
-						if (weight == 2.0d) {
+						if (weight == 2.0d || weight == 1.0d ) {
+								System.err.println("Parent " + parent);
 								Priority<?,Integer> pnextP =  Priority.createPriorityElement(next, pparent.getPriority()+pnext.getPriority() +1);
 								Priority<?,Integer> pparentP =  Priority.createPriorityElement(parent, pnext.getPriority() + 1);
 								priorityMap.put(parent, pparentP);

@@ -224,7 +224,7 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 
 
 	@Bean
-	@ConfigurationProperties(value = "areatype")
+	@ConfigurationProperties(value = "instrument")
 	@Qualifier(value="CsvFileItemConcreteStrategy")
 	<T extends BaseMap<S,P,M> , 
 	S  extends AnyBase<S,String> , 
@@ -357,7 +357,7 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 	
 	
 	@Bean
-	@ConfigurationProperties(value = "artist")
+	@ConfigurationProperties(value = "gendertype")
 	@Qualifier(value="ArtistCsvFileItemConcreteStrategy")
 	CsvBaseConfig getArtistsvFileItemConfigMappingStrategy() { 
 		return new CsvBaseConfig();

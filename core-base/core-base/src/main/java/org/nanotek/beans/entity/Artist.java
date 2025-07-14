@@ -138,6 +138,7 @@ MutableArtistCreditCollection<List<ArtistCredit<?>>>
 	@ManyToOne(optional = false)
 	public ArtistType<?> artistType; 
 
+	@NotNull(groups= {PrePersistValidationGroup.class})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "artist_gender_join", 

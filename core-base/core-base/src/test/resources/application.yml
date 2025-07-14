@@ -2,22 +2,26 @@ server:
   port: 8080
   
 http:
-    end-point: /core-base  
+    end-point: /core-base
     
 management:
    endpoints:
       web:
          exposure:
             include: info, health , mappings , integrationgraph , caches , conditions , metrics
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate: DEBUG
 
 spring:
   activemq:
    broker-url: tcp://localhost:61616
   datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/postgres
-    url: jdbc:postgresql://127.0.0.1:5432/postgres
-    username: postgres
-    password: postgres123   
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    url: jdbc:postgresql://127.0.0.1:5432/musicbrainz
+    username: postgres 
+    password: postgres123
   hikari:
     connectionTimeout: 30000
     maximumPoolSize: 250
@@ -26,10 +30,6 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        search:
-         default:
-          directory_provider: filesystem
-          indexBase: C:/var/lucene/indexes
         format_sql: true
         ddl-auto: create-drop
         javax:
@@ -54,7 +54,7 @@ entitymanager:
 
 config:
   fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
-  fileName: artist_head_dump
+  fileName: artist
   immutable: org.nanotek.beans.csv.ArtistBean
   baseMap:
     artistId: 0
@@ -121,8 +121,7 @@ area:
     endYear: 9 
     endMonth: 10 
     endDay: 11
-    ended: 12 
-    comment: 13   
+    ended: 12
     
 areatype: 
   fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
@@ -135,18 +134,18 @@ areatype:
     childOrder: 3
     description: 4
     gid: 5 
-    
+
 artistaliastype: 
   fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_alias_type
   immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
-  baseMap:     
+  baseMap:
     typeId: 0
     typeName: 1
     parent: 2
     childOrder: 3
     description: 4
-    gid: 5      
+    gid: 5
     
     
 artistalias:
@@ -172,7 +171,7 @@ artistalias:
     ended: 15    
  
 artistcredit:
-  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/artistcredit
   fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  

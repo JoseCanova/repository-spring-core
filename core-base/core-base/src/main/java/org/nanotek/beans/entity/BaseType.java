@@ -46,6 +46,7 @@ MutableBaseTypeDescriptionEntity<BaseTypeDescription<?>>{
 
 	private static final long serialVersionUID = -6795816207025448078L;
     
+	@BrainzKey (entityClass = BaseType.class, pathName = "typeId")
 	@NotNull(groups = {CsvValidationGroup.class,PrePersistValidationGroup.class})
 	@Column(name="type_id" , nullable = false)
 	public Long typeId;

@@ -10,7 +10,12 @@ import java.util.function.Supplier;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-
+/**
+ * The Base interface is designed to provide common functionalities that can be inherited and implemented by various "base" objects within the nanotek framework. 
+ * It focuses on aspects like serialization, comparison, and utility methods 
+ * for creating new instances and generating unique identifiers (UUIDs) or MD5 hashes.
+ * @param <K>
+ */
 public interface Base<K extends Base<?>> extends Serializable , KongSupplier<K> , Comparable<K>{
 
 	static String hash = "35454B055CC325EA1AF2126E27707052";

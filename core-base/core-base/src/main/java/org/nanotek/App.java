@@ -138,7 +138,7 @@ ApplicationContextAware{
 		pList.forEach(p->{
 			pq.add(p);
 		});
-
+		
 		Priority<?,Integer> prior = null;
 		do {
 			prior = pq.poll();
@@ -146,8 +146,7 @@ ApplicationContextAware{
 				System.out.println(prior.getElement() + "  " + prior.getPriority());
 		}while(prior !=null);
 		Map<String, CsvBaseConfig> types = applicationContext.getBeansOfType(CsvBaseConfig.class);
-		
-//		searchService.indexArtistCreditEntities();
+		//		searchService.indexArtistCreditEntities();
 
 		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
 		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
