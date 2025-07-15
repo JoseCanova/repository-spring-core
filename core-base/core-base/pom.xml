@@ -371,6 +371,11 @@
 			<version>1.5.2</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.jgrapht</groupId>
+		    <artifactId>jgrapht-opt</artifactId>
+		    <version>1.5.2</version>
+		</dependency>
+		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
 			<!-- <version>1.10.9</version> -->
