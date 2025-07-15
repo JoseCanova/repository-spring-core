@@ -131,45 +131,45 @@ ApplicationContextAware{
 
 		//		System.out.println(graphModel.getEntityDirectedGraph());
 		//
-		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
-		//
-		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
-
-		pList.forEach(p->{
-			pq.add(p);
-		});
-		
-		Priority<?,Integer> prior = null;
-		do {
-			prior = pq.poll();
-			if (prior !=null)
-				System.out.println(prior.getElement() + "  " + prior.getPriority());
-		}while(prior !=null);
-		Map<String, CsvBaseConfig> types = applicationContext.getBeansOfType(CsvBaseConfig.class);
-		//		searchService.indexArtistCreditEntities();
-
-		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
-		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
-		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
-		//		System.out.println(path);
-		//		System.out.println(path1);
-		new Thread() {
-			@Override
-			public void run() {
-				CsvResult<?,?> result = null ; 
-				FutureTask <R>r;
-				log.debug("start time " + new Date());
-				try {
-					do {
-						r =  csvBaseProcessor.getNext();
-						currentThread().join(1);
-					}while(processor.isActive() && r.get() !=null);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new BaseException(e);
-				}
-			}
-		}.start();
+//		PriorityQueue<Priority<?, Integer>> pq = new PriorityQueue<Priority<?,Integer>>(new PriorityComparator<Integer>());
+//		//
+//		List<Priority<?,Integer>>  pList = priorityMaker.generatePriorities();
+//
+//		pList.forEach(p->{
+//			pq.add(p);
+//		});
+//		
+//		Priority<?,Integer> prior = null;
+//		do {
+//			prior = pq.poll();
+//			if (prior !=null)
+//				System.out.println(prior.getElement() + "  " + prior.getPriority());
+//		}while(prior !=null);
+//		Map<String, CsvBaseConfig> types = applicationContext.getBeansOfType(CsvBaseConfig.class);
+//		//		searchService.indexArtistCreditEntities();
+//
+//		//		JohnsonShortestPaths jsp = new JohnsonShortestPaths(graphModel.getEntityGraph());
+//		//		GraphPath  path=  jsp.getPath(Artist.class,Release.class);
+//		//		GraphPath  path1=  jsp.getPath(Release.class,Artist.class);
+//		//		System.out.println(path);
+//		//		System.out.println(path1);
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				CsvResult<?,?> result = null ; 
+//				FutureTask <R>r;
+//				log.debug("start time " + new Date());
+//				try {
+//					do {
+//						r =  csvBaseProcessor.getNext();
+//						currentThread().join(1);
+//					}while(processor.isActive() && r.get() !=null);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					throw new BaseException(e);
+//				}
+//			}
+//		}.start();
 	}
 
 	@Override

@@ -57,6 +57,7 @@ MutableLabelCodeEntity<Integer>{
 	@Column(name="name" , nullable=false, columnDefinition = "VARCHAR NOT NULL")
 	public String labelName;
 
+	@NotNull(groups =  {PrePersistValidationGroup.class})
 	@ManyToOne(optional = true , cascade = {CascadeType.MERGE,CascadeType.PERSIST})
 	@JoinTable(name = "label_type_join",joinColumns = 
 	@JoinColumn(name = "label_id" , referencedColumnName = "id"),
