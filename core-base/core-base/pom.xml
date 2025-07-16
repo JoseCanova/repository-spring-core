@@ -464,6 +464,8 @@
 					<target>${maven.compiler.target}</target>
 					<compilerArgument>-XDignore.symbol.file</compilerArgument>
 					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<debug>true</debug>  <!-- Enable debug information -->
+        			<debuglevel>lines,vars,source</debuglevel> <!-- Specify desired debug level -->
 					<annotationProcessorPaths>
 						<!-- <path> <groupId>org.mapstruct</groupId> <artifactId>mapstruct-processor</artifactId> 
 							<version>${org.mapstruct.version}</version> </path> -->

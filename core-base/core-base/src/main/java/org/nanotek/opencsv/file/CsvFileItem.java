@@ -28,8 +28,8 @@ extends CsvBaseConfig implements InitializingBean{
 	}
 
 	public void afterPropertiesSet() {
-		log.debug("VERIFYING IMMUTABLE CONFIGURATION");
-		log.debug(immutable.toGenericString());
+//		log.debug("VERIFYING IMMUTABLE CONFIGURATION");
+//		log.debug(immutable.toGenericString());
 	}
 	
 	public Class<M> getImmutable() {

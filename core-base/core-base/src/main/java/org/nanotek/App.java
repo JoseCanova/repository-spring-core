@@ -65,16 +65,16 @@ ApplicationContextAware{
 	@Autowired
 	BrainzGraphModel graphModel;
 
-	@Autowired 
-	CsvFileProcessingPriority priorityMaker;
+//	@Autowired 
+//	CsvFileProcessingPriority priorityMaker;
 
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
-	@Autowired
-	CsvBaseProcessor <T,S,P,M,R> csvBaseProcessor;
+//	@Autowired
+//	CsvBaseProcessor <T,S,P,M,R> csvBaseProcessor;
 
-	@Autowired
-	CsvProcessorCallBack<?,?> processor;
+//	@Autowired
+//	CsvProcessorCallBack<?,?> processor;
 
 	@Autowired
 	BrainzMetaModelUtil brainzMetaModelUtil;

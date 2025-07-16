@@ -36,11 +36,11 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 
 	private static Logger log = LoggerFactory.getLogger(CsvFileItemConfigMappingStrategy.class.getName());
 
-	T baseMap;
+	protected T baseMap;
 
-	MapColumnStrategy<M> mapColumnStrategy;
+	protected MapColumnStrategy<M> mapColumnStrategy;
 
-	private BufferedReader reader;	
+	protected BufferedReader reader;	
 	
 	public CsvFileItemConcreteStrategy() {
 		super();
@@ -85,7 +85,7 @@ implements MappingStrategy<M>, InitializingBean , Closeable {
 		}
 	}
 
-	private BufferedReader prepareFileReader(){
+	protected BufferedReader prepareFileReader(){
 		try {
 			StringBuffer fileLocationStr = new StringBuffer();
 			fileLocationStr.append(getFileLocation())

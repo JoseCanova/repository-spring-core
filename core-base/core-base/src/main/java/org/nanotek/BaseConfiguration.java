@@ -223,54 +223,54 @@ public class BaseConfiguration extends AbstractJdbcConfiguration implements Appl
 	}
 
 
-	@Bean
-	@ConfigurationProperties(value = "instrument")
-	@Qualifier(value="CsvFileItemConcreteStrategy")
-	<T extends BaseMap<S,P,M> , 
-	S  extends AnyBase<S,String> , 
-	P   extends AnyBase<P,Integer> , 
-	M extends BaseBean<?,?>>
-	CsvFileItemConcreteStrategy<T,S,P,M> getCsvFileItemConfigMappingStrategy() { 
-		return new CsvFileItemConcreteStrategy<T,S,P,M>();
-	}
+//	@Bean
+//	@ConfigurationProperties(value = "instrument")
+//	@Qualifier(value="CsvFileItemConcreteStrategy")
+//	<T extends BaseMap<S,P,M> , 
+//	S  extends AnyBase<S,String> , 
+//	P   extends AnyBase<P,Integer> , 
+//	M extends BaseBean<?,?>>
+//	CsvFileItemConcreteStrategy<T,S,P,M> getCsvFileItemConfigMappingStrategy() { 
+//		return new CsvFileItemConcreteStrategy<T,S,P,M>();
+//	}
+//
+//	@Bean(name="BaseParser")
+//	@Qualifier(value="BaseParser")
+//	public
+//	<T extends BaseMap<S,P,M> , 
+//	S  extends AnyBase<S,String> , 
+//	P   extends AnyBase<P,Integer> , 
+//	M extends BaseBean<?,?>>
+//	BaseParser<T,S,P,M> getBaseParser(@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) { 
+//		return new BaseParser<T,S,P,M>(strategy);
+//	}
 
-	@Bean(name="BaseParser")
-	@Qualifier(value="BaseParser")
-	public
-	<T extends BaseMap<S,P,M> , 
-	S  extends AnyBase<S,String> , 
-	P   extends AnyBase<P,Integer> , 
-	M extends BaseBean<?,?>>
-	BaseParser<T,S,P,M> getBaseParser(@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) { 
-		return new BaseParser<T,S,P,M>(strategy);
-	}
-
-	@Bean(name = "CsvToBean")
-	@Qualifier(value="CsvToBean")
-	public <M extends BaseBean<?,?>> CsvToBean<M> getCsvToBean(){
-		return new CsvToBean<M>();
-	}
-
-	@Bean(name = "CsvBaseProcessor")
-	@Qualifier(value="CsvBaseProcessor")
-	public
-	<T extends BaseMap<S,P,M> , 
-	S  extends AnyBase<S,String> , 
-	P   extends AnyBase<P,Integer> , 
-	M extends BaseBean<?,?>, 
-	R extends CsvResult<?,?>> 
-	CsvBaseProcessor <T,S,P,M,R> getCsvBaseProcessor(
-			@Autowired @Qualifier("BaseParser") BaseParser<T,S,P,M> parser , 
-			@Autowired @Qualifier("CsvToBean")CsvToBean<M> csvToBean,
-			@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) {
-		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
-	}
-
-	@Bean(name = "CsvProcessorCallBack")
-	@Qualifier(value = "CsvProcessorCallBack")
-	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
-		return new CsvProcessorCallBack<R,B>();
-	}
+//	@Bean(name = "CsvToBean")
+//	@Qualifier(value="CsvToBean")
+//	public <M extends BaseBean<?,?>> CsvToBean<M> getCsvToBean(){
+//		return new CsvToBean<M>();
+//	}
+//
+//	@Bean(name = "CsvBaseProcessor")
+//	@Qualifier(value="CsvBaseProcessor")
+//	public
+//	<T extends BaseMap<S,P,M> , 
+//	S  extends AnyBase<S,String> , 
+//	P   extends AnyBase<P,Integer> , 
+//	M extends BaseBean<?,?>, 
+//	R extends CsvResult<?,?>> 
+//	CsvBaseProcessor <T,S,P,M,R> getCsvBaseProcessor(
+//			@Autowired @Qualifier("BaseParser") BaseParser<T,S,P,M> parser , 
+//			@Autowired @Qualifier("CsvToBean")CsvToBean<M> csvToBean,
+//			@Autowired @Qualifier("CsvFileItemConcreteStrategy")CsvFileItemConcreteStrategy<T,S,P,M> strategy) {
+//		return new CsvBaseProcessor<T,S,P,M,R>(parser,csvToBean,strategy);
+//	}
+//
+//	@Bean(name = "CsvProcessorCallBack")
+//	@Qualifier(value = "CsvProcessorCallBack")
+//	public <R extends CsvResult<?, B>,B extends BrainzBaseEntity<B>> CsvProcessorCallBack<R,B> getCsvProcessorCallBack() {
+//		return new CsvProcessorCallBack<R,B>();
+//	}
 
 	@Bean(name="Reflections")
 	@Qualifier(value="Reflections")
