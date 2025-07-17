@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 // is created every time it's requested from the Spring context.
 @Component
 @Scope("prototype")
-@ConfigurationProperties(prefix = "nanotek.csv-configs") // Binds to 'nanotek' prefix in application.yml
+@ConfigurationProperties(prefix = "nanotek") // Binds to 'nanotek' prefix in application.yml
 public class CsvFileItemConcreteStrategy2 <T extends BaseMap<S,P,M> , 
 S  extends AnyBase<S,String> , 
 P   extends AnyBase<P,Integer> , 

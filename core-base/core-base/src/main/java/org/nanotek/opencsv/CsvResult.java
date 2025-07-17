@@ -21,7 +21,6 @@ public class CsvResult<K extends BaseBean<K,ID> , ID extends BaseEntity<?,?>> ex
 
 	private Boolean valid = false;
 	
-	
 	CsvOnResultPredicate<K,ID> computePredicate;
 	
 	Validator validator;
