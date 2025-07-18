@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.config.CsvFileConfigurations;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
+import org.nanotek.opencsv.service.CsvDataWeightCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

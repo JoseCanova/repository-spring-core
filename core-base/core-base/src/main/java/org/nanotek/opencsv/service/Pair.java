@@ -1,4 +1,4 @@
-package org.nanotek.service;
+package org.nanotek.opencsv.service;
 
 import java.io.Serializable;
 import java.util.Objects;
