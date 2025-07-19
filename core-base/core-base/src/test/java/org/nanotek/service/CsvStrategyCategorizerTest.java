@@ -1,21 +1,22 @@
 package org.nanotek.service;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
+import org.nanotek.beans.entity.BaseType; // Assuming BaseType is in this package
 import org.nanotek.collections.BaseMap;
 import org.nanotek.config.CsvFileConfigurations;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // This annotation loads the full Spring Boot application context for the test.
 // It will instantiate CsvFileConfigurations and CsvStrategyCategorizer as real beans.
@@ -136,5 +137,68 @@ class CsvStrategyCategorizerTest<T extends BaseMap<S,P,M> ,
         assertNotNull(categorizedStrategies);
         System.out.println("Basetype count: " + categorizedStrategies.basetypeStrategies().size());
         System.out.println("Regular count: " + categorizedStrategies.regularStrategies().size());
+    }
+
+    /**
+     * NEW TEST: Prints the categorized strategies for visual inspection.
+     * This test will pass if the categorization process completes without errors,
+     * and its primary purpose is to output the categorized lists to the console.
+     */
+    @Test
+    void testCategorizationForVisualInspection() {
+        System.out.println("\n======================================================");
+        System.out.println("  CSV STRATEGY CATEGORIZATION: VISUAL INSPECTION REPORT ");
+        System.out.println("======================================================");
+
+        assertNotNull(csvStrategyCategorizer, "CsvStrategyCategorizer should be autowired.");
+        assertNotNull(csvFileConfigurations, "CsvFileConfigurations should be autowired.");
+
+        Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> allLoadedStrategies = csvFileConfigurations.getCsvConfigs();
+        if (allLoadedStrategies.isEmpty()) {
+            System.out.println("\nWARNING: No CSV configurations found in application.yml. " +
+                               "Visual inspection report will be empty. " +
+                               "Please configure CSV strategies for a meaningful output.");
+            return;
+        }
+
+        CategorizedCsvStrategies<T,S,P,M> categorizedStrategies =
+                csvStrategyCategorizer.categorizeStrategies();
+
+        System.out.println("\n--- Basetype Strategies (High Priority) ---");
+        if (categorizedStrategies.basetypeStrategies().isEmpty()) {
+            System.out.println("  No basetype strategies found.");
+        } else {
+            categorizedStrategies.basetypeStrategies().forEach((key, value) -> {
+                try {
+                    Class<?> immutableClass = (Class<?>) value.getImmutable();
+                    Object instance = immutableClass.getDeclaredConstructor().newInstance();
+                    Class<?> baseClass = BaseBean.class.cast(instance).getBaseClass();
+                    System.out.println(String.format("  - Strategy: %-25s | Entity: %s", key, baseClass.getSimpleName()));
+                } catch (Exception e) {
+                    System.err.println(String.format("  - Strategy: %-25s | Error getting entity class: %s", key, e.getMessage()));
+                }
+            });
+        }
+
+        System.out.println("\n--- Regular Strategies (Topological Sort Dependent) ---");
+        if (categorizedStrategies.regularStrategies().isEmpty()) {
+            System.out.println("  No regular strategies found.");
+        } else {
+            categorizedStrategies.regularStrategies().forEach((key, value) -> {
+                try {
+                    Class<?> immutableClass = (Class<?>) value.getImmutable();
+                    Object instance = immutableClass.getDeclaredConstructor().newInstance();
+                    Class<?> baseClass = BaseBean.class.cast(instance).getBaseClass();
+                    System.out.println(String.format("  - Strategy: %-25s | Entity: %s", key, baseClass.getSimpleName()));
+                } catch (Exception e) {
+                    System.err.println(String.format("  - Strategy: %-25s | Error getting entity class: %s", key, e.getMessage()));
+                }
+            });
+        }
+
+        System.out.println("\n======================================================");
+        System.out.println("  TOTAL BASES: " + categorizedStrategies.basetypeStrategies().size());
+        System.out.println("  TOTAL REGULAR: " + categorizedStrategies.regularStrategies().size());
+        System.out.println("======================================================");
     }
 }
