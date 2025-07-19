@@ -1,22 +1,23 @@
 package org.nanotek.service;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
-import org.nanotek.beans.entity.BaseType; // Assuming BaseType is in this package
 import org.nanotek.collections.BaseMap;
 import org.nanotek.config.CsvFileConfigurations;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
+import org.nanotek.opencsv.service.CategorizedCsvStrategies;
+import org.nanotek.opencsv.service.CsvStrategyCategorizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // This annotation loads the full Spring Boot application context for the test.
 // It will instantiate CsvFileConfigurations and CsvStrategyCategorizer as real beans.
