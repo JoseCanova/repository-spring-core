@@ -42,8 +42,8 @@ extends CSVParser // Extends CSVParser from au.com.bytecode.opencsv
     // No default constructor as it requires a strategy
     // No afterPropertiesSet() or InitializingBean interface
 
-	public BufferedReader getCsvReader() {
-		return reader;
+	public BufferedReader getCSVReader() {
+		return reader = mapColumnStrategy.getCSVReader();
 	}
 
 	public <T extends ValueBase<?>, S extends T> List<?> readNext() {
