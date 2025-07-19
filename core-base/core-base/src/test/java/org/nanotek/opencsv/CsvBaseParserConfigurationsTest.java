@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
+import org.nanotek.BaseException; // Import BaseException
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.BufferedReader;
+import java.io.IOException; // Import IOException
+import java.util.List; // Import List
 import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.fail; // Import fail for explicit test failure
 
 // This annotation loads the full Spring Boot application context for the test.
 @ExtendWith(SpringExtension.class)
@@ -125,5 +128,68 @@ I extends AnyBase<I,Integer>
         // If you specifically want to assert it's empty, uncomment the line below and ensure no configs are loaded.
         // assertTrue(strategies.isEmpty(), "Strategies map should be empty if no configurations are provided.");
         System.out.println("--- CsvBaseParserConfigurations Test: Complete ---");
+    }
+
+    /**
+     * This new test method verifies the CsvBaseParser's ability to read a CSV file
+     * and counts the lines, performing an integrity check.
+     *
+     * IMPORTANT: You MUST replace `EXPECTED_AREATYPE_LINES` with the actual number
+     * of lines (excluding header, if any, based on how your CsvBaseParser consumes)
+     * in your `areatype.csv` file.
+     * Example: If 'areatype.csv' has 5 data lines and no header consumed by parser, set this to 5.
+     */
+    @Test
+    void testCsvFileReadingAndLineCount() {
+        System.out.println("\n--- CsvBaseParserConfigurations Test: CSV File Reading and Line Count Check ---");
+
+        String strategyToTest = "areatype"; // The strategy name for the file we want to read
+        // TODO: IMPORTANT: Replace 100 with the actual expected number of data lines in your 'areatype.csv' file.
+        // Adjust this value based on your specific 'areatype.csv' content and how headers are handled.
+        final int EXPECTED_AREATYPE_LINES = 9; 
+
+        // 1. Retrieve the specific strategy from the configurations
+        Optional<CsvFileItemConcreteStrategy<M, K, I, B>> specificStrategyOpt =
+                csvBaseParserConfigurations.getStrategy(strategyToTest);
+
+        assertTrue(specificStrategyOpt.isPresent(), String.format("Expected strategy '%s' to be found for reading test.", strategyToTest));
+        CsvFileItemConcreteStrategy<M, K, I, B> strategy = specificStrategyOpt.get();
+
+        // Ensure the BufferedReader is ready
+        assertNotNull(strategy.getCSVReader(), String.format("CSVReader for strategy '%s' must be initialized before parsing.", strategyToTest));
+
+        // 2. Create an instance of CsvBaseParser with the retrieved strategy
+        CsvBaseParser<M, K, I, B> parser = new CsvBaseParser<>(strategy);
+
+        int lineCount = 0;
+        List<?> lineData;
+
+        try {
+            // 3. Iterate over the lines using the parser
+            while ((lineData = parser.readNext()) != null) {
+                lineCount++;
+                // Optional: You can add assertions here to check content of a line
+                // For example: assertNotNull(lineData, "Parsed line data should not be null.");
+                // assertFalse(lineData.isEmpty(), "Parsed line data should not be empty.");
+            }
+        } catch (BaseException ex) {
+            fail(String.format("Error reading CSV file for strategy '%s': %s", strategyToTest, ex.getMessage()), ex);
+        } finally {
+            // It's good practice to close the BufferedReader, although Spring/resource management
+            // might handle it if CsvFileItemConcreteStrategy opens it as a managed resource.
+            // For this test, we assume the reader is managed by the strategy and might be closed
+            // automatically or upon context shutdown. Direct closing here might break subsequent tests
+            // if the same reader instance is expected to be used.
+        }
+
+        System.out.println(String.format("  - Strategy '%s': Read %d lines.", strategyToTest, lineCount));
+
+        // 4. Verify the line count for integrity check
+        assertTrue(lineCount > 0, String.format("Expected to read more than 0 lines from '%s.csv'", strategyToTest));
+        assertTrue(lineCount == EXPECTED_AREATYPE_LINES,
+                   String.format("Line count for '%s.csv' mismatch. Expected %d, but got %d. Please adjust EXPECTED_AREATYPE_LINES if correct.",
+                                 strategyToTest, EXPECTED_AREATYPE_LINES, lineCount));
+
+        System.out.println("--- CsvBaseParserConfigurations Test: CSV File Reading and Line Count Check Complete ---");
     }
 }
