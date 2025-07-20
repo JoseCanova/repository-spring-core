@@ -13,6 +13,7 @@ import org.nanotek.opencsv.service.CsvStrategyCategorizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
  * CsvProcessingCommandService acts as a command entry point for orchestrating
@@ -40,14 +41,14 @@ R extends CsvResult<?,?>> {
      * These tasks are obtained from the CsvParsingTaskProvider.
      * @return A Map where keys are parser names (String) and values are ListenableFuture instances.
      */
-    public Map<String, ListenableFuture<R>> getBaseTypeTasks () { 
+    public Map<String, ListenableFutureTask<R>> getBaseTypeTasks () { 
     	return csvStrategyCategorizer
     	.categorizeStrategies()
     	.basetypeStrategies() // Assumes CsvStrategyCategorizer.CategorizedCsvStrategies has this method
     	.keySet()
     	.stream()
     	.map(k ->{
-    		ListenableFuture<R> task = csvParsingTaskProvider.getListenableFutureTask()
+    		ListenableFutureTask<R> task = csvParsingTaskProvider.getListenableFutureTask()
     		.get(k); // Retrieves the specific task future for key 'k'
     		return Map.entry(k, task);
     	}).collect(Collectors.toMap(Entry::getKey, Entry::getValue));

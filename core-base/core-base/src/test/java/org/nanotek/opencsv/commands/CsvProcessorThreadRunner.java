@@ -1,16 +1,16 @@
 package org.nanotek.opencsv.commands; // Or a more suitable package like org.nanotek.opencsv.thread.runner
 
-import java.util.Date;
-import java.util.concurrent.FutureTask; // As specified in your snippet
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
-import org.nanotek.BaseException; // Assuming this exception class exists in org.nanotek
 import org.nanotek.collections.BaseMap;
-import org.nanotek.opencsv.CsvBaseParserProcessor;
 import org.nanotek.opencsv.CsvResult;
+import org.nanotek.opencsv.task.CsvLoggerProcessorCallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
  * A singleton service responsible for launching a dedicated monitoring thread
@@ -21,10 +21,18 @@ import org.springframework.stereotype.Service;
  * This class encapsulates the thread creation and management logic.
  */
 @Service // Marks this class as a singleton Spring service
-public class CsvProcessorThreadRunner {
+public class CsvProcessorThreadRunner <T extends BaseMap<S,P,M> ,
+S  extends AnyBase<S,String> ,
+P   extends AnyBase<P,Integer> ,
+M extends BaseBean<?,?>,
+R extends CsvResult<?,?>> {
 
     private static final Logger log = LoggerFactory.getLogger(CsvProcessorThreadRunner.class);
 
+    @Autowired ThreadPoolTaskExecutor serviceTaskExecutor; 
+    
+    @Autowired CsvLoggerProcessorCallBack<R,?> callBack;
+    
     // Default constructor for Spring's dependency injection
     public CsvProcessorThreadRunner() {
         // No dependencies are directly injected into this service's constructor,
@@ -45,44 +53,40 @@ public class CsvProcessorThreadRunner {
      * @param processor The specific {@link CsvBaseParserProcessor} instance
      * that this thread will monitor and retrieve tasks from.
      */
-    public <T extends BaseMap<S,P,M> ,
-            S  extends AnyBase<S,String> ,
-            P   extends AnyBase<P,Integer> ,
-            M extends BaseBean<?,?>,
-            R extends CsvResult<?,?>>
-    void startProcessorThread(CsvBaseParserProcessor<T,S,P,M,R> processor) {
+    public
+    void startProcessorThread(ListenableFutureTask<R> listenableFutureTask) {
 
-        if (processor == null) {
-            log.error("Cannot start monitoring thread: provided CsvBaseParserProcessor is null.");
-            return;
-        }
-
+    	
+    	listenableFutureTask.addCallback(callBack);
+    	serviceTaskExecutor.submit(listenableFutureTask);
         // Create a new Thread using a lambda expression for its run() method.
         Thread processingThread = new Thread(() -> {
-            log.debug("Monitoring thread started for processor: {}. Start time: {}", processor.getClass().getName(), new Date());
-            FutureTask<R> futureTask = null; // Initialize to null
+        	
+            R result = null; // Initialize to null
 
             try {
                 // Loop to continuously get and process tasks
                 do {
-                    futureTask = processor.getNext();
+                	result = listenableFutureTask.get();
+                	if (result !=null)
+                		System.err.println("result " + result.toString());
                     try {
                         Thread.sleep(1); // Small pause to yield CPU and prevent tight loop
                     } catch (InterruptedException ie) {
                         // Restore the interrupted status and break out of the loop
                         Thread.currentThread().interrupt(); 
-                        log.warn("Monitoring thread for processor {} was interrupted during sleep. Exiting loop.", processor.getClass().getName());
+                        log.warn("Monitoring thread for processor {} was interrupted during sleep. Exiting loop.", result.getClass().getName());
                         break; 
                     }
 
                 // Continue as long as the processor reports itself as active AND
                 // a task was successfully retrieved (futureTask is not null) AND
                 // the result of the task (once completed) is not null (indicating content)
-                } while (futureTask != null && futureTask.get() != null);
+                } while (result != null);
 
             } catch (Exception e) {
                 log.error("Monitoring thread for processor {} encountered an error: {}. Thread will terminate.", 
-                          processor.getClass().getName(), e.getMessage(), e);
+                		listenableFutureTask.getClass().getName(), e.getMessage(), e);
                 // The original snippet had `throw new BaseException(e);`.
                 // You cannot throw checked exceptions out of Thread.run().
                 // Instead, log the error and ensure the thread terminates gracefully.
@@ -92,8 +96,7 @@ public class CsvProcessorThreadRunner {
         });
 
         processingThread.setDaemon(true); // Set as a daemon thread so it won't prevent JVM shutdown
-        processingThread.setName("CsvProcessor-Monitor-" + processor.getClass().getSimpleName()); // Assign a descriptive name
         processingThread.start(); // Start the thread
-        log.info("Monitoring thread '{}' launched for processor: {}", processingThread.getName(), processor.getClass().getName());
+        log.info("Monitoring thread '{}' launched for processor: {}", processingThread.getName(), listenableFutureTask.getClass().getName());
     }
 }

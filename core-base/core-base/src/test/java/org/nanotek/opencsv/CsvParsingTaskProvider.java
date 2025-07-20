@@ -22,11 +22,10 @@ import org.nanotek.opencsv.task.CsvLoggerProcessorCallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Service;
 // Removed: import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
@@ -39,13 +38,14 @@ import au.com.bytecode.opencsv.bean.MappingStrategy;
  * of individual parsing tasks, but delegates their submission to an external executor.
  * It is no longer directly involved in the 'processing' or 'submission' aspects of tasks.
  */
+@Service
 public class CsvParsingTaskProvider
 <T extends BaseMap<S,P,M> ,
 S  extends AnyBase<S,String> ,
 P   extends AnyBase<P,Integer> ,
 M extends BaseBean<?,?>,
 R extends CsvResult<?,?>>
-implements Base<R> , InitializingBean , ApplicationContextAware { // Removed ProcessorBase<R>
+implements Base<R> ,  ApplicationContextAware { // Removed ProcessorBase<R>
 
 	private Logger log = LoggerFactory.getLogger(CsvParsingTaskProvider.class); // Updated Logger name
 
@@ -75,33 +75,13 @@ implements Base<R> , InitializingBean , ApplicationContextAware { // Removed Pro
 	 */
 	private static final long serialVersionUID = -9020375809532500851L;
 
-	private CsvToBean<M> csvToBean;
-
 
 	public CsvParsingTaskProvider() { // Updated constructor name if it was `CsvBaseParserProcessor`
 		super();
-		this.csvToBean = new CsvToBean<>();
 	}
 
 	public CsvParsingTaskProvider(CsvToBean<M> csvToBean) { // Updated constructor name
 		super();
-		this.csvToBean = csvToBean;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// NOTE: This check remains, requiring 'configuredParserName' to be set,
-		// implying that this *instance* might conceptually relate to a single parser type.
-		// However, the 'getListenableFutureTask()' method operates on *all* configured
-		// strategies from 'csvParserConfigurations', which could be seen as a broader role.
-		// This potential inconsistency should be addressed in the overall design.
-		if (configuredParserName == null || configuredParserName.isEmpty()) {
-			throw new IllegalArgumentException("configuredParserName must be set for CsvParsingTaskProvider to identify which type of parser to create for tasks (if used for single-type provision).");
-		}
-
-		if (this.csvToBean == null) {
-			this.csvToBean = new CsvToBean<>();
-		}
 	}
 
 	/**
@@ -171,7 +151,8 @@ implements Base<R> , InitializingBean , ApplicationContextAware { // Removed Pro
 			if (next !=null) {
 				log.debug("next line " + next.toString());
 				MappingStrategy<M> mapStrategy = parser.getBaseMapColumnStrategy().getMapColumnStrategy();
-				final M base = csvToBean.processLine(mapStrategy, next);
+				CsvToBean<M> bean = new CsvToBean<>();
+				final M base = bean.processLine(mapStrategy, next);
 				log.debug(base.getId().toString());
 				result =  ImmutableBase.newInstance(CsvResult.class , Arrays.asList(IdBase.class.cast(base),applicationContext).toArray() , BaseBean.class,ApplicationContext.class);
 			} else {

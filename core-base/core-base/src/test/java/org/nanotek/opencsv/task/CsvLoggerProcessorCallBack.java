@@ -4,13 +4,12 @@ import java.util.Optional;
 
 import org.nanotek.beans.entity.BrainzBaseEntity;
 import org.nanotek.opencsv.CsvResult;
-import org.nanotek.service.jpa.csv.MusicBrainzCsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+@Service
 public class CsvLoggerProcessorCallBack
 <R extends CsvResult<?, B>,
 B extends BrainzBaseEntity<B>> 

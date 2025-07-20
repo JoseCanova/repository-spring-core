@@ -157,13 +157,13 @@ ApplicationContextAware{
 //			@Override
 //			public void run() {
 //				CsvResult<?,?> result = null ; 
-//				FutureTask <R>r;
+//				FutureTask <R>futureTask;
 //				log.debug("start time " + new Date());
 //				try {
 //					do {
-//						r =  csvBaseProcessor.getNext();
+//						futureTask =  csvBaseProcessor.getNext();
 //						currentThread().join(1);
-//					}while(processor.isActive() && r.get() !=null);
+//					}while(processor.isActive() && futureTask.get() !=null);
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //					throw new BaseException(e);
