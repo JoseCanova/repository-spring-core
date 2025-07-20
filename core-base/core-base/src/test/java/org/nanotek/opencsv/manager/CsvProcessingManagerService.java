@@ -14,6 +14,9 @@ import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.CsvBaseParserConfigurations;
 import org.nanotek.opencsv.CsvBaseParserProcessor;
 import org.nanotek.opencsv.CsvResult;
+// Removed GraphAnalysisService import as per your instruction
+// import org.nanotek.opencsv.GraphAnalysisService; // REMOVED
+import org.nanotek.opencsv.CsvFileProcessingPriority2; // ADDED
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,10 @@ R extends CsvResult<?,?>>{
     @Autowired
     private CsvBaseParserConfigurations<T,S,P,M> csvParserConfigurations;
 
+    // Replaced GraphAnalysisService with CsvFileProcessingPriority2
+    @Autowired 
+    CsvFileProcessingPriority2 csvFileProcessingPriority2; // CHANGED FROM GraphAnalysisService
+    
     // A map to define processing priorities for each parser type.
     // Example: "high_priority_file": 1, "low_priority_file": 10
     // This can be injected from application.properties/yml, e.g., using:
@@ -62,7 +69,7 @@ R extends CsvResult<?,?>>{
     // A map to keep track of ongoing processing for each parser type, storing their ListenableFutures.
     private ConcurrentMap<String, ListenableFuture<CsvResult<?,?>>> ongoingProcesses = new ConcurrentHashMap<>();
 
-    // Constructor for explicit dependency injection, though @Autowired fields suffice.
+    // Constructor remains as is, relying on @Autowired for field injection.
     public CsvProcessingManagerService() {
     }
 
@@ -77,7 +84,7 @@ R extends CsvResult<?,?>>{
         log.info("Manager initiated processing for all configured CSV files.");
 
         // Get the names of all configured parser types from CsvBaseParserConfigurations.
-        // It's assumed CsvBaseParserConfigurations provides a method like getParserConfigurationMap()
+        // It's assumed CsvBaseParserConfigurations provides a method like getCsvStrategies()
         // which returns a Map whose keys are the parser names.
         Set<String> parserNames = csvParserConfigurations.getCsvStrategies().keySet();
 
@@ -175,4 +182,34 @@ R extends CsvResult<?,?>>{
         ongoingProcesses.clear(); // Clear the map once all are awaited
         log.info("All initiated CSV processes completed.");
     }
+
+	public CsvBaseParserProcessor<T, S, P, M, R> getCsvBaseParserProcessor() {
+		return csvBaseParserProcessor;
+	}
+
+	public CsvBaseParserConfigurations<T, S, P, M> getCsvParserConfigurations() {
+		return csvParserConfigurations;
+	}
+
+    // New getter for CsvFileProcessingPriority2
+	public CsvFileProcessingPriority2 getCsvFileProcessingPriority2() { // ADDED
+		return csvFileProcessingPriority2;
+	}
+
+    // Removed the old getter for GraphAnalysisService
+	// public GraphAnalysisService getGraphAnalysisService() { // REMOVED
+	// 	return graphAnalysisService;
+	// }
+
+	public Map<String, Integer> getParserPriorities() {
+		return parserPriorities;
+	}
+
+	public Map<String, String> getParserCategories() {
+		return parserCategories;
+	}
+
+	public ConcurrentMap<String, ListenableFuture<CsvResult<?, ?>>> getOngoingProcesses() {
+		return ongoingProcesses;
+	}
 }
