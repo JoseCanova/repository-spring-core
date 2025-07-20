@@ -1,4 +1,4 @@
-package org.nanotek.opencsv.manager; // Or a more suitable package like org.nanotek.opencsv.thread.runner
+package org.nanotek.opencsv.commands; // Or a more suitable package like org.nanotek.opencsv.thread.runner
 
 import java.util.Date;
 import java.util.concurrent.FutureTask; // As specified in your snippet
