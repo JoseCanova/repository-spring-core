@@ -1,5 +1,7 @@
 package org.nanotek.opencsv.metrics;
 
+import javax.validation.constraints.NotNull;
+
 import org.nanotek.Base;
 
 public class VertexWeigth
@@ -11,7 +13,7 @@ implements Base<VertexWeigth> , VertexWeigthAcessor<Class<?>,Long>{
 	
 	Long theVertexWeigth;
 	
-	public VertexWeigth(Class<?> theVertex,Long theVertexWeigth) {
+	public VertexWeigth(@NotNull Class<?> theVertex,@NotNull Long theVertexWeigth) {
 		this.theVertex = theVertex;
 		this.theVertexWeigth = theVertexWeigth;
 	}
@@ -28,7 +30,7 @@ implements Base<VertexWeigth> , VertexWeigthAcessor<Class<?>,Long>{
 	
 	@Override
 	public int compareTo(VertexWeigth to) {
-		return theVertexWeigth.compareTo(to.theVertexWeigth);
+		return theVertexWeigth.compareTo(to.theVertexWeigth) * -1;
 	}
 
 	@Override
