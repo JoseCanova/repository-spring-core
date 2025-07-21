@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.BaseEntity;
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.nanotek.opencsv.PriorityEdge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class BrainzGraphModelTest {
 
 	@Autowired
-	BrainzGraphModel brainzGraphModel;
+	MusicBrainzKnowledgeGraph brainzGraphModel;
 	DOTExporter <Class<? extends BaseEntity>, PriorityEdge> dotExporter;
 	private String targetDirectory;
 

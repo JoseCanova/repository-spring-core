@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.nanotek.BaseEntity;
 import org.nanotek.beans.entity.Artist;
-import org.nanotek.entities.metamodel.BrainzGraphModel;
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class BrainzGraphEmbeddingVsBFSIteration {
 	
 	@Autowired
-	BrainzGraphModel brainzGraphModel;
+	MusicBrainzKnowledgeGraph brainzGraphModel;
 	
 	@Test
     void main() {

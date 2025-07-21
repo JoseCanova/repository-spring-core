@@ -24,7 +24,7 @@ import org.nanotek.beans.entity.AreaType;
 import org.nanotek.beans.entity.Artist;
 import org.nanotek.beans.entity.ArtistType;
 import org.nanotek.beans.entity.Gender;
-import org.nanotek.entities.metamodel.BrainzGraphModel;
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 public class GraphAnalysisService {
 	
 	@Autowired
-	BrainzGraphModel brainzGraphModel;
+	MusicBrainzKnowledgeGraph brainzGraphModel;
 
     // --- Abstract Byte Size Definitions (Copied from previous context) ---
     private static final int LONG_BYTES = 8;

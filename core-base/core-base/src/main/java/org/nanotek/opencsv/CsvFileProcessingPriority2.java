@@ -13,10 +13,10 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.traverse.BreadthFirstIterator;  
 import org.nanotek.BaseEntity;  
 import org.nanotek.Priority;  
-import org.nanotek.entities.metamodel.BrainzEntityMetaModel;  
-import org.nanotek.entities.metamodel.BrainzGraphModel;  
+import org.nanotek.entities.metamodel.BrainzEntityMetaModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;  
-import org.nanotek.entities.metamodel.MetaModelEdge;  
+import org.nanotek.entities.metamodel.MetaModelEdge;
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.nanotek.opencsv.metrics.VertexDistance;  
 import org.nanotek.opencsv.metrics.VertexPair;  
 import org.springframework.beans.factory.annotation.Autowired;  
@@ -31,7 +31,7 @@ implements Priority<K,Long> { // Changed Integer to Long to match movement weigh
     BrainzMetaModelUtil brainzMetaModelUtil;  
 
     @Autowired  
-    BrainzGraphModel brainzGraphModel;  
+    MusicBrainzKnowledgeGraph brainzGraphModel;  
 
     @Autowired // Inject the new GraphAnalysisService
     private GraphAnalysisService graphAnalysisService;

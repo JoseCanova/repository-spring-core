@@ -16,7 +16,7 @@ import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity; // New import for BaseEntity
 import org.nanotek.collections.BaseMap;
 import org.nanotek.config.CsvFileConfigurations;
-import org.nanotek.entities.metamodel.BrainzGraphModel; // Updated import for BrainzGraphModel
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ M extends BaseBean<?,?>> {
     private final CsvFileConfigurations<T,S,P,M> csvFileConfigurations;
 
     @Autowired
-    private BrainzGraphModel brainzGraphModel; // Injected for graph model access
+    private MusicBrainzKnowledgeGraph brainzGraphModel; // Injected for graph model access
 
     public CsvStrategyCategorizer(@Autowired CsvFileConfigurations<T,S,P,M> csvFileConfigurations) {
         this.csvFileConfigurations = csvFileConfigurations;
@@ -173,7 +173,7 @@ M extends BaseBean<?,?>> {
     }
 
     // Getter for BrainzGraphModel
-    public BrainzGraphModel getBrainzGraphModel() {
+    public MusicBrainzKnowledgeGraph getBrainzGraphModel() {
         return brainzGraphModel;
     }
 }

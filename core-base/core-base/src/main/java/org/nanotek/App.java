@@ -9,8 +9,8 @@ import java.util.concurrent.FutureTask;
 import org.apache.catalina.core.ApplicationContext;
 import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.collections.BaseMap;
-import org.nanotek.entities.metamodel.BrainzGraphModel;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
+import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
 import org.nanotek.opencsv.CsvBaseProcessor;
 import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
@@ -63,7 +63,7 @@ ApplicationContextAware{
 	private ThreadPoolTaskExecutor serviceTaskExecutor;
 
 	@Autowired
-	BrainzGraphModel graphModel;
+	MusicBrainzKnowledgeGraph graphModel;
 
 //	@Autowired 
 //	CsvFileProcessingPriority priorityMaker;
