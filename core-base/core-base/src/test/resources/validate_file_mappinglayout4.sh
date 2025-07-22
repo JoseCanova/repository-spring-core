@@ -154,37 +154,36 @@ elif [ "$action" == "validate" ]; then
     # Use awk to extract fileLocation, fileName, and baseMap content (for column count)
     # This simplified awk assumes the input file is a single block, as split by the previous script.
     # Output format: fileLocation\nfileName\nbaseMap_line_count
-    extracted_data=$(awk '
+       extracted_data=$(awk '
     BEGIN {
-        in_file_location = 0;
-        in_file_name = 0;
-        in_base_map_section = 0;
         file_location_val = "";
         file_name_val = "";
         base_map_lines = 0;
+        in_base_map_section = 0;
     }
 
-    /^[[:blank:]]{2,}fileLocation:[[:blank:]]*(.*)$/ {
-        file_location_val = substr($0, index($0, ":") + 2);
-        sub(/^[[:blank:]]*/, "", file_location_val);
-        in_file_location = 1; # Set flag
+    /^[[:space:]]{2,}fileLocation:[[:space:]]*/ {
+        file_location_val = substr($0, index($0, ":") + 1);
+        gsub(/^[[:space:]]+/, "", file_location_val);
     }
-    /^[[:blank:]]{2,}fileName:[[:blank:]]*(.*)$/ {
-        file_name_val = substr($0, index($0, ":") + 2);
-        sub(/^[[:blank:]]*/, "", file_name_val);
-        in_file_name = 1; # Set flag
+
+    /^[[:space:]]{2,}fileName:[[:space:]]*/ {
+        file_name_val = substr($0, index($0, ":") + 1);
+        gsub(/^[[:space:]]+/, "", file_name_val);
     }
-    /^[[:blank:]]{2,}baseMap:$/ {
-        in_base_map_section = 1; # Set flag
+
+    /^[[:space:]]{2,}baseMap:[[:space:]]*$/ {
+        in_base_map_section = 1;
+        next;
     }
+
     {
         if (in_base_map_section == 1) {
-            # Only count lines that look like key: value pairs and are indented by at least 4 blanks
-            # This is more robust for counting actual map entries.
-            if ($0 ~ /^[[:blank:]]{4,}[[:alnum:]_]+:[[:blank:]]*[[:digit:]]+[[:blank:]]*$/) {
+            # Match key: value entries indented at least 4 spaces/tabs
+            if ($0 ~ /^[[:space:]]{4,}[[:alnum:]_]+:[[:space:]]*[[:digit:]]+[[:space:]]*$/) {
                 base_map_lines++;
-            } else if (!/^[[:blank:]]*$/) { # If not empty line, and not a baseMap entry, then baseMap section has ended.
-                in_base_map_section = 0; # End baseMap collection
+            } else if (!($0 ~ /^[[:space:]]*$/)) {
+                in_base_map_section = 0;
             }
         }
     }
@@ -195,6 +194,7 @@ elif [ "$action" == "validate" ]; then
         print base_map_lines;
     }
     ' "$input_file")
+
 
     # Read the extracted data into Bash variables
     readarray -t parsed_values <<< "$extracted_data"
