@@ -1,0 +1,13 @@
+artistaliastype: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: artist_alias_type
+  immutable: org.nanotek.beans.csv.ArtistAliasTypeBean
+  baseMap:
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5
+    
+    
