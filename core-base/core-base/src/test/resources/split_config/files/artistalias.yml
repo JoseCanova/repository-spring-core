@@ -1,0 +1,22 @@
+artistalias:
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: artist_alias
+  immutable: org.nanotek.beans.csv.ArtistAliasBean
+  baseMap:  
+    aliasId: 0
+    artistId: 1
+    artistAliasName: 2
+    locale: 3
+    editsPending: 4
+    lastUpdated: 5
+    typeId: 6
+    sortName: 7
+    beginYear: 8
+    beginMonth: 9
+    beginDay: 10
+    endYear: 11
+    endMonth: 12
+    endDay: 13
+    primaryForLocale: 14
+    ended: 15    
+ 

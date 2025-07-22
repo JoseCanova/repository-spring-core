@@ -1,0 +1,17 @@
+trackbean: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: track
+  immutable: org.nanotek.beans.csv.TrackBean
+  baseMap:    
+    trackId: 0 
+    gid: 1 
+    recordingId: 2 
+    mediumId: 3 
+    position: 4 
+    number: 5 
+    trackName: 6 
+    artistCreditId: 7 
+    length: 8 
+    editsPending: 9 
+    lastUpdate: 10
+    isDataTrack: 11

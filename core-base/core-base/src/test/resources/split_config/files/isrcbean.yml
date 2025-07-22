@@ -1,0 +1,12 @@
+isrcbean:
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: isrc
+  immutable: org.nanotek.beans.csv.IsrcBean
+  baseMap:  
+      isrcId: 0 
+      recordingId: 1 
+      isrc: 2 
+      isrcSource: 3 
+      editsPending: 4 
+      created: 5 
+      

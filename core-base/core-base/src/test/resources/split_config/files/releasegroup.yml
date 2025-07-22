@@ -1,0 +1,16 @@
+releasegroup: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: release_group
+  immutable: org.nanotek.beans.csv.ReleaseGroupBean
+  baseMap:   
+    releaseGroupId: 0 
+    gid: 1 
+    releaseGroupName: 2 
+    artistCreditId: 3 
+    typeId: 4
+    comment: 5 
+    editsPending: 6
+    lastUpdated: 7         
+    
+    
+    

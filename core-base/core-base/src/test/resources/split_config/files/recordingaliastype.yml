@@ -1,0 +1,12 @@
+recordingaliastype:
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: recording_alias_type
+  immutable: org.nanotek.beans.csv.RecordingAliasTypeBean
+  baseMap:     
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5        
+

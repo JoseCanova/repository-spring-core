@@ -1,0 +1,12 @@
+releasepackaging:
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: release_packaging
+  immutable: org.nanotek.beans.csv.ReleasePackagingBean
+  baseMap:  
+      releasePackagingId: 0 
+      releasePackagingName: 1 
+      parent: 2 
+      childOrder: 3 
+      description: 4 
+      gid: 5       
+      

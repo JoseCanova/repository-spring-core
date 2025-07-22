@@ -1,0 +1,15 @@
+recordingbean: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/recording_split
+  fileName: recaj
+  immutable: org.nanotek.beans.csv.RecordingBean
+  baseMap:   
+    recordingId: 0
+    gid: 1
+    recordingName: 2
+    artistCreditId: 3
+    length: 4
+    comment: 5
+    editsPending: 6
+    lastUpdated: 7
+    video: 8 
+    

@@ -1,0 +1,11 @@
+artistcreditedname:
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: artist_credit_name
+  immutable: org.nanotek.beans.csv.ArtistCreditedNameBean
+  baseMap:  
+    artistCreditId: 0
+    position: 1            
+    artistId: 2              
+    artistCreditedName: 3                
+    artistCreditedNameJoinPhrase: 4   
+    

@@ -1,0 +1,11 @@
+releaselabelbean: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: release_label
+  immutable: org.nanotek.beans.csv.ReleaseLabelBean
+  baseMap:     
+    releaseLabelId: 0
+    releaseId: 1
+    labelId: 2
+    releaseLabelNumber: 3
+    lastUpdated: 4
+    

@@ -1,0 +1,14 @@
+mediumbean: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: medium
+  immutable: org.nanotek.beans.csv.MediumBean
+  baseMap:     
+    mediumId: 0
+    releaseId: 1 
+    position: 2
+    mediumFormatId: 3 
+    mediumName: 4 
+    editsPending: 5 
+    lastUpdated: 6 
+    count: 7     
+        

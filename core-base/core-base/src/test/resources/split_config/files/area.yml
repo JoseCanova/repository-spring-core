@@ -1,0 +1,19 @@
+area: 
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+  fileName: area
+  immutable: org.nanotek.beans.csv.AreaBean
+  baseMap:     
+    areaId: 0 
+    gid: 1 
+    areaName: 2 
+    typeId: 3 
+    editsPending: 4 
+    lastUpdated: 5 
+    beginYear: 6 
+    beginMonth: 7 
+    beginDay: 8 
+    endYear: 9 
+    endMonth: 10 
+    endDay: 11
+    ended: 12
+    
