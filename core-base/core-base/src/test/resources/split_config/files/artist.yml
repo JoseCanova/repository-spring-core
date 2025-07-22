@@ -1,25 +1,18 @@
-artist:
+area: 
   fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
-  fileName: artist
-  immutable: org.nanotek.beans.csv.ArtistBean
-  baseMap:
-    artistId: 0
-    gid: 1
-    artistName: 2
-    sortName: 3
-    beginDateYear: 4
-    beginDateMonth: 5
-    beginDateDay: 6
-    endDateYear: 7
-    endDateMonth: 8
-    endDateDay: 9
-    typeId: 10
-    areaId: 11
-    genderId: 12 
-    comment: 13
-    editsPending: 14
-    lastUpdated: 15
-    ended: 16
-    beginAreaId: 17
-    endAreaId: 18
-
+  fileName: area
+  immutable: org.nanotek.beans.csv.AreaBean
+  baseMap:     
+    areaId: 0 
+    gid: 1 
+    areaName: 2 
+    typeId: 3 
+    editsPending: 4 
+    lastUpdated: 5 
+    beginYear: 6 
+    beginMonth: 7 
+    beginDay: 8 
+    endYear: 9 
+    endMonth: 10 
+    endDay: 11
+    ended: 12
