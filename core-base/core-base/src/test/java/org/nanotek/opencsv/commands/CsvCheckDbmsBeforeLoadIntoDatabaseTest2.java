@@ -19,27 +19,13 @@ import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.service.CategorizedCsvStrategies;
 import org.nanotek.opencsv.service.CsvStrategyCategorizer; // Assuming this service exists
+import org.nanotek.opencsv.service.LoadedEntitiesReport;
 import org.nanotek.service.jpa.BrainzPersistenceService; // The attached BrainzPersistenceService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 
 
-class LoadedEntitiesReport{
-	private Class<?> entity;
-	private Long countedEntities;
-	
-	public LoadedEntitiesReport(Class<?> entity, Long countedEntities) {
-		this.entity=entity;
-		this.countedEntities=countedEntities;
-	}
-	public Class<?> entity(){
-		return this.entity;
-	}
-	public Long countedEntities(){
-		return this.countedEntities;
-	}
-}
 /**
  * Purpose of this test:
  * This integration test class is designed to verify the state of entities in the database
@@ -62,22 +48,6 @@ M extends BaseBean<?,?>,B extends BrainzBaseEntity<B>,S extends B> {
 	// Autowire the BrainzPersistenceService for database interaction.
 	@Autowired
 	private BrainzPersistenceService<B> brainzPersistenceService; // Using wildcard as the entity type varies
-
-	/**
-	 * Purpose of this test method:
-	 * This test method aims to check if a particular entity, or a set of entities,
-	 * that would typically be part of a BrainzGraphModel, has already been
-	 * fully loaded and persisted into the database. This is crucial for
-	 * pre-load validation steps, ensuring that the system does not attempt
-	 * to re-process or re-insert data that is already present and complete
-	 * in the RDBMS, thereby optimizing load operations and maintaining data consistency.
-	 */
-	@Test
-	void testIfEntityAlreadyLoaded() {
-		assertNotNull(csvStrategyCategorizer, "CsvStrategyCategorizer should be autowired.");
-		assertNotNull(brainzPersistenceService, "BrainzPersistenceService should be autowired.");
-		// This test method will be populated with the strategy outlined below.
-	}
 
 	/**
 	 * Purpose of this test method:
