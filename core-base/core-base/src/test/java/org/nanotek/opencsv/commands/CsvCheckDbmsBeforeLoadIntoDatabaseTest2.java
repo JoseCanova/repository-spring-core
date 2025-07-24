@@ -4,13 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail; // For demonstration of failure if entity not found
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional; // For querying existence
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.nanotek.AnyBase;
 import org.nanotek.Base;
+import org.nanotek.BaseBean;
 import org.nanotek.BaseEntity;
-import org.nanotek.beans.entity.Area;
 import org.nanotek.beans.entity.BrainzBaseEntity; // Assuming BrainzBaseEntity exists and is a base for your entities
+import org.nanotek.collections.BaseMap;
+import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
 import org.nanotek.opencsv.service.CategorizedCsvStrategies;
 import org.nanotek.opencsv.service.CsvStrategyCategorizer; // Assuming this service exists
 import org.nanotek.service.jpa.BrainzPersistenceService; // The attached BrainzPersistenceService
@@ -18,6 +25,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 
+
+class LoadedEntitiesReport{
+	private Class<?> entity;
+	private Long countedEntities;
+	
+	public LoadedEntitiesReport(Class<?> entity, Long countedEntities) {
+		this.entity=entity;
+		this.countedEntities=countedEntities;
+	}
+	public Class<?> entity(){
+		return this.entity;
+	}
+	public Long countedEntities(){
+		return this.countedEntities;
+	}
+}
 /**
  * Purpose of this test:
  * This integration test class is designed to verify the state of entities in the database
@@ -28,11 +51,14 @@ import org.springframework.data.domain.Example;
  * loads and validating the existing data state.
  */
 @SpringBootTest
-public class CsvCheckDbmsBeforeLoadIntoDatabaseTest2<B extends BrainzBaseEntity<B>,S extends B> {
+public class CsvCheckDbmsBeforeLoadIntoDatabaseTest2<T extends BaseMap<A,P,M> ,
+A  extends AnyBase<A,String> ,
+P   extends AnyBase<P,Integer> ,
+M extends BaseBean<?,?>,B extends BrainzBaseEntity<B>,S extends B> {
 
 	// Autowire the CsvStrategyCategorizer to access categorized CSV processing strategies.
 	@Autowired
-	private CsvStrategyCategorizer<?,?,?,?> csvStrategyCategorizer; // Using wildcards for flexibility
+	private CsvStrategyCategorizer<T,A,P,M> csvStrategyCategorizer; // Using wildcards for flexibility
 
 	// Autowire the BrainzPersistenceService for database interaction.
 	@Autowired
@@ -64,7 +90,7 @@ public class CsvCheckDbmsBeforeLoadIntoDatabaseTest2<B extends BrainzBaseEntity<
 	 * It demonstrates how to link the CSV processing configuration with database existence checks.
 	 */
 	@Test
-	void sketchCheckEntityExistenceUsingStrategy() {
+	void sketchCheckEntitiesExistenceUsingStrategy() {
 		assertNotNull(csvStrategyCategorizer, "CsvStrategyCategorizer must be autowired for this test.");
 		assertNotNull(brainzPersistenceService, "BrainzPersistenceService must be autowired for this test.");
 
@@ -74,58 +100,108 @@ public class CsvCheckDbmsBeforeLoadIntoDatabaseTest2<B extends BrainzBaseEntity<
 		// The exact method to get a specific strategy (e.g., for 'Area' or 'Artist')
 		// would depend on the implementation of CategorizedCsvStrategies.
 		// For sketching, we'll assume we can get a specific strategy's associated BaseBean class.
-		CategorizedCsvStrategies<?,?,?,?> categorizedStrategies = csvStrategyCategorizer.categorizeStrategies();
-		assertNotNull(categorizedStrategies, "CategorizedCsvStrategies should not be null.");
-		System.out.println("Categorized strategies retrieved.");
-
-		// 2. Select a specific strategy to get its associated entity (BaseBean/BrainzBaseEntity).
-		// This part is highly dependent on the CategorizedCsvStrategies implementation.
-		// For demonstration, let's assume there's a method to get a Class<?> associated with a strategy key.
-		// Replace "someEntityKey" with an actual key you expect, e.g., "area", "artist", etc.
-		String targetEntityKey = "area"; // Example: We want to check for an 'Area' entity
-		Class<? extends BaseEntity<?,?>> entityClass = null;
-
-		// --- MOCKING STRATEGY ACCESS ---
-		// In a real scenario, you'd navigate 'categorizedStrategies'
-		// to find the BaseBean Class or an instance.
-		// For this sketch, we'll simulate getting a BrainzBaseEntity class.
-		// You would replace this with actual logic to extract the Class from your strategy.
-			// This is a placeholder. You need to adapt this to how your
-			// CategorizedCsvStrategies actually expose the entity classes.
-			// For example, if you have a strategy for 'Area' and it defines the Area entity class.
-			// Let's assume we're trying to check for a 'BrainzBaseEntity' directly for simplicity.
-			// In a real test, you'd specify a concrete entity like 'Artist.class' or 'Area.class'.
-			entityClass = (Class<? extends BaseEntity<?, ?>>) Area.class; // Example
-		// --- END MOCKING ---
-
-		assertNotNull(entityClass, "Could not determine the entity class from the strategy.");
-		System.out.println("Target entity class identified: " + entityClass.getName());
-
-		// 3. Cast/treat the BaseBean Class as a BrainzBaseEntity for persistence service.
-		// This cast assumes that your BaseBean types used in CSV strategies are
-		// compatible with or extend BrainzBaseEntity.
-		Class<BrainzBaseEntity<?>> brainzEntityClass = (Class<BrainzBaseEntity<?>>) entityClass;
-
-		// 4. Query the RDBMS using BrainzPersistenceService.
-		// To check if an entity is "fully loaded", you might need a specific ID or criteria.
-		// For this sketch, we'll assume we're looking for *any* instance of this entity
-		// or an instance with a known ID to verify basic presence.
-		// In a real scenario, you'd retrieve specific IDs from parsed CSV or a test fixture.
-		Optional<B> entity = (Optional<B>) Base.newInstance(brainzEntityClass);
-		Boolean br = entity.map(ent-> {
-			Long entityIdToCheck = 1L; // Replace with an actual ID you expect to find/check
-			System.out.println("Attempting to query for entity of type " + brainzEntityClass.getSimpleName() + " with ID " + entityIdToCheck);
-//			ent.setId(entityIdToCheck);
-			Example<B> ex = Example.of(ent);
-			long result = brainzPersistenceService.count(ex);
-			System.out.println("✅ Entity " + brainzEntityClass.getSimpleName() + " numerber of entities found " + result + "  in the database.");
-			 return result > 0;
-		}).orElse(false);
-		assertTrue(br);
-		// Example: Check if an entity with ID 1 exists (placeholder ID)
+		CategorizedCsvStrategies<T,A,P,M> categorizedStrategies = csvStrategyCategorizer.categorizeStrategies();
 		
-		// Further assertions can be added here to check if the entity is "fully loaded"
-		// (e.g., checking specific fields, relationships, etc., which would require
-		// more detailed knowledge of the entity's structure and expected state).
+		Map<String , CsvFileItemConcreteStrategy<T,A,P,M> > baseStrategies = categorizedStrategies.basetypeStrategies();
+		
+
+		List<LoadedEntitiesReport> report = baseStrategies
+			.entrySet()	
+			.stream()
+			.map(entry -> {
+				
+							assertNotNull(categorizedStrategies, "CategorizedCsvStrategies should not be null.");
+							System.out.println("Processing strategy for: " + entry.getKey());
+							CsvFileItemConcreteStrategy<T,A,P,M>  strategy = entry.getValue();
+							M baseBean;
+							try {
+								// Instantiate the BaseBean from the strategy's immutable type
+								baseBean = strategy.getImmutable().newInstance();
+							} catch (Exception e) {
+								e.printStackTrace();
+								throw new RuntimeException("Failed to instantiate BaseBean from strategy: " + entry.getKey(), e);
+							}
+							assertNotNull (baseBean, "Instantiated BaseBean should not be null for strategy: " + entry.getKey());
+							
+							// Get the Base Class from the instantiated BaseBean
+							Class<? extends BaseEntity<?,?>> entityClass = (Class<? extends BaseEntity<?, ?>>) baseBean.getBaseClass();
+							assertNotNull(entityClass, "Could not determine the entity class from the strategy for: " + entry.getKey());
+							System.out.println("Target entity class identified for " + entry.getKey() + ": " + entityClass.getName());
+					
+							// 3. Cast/treat the BaseBean Class as a BrainzBaseEntity for persistence service.
+							// This cast assumes that your BaseBean types used in CSV strategies are
+							// compatible with or extend BrainzBaseEntity.
+							// Note: This unchecked cast needs careful handling in real production code.
+							Class<BrainzBaseEntity<?>> brainzEntityClass = (Class<BrainzBaseEntity<?>>) entityClass;
+					
+							// 4. Query the RDBMS using BrainzPersistenceService.
+							// We're performing a count based on a newly instantiated entity.
+							// The count(Example) will typically count all entities of that type if the example is empty,
+							// or match by ID if an ID is set on the example.
+							Optional<B> entityInstance = (Optional<B>) Base.newInstance(brainzEntityClass);
+							
+							// Using map for Optional processing
+							Optional<LoadedEntitiesReport> currentReport = entityInstance.map(ent-> {
+								System.out.println("Attempting to count entities for type " + brainzEntityClass.getSimpleName());
+					
+								// Example: If you need to count based on specific criteria, set them on 'ent' here.
+								// e.g., ent.setName("SpecificName");
+								
+								// Create an Example from the (potentially empty or partially filled) entity instance
+								Example<B> ex = Example.of(ent);
+								
+								// Perform the count operation
+								long result = brainzPersistenceService.count(ex);
+								System.out.println("✅ Entity " + brainzEntityClass.getSimpleName() + " number of entities found: " + result + " in the database.");
+								
+								// Return a new LoadedEntitiesReport
+								return new LoadedEntitiesReport(brainzEntityClass, result);
+							});
+							
+							// Assert that the Optional contains a value (meaning Base.newInstance and subsequent map operation succeeded)
+							assertTrue(currentReport.isPresent(), "Report for " + entry.getKey() + " should be present.");
+							return currentReport.get();
+			}).collect(Collectors.toList());
+				
+		// --- Report Generation and Verification ---
+		System.out.println("\n--- Entity Loading Report ---");
+		List<Class<?>> notLoadedEntities = new ArrayList<>();
+
+		if (report.isEmpty()) {
+			System.out.println("No entities were processed for the report.");
+		} else {
+			for (LoadedEntitiesReport item : report) {
+				String entityName = item.entity().getSimpleName();
+				Long count = item.countedEntities();
+
+				if (count > 0) {
+					System.out.println(String.format("✅ %-30s: %d entities loaded.", entityName, count));
+				} else {
+					System.out.println(String.format("❌ %-30s: NOT LOADED (0 entities found).", entityName));
+					notLoadedEntities.add(item.entity());
+				}
+			}
+		}
+
+		System.out.println("\n--- Summary of Not Loaded Entities ---");
+		if (notLoadedEntities.isEmpty()) {
+			System.out.println("All processed base entities appear to have been loaded into the database.");
+		} else {
+			System.out.println("The following base entities were NOT found in the database:");
+			for (Class<?> entityClass : notLoadedEntities) {
+				System.out.println("  - " + entityClass.getName());
+			}
+			// Optional: Add an assertion here if you expect all entities to be loaded
+			// Or if you expect specific entities NOT to be loaded for a controlled test failure
+			// Example: fail("Some entities were not loaded: " + notLoadedEntities.stream().map(Class::getSimpleName).collect(Collectors.joining(", ")));
+		}
+
+		System.out.println("\n--- End of Report ---");
+
+		// Final assertion for the test method itself
+		// You might want to assert that the 'report' is not empty,
+		// or that a minimum number of entities were found, depending on test context.
+		assertTrue(!report.isEmpty(), "The loaded entities report should not be empty.");
+		// Example: assertTrue(notLoadedEntities.isEmpty(), "Expected all base entities to be loaded.");
 	}
 }
