@@ -2,7 +2,6 @@ package org.nanotek.opencsv.commands;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail; // For demonstration of failure if entity not found
 
 import java.util.ArrayList;
 import java.util.List;
