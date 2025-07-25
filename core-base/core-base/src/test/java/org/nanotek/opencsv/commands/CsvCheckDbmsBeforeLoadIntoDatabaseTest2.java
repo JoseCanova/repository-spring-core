@@ -141,7 +141,7 @@ M extends BaseBean<?,?>,B extends BrainzBaseEntity<B>,S extends B> {
 		} else {
 			for (LoadedEntitiesReport item : report) {
 				String entityName = item.entity().getSimpleName();
-				Long count = item.countedEntities();
+				Long count = item.value();
 
 				if (count > 0) {
 					System.out.println(String.format("✅ %-30s: %d entities loaded.", entityName, count));

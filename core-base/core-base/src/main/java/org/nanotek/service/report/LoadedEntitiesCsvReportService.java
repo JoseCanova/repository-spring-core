@@ -27,7 +27,7 @@ public class LoadedEntitiesCsvReportService {
 	private String convertToCsv(List<LoadedEntitiesReport> theList) {
 		return  theList
 					.stream()
-					.map(er -> er.entity().getSimpleName().concat("\t").concat(er.countedEntities().toString()))
+					.map(er -> er.entity().getSimpleName().concat("\t").concat(er.value().toString()))
 					.reduce((a,b) -> a.concat("\n").concat(b)).orElse("");
 	}
 }

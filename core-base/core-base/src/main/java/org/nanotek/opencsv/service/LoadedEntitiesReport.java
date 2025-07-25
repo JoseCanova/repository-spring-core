@@ -1,6 +1,11 @@
 package org.nanotek.opencsv.service;
 
-public class LoadedEntitiesReport{
+import org.nanotek.LoadedEntityBean;
+
+public class LoadedEntitiesReport implements 
+EntityAccessor<Class<?>> ,EntityValueAccessor<Long> , LoadedEntityBean<LoadedEntitiesReport>{
+	
+	private static final long serialVersionUID = -5090714209568802878L;
 	
 	private Class<?> entity;
 	private Long countedEntities;
@@ -12,7 +17,7 @@ public class LoadedEntitiesReport{
 	public Class<?> entity(){
 		return this.entity;
 	}
-	public Long countedEntities(){
+	public Long value(){
 		return this.countedEntities;
 	}
 }
