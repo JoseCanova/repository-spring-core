@@ -3,7 +3,7 @@ package org.nanotek.opencsv.service;
 import org.nanotek.LoadedEntityBean;
 
 public class LoadedEntitiesReport implements 
-EntityAccessor<Class<?>> ,EntityValueAccessor<Long> , LoadedEntityBean<LoadedEntitiesReport>{
+EntityClassAccessor<Class<?>> ,EntityValueAccessor<Long> , LoadedEntityBean<LoadedEntitiesReport>{
 	
 	private static final long serialVersionUID = -5090714209568802878L;
 	

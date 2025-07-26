@@ -1,7 +1,7 @@
 package org.nanotek.opencsv.service;
 
 @FunctionalInterface
-public interface EntityAccessor<T> {
+public interface EntityClassAccessor<T> {
 
 	T entity();
 }
