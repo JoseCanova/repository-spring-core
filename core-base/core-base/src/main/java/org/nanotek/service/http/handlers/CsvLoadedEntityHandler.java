@@ -1,11 +1,12 @@
 package org.nanotek.service.http.handlers;
 
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import javax.validation.constraints.NotNull;
 
 import org.nanotek.BaseException;
 import org.nanotek.opencsv.service.LoadedEntitiesReport;
@@ -14,7 +15,9 @@ import org.nanotek.service.http.PresentationHandler;
 import org.nanotek.service.report.LoadEntityReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +55,7 @@ public class CsvLoadedEntityHandler {
 	 * @param loadEntityReport1 The service for loading entity reports.
 	 */
 	@Autowired
-	public CsvLoadedEntityHandler(LoadEntityReport<?,?,?,?> loadEntityReport1) {
+	public CsvLoadedEntityHandler(@NotNull LoadEntityReport<?,?,?,?> loadEntityReport1) {
 		this.loadEntityReport = loadEntityReport1;
 	}
 	
@@ -69,10 +72,11 @@ public class CsvLoadedEntityHandler {
 	 * {@link LoadedEntitiesReport} for the specified entity key.
 	 */
 	@GetMapping(path = "/tasks/{entityKey}")
-	public Callable<LoadedEntitiesReport> tasks(@PathVariable(name = "entityKey") String entityKey){
+	public ResponseEntity<LoadedEntitiesReport> tasks(@PathVariable(name = "entityKey") String entityKey){
 		// The lambda for Callable is executed by a Spring-managed task executor.
 		// handler.get() (and thus handleRequest()) will run in that separate thread.
-		return () -> handler.apply(entityKey);
+		LoadedEntitiesReport report = handler.apply(entityKey);
+		return new ResponseEntity<LoadedEntitiesReport> (report, HttpStatus.OK);
 	}
 	
 	/**
@@ -98,23 +102,24 @@ public class CsvLoadedEntityHandler {
 		// The key 'entityKey' passed here from the URL is effectively ignored for the actual report retrieval.
 		loadEntityReport.loadEntityReport(entityKey); 
 		
-		LoadedEntitiesReport report;
-		
 		// Wait for the asynchronous operation to complete and retrieve the result.
 		// A timeout of 10 seconds is set to prevent indefinite waiting.
 		// Current logic uses a hardcoded key "artistcredit" for the actual report retrieval.
 		try {
 			// This call uses a hardcoded entity key, "artistcredit", overriding the @PathVariable value.
-			CompletableFuture<LoadedEntitiesReport> future = loadEntityReport.loadEntityReport("artistcredit");
-			report = future.get(10, TimeUnit.SECONDS);
+			CompletableFuture<LoadedEntitiesReport> future = loadEntityReport.loadEntityReport(entityKey);
+			LoadedEntitiesReport report =  future.get(10, TimeUnit.SECONDS);
+			assert(report !=null);
+			System.err.println(report);
+			return report;
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			// Print stack trace for debugging purposes and rethrow as a custom BaseException.
 			e.printStackTrace();
 			throw new BaseException(e);
 		}
-
+		
 		// Return the report, ensuring it's not null. If it somehow becomes null, throw an exception.
-		return Optional.ofNullable(report).orElseThrow(() -> new BaseException("LoadedEntitiesReport was null."));
+//		return Optional.ofNullable(report).orElseThrow(() -> new BaseException("LoadedEntitiesReport was null."));
 	}
 
 }
