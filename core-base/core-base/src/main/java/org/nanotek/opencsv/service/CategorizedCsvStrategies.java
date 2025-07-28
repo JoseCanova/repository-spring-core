@@ -36,18 +36,18 @@ implements CategorizedCsvStrategiesAccessor<T,S,P,M> {
 
     @Override
     public Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> basetypeStrategies(){
-        // Using Optional.orElseThrow() to ensure non-null return, as per @NotNull in constructor
         return Optional.ofNullable(basetypeStrategies).orElseThrow(() -> new IllegalStateException("Basetype strategies map is null."));
     }
 
     @Override
     public Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> regularStrategies(){
-        // Using Optional.orElseThrow() to ensure non-null return
         return Optional.ofNullable(regularStrategies).orElseThrow(() -> new IllegalStateException("Regular strategies map is null."));
     }
 
 	@Override
 	public Map<String, CsvFileItemConcreteStrategy<T, S, P, M>> allStrategies() {
+		Optional.ofNullable(basetypeStrategies).orElseThrow(() -> new IllegalStateException("Basetype strategies map is null."));
+		Optional.ofNullable(regularStrategies).orElseThrow(() -> new IllegalStateException("Regular strategies map is null."));
 		return   Stream.concat(basetypeStrategies.entrySet().stream(), regularStrategies.entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
