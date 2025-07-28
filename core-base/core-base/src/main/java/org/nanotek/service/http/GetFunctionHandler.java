@@ -5,7 +5,7 @@ import java.util.function.Function;
 /**
  * {@code GetFunctionHandler} is a functional interface designed to abstract the logic
  * for HTTP GET methods that require input arguments and produce a result.
- * It extends {@link java.util.function.Function Function&lt;T, R&gt;}
+ * It extends {@link java.util.function.Function Function&slt;T, R&gt;}
  * to represent a clear transformation from an input of type {@code T} to an output of type {@code R}.
  *
  * <p>This interface is a specialized form of a "handler" within the presentation layer,
