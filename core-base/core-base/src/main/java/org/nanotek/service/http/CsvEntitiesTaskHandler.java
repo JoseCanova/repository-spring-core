@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,7 +32,7 @@ public class CsvEntitiesTaskHandler {
 	}
 
 	@GetMapping(path = "/tasks")
-	public Callable<List<?>> tasks(){ // Changed return type to Callable<ResponseEntity<List<?>>>
+	public Callable<List<?>> tasks(){ // Changed return type to Callable<List<?>>
 		// The lambda for Callable is executed by a Spring-managed task executor.
 		// handler.get() (and thus generateTasklist()) will run in that separate thread.
 		return () -> handler.get();

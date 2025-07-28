@@ -1,21 +1,9 @@
 package org.nanotek;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.concurrent.FutureTask;
-
-import org.apache.catalina.core.ApplicationContext;
-import org.nanotek.Priority.PriorityComparator;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.entities.metamodel.BrainzMetaModelUtil;
 import org.nanotek.graph.brainz.MusicBrainzKnowledgeGraph;
-import org.nanotek.opencsv.CsvBaseProcessor;
-import org.nanotek.opencsv.CsvFileProcessingPriority;
 import org.nanotek.opencsv.CsvResult;
-import org.nanotek.opencsv.file.CsvBaseConfig;
-import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -35,6 +23,7 @@ import org.springframework.context.ApplicationContextAware;
 //import org.springframework.integration.config.EnableIntegration;
 //import org.springframework.integration.config.EnableIntegrationManagement;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
@@ -42,6 +31,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 //@IntegrationComponentScan
 //@EnableIntegrationManagement
 @EnableAutoConfiguration(exclude={RabbitAutoConfiguration.class})
+@EnableAsync(proxyTargetClass=true)
 //@EnableJdbcRepositories(basePackages = {"org.nanotek.repository.jdbc"})
 //@EnableJpaRepositories(basePackages = {"org.nanotek.repository.jpa"})
 public class App 	<T extends BaseMap<S,P,M> , 
