@@ -48,7 +48,7 @@ implements CategorizedCsvStrategiesAccessor<T,S,P,M> {
 	public Map<String, CsvFileItemConcreteStrategy<T, S, P, M>> allStrategies() {
 		Optional.ofNullable(basetypeStrategies).orElseThrow(() -> new IllegalStateException("Basetype strategies map is null."));
 		Optional.ofNullable(regularStrategies).orElseThrow(() -> new IllegalStateException("Regular strategies map is null."));
-		return   Stream.concat(basetypeStrategies.entrySet().stream(), regularStrategies.entrySet().stream())
+		return   Stream.concat(basetypeStrategies.entrySet().parallelStream(), regularStrategies.entrySet().parallelStream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
