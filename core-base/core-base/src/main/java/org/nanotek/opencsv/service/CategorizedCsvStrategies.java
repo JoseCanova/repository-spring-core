@@ -1,14 +1,16 @@
 package org.nanotek.opencsv.service;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.constraints.NotNull; // Assuming this is the intended import
+
 import org.nanotek.AnyBase;
 import org.nanotek.BaseBean;
 import org.nanotek.collections.BaseMap;
 import org.nanotek.opencsv.file.CsvFileItemConcreteStrategy;
-
-import javax.validation.constraints.NotNull; // Assuming this is the intended import
-
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * A concrete class to hold the categorized CSV strategies.
@@ -43,5 +45,15 @@ implements CategorizedCsvStrategiesAccessor<T,S,P,M> {
         // Using Optional.orElseThrow() to ensure non-null return
         return Optional.ofNullable(regularStrategies).orElseThrow(() -> new IllegalStateException("Regular strategies map is null."));
     }
+
+	@Override
+	public Map<String, CsvFileItemConcreteStrategy<T, S, P, M>> allStrategies() {
+		return   Stream.concat(basetypeStrategies.entrySet().stream(), regularStrategies.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> newValue // Merge function: if key duplicates, take the newValue (from map2)
+                ));
+	}
 
 }

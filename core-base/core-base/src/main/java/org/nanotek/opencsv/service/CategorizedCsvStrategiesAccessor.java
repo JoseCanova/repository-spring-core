@@ -18,5 +18,6 @@ M extends BaseBean<?,?>> {
 
     Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> basetypeStrategies();
     Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> regularStrategies();
+    Map<String, CsvFileItemConcreteStrategy<T,S,P,M>> allStrategies();
 
 }
