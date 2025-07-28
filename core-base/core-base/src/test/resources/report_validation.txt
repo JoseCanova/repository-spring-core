@@ -1,0 +1,78 @@
+--- Starting recursive validation of YAML files in './split_config/files2' ---
+--- Using validation script: './validate_file_mappinglayout4.sh' ---
+
+Processing file: './split_config/files2/artistaliastype.yml' (Block: 'artistaliastype')
+-----------------------------------------------------
+--- Processing YAML mapping for CSV files ---
+Filtering for block: [artistaliastype]
+
+Mapping for [artistaliastype]:
+fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+fileName: artist_alias_type
+  baseMap:
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5
+absoluteFileLocation: /mnt/wwn-part2/musicbrainz/mbdump/artist_alias_type
+
+--- Initiating CSV validation for block: [artistaliastype] ---
+Validation successful for CSV file: '/mnt/wwn-part2/musicbrainz/mbdump/artist_alias_type' (Block: 'artistaliastype'). All lines conform to the expected column count.
+Validation for 'artistaliastype' SUCCEEDED.
+
+Processing file: './split_config/files2/area.yml' (Block: 'area')
+-----------------------------------------------------
+--- Processing YAML mapping for CSV files ---
+Filtering for block: [area]
+
+Mapping for [area]:
+fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+fileName: area
+  baseMap:
+    areaId: 0 
+    gid: 1 
+    areaName: 2 
+    typeId: 3 
+    editsPending: 4 
+    lastUpdated: 5 
+    beginYear: 6 
+    beginMonth: 7 
+    beginDay: 8 
+    endYear: 9 
+    endMonth: 10 
+    endDay: 11
+    ended: 12
+absoluteFileLocation: /mnt/wwn-part2/musicbrainz/mbdump/area
+
+--- Initiating CSV validation for block: [area] ---
+Validation failed for CSV file: '/mnt/wwn-part2/musicbrainz/mbdump/area' (Block: 'area'). Please check the error message above.
+Validation for 'area' FAILED. (See errors above)
+
+Processing file: './split_config/files2/areatype.yml' (Block: 'areatype')
+-----------------------------------------------------
+--- Processing YAML mapping for CSV files ---
+Filtering for block: [areatype]
+
+Mapping for [areatype]:
+fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
+fileName: area_type
+  baseMap:
+    typeId: 0
+    typeName: 1
+    parent: 2
+    childOrder: 3
+    description: 4
+    gid: 5 
+absoluteFileLocation: /mnt/wwn-part2/musicbrainz/mbdump/area_type
+
+--- Initiating CSV validation for block: [areatype] ---
+Validation successful for CSV file: '/mnt/wwn-part2/musicbrainz/mbdump/area_type' (Block: 'areatype'). All lines conform to the expected column count.
+Validation for 'areatype' SUCCEEDED.
+
+--- Validation Summary Report ---
+Total YAML files processed: 0
+Successful validations:     0
+Failed validations:         0
+--- Report End ---

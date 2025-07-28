@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch; // NEW: Import asyncDispatch
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;  // NEW: Import request matchers
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult; // NEW: Import MvcResult
 
 // Configure the full Spring Boot context for the test.
 // This requires all dependencies (CsvEntitiesTaskReport, CsvTaskOutcomeReportService,
@@ -35,14 +38,20 @@ public class CsvEntitiesTaskHandlerTest {
 
     @Test
     void testGetTasksEndpointReturnsOkAndJsonStructure() throws Exception {
-        // Perform a GET request to the /report/tasks endpoint
-        mockMvc.perform(get("/report/tasks")
-                .accept(MediaType.APPLICATION_JSON_VALUE)) // Expect JSON response
-                
-                // Assert that the HTTP status is OK (200)
+        // Step 1: Perform the initial GET request and assert that async processing has started.
+        // Capture the MvcResult to dispatch later.
+        MvcResult mvcResult = mockMvc.perform(get("/report/tasks")
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(request().asyncStarted()) // Assert that the async request has started
+                // .andExpect(request().asyncResult(notNullValue())) // Optional: assert that async result is not null if you want to check the raw result before dispatch
+                .andReturn(); // Return the MvcResult for async dispatch
+
+        // Step 2: Perform an asynchronous dispatch to complete the request and apply final assertions.
+        mockMvc.perform(asyncDispatch(mvcResult))
+                // Assert that the HTTP status is OK (200) after async completion
                 .andExpect(status().isOk())
                 
-                // Assert that the content type is application/json
+                // Assert that the content type is application/json after async completion
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 
                 // Assert that the root element is a JSON array

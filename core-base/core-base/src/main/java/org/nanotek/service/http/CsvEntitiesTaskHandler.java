@@ -1,9 +1,7 @@
 package org.nanotek.service.http;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
+import java.util.concurrent.Callable; // Import Callable
 
 import org.nanotek.service.report.CsvEntitiesTaskReport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @PresentationHandler
 public class CsvEntitiesTaskHandler {
 
-	
+	// GetHandler still works as a Supplier
 	private GetHandler<List<?>> handler = () -> handleRequest();
 	
-	private 
-	CsvEntitiesTaskReport csvEntitiesTaskReport;
+	private CsvEntitiesTaskReport csvEntitiesTaskReport;
 	
 	@Autowired
 	public CsvEntitiesTaskHandler(CsvEntitiesTaskReport csvEntitiesTaskHandler2) {
@@ -31,13 +28,15 @@ public class CsvEntitiesTaskHandler {
 	}
 	
 	private List<?> handleRequest() {
+		// This method will now be called within the Callable's execution thread
 		return csvEntitiesTaskReport.generateTasklist();
 	}
 
 	@GetMapping(path = "/tasks")
-	public ResponseEntity<List<?>> tasks(){
-		return new ResponseEntity<List<?>>(handler.get(),HttpStatus.OK);
+	public Callable<List<?>> tasks(){ // Changed return type to Callable<ResponseEntity<List<?>>>
+		// The lambda for Callable is executed by a Spring-managed task executor.
+		// handler.get() (and thus generateTasklist()) will run in that separate thread.
+		return () -> handler.get();
 	}
-	
 	
 }
