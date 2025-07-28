@@ -21,9 +21,9 @@ S  extends AnyBase<S,String> ,
 P   extends AnyBase<P,Integer> ,
 M extends BaseBean<?,?>> {
 
-	Presentable<String , LoadedEntitiesReport> presenter = (entityKey) -> returnLoadEntityReport(entityKey);
+	private Presentable<String , LoadedEntitiesReport> presenter = (entityKey) -> returnLoadEntityReport(entityKey);
 
-	private @NotNull @Autowired 
+	private @NotNull 
 	CsvStrategyCategorizer<T,S,P,M> csvStrategyCategorizer;
 
 	private @NotNull DatabaseEntityLoadReportService<T,S,P,M, ?, ?> databaseEntityLoadReportService;
