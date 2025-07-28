@@ -72,11 +72,10 @@ public class CsvLoadedEntityHandler {
 	 * {@link LoadedEntitiesReport} for the specified entity key.
 	 */
 	@GetMapping(path = "/tasks/{entityKey}")
-	public ResponseEntity<LoadedEntitiesReport> tasks(@PathVariable(name = "entityKey") String entityKey){
+	public Callable<LoadedEntitiesReport> tasks(@PathVariable(name = "entityKey") String entityKey){
 		// The lambda for Callable is executed by a Spring-managed task executor.
 		// handler.get() (and thus handleRequest()) will run in that separate thread.
-		LoadedEntitiesReport report = handler.apply(entityKey);
-		return new ResponseEntity<LoadedEntitiesReport> (report, HttpStatus.OK);
+		return ()-> handler.apply(entityKey);
 	}
 	
 	/**

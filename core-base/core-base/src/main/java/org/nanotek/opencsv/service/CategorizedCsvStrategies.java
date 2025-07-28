@@ -48,11 +48,10 @@ implements CategorizedCsvStrategiesAccessor<T,S,P,M> {
 	public Map<String, CsvFileItemConcreteStrategy<T, S, P, M>> allStrategies() {
 		Optional.ofNullable(basetypeStrategies).orElseThrow(() -> new IllegalStateException("Basetype strategies map is null."));
 		Optional.ofNullable(regularStrategies).orElseThrow(() -> new IllegalStateException("Regular strategies map is null."));
-		return   Stream.concat(basetypeStrategies.entrySet().parallelStream(), regularStrategies.entrySet().parallelStream())
+		return   Stream.concat(basetypeStrategies.entrySet().stream(), regularStrategies.entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (oldValue, newValue) -> newValue // Merge function: if key duplicates, take the newValue (from map2)
+                        Map.Entry::getValue
                 ));
 	}
 

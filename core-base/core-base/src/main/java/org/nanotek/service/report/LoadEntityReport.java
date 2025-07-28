@@ -46,7 +46,7 @@ M extends BaseBean<?,?>> {
 		CsvFileItemConcreteStrategy<T,S,P,M> strategy = strategies.get(entityKey);
 		M baseBean = Base.newInstance(strategy.getImmutable()).orElseThrow();
 		Class<?> baseClass = baseBean.getBaseClass();
-		return databaseEntityLoadReportService.generateLoadReport().parallelStream().filter(c -> c.entity().equals(baseClass)).findFirst().orElseThrow();
+		return databaseEntityLoadReportService.generateLoadReport(strategy);
 
 	}
 

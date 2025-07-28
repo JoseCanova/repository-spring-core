@@ -135,6 +135,10 @@ M extends BaseBean<?,B>,B extends BrainzBaseEntity<B>,S extends B> {
                  .collect(Collectors.toList());
      }
      
+     public LoadedEntitiesReport generateLoadReport(CsvFileItemConcreteStrategy<T,A,P,M> strategy) { 
+    	 return collectStrategyLoadResult(strategy).orElseThrow();
+     }
+     
     /**
      * Collects the load result for a given CSV file item strategy by dynamically
      * instantiating the associated {@code BaseBean} and {@code BrainzBaseEntity},
