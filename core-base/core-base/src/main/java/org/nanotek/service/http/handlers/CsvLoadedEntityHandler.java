@@ -97,10 +97,6 @@ public class CsvLoadedEntityHandler {
 	 * such as InterruptedException, ExecutionException, or TimeoutException.
 	 */
 	private LoadedEntitiesReport handleRequest(String entityKey) {
-		// Potential issue: The following line calls the service but its result is not used.
-		// The key 'entityKey' passed here from the URL is effectively ignored for the actual report retrieval.
-		loadEntityReport.loadEntityReport(entityKey); 
-		
 		// Wait for the asynchronous operation to complete and retrieve the result.
 		// A timeout of 10 seconds is set to prevent indefinite waiting.
 		// Current logic uses a hardcoded key "artistcredit" for the actual report retrieval.
