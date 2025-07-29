@@ -44,8 +44,6 @@ M extends BaseBean<?,?>> {
 	private LoadedEntitiesReport returnLoadEntityReport(String entityKey) {
 		Map<String , CsvFileItemConcreteStrategy<T,S,P,M>> strategies = csvStrategyCategorizer.categorizeStrategies().allStrategies();
 		CsvFileItemConcreteStrategy<T,S,P,M> strategy = strategies.get(entityKey);
-		M baseBean = Base.newInstance(strategy.getImmutable()).orElseThrow();
-		Class<?> baseClass = baseBean.getBaseClass();
 		return databaseEntityLoadReportService.generateLoadReport(strategy);
 
 	}

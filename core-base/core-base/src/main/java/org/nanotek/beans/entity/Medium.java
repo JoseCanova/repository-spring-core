@@ -1,6 +1,5 @@
 package org.nanotek.beans.entity;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
