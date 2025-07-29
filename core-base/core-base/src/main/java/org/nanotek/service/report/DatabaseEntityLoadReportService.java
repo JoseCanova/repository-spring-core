@@ -1,10 +1,10 @@
 package org.nanotek.service.report;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional; // Added for completeness, if used in service methods
+import java.util.function.BiFunction;
 import java.util.stream.Collectors; // Added for completeness, if used in service methods
 
 import javax.validation.constraints.NotNull;
@@ -66,6 +66,8 @@ M extends BaseBean<?,B>,B extends BrainzBaseEntity<B>,S extends B> {
 		// Autowire the BrainzPersistenceService for database interaction.
 		// Using field injection for @Autowired
 		private BrainzPersistenceService<B> brainzPersistenceService; 
+
+	    private BiFunction<Class<?>, Long, LoadedEntitiesReport> reportFactory = LoadedEntitiesReport::new;
 
 		/**
 		 * Constructs a new {@code DatabaseEntityLoadReportService} with the necessary dependencies.
@@ -148,7 +150,7 @@ M extends BaseBean<?,B>,B extends BrainzBaseEntity<B>,S extends B> {
      * @return An {@link Optional} containing a {@link LoadedEntitiesReport} if the entity
      * class can be instantiated and counted, otherwise an empty Optional.
      */
-     @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	private Optional<LoadedEntitiesReport> collectStrategyLoadResult(CsvFileItemConcreteStrategy<T, A, P, M> strategy) {
 			Class<M> baseBeanClass = strategy.getImmutable();
 			Optional<M> obaseBeanInstance = Base.<M>newInstance(baseBeanClass);
@@ -158,7 +160,7 @@ M extends BaseBean<?,B>,B extends BrainzBaseEntity<B>,S extends B> {
 					Class<? extends B> baseEntityClass = baseBean.getBaseClass();
 					Optional<S> oemptyBase = (Optional<S>) Base.newInstance(baseEntityClass); // Cast might be unsafe without proper type checks
 					Optional<Long> oresult =  countEntitiesByType(oemptyBase);
-					return oresult.map(or ->new LoadedEntitiesReport(baseEntityClass, or)).orElseThrow();
+					return oresult.map(or -> reportFactory.apply(baseEntityClass, or)).orElseThrow();
 				});
 			}
 

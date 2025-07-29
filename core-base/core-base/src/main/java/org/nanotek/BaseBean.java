@@ -17,7 +17,10 @@ import org.nanotek.beans.PropertyDescriptor;
 import org.nanotek.beans.csv.ArtistBean;
 import org.nanotek.proxy.ProxyBase;
 
-public  interface BaseBean<K extends ImmutableBase<K,ID> , ID extends IdBase<?,?>> extends ImmutableBase<K,ID> , MutatorSupport<K>,Configurable<ID>
+public  interface BaseBean<K extends ImmutableBase<K,ID> , 
+ID extends 
+IdBase<?,?>> 
+extends ImmutableBase<K,ID> , MutatorSupport<K>,Configurable<ID>
 {
 
 	public static enum METHOD_TYPE { 
