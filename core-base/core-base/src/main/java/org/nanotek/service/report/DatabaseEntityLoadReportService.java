@@ -148,14 +148,18 @@ M extends BaseBean<?,B>,B extends BrainzBaseEntity<B>,S extends B> {
      * @return An {@link Optional} containing a {@link LoadedEntitiesReport} if the entity
      * class can be instantiated and counted, otherwise an empty Optional.
      */
-     private Optional<LoadedEntitiesReport> collectStrategyLoadResult(CsvFileItemConcreteStrategy<T, A, P, M> strategy) {
+     @SuppressWarnings("unchecked")
+	private Optional<LoadedEntitiesReport> collectStrategyLoadResult(CsvFileItemConcreteStrategy<T, A, P, M> strategy) {
 			Class<M> baseBeanClass = strategy.getImmutable();
 			Optional<M> obaseBeanInstance = Base.<M>newInstance(baseBeanClass);
 			// Assuming getBaseClass() returns Class<? extends BrainzBaseEntity<B>>
-			Class<? extends B> baseEntityClass = obaseBeanInstance.get().getBaseClass(); 
-			Optional<S> oemptyBase = (Optional<S>) Base.newInstance(baseEntityClass); // Cast might be unsafe without proper type checks
-			Optional<Long> oresult =  countEntitiesByType(oemptyBase);
-			return oresult.map(or ->new LoadedEntitiesReport(baseEntityClass, or));
+				return obaseBeanInstance
+				.map(baseBean -> {
+					Class<? extends B> baseEntityClass = baseBean.getBaseClass();
+					Optional<S> oemptyBase = (Optional<S>) Base.newInstance(baseEntityClass); // Cast might be unsafe without proper type checks
+					Optional<Long> oresult =  countEntitiesByType(oemptyBase);
+					return oresult.map(or ->new LoadedEntitiesReport(baseEntityClass, or)).orElseThrow();
+				});
 			}
 
     /**
