@@ -52,21 +52,19 @@ R extends CsvResult<?,?>> {
      * @param <R> The type parameter for CsvResult in CsvBaseParserProcessor.
      * @param processor The specific {@link CsvBaseParserProcessor} instance
      * that this thread will monitor and retrieve tasks from.
+     * @return 
      */
     public
-    void startProcessorThread(ListenableFutureTask<R> listenableFutureTask) {
+    R startProcessorThread(ListenableFutureTask<R> listenableFutureTask) {
 
+        R result = null; // Initialize to null
     	
     	listenableFutureTask.addCallback(callBack);
     	serviceTaskExecutor.submit(listenableFutureTask);
-        // Create a new Thread using a lambda expression for its run() method.
-        Thread processingThread = new Thread(() -> {
         	
-            R result = null; // Initialize to null
 
             try {
                 // Loop to continuously get and process tasks
-                do {
                 	result = listenableFutureTask.get();
                 	if (result !=null)
                 		System.err.println("result " + result.toString());
@@ -76,14 +74,11 @@ R extends CsvResult<?,?>> {
                         // Restore the interrupted status and break out of the loop
                         Thread.currentThread().interrupt(); 
                         log.warn("Monitoring thread for processor {} was interrupted during sleep. Exiting loop.", result.getClass().getName());
-                        break; 
-                    }
+                  }
 
                 // Continue as long as the processor reports itself as active AND
                 // a task was successfully retrieved (futureTask is not null) AND
                 // the result of the task (once completed) is not null (indicating content)
-                } while (result != null);
-
             } catch (Exception e) {
                 log.error("Monitoring thread for processor {} encountered an error: {}. Thread will terminate.", 
                 		listenableFutureTask.getClass().getName(), e.getMessage(), e);
@@ -93,10 +88,7 @@ R extends CsvResult<?,?>> {
                 // If you need to propagate errors, consider using an uncaught exception handler
                 // or returning a status. For this scenario, logging is typically sufficient.
             }
-        });
 
-        processingThread.setDaemon(true); // Set as a daemon thread so it won't prevent JVM shutdown
-        processingThread.start(); // Start the thread
-        log.info("Monitoring thread '{}' launched for processor: {}", processingThread.getName(), listenableFutureTask.getClass().getName());
+        return result;
     }
 }

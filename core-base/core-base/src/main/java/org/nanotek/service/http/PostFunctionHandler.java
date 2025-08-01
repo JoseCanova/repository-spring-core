@@ -2,6 +2,8 @@ package org.nanotek.service.http;
 
 import java.util.function.Function;
 
+import org.nanotek.TagInterface;
+
 /**
  * {@code PostFunctionHandler} is a functional interface that abstracts the logic
  * for HTTP POST methods. It extends {@link java.util.function.Function Function&lt;T, R&gt;}
@@ -20,6 +22,8 @@ import java.util.function.Function;
  * @see org.nanotek.service.http.PresentationHandler
  * @see java.util.function.Function
  */
+@TagInterface
+@FunctionalInterface
 public interface PostFunctionHandler<T, R> extends Function<T, R> {
     // The apply(T t) method is inherited from Function<T, R>
 }

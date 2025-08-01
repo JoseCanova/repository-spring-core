@@ -18,7 +18,7 @@ import org.nanotek.ImmutableBase;
 // import org.nanotek.ProcessorBase; // No longer implementing ProcessorBase
 import org.nanotek.ValueBase;
 import org.nanotek.collections.BaseMap;
-import org.nanotek.opencsv.task.CsvLoggerProcessorCallBack;
+import org.nanotek.opencsv.task.CsvProcessorCallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -53,7 +53,7 @@ implements Base<R> ,  ApplicationContextAware { // Removed ProcessorBase<R>
 
 	@Autowired
 //	@Qualifier("CsvProcessorCallBack") // Keeping the qualifier as it was in the original snippet.
-	public CsvLoggerProcessorCallBack<R,?> csvProcessorCallBack;
+	public CsvProcessorCallBack<R,?> csvProcessorCallBack;
 
 	ApplicationContext applicationContext;
 
@@ -104,7 +104,6 @@ implements Base<R> ,  ApplicationContextAware { // Removed ProcessorBase<R>
 				.entrySet()
 				.stream()
 				.map(ks ->{ // ks is an Entry<String, CsvBaseParser>
-					
 					final CsvBaseParser<T,S,P,M> taskParser = ks.getValue();
 					final Callable<R> call = new ResultCallable(taskParser);
 					final ListenableFutureTask<R> ar = new ListenableFutureTask<R>(call);

@@ -59,14 +59,14 @@ R extends CsvResult<?,?>> {
      * These tasks are obtained from the CsvParsingTaskProvider.
      * @return A Map where keys are parser names (String) and values are ListenableFuture instances.
      */
-    public Map<String, ListenableFuture<R>> getRegularTasks () { 
+    public Map<String, ListenableFutureTask<R>> getRegularTasks () { 
     	return csvStrategyCategorizer
     	.categorizeStrategies()
     	.regularStrategies() // Assumes CsvStrategyCategorizer.CategorizedCsvStrategies has this method
     	.keySet()
     	.stream()
     	.map(k ->{
-    		ListenableFuture<R> task = csvParsingTaskProvider.getListenableFutureTask()
+    		ListenableFutureTask<R> task = csvParsingTaskProvider.getListenableFutureTask()
     		.get(k); // Retrieves the specific task future for key 'k'
     		return Map.entry(k, task);
     	}).collect(Collectors.toMap(Entry::getKey, Entry::getValue));

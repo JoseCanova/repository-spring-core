@@ -55,7 +55,7 @@ class CsvTaskOutcomeReportServiceTest {
     @Test
     void testGetRegularTasksDelegation() {
         // Act
-        Map<String, ListenableFuture<org.nanotek.opencsv.CsvResult<?,?>>> tasks = 
+        Map<String, ListenableFutureTask<org.nanotek.opencsv.CsvResult<?,?>>> tasks = 
             csvTaskOutcomeReportService.getRegularTasks();
 
         // Assert

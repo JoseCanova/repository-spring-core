@@ -6,7 +6,6 @@ import org.nanotek.opencsv.CsvResult;
 import org.nanotek.opencsv.service.CsvProcessingCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; // Keep @Service or define @DatabaseReport as a stereotype
-import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
@@ -57,7 +56,7 @@ public class CsvTaskOutcomeReportService<R extends CsvResult<?,?>> {
      * @return A Map where keys are parser names (String) and values are ListenableFuture instances
      * representing the asynchronous regular type CSV processing tasks.
      */
-    public Map<String, ListenableFuture<R>> getRegularTasks() {
+    public Map<String, ListenableFutureTask<R>> getRegularTasks() {
         return this.csvProcessingCommandService.getRegularTasks();
     }
 }
