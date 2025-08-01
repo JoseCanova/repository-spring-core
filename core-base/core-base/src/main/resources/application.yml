@@ -171,7 +171,7 @@ artistalias:
     ended: 15    
  
 artistcredit:
-  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/artistcredit
+  fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
   fileName: artist_credit
   immutable: org.nanotek.beans.csv.ArtistCreditBean
   baseMap:  
@@ -605,7 +605,7 @@ nanotek:
         primaryForLocale: 14
         ended: 15
     artistcredit:
-      fileLocation: /mnt/wwn-part2/musicbrainz/mbdump/artistcredit
+      fileLocation: /mnt/wwn-part2/musicbrainz/mbdump
       fileName: artist_credit
       immutable: org.nanotek.beans.csv.ArtistCreditBean
       baseMap:
